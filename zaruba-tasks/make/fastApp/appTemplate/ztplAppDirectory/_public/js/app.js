@@ -40,7 +40,7 @@ class AppHelper {
             this.setCookie('app_access_token', response.data.access_token);
             return true
         }
-        throw this.getResponseErrorMessage(response, 'Login failed');
+        throw new Error(this.getResponseErrorMessage(response, 'Login failed'));
     }
 
     logout() {
@@ -50,9 +50,15 @@ class AppHelper {
     async renewToken(renewAccessTokenUrl, interval) {
         const access_token = this.getCookie('app_access_token')
         if (access_token != '') {
-            const response = await axios.post(renewAccessTokenUrl, {access_token});
-            if (response && response.status == 200 && response.data && response.data.access_token) {
-                this.setCookie('app_access_token', response.data.access_token);
+            try {
+                const response = await axios.post(renewAccessTokenUrl, {access_token});
+                if (response && response.status == 200 && response.data && response.data.access_token) {
+                    this.setCookie('app_access_token', response.data.access_token);
+                } else {
+                    this.unsetCookie('app_access_token');
+                }
+            } catch(error) {
+                console.error(error);
             }
         }
         setTimeout(() => this.renewToken(renewAccessTokenUrl, interval), interval * 1000)
@@ -66,9 +72,9 @@ class AppHelper {
         return window.confirm(message);
     }
 
-    alertError(errorMessage) {
-        console.error(errorMessage);
-        this.alert(errorMessage);
+    alertError(error) {
+        console.error(error);
+        this.alert(error.message);
     }
 
 }

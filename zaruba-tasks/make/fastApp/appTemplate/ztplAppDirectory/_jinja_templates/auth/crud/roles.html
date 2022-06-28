@@ -111,7 +111,7 @@
         },
         methods: {
 
-            async fetchResult() {
+            async _fetchResult() {
                 const response = await axios.get('{{ backend_url }}/api/v1/roles/', {
                     params: {
                         keyword: this.keyword,
@@ -119,41 +119,49 @@
                         offset: this.limit * (this.page-1)
                     }
                 });
-                if (response && response.status == 200 && response.data) {
+                if (response && response.status == 200 && response.data && typeof response.data.count == 'number' && response.data.rows) {
                     this.result = response.data;
                     return;
                 }
-                appHelper.alertError(appHelper.getResponseErrorMessage(response, 'Cannot fetch result'));
+                throw new Error(appHelper.getResponseErrorMessage(response, 'Cannot fetch result'));
             },
 
-            async insertRow(row) {
+            async _getRow(id) {
+                const response =  await axios.get(`{{ backend_url }}/api/v1/roles/${id}`);
+                if (response && response.status == 200 && response.data) {
+                    return response.data
+                }
+                throw new Error(appHelper.getResponseErrorMessage(response, `Cannot get role ${id}`));
+            },
+
+            async _insertRow(row) {
                 const response = await axios.post('{{ backend_url }}/api/v1/roles/', row);
                 if (response && response.status == 200 && response.data) {
-                    await this.fetchResult();
+                    await this._fetchResult();
                     return;
                 }
-                appHelper.alertError(appHelper.getResponseErrorMessage(response, `Cannot delete role ${id}`));
+                throw new Error(appHelper.getResponseErrorMessage(response, `Cannot create role ${id}`));
             },
 
-            async updateRow(id, row) {
+            async _updateRow(id, row) {
                 const response = await axios.put(`{{ backend_url }}/api/v1/roles/${id}`, row);
                 if (response && response.status == 200 && response.data) {
-                    await this.fetchResult();
+                    await this._fetchResult();
                     return;
                 }
-                appHelper.alertError(appHelper.getResponseErrorMessage(response, `Cannot delete role ${id}`));
+                throw new Error(appHelper.getResponseErrorMessage(response, `Cannot update role ${id}`));
             },
 
-            async deleteRow(id) {
+            async _deleteRow(id) {
                 const response = await axios.delete(`{{ backend_url }}/api/v1/roles/${id}`);
                 if (response && response.status == 200 && response.data) {
-                    await this.fetchResult();
+                    await this._fetchResult();
                     return;
                 }
-                appHelper.alertError(appHelper.getResponseErrorMessage(response, `Cannot delete role ${id}`));
+                throw new Error(appHelper.getResponseErrorMessage(response, `Cannot delete role ${id}`));
             },
 
-            formDataToRow(formData) {
+            _formDataToRow(formData) {
                 let row = {};
                 Object.assign(row, formData);
                 if (formData.permissions) {
@@ -162,7 +170,7 @@
                 return row;
             },
 
-            rowToFormData(row) {
+            _rowToFormData(row) {
                 let formData = {};
                 Object.assign(formData, row);
                 if (row.permissions) {
@@ -180,8 +188,12 @@
             },
 
             async applyFilter() {
-                await this.fetchResult();
-                this.setFilterApplied(true);
+                try {
+                    await this._fetchResult();
+                    this.setFilterApplied(true);
+                } catch (error) {
+                    appHelper.alertError(error);
+                }
             },
 
             async showInsertForm() {
@@ -191,37 +203,45 @@
             },
 
             async showUpdateForm(id) {
-                const response =  await axios.get(`{{ backend_url }}/api/v1/roles/${id}`);
-                if (response && response.status == 200 && response.data) {
+                try {
+                    const row = await this._getRow(id);
                     this.formTitle = `Edit Role ${id}`;
                     this.formMode = 'update';
                     this.rowId = id;
-                    const row = response.data;
-                    this.formData = this.rowToFormData(row);
+                    this.formData = this._rowToFormData(row);
                     return;
+                } catch (error) {
+                    appHelper.alertError(error);
                 }
-                appHelper.alertError(appHelper.getResponseErrorMessage(response, `Cannot get role ${id}`));
             },
 
             async save() {
-                const row = this.formDataToRow(this.formData)
-                if (this.formMode == 'insert') {
-                    await this.insertRow(row);
-                    return this.fetchResult();
+                try {
+                    const row = this._formDataToRow(this.formData)
+                    if (this.formMode == 'insert') {
+                        await this._insertRow(row);
+                        return this._fetchResult();
+                    }
+                    if (this.formMode == 'update') {
+                        await this._updateRow(this.rowId, row);
+                        return this._fetchResult();
+                    }
+                    throw new Error(`Invalid formMode: ${this.formMode}`);
+                } catch (error) {
+                    appHelper.alertError(error);
                 }
-                if (this.formMode == 'update') {
-                    await this.updateRow(this.rowId, row);
-                    return this.fetchResult();
-                }
-                appHelper.alertError('Invalid form mode');
             },
 
             async confirmDelete(id) {
-                confirmation = await appHelper.confirm(`Are you sure to delete role ${id}?`);
-                if (!confirmation) {
-                    return;
+                try {
+                    confirmation = await appHelper.confirm(`Are you sure to delete role ${id}?`);
+                    if (!confirmation) {
+                        return;
+                    }
+                    await this._deleteRow(id);
+                } catch (error) {
+                    appHelper.alertError(error);
                 }
-                await this.deleteRow(id);
             },
 
         },

@@ -38,9 +38,8 @@
                         try {
                             await appHelper.login('{{ backend_url }}{{ create_access_token_url }}', this.username, this.password);
                             window.location = '/account/logout';
-                        } catch(error) {
-                            appHelper.alert(error);
-                            console.error(error);
+                        } catch (error) {
+                            appHelper.alertError(error);
                         }
                     },
                 }
