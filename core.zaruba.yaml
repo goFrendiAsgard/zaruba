@@ -204,6 +204,9 @@ includes:
   - ./zaruba-tasks/make/fastAppCrud/config.addFastAppCrud.yaml
   - ./zaruba-tasks/make/fastAppCrud/task.addFastAppCrud.yaml
 
+  - ./zaruba-tasks/make/fastAppCrudField/config.addFastAppCrudField.yaml
+  - ./zaruba-tasks/make/fastAppCrudField/task.addFastAppCrudField.yaml
+
   - ./zaruba-tasks/make/fastAppEventHandler/config.addFastAppEventHandler.yaml
   - ./zaruba-tasks/make/fastAppEventHandler/task.addFastAppEventHandler.yaml
 

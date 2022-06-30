@@ -1,0 +1,10 @@
+configs:
+ 
+  addFastAppCrudField:
+    _skipCreationPath: ''
+    _integrate: |
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrudField/bash/addUi.sh"
+    _validate: |
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrudField/bash/validate.sh"
+    defaultAppDirectory: '{{ .ProjectName }}FastApp'
+    templateLocations: '[]'

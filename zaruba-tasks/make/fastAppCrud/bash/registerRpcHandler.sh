@@ -18,6 +18,12 @@ _LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" 0 "${_IMPORT_RPC_HANDLE
 _FUNCTION_PATTERN='^(\s*)def register_'${_ZRB_SNAKE_APP_MODULE_NAME}'_rpc_handler\((.*)\)(.*)$'
 _PATTERN="$("${ZARUBA_BIN}" list append '[]' "${_FUNCTION_PATTERN}")"
 _FUNCTION_INDEX="$("${ZARUBA_BIN}" lines getIndex "${_LINES}" "${_PATTERN}")"
+if [ "${_FUNCTION_INDEX}" = "-1" ]
+then
+    echo "Pattern not found: ${_PATTERN}"
+    exit 1
+fi
+
 _FUNCTION_LINE="$("${ZARUBA_BIN}" list get "${_LINES}" "${_FUNCTION_INDEX}")"
 _FUNCTION_SUBMATCH="$("${ZARUBA_BIN}" lines submatch "${_LINES}" "${_PATTERN}")"
 _FUNCTION_INDENTATION="$("${ZARUBA_BIN}" list get "${_FUNCTION_SUBMATCH}" 1)"

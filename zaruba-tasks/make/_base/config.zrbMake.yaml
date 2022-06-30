@@ -10,6 +10,7 @@ configs:
     appContainerName: '{{ .GetValue "appContainerName" }}'
     appContainerVolumes: '{{ if ne (.GetValue "appContainerVolumes") "[]" }}{{ .GetValue "appContainerVolumes" }}{{ else }}{{ .GetConfig "defaultAppContainerVolumes" }}{{ end }}'
     appCrudEntity: '{{ .GetValue "appCrudEntity" }}'
+    appCrudField: '{{ .GetValue "appCrudField" }}'
     appCrudFields: '{{ .GetValue "appCrudFields" }}'
     appDirectory: '{{ if .GetValue "appDirectory" }}{{ .GetValue "appDirectory" }}{{ else }}{{ .GetConfig "defaultAppDirectory" }}{{ end }}'
     appEnvPrefix: '{{ .GetValue "appEnvPrefix" }}'

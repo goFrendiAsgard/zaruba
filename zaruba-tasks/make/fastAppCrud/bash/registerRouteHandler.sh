@@ -17,6 +17,11 @@ _LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" 0 "${_IMPORT_ROUTE_HAND
 # look for handler function
 _PATTERN='["def register_'${_ZRB_SNAKE_APP_MODULE_NAME}'_route_handler"]'
 _FUNCTION_INDEX="$("${ZARUBA_BIN}" lines getIndex "${_LINES}" "${_PATTERN}")"
+if [ "${_FUNCTION_INDEX}" = "-1" ]
+then
+    echo "Pattern not found: ${_PATTERN}"
+    exit 1
+fi
 
 # get indentation
 _FUNCTION_LINE="$("${ZARUBA_BIN}" list get "${_LINES}" "${_FUNCTION_INDEX}")"

@@ -186,6 +186,7 @@ Finally, you can visit our [end-to-end tutorial](use-cases/from-zero-to-cloud.md
   * [🍜 addElasticsearch](core-tasks/add-elasticsearch.md)
   * [⚛️ addFastApp](core-tasks/add-fast-app.md)
   * [⚛️ addFastAppCrud](core-tasks/add-fast-app-crud.md)
+  * [⚛️ addFastAppCrudField](core-tasks/add-fast-app-crud-field.md)
   * [⚛️ addFastAppEventHandler](core-tasks/add-fast-app-event-handler.md)
   * [⚛️ addFastAppModule](core-tasks/add-fast-app-module.md)
   * [⚛️ addFastAppPage](core-tasks/add-fast-app-page.md)

@@ -19,6 +19,8 @@ configs:
       . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrud/bash/registerRpcHandler.sh"
       . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrud/bash/registerRepo.sh"
       . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrud/bash/registerUi.sh"
+    _validate: |
+      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrud/bash/validate.sh"
     defaultAppDirectory: '{{ .ProjectName }}FastApp'
     templateLocations: |
       [

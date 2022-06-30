@@ -1,0 +1,12 @@
+tasks:
+ 
+  addFastAppCrudField:
+    icon: ⚛️
+    extend: makeApp
+    dependencies:
+      - addFastAppModule
+    inputs:
+      - appDirectory
+      - appModuleName
+      - appCrudField
+    configRef: addFastAppCrudField

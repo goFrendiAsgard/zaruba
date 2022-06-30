@@ -9,6 +9,11 @@ _LINES="$("${ZARUBA_BIN}" lines read "${_CREATE_MENU_SERVICE_FILE_LOCATION}")"
 
 _PATTERN='["return menu_service"]'
 _RETURN_INDEX="$("${ZARUBA_BIN}" lines getIndex "${_LINES}" "${_PATTERN}")"
+if [ "${_RETURN_INDEX}" = "-1" ]
+then
+    echo "Pattern not found: ${_PATTERN}"
+    exit 1
+fi
 
 # get indentation
 _RETURN_LINE="$("${ZARUBA_BIN}" list get "${_LINES}" "${_RETURN_INDEX}")"

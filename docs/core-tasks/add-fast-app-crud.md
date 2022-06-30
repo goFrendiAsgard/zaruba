@@ -342,6 +342,11 @@ Value:
 
 ### Configs._validate
 
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrud/bash/validate.sh"
+
+
 
 ### Configs._validateAppContainerVolumes
 
@@ -426,6 +431,13 @@ Value:
 Value:
 
     {{ .GetValue "appCrudEntity" }}
+
+
+### Configs.appCrudField
+
+Value:
+
+    {{ .GetValue "appCrudField" }}
 
 
 ### Configs.appCrudFields

@@ -443,6 +443,13 @@ Value:
     {{ .GetValue "appCrudEntity" }}
 
 
+### Configs.appCrudField
+
+Value:
+
+    {{ .GetValue "appCrudField" }}
+
+
 ### Configs.appCrudFields
 
 Value:

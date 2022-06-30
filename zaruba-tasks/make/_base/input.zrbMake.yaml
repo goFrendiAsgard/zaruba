@@ -16,14 +16,19 @@ inputs:
   appContainerVolumes:
     description: Application container volumes
     default: '[]'
- 
+
   appCrudEntity:
     description: |
       Entity name (Required)
       Usually plural word (e.g., books, articles)
     prompt: Entity name
     validation: ^[a-zA-Z0-9_]+$
- 
+
+  appCrudField:
+    description: Field name
+    prompt: Field name
+    validation: ^[a-zA-Z0-9_]+$
+
   appCrudFields:
     description: |
       Field names, JSON formated.
@@ -51,7 +56,7 @@ inputs:
       Event name (Required)
     prompt: Event name
     validation: ^[a-zA-Z0-9_\-\.]+$
- 
+
   deploymentDirectory:
     description: Location of deployment directory
     prompt: 'Location of deployment directory'
@@ -106,7 +111,7 @@ inputs:
   appRunnerVersion:
     description: Application runner version
     default: ''
-  
+
   appStartCommand:
     description: Command to start app
     default: ''

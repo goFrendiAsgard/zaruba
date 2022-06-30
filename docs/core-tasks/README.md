@@ -16,6 +16,7 @@
 * [🍜 addElasticsearch](add-elasticsearch.md)
 * [⚛️ addFastApp](add-fast-app.md)
 * [⚛️ addFastAppCrud](add-fast-app-crud.md)
+* [⚛️ addFastAppCrudField](add-fast-app-crud-field.md)
 * [⚛️ addFastAppEventHandler](add-fast-app-event-handler.md)
 * [⚛️ addFastAppModule](add-fast-app-module.md)
 * [⚛️ addFastAppPage](add-fast-app-page.md)

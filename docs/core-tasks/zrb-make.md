@@ -46,6 +46,10 @@ Description:
       ztplAppCrudEntity                   : App's crud entity (camel case)
       ztpl-app-crud-entity                : App's crud entity (kebab case)
       ZtplAppCrudEntity                   : App's curd entity (pascal case)
+      ztpl_app_crud_field                 : App's crud field (snake case)
+      ztplAppCrudField                    : App's crud field (camel case)
+      ztpl-app-crud-field                 : App's crud field (kebab case)
+      ZtplAppCrudField                    : App's curd field (pascal case)
       ztplAppCrudFields                   : App's crud fields (JSON list)
       ztpl_app_directory                  : App's directory (snake case)
       ztplAppDirectory                    : App's directory (camel case)
@@ -79,6 +83,7 @@ Description:
       ztplAppUrl                          : App's url (camel case)
       ztpl-app-url                        : App's url (kebab case)
       ZtplAppUrl                          : App's url (pascal case)
+      ZtplAppUrlTitle                     : App's url title
       ztpl_deployment_directory           : App's deployment directory (snake case)
       ztplDeploymentDirectory             : App's deployment directory (camel case)
       ztpl-deployment-directory           : App's deployment directory (kebab case)
@@ -396,6 +401,13 @@ Value:
 Value:
 
     {{ .GetValue "appCrudEntity" }}
+
+
+### Configs.appCrudField
+
+Value:
+
+    {{ .GetValue "appCrudField" }}
 
 
 ### Configs.appCrudFields
