@@ -15,8 +15,7 @@ _LINES="$("${ZARUBA_BIN}" lines read "${_CONTROLLER_FILE_LOCATION}")"
 _LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" 0 "${_IMPORT_RPC_HANDLER_SCRIPT}")"
 
 # look for handler function
-_FUNCTION_PATTERN='^(\s*)def register_'${_ZRB_SNAKE_APP_MODULE_NAME}'_rpc_handler\((.*)\)(.*)$'
-_PATTERN="$("${ZARUBA_BIN}" list append '[]' "${_FUNCTION_PATTERN}")"
+_PATTERN="^(\s*)def register_${_ZRB_SNAKE_APP_MODULE_NAME}_rpc_handler\((.*)\)(.*)$"
 _FUNCTION_INDEX="$("${ZARUBA_BIN}" lines getIndex "${_LINES}" "${_PATTERN}")"
 if [ "${_FUNCTION_INDEX}" = "-1" ]
 then

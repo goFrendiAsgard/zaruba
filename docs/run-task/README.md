@@ -69,21 +69,21 @@ Search: █
 ? 💀 Do you want to terminate tasks once completed?: 
   ▸ 🏁 No
 ✔ 🏁 No
-B💀 🔎 Job Starting...
-         Elapsed Time: 1.374µs
-         Current Time: 23:29:30
+💀 🔎 Job Starting...
+         Elapsed Time: 1.363µs
+         Current Time: 09:01:36
 💀 🏁 Run 🍎 'printHelloWorld' command on /home/gofrendi/zaruba/docs/examples/run-tasks
 💀    🚀 printHelloWorld      🍎 hello world
 💀 🎉 Successfully running 🍎 'printHelloWorld' command
 💀 🔎 Job Running...
-         Elapsed Time: 102.358572ms
-         Current Time: 23:29:30
+         Elapsed Time: 101.821893ms
+         Current Time: 09:01:36
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 505.213819ms
-         Current Time: 23:29:31
+         Elapsed Time: 503.745594ms
+         Current Time: 09:01:36
 zaruba please printHelloWorld
 ```````
 </details>

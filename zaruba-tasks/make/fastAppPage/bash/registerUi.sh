@@ -7,7 +7,7 @@ _CREATE_MENU_SERVICE_FILE_LOCATION="${_ZRB_APP_DIRECTORY}/helpers/app/createMenu
 
 _LINES="$("${ZARUBA_BIN}" lines read "${_CREATE_MENU_SERVICE_FILE_LOCATION}")"
 
-_PATTERN='["return menu_service"]'
+_PATTERN="return menu_service"
 _RETURN_INDEX="$("${ZARUBA_BIN}" lines getIndex "${_LINES}" "${_PATTERN}")"
 if [ "${_RETURN_INDEX}" = "-1" ]
 then

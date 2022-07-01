@@ -11,7 +11,6 @@ _TABLE_VALUE_SCRIPT="$("${ZARUBA_BIN}" str replace "${_TABLE_VALUE_SCRIPT}" "${_
 
 #########################################################
 # Read existing jinja template
-#########################################################
 
 _JINJA_TEMPLATE_FILE_LOCATION="${_ZRB_APP_DIRECTORY}/_jinja_templates/${_ZRB_APP_MODULE_NAME}/crud/${_ZRB_APP_CRUD_ENTITIES}.html"
 
@@ -19,9 +18,9 @@ _LINES="$("${ZARUBA_BIN}" lines read "${_JINJA_TEMPLATE_FILE_LOCATION}")"
 
 #########################################################
 # FORM_INPUT
-#########################################################
 
-_PATTERN='["[ \t]*<div.*[ \t]+class[ \t]*=[ \t]*\".*modal-body.*\"*", "[ \t]*<div.*[ \t]+class[ \t]*=[ \t]*\".*mb-3.*\"*"]'
+_PATTERN="$("${ZARUBA_BIN}" list append '[]' "[ \t]*<div.*[ \t]+class[ \t]*=[ \t]*\".*modal-body.*\"*")"
+_PATTERN="$("${ZARUBA_BIN}" list append "${_PATTERN}" "[ \t]*<div.*[ \t]+class[ \t]*=[ \t]*\".*mb-3.*\"*")"
 _FORM_INPUT_INDEX="$("${ZARUBA_BIN}" lines getIndex "${_LINES}" "${_PATTERN}")"
 if [ "${_FORM_INPUT_INDEX}" = "-1" ]
 then
@@ -38,9 +37,8 @@ _LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" "${_FORM_INPUT_INDEX}" 
 
 #########################################################
 # TH
-#########################################################
 
-_PATTERN='["[ \t]*<th.*[ \t]+id[ \t]*=[ \t]*\"th-action\".*"]'
+_PATTERN="[ \t]*<th.*[ \t]+id[ \t]*=[ \t]*\"th-action\".*"
 _TH_INDEX="$("${ZARUBA_BIN}" lines getIndex "${_LINES}" "${_PATTERN}")"
 if [ "${_TH_INDEX}" = "-1" ]
 then
@@ -57,9 +55,8 @@ _LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" "${_TH_INDEX}" "${_INDE
 
 #########################################################
 # TD
-#########################################################
 
-_PATTERN='["[ \t]*<td.*[ \t]+id[ \t]*=[ \t]*\"td-action\".*"]'
+_PATTERN="[ \t]*<td.*[ \t]+id[ \t]*=[ \t]*\"td-action\".*"
 _TD_INDEX="$("${ZARUBA_BIN}" lines getIndex "${_LINES}" "${_PATTERN}")"
 if [ "${_TD_INDEX}" = "-1" ]
 then
@@ -75,7 +72,6 @@ _LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" "${_TD_INDEX}" "${_INDE
 
 #########################################################
 # Overwrite existing jinja template
-#########################################################
 
 chmod 755 "${_JINJA_TEMPLATE_FILE_LOCATION}"
 "${ZARUBA_BIN}" lines write "${_JINJA_TEMPLATE_FILE_LOCATION}" "${_LINES}"

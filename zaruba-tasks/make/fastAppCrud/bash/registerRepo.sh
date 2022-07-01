@@ -9,9 +9,7 @@ _INIT_REPO_SCRIPT="$("${ZARUBA_BIN}" str replace "${_INIT_REPO_SCRIPT}" "${_ZRB_
 
 
 ####################################################################
-####################################################################
-## Updating main.py
-####################################################################
+## main.py
 ####################################################################
 
 _MAIN_FILE_LOCATION="${_ZRB_APP_DIRECTORY}/main.py"
@@ -19,12 +17,11 @@ _MAIN_LINES="$("${ZARUBA_BIN}" lines read "${_MAIN_FILE_LOCATION}")"
 
 ####################################################################
 # insert import
-####################################################################
+
 _MAIN_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_MAIN_LINES}" 0 "${_IMPORT_REPO_SCRIPT}")"
 
 # init repo
-_ENGINE_DECLARATION_PATTERN="engine(\s*)="
-_PATTERN="$("${ZARUBA_BIN}" list append '[]' "${_ENGINE_DECLARATION_PATTERN}")"
+_PATTERN="engine(\s*)="
 _ENGINE_DECLARATION_INDEX="$("${ZARUBA_BIN}" lines getIndex "${_MAIN_LINES}" "${_PATTERN}")"
 if [ "${_ENGINE_DECLARATION_INDEX}" = "-1" ]
 then
@@ -36,9 +33,8 @@ _MAIN_LINES="$("${ZARUBA_BIN}" lines insertAfter "${_MAIN_LINES}" "${_ENGINE_DEC
 
 ####################################################################
 # look for rpc call
-####################################################################
-_CALL_PATTERN="^(\s*)register_${_ZRB_SNAKE_APP_MODULE_NAME}_rpc_handler\((.*)\)(.*)$"
-_PATTERN="$("${ZARUBA_BIN}" list append '[]' "${_CALL_PATTERN}")"
+
+_PATTERN="^(\s*)register_${_ZRB_SNAKE_APP_MODULE_NAME}_rpc_handler\((.*)\)(.*)$"
 _CALL_INDEX="$("${ZARUBA_BIN}" lines getIndex "${_MAIN_LINES}" "${_PATTERN}")"
 if [ "${_CALL_INDEX}" = "-1" ]
 then
@@ -61,18 +57,21 @@ chmod 755 "${_MAIN_FILE_LOCATION}"
 
 
 ####################################################################
+## alembic/env.py
 ####################################################################
-## Updating alembic/env.py
+
 ####################################################################
-####################################################################
+# Read existing alembic env
 
 _ENV_FILE_LOCATION="${_ZRB_APP_DIRECTORY}/alembic/env.py"
 _ENV_LINES="$("${ZARUBA_BIN}" lines read "${_ENV_FILE_LOCATION}")"
 
-####################################################################
-# insert import
-####################################################################
+
 _ENV_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_ENV_LINES}" 1 "${_IMPORT_REPO_SCRIPT}")"
+
+####################################################################
+# Overwrite existing alembic env
+
 chmod 755 "${_ENV_FILE_LOCATION}"
 "${ZARUBA_BIN}" lines write "${_ENV_FILE_LOCATION}" "${_ENV_LINES}"
 
