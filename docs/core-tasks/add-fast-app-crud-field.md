@@ -54,6 +54,27 @@ Type:
 ## Inputs
 
 
+### Inputs.appCrudEntity
+
+Description:
+
+    Entity name (Required)
+    Usually plural word (e.g., books, articles)
+
+
+Prompt:
+
+    Entity name
+
+Secret:
+
+    false
+
+Validation:
+
+    ^[a-zA-Z0-9_]+$
+
+
 ### Inputs.appCrudField
 
 Description:

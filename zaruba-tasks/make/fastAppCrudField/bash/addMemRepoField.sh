@@ -2,10 +2,10 @@ set -e
 echo "Updating mem repo"
 
 _FIELD_INSERT_SCRIPT_TEMPLATE="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/repo_field_insert.py")"
-_FIELD_INSERT_SCRIPT="    $("${ZARUBA_BIN}" str replace "${_FIELD_INSERT_SCRIPT_TEMPLATE}" "${_ZRB_REPLACEMENT_MAP}")"
+_FIELD_INSERT_SCRIPT="$("${ZARUBA_BIN}" str replace "${_FIELD_INSERT_SCRIPT_TEMPLATE}" "${_ZRB_REPLACEMENT_MAP}")"
 
 _FIELD_UPDATE_SCRIPT_TEMPLATE="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/repo_field_update_mem.py")"
-_FIELD_UPDATE_SCRIPT="    $("${ZARUBA_BIN}" str replace "${_FIELD_UPDATE_SCRIPT_TEMPLATE}" "${_ZRB_REPLACEMENT_MAP}")"
+_FIELD_UPDATE_SCRIPT="$("${ZARUBA_BIN}" str replace "${_FIELD_UPDATE_SCRIPT_TEMPLATE}" "${_ZRB_REPLACEMENT_MAP}")"
 
 #########################################################
 # Read existing repo
@@ -26,6 +26,7 @@ then
     exit 1
 fi
 
+_FIELD_INSERT_LINE="$("${ZARUBA_BIN}" list get "${_LINES}" "${_FIELD_INSERT_INDEX}")"
 _INDENTATION="$("${ZARUBA_BIN}" str getIndentation "${_FIELD_INSERT_LINE}")"
 _INDENTED_FIELD_INSERT_SCRIPT="$("${ZARUBA_BIN}" str fullIndent "${_FIELD_INSERT_SCRIPT}" "${_INDENTATION}")"
 _LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" "${_FIELD_INSERT_INDEX}" "${_INDENTED_FIELD_INSERT_SCRIPT}")"
@@ -44,6 +45,7 @@ then
     exit 1
 fi
 
+_FIELD_UPDATE_LINE="$("${ZARUBA_BIN}" list get "${_LINES}" "${_FIELD_UPDATE_INDEX}")"
 _INDENTATION="$("${ZARUBA_BIN}" str getIndentation "${_FIELD_UPDATE_LINE}")"
 _INDENTED_FIELD_UPDATE_SCRIPT="$("${ZARUBA_BIN}" str fullIndent "${_FIELD_UPDATE_SCRIPT}" "${_INDENTATION}")"
 _LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" "${_FIELD_UPDATE_INDEX}" "${_INDENTED_FIELD_UPDATE_SCRIPT}")"

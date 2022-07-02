@@ -84,6 +84,7 @@ fi
 # module name
 if [ ! -z "${_ZRB_APP_MODULE_NAME}" ]
 then
+    _ZRB_UPPER_SNAKE_APP_MODULE_NAME="$("${ZARUBA_BIN}" str toUpperSnake "${_ZRB_APP_MODULE_NAME}")"
     _ZRB_SNAKE_APP_MODULE_NAME="$("${ZARUBA_BIN}" str toSnake "${_ZRB_APP_MODULE_NAME}")"
     _ZRB_PASCAL_APP_MODULE_NAME="$("${ZARUBA_BIN}" str toPascal "${_ZRB_APP_MODULE_NAME}")"
     _ZRB_KEBAB_APP_MODULE_NAME="$("${ZARUBA_BIN}" str toKebab "${_ZRB_APP_MODULE_NAME}")"
@@ -126,7 +127,7 @@ fi
 # url title
 _ZRB_UPPER_SNAKE_APP_URL="$("${ZARUBA_BIN}" str toUpperSnake "${_ZRB_APP_URL}")"
 _ZRB_APP_URL_TITLE="$("${ZARUBA_BIN}" str replace "${_ZRB_UPPER_SNAKE_APP_URL}" '{"_": " "}')"
-if [ ! -z "${_ZRB_APP_URL_TITLE}" ]
+if [ -z "${_ZRB_APP_URL_TITLE}" ]
 then
     _ZRB_APP_URL_TITLE="Home"
 fi

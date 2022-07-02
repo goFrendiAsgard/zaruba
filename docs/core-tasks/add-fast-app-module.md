@@ -133,6 +133,7 @@ Value:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppModule/bash/registerModule.sh"
     . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppModule/bash/registerUi.sh"
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppModule/bash/registerEnv.sh"
 
 
 

@@ -8,5 +8,6 @@ tasks:
     inputs:
       - appDirectory
       - appModuleName
+      - appCrudEntity
       - appCrudField
     configRef: addFastAppCrudField

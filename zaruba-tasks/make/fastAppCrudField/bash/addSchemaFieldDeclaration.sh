@@ -2,7 +2,7 @@ set -e
 echo "Updating schema field declaration"
 
 _FIELD_SCRIPT_TEMPLATE="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/schema_field_declaration.py")"
-_FIELD_SCRIPT="    $("${ZARUBA_BIN}" str replace "${_FIELD_SCRIPT_TEMPLATE}" "${_ZRB_REPLACEMENT_MAP}")"
+_FIELD_SCRIPT="$("${ZARUBA_BIN}" str replace "${_FIELD_SCRIPT_TEMPLATE}" "${_ZRB_REPLACEMENT_MAP}")"
 
 #########################################################
 # Read existing schema
@@ -20,6 +20,7 @@ then
     exit 1
 fi
 
+_SCHEMA_CLASS_LINE="$("${ZARUBA_BIN}" list get "${_LINES}" "${_SCHEMA_CLASS_INDEX}")"
 _INDENTATION="$("${ZARUBA_BIN}" str getIndentation "${_SCHEMA_CLASS_LINE}")"
 _INDENTED_FIELD_SCRIPT="$("${ZARUBA_BIN}" str fullIndent "${_FIELD_SCRIPT}" "${_INDENTATION}")"
 _LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" "${_SCHEMA_CLASS_INDEX}" "${_INDENTED_FIELD_SCRIPT}")"

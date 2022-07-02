@@ -142,9 +142,11 @@ handle_app_shutdown(app, mb, rpc)
 register_readiness_handler(app, mb, rpc, error_threshold)
 register_public_dir_route_handler(app, public_url, public_dir, public_route_name='static-resources')
 register_template_exception_handler(app, templates)
-if enable_route_handler:
-    register_auth_route_handler(app, mb, rpc, auth_service, menu_service, templates, enable_ui, enable_api, create_oauth_access_token_url, create_access_token_url, renew_access_token_url)
-if enable_event_handler:
-    register_auth_event_handler(mb)
-if enable_rpc_handler:
-    register_auth_rpc_handler(rpc, role_service, user_service, token_service)
+enable_auth_module = os.getenv('APP_ENABLE_AUTH_MODULE', '1') != '0'
+if enable_auth_module:
+    if enable_route_handler:
+        register_auth_route_handler(app, mb, rpc, auth_service, menu_service, templates, enable_ui, enable_api, create_oauth_access_token_url, create_access_token_url, renew_access_token_url)
+    if enable_event_handler:
+        register_auth_event_handler(mb)
+    if enable_rpc_handler:
+        register_auth_rpc_handler(rpc, role_service, user_service, token_service)
