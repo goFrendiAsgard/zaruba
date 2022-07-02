@@ -45,11 +45,13 @@ response = send_json_request(conn, 'POST', '/api/v1/books/', {
     'title': 'Homo Sapiens',
     'author': 'Yuval Noah Harari',
     'synopsis': 'A brief history of mankind',
+    'isbn': ''
 }, access_token)
 assert 'id' in response
 assert response['title'] == 'Homo Sapiens'
 assert response['author'] == 'Yuval Noah Harari'
 assert response['synopsis'] == 'A brief history of mankind'
+assert response['isbn'] == ''
 book_id = response['id']
 
 print('🧪 get book')
@@ -64,11 +66,13 @@ response = send_json_request(conn, 'PUT', '/api/v1/books/{}'.format(book_id), {
     'title': 'Sapiens',
     'author': 'Yuval Noah Harari',
     'synopsis': 'A brief history of mankind',
+    'isbn': '9780062316097'
 }, access_token)
 assert response['id'] == book_id
 assert response['title'] == 'Sapiens'
 assert response['author'] == 'Yuval Noah Harari'
 assert response['synopsis'] == 'A brief history of mankind'
+assert response['isbn'] == '9780062316097'
 
 print('🧪 get books')
 response = send_json_request(conn, 'GET', '/api/v1/books/', {}, access_token)
@@ -81,6 +85,7 @@ assert response['id'] == book_id
 assert response['title'] == 'Sapiens'
 assert response['author'] == 'Yuval Noah Harari'
 assert response['synopsis'] == 'A brief history of mankind'
+assert response['isbn'] == '9780062316097'
 
 print('🧪 get books after delete')
 response = send_json_request(conn, 'GET', '/api/v1/books/', {}, access_token)
