@@ -28,7 +28,7 @@ class RefreshAccessTokenResponse(BaseModel):
     token_type: str
 
 
-def register_account_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, templates: Jinja2Templates, enable_ui: bool, enable_api: bool, create_oauth_access_token_url: str, create_access_token_url: str, refresh_access_token_url: str):
+def register_account_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service: MenuService, templates: Jinja2Templates, enable_ui: bool, enable_api: bool, create_oauth_access_token_url: str, create_access_token_url: str, refresh_access_token_url: str):
 
     ################################################
     # -- ⚙️ API

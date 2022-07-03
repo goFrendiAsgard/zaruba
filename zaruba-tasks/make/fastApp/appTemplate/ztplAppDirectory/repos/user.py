@@ -17,7 +17,7 @@ class UserRepo(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def find_by_password(self, identity: str, password: str) -> Optional[User]:
+    def find_by_identity_and_password(self, identity: str, password: str) -> Optional[User]:
         pass
 
     @abc.abstractmethod
@@ -64,7 +64,7 @@ class MemUserRepo(UserRepo):
             return None
         return self._user_map[id]
 
-    def find_by_password(self, identity: str, password: str) -> Optional[User]:
+    def find_by_identity_and_password(self, identity: str, password: str) -> Optional[User]:
         for id, mem_user in self._user_map.items():
             if mem_user.username != identity and mem_user.email != identity and mem_user.phone_number != identity:
                 continue

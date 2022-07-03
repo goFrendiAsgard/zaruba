@@ -80,7 +80,7 @@ class DBUserRepo(UserRepo):
             db.close()
         return user
     
-    def find_by_password(self, identity: str, password: str) -> Optional[User]:
+    def find_by_identity_and_password(self, identity: str, password: str) -> Optional[User]:
         db = Session(self.engine)
         user: User
         try:

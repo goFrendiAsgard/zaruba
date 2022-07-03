@@ -6,7 +6,7 @@ from schemas.user import User
 from fastapi import Depends, status
 from starlette.requests import Request
 from auth.authService import AuthService
-from auth.userService import UserService
+from helpers.transport import RPC
 from ui.templateException import TemplateException
 
 import abc
@@ -30,9 +30,9 @@ class MenuService(abc.ABC):
 
 class DefaultMenuService(MenuService):
 
-    def __init__(self, auth_service: AuthService, user_service: UserService, root_menu_name: str = 'root', root_menu_title: str = '', root_menu_url: str = '/', permission_name: Optional[str] = None):
+    def __init__(self, rpc: RPC, auth_service: AuthService, root_menu_name: str = 'root', root_menu_title: str = '', root_menu_url: str = '/', permission_name: Optional[str] = None):
         self.auth_service: AuthService = auth_service
-        self.user_service: UserService = user_service
+        self.rpc: RPC = rpc
         self.root_menu: Menu = Menu(name=root_menu_name, title=root_menu_title, url=root_menu_url, auth_type=AuthType.EVERYONE, permission_name=permission_name)
         self.menu_map: Mapping[str, Menu] = {root_menu_name: self.root_menu}
         self.parent_map: Mapping[str, List[Menu]] = {root_menu_name: []}
@@ -117,5 +117,5 @@ class DefaultMenuService(MenuService):
         if menu.auth_type == AuthType.AUTHENTICATED and user is not None:
             return True
         if menu.auth_type == AuthType.AUTHORIZED and user is not None:
-            return self.user_service.is_authorized(user, menu.permission_name)
+            return self.rpc.call('is_user_authorized', user.dict(), menu.permission_name)
         return False

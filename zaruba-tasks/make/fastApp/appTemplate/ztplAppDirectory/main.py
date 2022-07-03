@@ -7,7 +7,7 @@ from helpers.transport import RMQEventMap, KafkaEventMap, KafkaAvroEventMap, cre
 from helpers.app import get_abs_static_dir, create_menu_service, create_message_bus, create_rpc, create_templates, handle_app_shutdown, register_public_dir_route_handler, register_readiness_handler
 from repos.dbUser import DBUserRepo
 from repos.dbRole import DBRoleRepo
-from auth import register_auth_route_handler, register_auth_event_handler, register_auth_rpc_handler, TokenOAuth2AuthService, JWTTokenService, DefaultUserService, UserSeederService, RoleService
+from auth import register_auth_route_handler, register_auth_event_handler, register_auth_rpc_handler, AccountService, TokenOAuth2AuthService, JWTTokenService, DefaultUserService, UserSeederService, RoleService
 from schemas.user import UserData
 from ui import MenuService, register_template_exception_handler
 
@@ -84,22 +84,16 @@ user_seeder_service.seed(UserData(
     permissions = [root_permission],
     full_name = os.getenv('APP_ROOT_INITIAL_FULL_NAME', 'root')
 ))
-token_service = JWTTokenService(
-    user_service = user_service,
-    access_token_secret_key = os.getenv('APP_ACCESS_TOKEN_SECRET_KEY', '123'),
-    access_token_algorithm = os.getenv('APP_ACCESS_TOKEN_ALGORITHM', 'HS256'),
-    access_token_expire = float(os.getenv('APP_ACCESS_TOKEN_EXPIRE', '1800'))
-)
 create_oauth_access_token_url = os.getenv('APP_CREATE_OAUTH_ACCESS_TOKEN_URL', '/api/v1/create-oauth-access-token/')
 create_access_token_url = os.getenv('APP_CREATE_ACCESS_TOKEN_URL', '/api/v1/create-access-token/')
 renew_access_token_url = os.getenv('APP_RENEW_ACCESS_TOKEN_URL', '/api/v1/refresh-access-token/')
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl = create_oauth_access_token_url, auto_error = False)
-auth_service = TokenOAuth2AuthService(user_service, token_service, oauth2_scheme)
+auth_service = TokenOAuth2AuthService(rpc, oauth2_scheme)
 
 ################################################
 # -- 👓 User Interface initialization
 ################################################
-menu_service = create_menu_service(auth_service, user_service)
+menu_service = create_menu_service(rpc, auth_service)
 site_name = os.getenv('APP_UI_SITE_NAME', 'App')
 http_port = os.getenv('APP_HTTP_PORT', '3000')
 backend_url = os.getenv('APP_UI_BACKEND_URL', 'localhost:{}'.format(http_port))
@@ -144,9 +138,16 @@ register_public_dir_route_handler(app, public_url, public_dir, public_route_name
 register_template_exception_handler(app, templates)
 enable_auth_module = os.getenv('APP_ENABLE_AUTH_MODULE', '1') != '0'
 if enable_auth_module:
+    token_service = JWTTokenService(
+        user_service = user_service,
+        access_token_secret_key = os.getenv('APP_ACCESS_TOKEN_SECRET_KEY', '123'),
+        access_token_algorithm = os.getenv('APP_ACCESS_TOKEN_ALGORITHM', 'HS256'),
+        access_token_expire = float(os.getenv('APP_ACCESS_TOKEN_EXPIRE', '1800'))
+    )
+    account_service = AccountService(user_service, token_service)
     if enable_route_handler:
         register_auth_route_handler(app, mb, rpc, auth_service, menu_service, templates, enable_ui, enable_api, create_oauth_access_token_url, create_access_token_url, renew_access_token_url)
     if enable_event_handler:
         register_auth_event_handler(mb)
     if enable_rpc_handler:
-        register_auth_rpc_handler(rpc, role_service, user_service, token_service)
+        register_auth_rpc_handler(rpc, role_service, user_service, token_service, account_service)

@@ -1,4 +1,4 @@
-from typing import List
+from typing import Optional
 from schemas.role import Role, RoleData, RoleResult
 from repos.role import RoleRepo
 
@@ -12,25 +12,17 @@ class RoleService():
         rows = self.role_repo.find(keyword, limit, offset)
         return RoleResult(count=count, rows=rows)
 
-    def find_by_id(self, id: str) -> Role:
+    def find_by_id(self, id: str) -> Optional[Role]:
         return self.role_repo.find_by_id(id)
 
-    def find_by_name(self, name: str) -> Role:
+    def find_by_name(self, name: str) -> Optional[Role]:
         return self.role_repo.find_by_name(name)
 
-    def get_ids_by_names(self, names: List[str]) -> List[str]:
-        ids = []
-        for name in names:
-            role = self.service.find_by_name(name)
-            if role is not None:
-                ids.append(role.id)
-        return ids
-
-    def insert(self, role_data: RoleData) -> Role:
+    def insert(self, role_data: RoleData) -> Optional[Role]:
         return self.role_repo.insert(role_data)
 
-    def update(self, id: str, role_data: RoleData) -> Role:
+    def update(self, id: str, role_data: RoleData) -> Optional[Role]:
         return self.role_repo.update(id, role_data)
 
-    def delete(self, id: str) -> Role:
+    def delete(self, id: str) -> Optional[Role]:
         return self.role_repo.delete(id)

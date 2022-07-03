@@ -23,7 +23,7 @@ def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
         def find_user(keyword: str='', limit: int=100, offset: int=0, current_user: User = Depends(auth_service.is_authorized('api:user:read'))) -> UserResult:
             result = {}
             try:
-                result = rpc.call('find_user', keyword, limit, offset, current_user.dict())
+                result = rpc.call('find_users', keyword, limit, offset)
             except:
                 print(traceback.format_exc()) 
                 raise HTTPException(status_code=500, detail='Internal Server Error')
@@ -34,7 +34,7 @@ def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
         def find_user_by_id(id: str, current_user: User = Depends(auth_service.is_authorized('api:user:read'))) -> User:
             result = None
             try:
-                result = rpc.call('find_user_by_id', id, current_user.dict())
+                result = rpc.call('find_user_by_id', id)
             except:
                 print(traceback.format_exc()) 
                 raise HTTPException(status_code=500, detail='Internal Server Error')

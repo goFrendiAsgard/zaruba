@@ -18,6 +18,6 @@ def register_auth_route_handler(app: FastAPI, mb: MessageBus, rpc: RPC, auth_ser
 
     register_role_route(app, mb, rpc, auth_service, menu_service, templates, enable_ui, enable_api)
     register_user_route(app, mb, rpc, auth_service, menu_service, templates, enable_ui, enable_api)
-    register_account_route(app, mb, rpc, auth_service, menu_service, templates, enable_ui, enable_api, create_oauth_access_token_url, create_access_token_url, refresh_access_token_url)
+    register_account_route(app, mb, rpc, menu_service, templates, enable_ui, enable_api, create_oauth_access_token_url, create_access_token_url, refresh_access_token_url)
 
     print('Register auth route handler')

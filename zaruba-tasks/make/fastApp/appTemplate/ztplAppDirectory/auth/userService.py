@@ -1,4 +1,4 @@
-from typing import List
+from typing import Optional
 from schemas.user import User, UserData, UserResult
 from repos.user import UserRepo
 from auth.roleService import RoleService
@@ -9,7 +9,7 @@ import datetime
 class UserService(abc.ABC):
 
     @abc.abstractmethod
-    def get_guest_user(self) -> User:
+    def get_guest(self) -> User:
         pass
 
     @abc.abstractmethod
@@ -17,27 +17,27 @@ class UserService(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def find_by_id(self, id: str) -> User:
+    def find_by_id(self, id: str) -> Optional[User]:
         pass
 
     @abc.abstractmethod
-    def find_by_username(self, username: str) -> User:
+    def find_by_username(self, username: str) -> Optional[User]:
         pass
 
     @abc.abstractmethod
-    def find_by_password(self, identity: str, password: str) -> User:
+    def find_by_identity_and_password(self, identity: str, password: str) -> Optional[User]:
         pass
 
     @abc.abstractmethod
-    def insert(self, user_data: UserData) -> User:
+    def insert(self, user_data: UserData) -> Optional[User]:
         pass
 
     @abc.abstractmethod
-    def update(self, id: str, user_data: UserData) -> User:
+    def update(self, id: str, user_data: UserData) -> Optional[User]:
         pass
 
     @abc.abstractmethod
-    def delete(self, id: str) -> User:
+    def delete(self, id: str) -> Optional[User]:
         pass
 
     @abc.abstractclassmethod
@@ -53,7 +53,7 @@ class DefaultUserService(UserService):
         self.earliest_date = datetime.datetime.min
         self.root_permission = root_permission
 
-    def get_guest_user(self) -> User:
+    def get_guest(self) -> User:
         return User(
             id = 'guest',
             username = self.guest_username, 
@@ -67,22 +67,22 @@ class DefaultUserService(UserService):
         rows = self.user_repo.find(keyword, limit, offset)
         return UserResult(count=count, rows=rows)
 
-    def find_by_id(self, id: str) -> User:
+    def find_by_id(self, id: str) -> Optional[User]:
         return self.user_repo.find_by_id(id)
 
-    def find_by_username(self, username: str) -> User:
+    def find_by_username(self, username: str) -> Optional[User]:
         return self.user_repo.find_by_username(username)
 
-    def find_by_password(self, identity: str, password: str) -> User:
-        return self.user_repo.find_by_password(identity, password)
+    def find_by_identity_and_password(self, identity: str, password: str) -> Optional[User]:
+        return self.user_repo.find_by_identity_and_password(identity, password)
 
-    def insert(self, user_data: UserData) -> User:
+    def insert(self, user_data: UserData) -> Optional[User]:
         return self.user_repo.insert(user_data)
 
-    def update(self, id: str, user_data: UserData) -> User:
+    def update(self, id: str, user_data: UserData) -> Optional[User]:
         return self.user_repo.update(id, user_data)
 
-    def delete(self, id: str) -> User:
+    def delete(self, id: str) -> Optional[User]:
         return self.user_repo.delete(id)
     
     def is_authorized(self, user: User, permission: str) -> bool:

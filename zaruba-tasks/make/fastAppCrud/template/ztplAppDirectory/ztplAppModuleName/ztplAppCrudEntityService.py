@@ -1,4 +1,4 @@
-from typing import Any, List, Mapping
+from typing import Optional
 from schemas.ztplAppCrudEntity import ZtplAppCrudEntity, ZtplAppCrudEntityData, ZtplAppCrudEntityResult
 from repos.ztplAppCrudEntity import ZtplAppCrudEntityRepo
 
@@ -12,14 +12,14 @@ class ZtplAppCrudEntityService():
         rows = self.ztpl_app_crud_entity_repo.find(keyword, limit, offset)
         return ZtplAppCrudEntityResult(count=count, rows=rows)
 
-    def find_by_id(self, id: str) -> ZtplAppCrudEntity:
+    def find_by_id(self, id: str) -> Optional[ZtplAppCrudEntity]:
         return self.ztpl_app_crud_entity_repo.find_by_id(id)
 
-    def insert(self, ztpl_app_crud_entity_data: ZtplAppCrudEntityData) -> ZtplAppCrudEntity:
+    def insert(self, ztpl_app_crud_entity_data: ZtplAppCrudEntityData) -> Optional[ZtplAppCrudEntity]:
         return self.ztpl_app_crud_entity_repo.insert(ztpl_app_crud_entity_data)
 
-    def update(self, id: str, ztpl_app_crud_entity_data: ZtplAppCrudEntityData) -> ZtplAppCrudEntity:
+    def update(self, id: str, ztpl_app_crud_entity_data: ZtplAppCrudEntityData) -> Optional[ZtplAppCrudEntity]:
         return self.ztpl_app_crud_entity_repo.update(id, ztpl_app_crud_entity_data)
 
-    def delete(self, id: str) -> ZtplAppCrudEntity:
+    def delete(self, id: str) -> Optional[ZtplAppCrudEntity]:
         return self.ztpl_app_crud_entity_repo.delete(id)

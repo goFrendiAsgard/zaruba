@@ -1,6 +1,7 @@
 from typing import Callable, List, Optional
 from fastapi.security import OAuth2PasswordBearer, OAuth2
 from fastapi import Depends, Cookie, HTTPException, status
+from helpers.transport import RPC
 from starlette.requests import Request
 from auth.roleService import RoleService
 from auth.userService import UserService
@@ -30,11 +31,15 @@ class AuthService(abc.ABC):
 
 class NoAuthService(AuthService):
 
-    def __init__(self, user_service: UserService):
-        self.user_service: str = user_service
+    def __init__(self, rpc: RPC):
+        self.rpc = rpc
+
+    def _get_guest_user(self) -> User:
+        guest_user_data = self.rpc.call('get_guest_user')
+        return User.parse_obj(guest_user_data)
 
     def everyone(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
-        return self.user_service.get_guest_user()
+        return self._get_guest_user()
 
     def is_unauthenticated(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         if throw_error:
@@ -45,16 +50,15 @@ class NoAuthService(AuthService):
         return None
 
     def is_authenticated(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
-        return self.user_service.get_guest_user()
+        return self._get_guest_user()
 
     def is_authorized(self, permission: str, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
-        return self.user_service.get_guest_user()
+        return self._get_guest_user()
 
 class TokenOAuth2AuthService(AuthService):
 
-    def __init__(self, user_service: UserService, token_service: TokenService, oauth2_scheme: OAuth2):
-        self.user_service = user_service
-        self.token_service = token_service
+    def __init__(self, rpc: RPC, oauth2_scheme: OAuth2):
+        self.rpc = rpc
         self.oauth2_scheme = oauth2_scheme
 
     def _raise_error_or_return_none(self, throw_error: bool, status_code: int, detail: str) -> None:
@@ -68,10 +72,15 @@ class TokenOAuth2AuthService(AuthService):
 
     def _get_user_by_token(self, token: str) -> Optional[User]:
         try:
-            return self.token_service.get_user_by_token(token)
+            user_data = self.rpc.call('get_user_by_token', token)
+            return None if user_data is None else User.parse_obj(user_data)
         except:
             print(traceback.format_exc)
             return None
+
+    def _is_user_authorized(self, user: User, permission: str) -> bool:
+        user_data = user.dict()
+        return self.rpc.call('is_user_authorized', user_data, permission)
 
     def everyone(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         async def verify_everyone(bearer_token = Depends(self.oauth2_scheme), app_access_token=Cookie(default=None)) -> Optional[User]:
@@ -107,7 +116,7 @@ class TokenOAuth2AuthService(AuthService):
         async def verify_is_authorized(current_user = Depends(self.is_authenticated(throw_error=throw_error))) -> Optional[User]:
             if not current_user:
                 return self._raise_error_or_return_none(throw_error, status.HTTP_403_FORBIDDEN, 'Not authenticated')
-            if self.user_service.is_authorized(current_user, permission):
+            if self._is_user_authorized(current_user, permission):
                 return current_user
             self._raise_error_or_return_none(throw_error, status.HTTP_403_FORBIDDEN, 'Unauthorized')
         return verify_is_authorized

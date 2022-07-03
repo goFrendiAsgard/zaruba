@@ -20,10 +20,10 @@ def register_ztpl_app_crud_entity_route(app: FastAPI, mb: MessageBus, rpc: RPC, 
     if enable_api:
 
         @app.get('/api/v1/ztpl_app_crud_entities/', response_model=ZtplAppCrudEntityResult)
-        def find_ztpl_app_crud_entity(keyword: str='', limit: int=100, offset: int=0, current_user:  User = Depends(auth_service.is_authorized('api:ztpl_app_crud_entity:read'))) -> ZtplAppCrudEntityResult:
+        def find_ztpl_app_crud_entities(keyword: str='', limit: int=100, offset: int=0, current_user:  User = Depends(auth_service.is_authorized('api:ztpl_app_crud_entity:read'))) -> ZtplAppCrudEntityResult:
             result = {}
             try:
-                result = rpc.call('find_ztpl_app_crud_entity', keyword, limit, offset, current_user.dict())
+                result = rpc.call('find_ztpl_app_crud_entity', keyword, limit, offset)
             except:
                 print(traceback.format_exc()) 
                 raise HTTPException(status_code=500, detail='Internal Server Error')
@@ -34,7 +34,7 @@ def register_ztpl_app_crud_entity_route(app: FastAPI, mb: MessageBus, rpc: RPC, 
         def find_ztpl_app_crud_entity_by_id(id: str, current_user:  User = Depends(auth_service.is_authorized('api:ztpl_app_crud_entity:read'))) -> ZtplAppCrudEntity:
             ztpl_app_crud_entity = None
             try:
-                ztpl_app_crud_entity = rpc.call('find_ztpl_app_crud_entity_by_id', id, current_user.dict())
+                ztpl_app_crud_entity = rpc.call('find_ztpl_app_crud_entity_by_id', id)
             except:
                 print(traceback.format_exc()) 
                 raise HTTPException(status_code=500, detail='Internal Server Error')

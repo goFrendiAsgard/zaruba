@@ -1,8 +1,7 @@
 from typing import Optional
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
-from pydantic import BaseModel
-from schemas.user import User, UserData
+from schemas.user import User
 from auth.userService import UserService
 
 import abc
@@ -10,11 +9,11 @@ import abc
 class TokenService(abc.ABC):
 
     @abc.abstractmethod
-    def create_user_token(self, string: str) -> str:
+    def create_user_token(self, user: User) -> str:
         pass
 
     @abc.abstractmethod
-    def get_user_by_token(self, token: str) -> User:
+    def get_user_by_token(self, token: str) -> Optional[User]:
         pass
 
 class JWTTokenService(TokenService):
@@ -33,7 +32,7 @@ class JWTTokenService(TokenService):
         encoded_jwt = jwt.encode(to_encode, self.access_token_secret_key, algorithm=self.access_token_algorithm)
         return encoded_jwt
 
-    def get_user_by_token(self, token: str) -> User:
+    def get_user_by_token(self, token: str) -> Optional[User]:
         payload = jwt.decode(token, self.access_token_secret_key, algorithms=[self.access_token_algorithm])
         user_id = payload.get("sub")
         return self.user_service.find_by_id(user_id)

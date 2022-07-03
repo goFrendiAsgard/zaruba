@@ -20,10 +20,10 @@ def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
     if enable_api:
 
         @app.get('/api/v1/roles/', response_model=RoleResult)
-        def find_role(keyword: str='', limit: int=100, offset: int=0, current_user: User = Depends(auth_service.is_authorized('api:role:read'))) -> RoleResult:
+        def find_roles(keyword: str='', limit: int=100, offset: int=0, current_user: User = Depends(auth_service.is_authorized('api:role:read'))) -> RoleResult:
             result = {}
             try:
-                result = rpc.call('find_role', keyword, limit, offset, current_user.dict())
+                result = rpc.call('find_roles', keyword, limit, offset)
             except:
                 print(traceback.format_exc()) 
                 raise HTTPException(status_code=500, detail='Internal Server Error')
@@ -34,7 +34,7 @@ def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
         def find_role_by_id(id: str, current_user: User = Depends(auth_service.is_authorized('api:role:read'))) -> Role:
             result = None
             try:
-                result = rpc.call('find_role_by_id', id, current_user.dict())
+                result = rpc.call('find_role_by_id', id)
             except:
                 print(traceback.format_exc()) 
                 raise HTTPException(status_code=500, detail='Internal Server Error')
