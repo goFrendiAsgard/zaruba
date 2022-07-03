@@ -21,22 +21,22 @@ tree
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.627µs
-         Current Time: 10:41:36
+         Elapsed Time: 2.022µs
+         Current Time: 14:39:13
 💀 🏁 Run 🚧 'initProject' command on /home/gofrendi/zaruba/docs/examples/playground/use-cases/newProject
 💀    🚀 initProject          🚧 Initialized empty Git repository in /home/gofrendi/zaruba/docs/examples/playground/use-cases/newProject/.git/
 💀    🚀 initProject          🚧 🎉🎉🎉
 💀    🚀 initProject          🚧 Project created
 💀 🎉 Successfully running 🚧 'initProject' command
 💀 🔎 Job Running...
-         Elapsed Time: 112.787896ms
-         Current Time: 10:41:36
+         Elapsed Time: 123.841338ms
+         Current Time: 14:39:13
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 415.472866ms
-         Current Time: 10:41:36
+         Elapsed Time: 427.993903ms
+         Current Time: 14:39:13
 zaruba please initProject  
 .
 ├── default.values.yaml
