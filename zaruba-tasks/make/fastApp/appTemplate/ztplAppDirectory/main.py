@@ -75,16 +75,17 @@ role_service = RoleService(role_repo)
 guest_username = os.getenv('APP_GUEST_USERNAME', 'guest')
 root_permission = os.getenv('APP_ROOT_PERMISSION', 'root')
 user_service = DefaultUserService(user_repo, role_service, guest_username, root_permission=root_permission)
-user_seeder_service = UserSeederService(user_service)
-user_seeder_service.seed(UserData(
-    username = os.getenv('APP_ROOT_USERNAME', 'root'),
-    email = os.getenv('APP_ROOT_INITIAL_EMAIL', 'root@root.com'),
-    phone_number = os.getenv('APP_ROOT_INITIAL_PHONE_NUMBER', '+621234567890'),
-    password = os.getenv('APP_ROOT_INITIAL_PASSWORD', 'toor'),
-    active = True,
-    permissions = [root_permission],
-    full_name = os.getenv('APP_ROOT_INITIAL_FULL_NAME', 'root')
-))
+if os.getenv('APP_SEED_ROOT_USER', '1') != '0':
+    user_seeder_service = UserSeederService(user_service)
+    user_seeder_service.seed(UserData(
+        username = os.getenv('APP_ROOT_USERNAME', 'root'),
+        email = os.getenv('APP_ROOT_INITIAL_EMAIL', 'root@root.com'),
+        phone_number = os.getenv('APP_ROOT_INITIAL_PHONE_NUMBER', '+621234567890'),
+        password = os.getenv('APP_ROOT_INITIAL_PASSWORD', 'toor'),
+        active = True,
+        permissions = [root_permission],
+        full_name = os.getenv('APP_ROOT_INITIAL_FULL_NAME', 'root')
+    ))
 create_oauth_access_token_url = os.getenv('APP_CREATE_OAUTH_ACCESS_TOKEN_URL', '/api/v1/create-oauth-access-token/')
 create_access_token_url = os.getenv('APP_CREATE_ACCESS_TOKEN_URL', '/api/v1/create-access-token/')
 renew_access_token_url = os.getenv('APP_RENEW_ACCESS_TOKEN_URL', '/api/v1/refresh-access-token/')
