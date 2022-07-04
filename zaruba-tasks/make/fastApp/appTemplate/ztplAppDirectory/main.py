@@ -63,9 +63,10 @@ rpc = create_rpc(rpc_type, rmq_connection_parameters, rmq_event_map)
 # -- 🛢️ Database engine initialization
 ################################################
 db_url = os.getenv('APP_SQLALCHEMY_DATABASE_URL', 'sqlite:///database.db')
+db_create_all = os.getenv('APP_DB_CREATE_ALL', '1') != '0'
 engine = create_engine(db_url, echo=True)
-role_repo = DBRoleRepo(engine=engine, create_all=True)
-user_repo = DBUserRepo(engine=engine, create_all=True)
+role_repo = DBRoleRepo(engine=engine, create_all=db_create_all)
+user_repo = DBUserRepo(engine=engine, create_all=db_create_all)
 
 ################################################
 # -- 👤 User initialization
