@@ -43,6 +43,7 @@ class RMQRPC(RMQConnection, RPC):
                 ch.basic_qos(prefetch_count=prefetch_count)
                 on_rpc_request = self._create_rpc_request_handler(rpc_name, exchange, queue, auto_ack, rpc_handler)
                 ch.basic_consume(queue=queue, on_message_callback=on_rpc_request, auto_ack=auto_ack)
+                ch.start_consuming()
             thread = threading.Thread(target=consume)
             thread.start()
         return register_rpc_handler

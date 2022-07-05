@@ -42,6 +42,7 @@ class RMQMessageBus(RMQConnection, MessageBus):
                 # create handler and start consuming
                 on_event = self._create_event_handler(event_name, exchange, queue, auto_ack, event_handler)
                 ch.basic_consume(queue=queue, on_message_callback=on_event, auto_ack=auto_ack)
+                ch.start_consuming()
             thread = threading.Thread(target=consume)
             thread.start()
         return register_event_handler
