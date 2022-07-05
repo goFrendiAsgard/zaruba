@@ -16,6 +16,7 @@ class RMQRPC(RMQConnection, RPC):
         RMQConnection.__init__(self, rmq_connection_parameters)
         self.event_map = rmq_event_map
         self.error_count = 0
+        self.publish_connection = self.create_connection()
 
     def get_error_count(self) -> int:
         return self.error_count
@@ -30,7 +31,8 @@ class RMQRPC(RMQConnection, RPC):
             arguments = self.event_map.get_queue_arguments(rpc_name)
             prefetch_count = self.event_map.get_prefetch_count(rpc_name)
             def consume():
-                ch = self.connection.channel()
+                connection = self.create_connection()
+                ch = connection.channel()
                 if self.event_map.get_ttl(rpc_name) > 0:
                     ch.exchange_declare(exchange=dead_letter_exchange, exchange_type='fanout', durable=True)
                     ch.queue_declare(queue=dead_letter_queue, durable=True, exclusive=False)
@@ -41,7 +43,7 @@ class RMQRPC(RMQConnection, RPC):
                 ch.basic_qos(prefetch_count=prefetch_count)
                 on_rpc_request = self._create_rpc_request_handler(rpc_name, exchange, queue, auto_ack, rpc_handler)
                 ch.basic_consume(queue=queue, on_message_callback=on_rpc_request, auto_ack=auto_ack)
-            thread = threading.Thread(target=consume, args=[], daemon = True)
+            thread = threading.Thread(target=consume)
             thread.start()
         return register_rpc_handler
 
@@ -83,7 +85,7 @@ class RMQRPCCaller():
         self.is_timeout: bool = False
         self.result = None
         self.event_map = rpc.event_map
-        self.connection = rpc.connection
+        self.connection = rpc.publish_connection
         self.ch = self.connection.channel()
         self.corr_id = str(uuid.uuid4())
         self.replied = False

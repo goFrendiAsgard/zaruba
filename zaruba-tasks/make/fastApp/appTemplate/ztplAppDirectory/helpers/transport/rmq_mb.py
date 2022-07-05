@@ -3,6 +3,7 @@ from helpers.transport.interface import MessageBus
 from helpers.transport.rmq_connection import RMQConnection
 from helpers.transport.rmq_config import RMQEventMap
 
+import time
 import pika
 import threading
 import traceback
@@ -13,6 +14,7 @@ class RMQMessageBus(RMQConnection, MessageBus):
         RMQConnection.__init__(self, rmq_connection_parameters)
         self.event_map=rmq_event_map
         self.error_count = 0
+        self.publish_connection = self.create_connection()
 
     def get_error_count(self) -> int:
         return self.error_count
@@ -27,7 +29,8 @@ class RMQMessageBus(RMQConnection, MessageBus):
             arguments = self.event_map.get_queue_arguments(event_name)
             prefetch_count = self.event_map.get_prefetch_count(event_name)
             def consume():
-                ch = self.connection.channel()
+                connection = self.create_connection()
+                ch = connection.channel()
                 if self.event_map.get_ttl(event_name) > 0:
                     ch.exchange_declare(exchange=dead_letter_exchange, exchange_type='fanout', durable=True)
                     ch.queue_declare(queue=dead_letter_queue, durable=True, exclusive=False)
@@ -39,7 +42,7 @@ class RMQMessageBus(RMQConnection, MessageBus):
                 # create handler and start consuming
                 on_event = self._create_event_handler(event_name, exchange, queue, auto_ack, event_handler)
                 ch.basic_consume(queue=queue, on_message_callback=on_event, auto_ack=auto_ack)
-            thread = threading.Thread(target=consume, args=[], daemon = True)
+            thread = threading.Thread(target=consume)
             thread.start()
         return register_event_handler
 
@@ -62,7 +65,7 @@ class RMQMessageBus(RMQConnection, MessageBus):
             exchange = self.event_map.get_exchange_name(event_name)
             routing_key = self.event_map.get_queue_name(event_name)
             body = self.event_map.get_encoder(event_name)(message)
-            ch = self.connection.channel()
+            ch = self.publich_connection.channel()
             ch.exchange_declare(exchange=exchange, exchange_type='fanout', durable=True)
             print({'action': 'publish_rmq_event', 'event_name': event_name, 'message': message, 'exchange': exchange, 'routing_key': routing_key, 'body': body})
             ch.basic_publish(
