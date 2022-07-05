@@ -117,7 +117,7 @@
                         keyword: this.keyword,
                         limit: this.limit,
                         offset: this.limit * (this.page-1)
-                    }
+                    },
                     ...appHelper.getConfigAuthHeader(),
                 });
                 if (response && response.status == 200 && response.data && typeof response.data.count == 'number' && response.data.rows) {
