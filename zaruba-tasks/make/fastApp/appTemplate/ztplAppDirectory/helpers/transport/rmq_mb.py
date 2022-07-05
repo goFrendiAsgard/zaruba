@@ -4,6 +4,8 @@ from helpers.transport.rmq_connection import RMQConnection
 from helpers.transport.rmq_config import RMQEventMap
 
 import pika
+import threading
+import traceback
 
 class RMQMessageBus(RMQConnection, MessageBus):
 
@@ -24,18 +26,21 @@ class RMQMessageBus(RMQConnection, MessageBus):
             auto_ack = self.event_map.get_auto_ack(event_name)
             arguments = self.event_map.get_queue_arguments(event_name)
             prefetch_count = self.event_map.get_prefetch_count(event_name)
-            ch = self.connection.channel()
-            if self.event_map.get_ttl(event_name) > 0:
-                ch.exchange_declare(exchange=dead_letter_exchange, exchange_type='fanout', durable=True)
-                ch.queue_declare(queue=dead_letter_queue, durable=True, exclusive=False)
-                ch.queue_bind(exchange=dead_letter_exchange, queue=dead_letter_queue)
-            ch.exchange_declare(exchange=exchange, exchange_type='fanout', durable=True)
-            ch.queue_declare(queue=queue, exclusive=False, durable=True, arguments=arguments)
-            ch.queue_bind(exchange=exchange, queue=queue)
-            ch.basic_qos(prefetch_count=prefetch_count)
-            # create handler and start consuming
-            on_event = self._create_event_handler(event_name, exchange, queue, auto_ack, event_handler)
-            ch.basic_consume(queue=queue, on_message_callback=on_event, auto_ack=auto_ack)
+            def consume():
+                ch = self.connection.channel()
+                if self.event_map.get_ttl(event_name) > 0:
+                    ch.exchange_declare(exchange=dead_letter_exchange, exchange_type='fanout', durable=True)
+                    ch.queue_declare(queue=dead_letter_queue, durable=True, exclusive=False)
+                    ch.queue_bind(exchange=dead_letter_exchange, queue=dead_letter_queue)
+                ch.exchange_declare(exchange=exchange, exchange_type='fanout', durable=True)
+                ch.queue_declare(queue=queue, exclusive=False, durable=True, arguments=arguments)
+                ch.queue_bind(exchange=exchange, queue=queue)
+                ch.basic_qos(prefetch_count=prefetch_count)
+                # create handler and start consuming
+                on_event = self._create_event_handler(event_name, exchange, queue, auto_ack, event_handler)
+                ch.basic_consume(queue=queue, on_message_callback=on_event, auto_ack=auto_ack)
+            thread = threading.Thread(target=consume, args=[], daemon = True)
+            thread.start()
         return register_event_handler
 
     def _create_event_handler(self, event_name: str, exchange: str, queue: str, auto_ack: bool, event_handler: Callable[[Any], Any]):
@@ -46,7 +51,7 @@ class RMQMessageBus(RMQConnection, MessageBus):
                 event_handler(message)
             except Exception as e:
                 self.error_count += 1
-                raise e
+                print(traceback.format_exc()) 
             finally:
                 if not auto_ack:
                     ch.basic_ack(delivery_tag=method.delivery_tag)

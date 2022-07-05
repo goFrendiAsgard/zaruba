@@ -4,8 +4,11 @@ from helpers.transport.interface import RPC
 from helpers.transport.rmq_connection import RMQConnection
 from helpers.transport.rmq_config import RMQEventMap
 
-import time, uuid
+import time
+import uuid
 import pika
+import threading
+import traceback
 
 class RMQRPC(RMQConnection, RPC):
 
@@ -26,17 +29,20 @@ class RMQRPC(RMQConnection, RPC):
             auto_ack = self.event_map.get_auto_ack(rpc_name)
             arguments = self.event_map.get_queue_arguments(rpc_name)
             prefetch_count = self.event_map.get_prefetch_count(rpc_name)
-            ch = self.connection.channel()
-            if self.event_map.get_ttl(rpc_name) > 0:
-                ch.exchange_declare(exchange=dead_letter_exchange, exchange_type='fanout', durable=True)
-                ch.queue_declare(queue=dead_letter_queue, durable=True, exclusive=False)
-                ch.queue_bind(exchange=dead_letter_exchange, queue=dead_letter_queue)
-            ch.exchange_declare(exchange=exchange, exchange_type='fanout', durable=True)
-            ch.queue_declare(queue=queue, exclusive=False, durable=True, arguments=arguments)
-            ch.queue_bind(exchange=exchange, queue=queue)
-            ch.basic_qos(prefetch_count=prefetch_count)
-            on_rpc_request = self._create_rpc_request_handler(rpc_name, exchange, queue, auto_ack, rpc_handler)
-            ch.basic_consume(queue=queue, on_message_callback=on_rpc_request, auto_ack=auto_ack)
+            def consume():
+                ch = self.connection.channel()
+                if self.event_map.get_ttl(rpc_name) > 0:
+                    ch.exchange_declare(exchange=dead_letter_exchange, exchange_type='fanout', durable=True)
+                    ch.queue_declare(queue=dead_letter_queue, durable=True, exclusive=False)
+                    ch.queue_bind(exchange=dead_letter_exchange, queue=dead_letter_queue)
+                ch.exchange_declare(exchange=exchange, exchange_type='fanout', durable=True)
+                ch.queue_declare(queue=queue, exclusive=False, durable=True, arguments=arguments)
+                ch.queue_bind(exchange=exchange, queue=queue)
+                ch.basic_qos(prefetch_count=prefetch_count)
+                on_rpc_request = self._create_rpc_request_handler(rpc_name, exchange, queue, auto_ack, rpc_handler)
+                ch.basic_consume(queue=queue, on_message_callback=on_rpc_request, auto_ack=auto_ack)
+            thread = threading.Thread(target=consume, args=[], daemon = True)
+            thread.start()
         return register_rpc_handler
 
     def _create_rpc_request_handler(self, rpc_name: str, exchange: str, queue: str, auto_ack: bool, rpc_handler: Callable[..., Any]):
@@ -56,7 +62,7 @@ class RMQRPC(RMQConnection, RPC):
                 print({'action': 'send_rmq_rpc_reply', 'rpc_name': rpc_name, 'args': args, 'result': result, 'exchange': exchange, 'routing_key': queue, 'correlation_id': props.correlation_id})
             except Exception as e:
                 self.error_count += 1
-                raise e
+                print(traceback.format_exc()) 
             finally:
                 if not auto_ack:
                     ch.basic_ack(delivery_tag=method.delivery_tag)
