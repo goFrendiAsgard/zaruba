@@ -47,11 +47,27 @@ class AppHelper {
         this.unsetCookie('app_access_token')
     }
 
+    getAuthBearer() {
+        const access_token = this.getCookie('app_access_token')
+        if (access_token != '') {
+            return 'Bearer ' + access_token;
+        }
+        return '';
+    }
+
+    getConfigAuthHeader() {
+        const authBearer = this.getAuthBearer();
+        if (authBearer != '') {
+            return {headers: {'Authorization': authBearer}};
+        }
+        return {};
+    }
+
     async renewToken(renewAccessTokenUrl, interval) {
         const access_token = this.getCookie('app_access_token')
         if (access_token != '') {
             try {
-                const response = await axios.post(renewAccessTokenUrl, {access_token});
+                const response = await axios.post(renewAccessTokenUrl, {access_token}, this.getConfigAuthHeader());
                 if (response && response.status == 200 && response.data && response.data.access_token) {
                     this.setCookie('app_access_token', response.data.access_token);
                 } else {

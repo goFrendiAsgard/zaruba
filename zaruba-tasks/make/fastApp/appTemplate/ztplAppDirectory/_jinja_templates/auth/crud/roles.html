@@ -118,7 +118,7 @@
                         limit: this.limit,
                         offset: this.limit * (this.page-1)
                     }
-                });
+                }, appHelper.getConfigAuthHeader());
                 if (response && response.status == 200 && response.data && typeof response.data.count == 'number' && response.data.rows) {
                     this.result = response.data;
                     return;
@@ -127,7 +127,7 @@
             },
 
             async _getRow(id) {
-                const response =  await axios.get(`{{ backend_url }}/api/v1/roles/${id}`);
+                const response =  await axios.get(`{{ backend_url }}/api/v1/roles/${id}`, appHelper.getConfigAuthHeader());
                 if (response && response.status == 200 && response.data) {
                     return response.data
                 }
@@ -135,7 +135,7 @@
             },
 
             async _insertRow(row) {
-                const response = await axios.post('{{ backend_url }}/api/v1/roles/', row);
+                const response = await axios.post('{{ backend_url }}/api/v1/roles/', row, appHelper.getConfigAuthHeader());
                 if (response && response.status == 200 && response.data) {
                     await this._fetchResult();
                     return;
@@ -144,7 +144,7 @@
             },
 
             async _updateRow(id, row) {
-                const response = await axios.put(`{{ backend_url }}/api/v1/roles/${id}`, row);
+                const response = await axios.put(`{{ backend_url }}/api/v1/roles/${id}`, row, appHelper.getConfigAuthHeader());
                 if (response && response.status == 200 && response.data) {
                     await this._fetchResult();
                     return;
@@ -153,7 +153,7 @@
             },
 
             async _deleteRow(id) {
-                const response = await axios.delete(`{{ backend_url }}/api/v1/roles/${id}`);
+                const response = await axios.delete(`{{ backend_url }}/api/v1/roles/${id}`, appHelper.getConfigAuthHeader());
                 if (response && response.status == 200 && response.data) {
                     await this._fetchResult();
                     return;
