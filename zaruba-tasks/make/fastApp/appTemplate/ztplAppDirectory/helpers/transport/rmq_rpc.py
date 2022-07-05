@@ -138,5 +138,6 @@ class RMQRPCCaller():
             self.connection.process_data_events()
             if start + rpc_timeout < time.time() * 1000:
                 self.is_timeout = True
+                break
         if self.is_timeout:
             raise Exception('Timeout while calling {}'.format(rpc_name))
