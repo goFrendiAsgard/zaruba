@@ -10,6 +10,9 @@ class LocalRPC(RPC):
     def get_error_count(self) -> int:
         return self.error_count
 
+    def is_failing(self) -> bool:
+        return False
+
     def shutdown(self):
         pass
 
@@ -29,5 +32,4 @@ class LocalRPC(RPC):
             print({'action': 'get_local_rpc_reply', 'rpc_name': rpc_name, 'args': args, 'result': result})
             return result
         except Exception as e:
-            self.error_count += 1
             raise e

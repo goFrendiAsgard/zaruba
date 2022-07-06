@@ -19,6 +19,11 @@ class RPC(abc.ABC):
     def get_error_count(self) -> int:
         pass
 
+    @abc.abstractclassmethod
+    def is_failing(self) -> bool:
+        pass
+
+
 class MessageBus(abc.ABC):
 
     @abc.abstractmethod
@@ -35,4 +40,8 @@ class MessageBus(abc.ABC):
 
     @abc.abstractclassmethod
     def get_error_count(self) -> int:
+        pass
+
+    @abc.abstractclassmethod
+    def is_failing(self) -> bool:
         pass
