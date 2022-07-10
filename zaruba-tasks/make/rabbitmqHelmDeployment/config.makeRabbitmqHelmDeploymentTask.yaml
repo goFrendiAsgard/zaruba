@@ -7,5 +7,5 @@ configs:
     _registerAppRunnerTasks: ''
     templateLocations: |
       [
-        "{{ .GetTaskPath "./deploymentTaskTemplate" }}"
+        "{{ .ZarubaHome }}/zaruba-tasks/make/rabbitmqHelmDeployment/deploymentTaskTemplate"
       ]
