@@ -1,0 +1,8 @@
+tasks:
+
+  makeRabbitmqHelmDeployment:
+    icon: 🚢
+    extend: makeApp
+    inputs:
+      - deploymentDirectory
+    configRef: makeRabbitmqHelmDeployment

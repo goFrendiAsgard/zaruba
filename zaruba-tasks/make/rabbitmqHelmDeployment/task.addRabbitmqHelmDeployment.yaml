@@ -1,0 +1,6 @@
+tasks:
+
+  addRabbitmqHelmDeployment:
+    icon: 🚢
+    dependencies:
+      - makeRabbitmqHelmDeploymentTask

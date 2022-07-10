@@ -1,0 +1,11 @@
+configs:
+
+  makeRabbitmqHelmDeployment: 
+    _skipCreationPath: '${_ZRB_DEPLOYMENT_DIRECTORY}'
+    _validateAppDirectory: ''
+    _integrate: |
+      . "{{ .GetTaskPath "./bash/pullChart.sh" }}"
+    templateLocations: |
+      [
+        "{{ .GetTaskPath "./deploymentTemplate" }}"
+      ]
