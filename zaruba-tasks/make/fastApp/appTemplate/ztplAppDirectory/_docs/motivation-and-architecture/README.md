@@ -9,7 +9,9 @@ In 2016, [DHH](https://twitter.com/dhh) wrote an article titled [Majestic Monoli
 
 Since big tech companies use microservices architecture, people start to get interested in this architecture. DHH argued that not all companies need microservices architecture.
 
-Sometime monolith is just right.
+Sometimes monolith is just right, but sometimes microservices-architecture is better.
+
+Let's see how microservices and monolith are different from each other.
 
 ## Microservices: The good and the bad
 
@@ -29,7 +31,7 @@ Microservices architecture is bad because:
 
 ## Monolith: The good and the bad
 
-![image of megazord morphin power ranger](images/megazord.jpg)
+![image of megazord from mighty morphin power ranger](images/megazord.jpg)
 
 Monolith architecture is good because:
 
@@ -59,7 +61,7 @@ We can make things better by creating a monolith application that can be deploye
 
 You can think of a microservices-ready monolith as a super-soldier than has gone through a lot of training. Alone, this super-soldier is already capable of a lot of things. He can shoot, fight, drive a helicopter, and even hack a satellite.
 
-But when you do a bigger mission, you cannot just rely on a single super-soldier. You need some super-soldiers, so that you can assign different tasks for each of them.
+But when you do a bigger mission, you cannot just rely on a single super-soldier. You need a team of super-soldiers. Every member of the team can be assigned to a very specific task to achieve the same goal.
 
 ![image of a soldier](images/soldier.jpg)
 
