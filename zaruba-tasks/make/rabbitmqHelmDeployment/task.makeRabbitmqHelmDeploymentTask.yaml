@@ -1,0 +1,13 @@
+tasks:
+
+  makeRabbitmqHelmDeploymentTask:
+    icon: 🚢
+    extend: zrbMake
+    dependencies:
+      - zrbIsProject
+      - makeRabbitmqHelmDeployment
+    inputs:
+      - deploymentDirectory
+      - deploymentName
+    configRef: makeRabbitmqHelmDeploymentTask
+

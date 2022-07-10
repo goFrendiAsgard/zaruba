@@ -322,6 +322,12 @@ includes:
   - ./zaruba-tasks/make/rabbitmq/task.makeRabbitmqApp.yaml
   - ./zaruba-tasks/make/rabbitmq/task.makeRabbitmqAppRunner.yaml
 
+  - ./zaruba-tasks/make/rabbitmqHelmDeployment/config.makeRabbitmqHelmDeployment.yaml
+  - ./zaruba-tasks/make/rabbitmqHelmDeployment/config.makeRabbitmqHelmDeploymentTask.yaml
+  - ./zaruba-tasks/make/rabbitmqHelmDeployment/task.addRabbitmqHelmDeployment.yaml
+  - ./zaruba-tasks/make/rabbitmqHelmDeployment/task.makeRabbitmqHelmDeployment.yaml
+  - ./zaruba-tasks/make/rabbitmqHelmDeployment/task.makeRabbitmqHelmDeploymentTask.yaml
+
   - ./zaruba-tasks/make/redis/config.makeRedisApp.yaml
   - ./zaruba-tasks/make/redis/config.makeRedisAppRunner.yaml
   - ./zaruba-tasks/make/redis/task.addRedis.yaml

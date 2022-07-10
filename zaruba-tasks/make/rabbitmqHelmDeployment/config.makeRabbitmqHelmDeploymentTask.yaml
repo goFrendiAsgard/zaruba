@@ -1,0 +1,11 @@
+configs:
+
+  makeRabbitmqHelmDeploymentTask:
+    _skipCreationPath: 'zaruba-tasks/${_ZRB_DEPLOYMENT_NAME}'
+    _validateAppDirectory: ''
+    _taskIndexPath: './zaruba-tasks/${_ZRB_DEPLOYMENT_NAME}/index.yaml'
+    _registerAppRunnerTasks: ''
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/rabbitmqHelmDeployment/deploymentTaskTemplate"
+      ]
