@@ -19,6 +19,7 @@ app = Chart(
                 'repository': config.get('image.repository'),
                 'tag': config.get('image.tag', 'latest')
             },
+            'fullNameOverride': config.get('fullNameOverride'),
             'replicaCount': config.get('replicaCount', '1'),
             'env': config.get('env', []),
             'ports': config.get('ports', []),

@@ -3,12 +3,13 @@ configs:
   prepareZtplDeploymentName:
     useImagePrefix: true
     imagePrefix: '{{ .GetValue "defaultImagePrefix" }}'
-    namespace: default
+    namespace: '{{ if .GetValue "ztplDeploymentNamespace" }}{{ .GetValue ".GetValue "ztplDeploymentNamespace"" }}{{ else }}default{{ end }}'
     imageName: ztpl-app-image-name
-    imageTag: latest
-    replicaCount: 1
-    serviceType: ClusterIP
-    serviceEnabled: true
+    imageTag: '{{ if .GetValue "ztplDeploymentImageTag" }}{{ .GetValue ".GetValue "ztplDeploymentImageTag"" }}{{ else }}latest{{ end }}'
+    replicaCount: '{{ if .GetValue "ztplDeploymentReplicaCount" }}{{ .GetValue ".GetValue "ztplDeploymentReplicaCount"" }}{{ else }}1{{ end }}'
+    serviceType: '{{ if .GetValue "ztplDeploymentServiceType" }}{{ .GetValue ".GetValue "ztplDeploymentServiceType"" }}{{ else }}ClusterIP{{ end }}'
+    serviceEnabled: '{{ if .GetValue "ztplDeploymentServiceEnabled" }}{{ .GetValue ".GetValue "ztplDeploymentServiceEnabled"" }}{{ else }}true{{ end }}'
+    fullNameOverride: '{{ if .GetValue "ztplDeploymentFullNameOverride" }}{{ .GetValue ".GetValue "ztplDeploymentFullNameOverride"" }}{{ else }}{{ end }}'
     ports: |
       ztplAppYamlPorts
     start: |
