@@ -9,7 +9,7 @@ configs:
     replicaCount: '{{ if .GetValue "ztplDeploymentReplicaCount" }}{{ .GetValue "ztplDeploymentReplicaCount" }}{{ else }}1{{ end }}'
     serviceType: '{{ if .GetValue "ztplDeploymentServiceType" }}{{ .GetValue "ztplDeploymentServiceType" }}{{ else }}ClusterIP{{ end }}'
     serviceEnabled: '{{ if .GetValue "ztplDeploymentServiceEnabled" }}{{ .GetValue "ztplDeploymentServiceEnabled" }}{{ else }}true{{ end }}'
-    fullNameOverride: '{{ if .GetValue "ztplDeploymentFullNameOverride" }}{{ .GetValue "ztplDeploymentFullNameOverride" }}{{ else }}{{ end }}'
+    fullnameOverride: '{{ if .GetValue "ztplDeploymentFullNameOverride" }}{{ .GetValue "ztplDeploymentFullNameOverride" }}{{ else }}{{ end }}'
     ports: |
       ztplAppYamlPorts
     start: |
