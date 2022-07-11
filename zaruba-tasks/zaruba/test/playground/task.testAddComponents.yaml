@@ -66,3 +66,6 @@ tasks:
         ../zaruba please addContainerRegistry appDirectory=provoContainerRegistry
         ../zaruba please addGitlab appDirectory=provoGitlab
         ../zaruba please addGenerator taskName=makeArtefact
+
+        ../zaruba please addMysqlHelmDeployment deploymentDirectory=provoMysqlDeployment
+        ../zaruba please addRabbitmqHelmDeployment deploymentDirectory=provoRabbitmqDeployment
