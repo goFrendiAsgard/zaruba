@@ -5,7 +5,7 @@ import json
 namespace = 'default'
 
 app = Chart(
-    'ztpl-app-name', 
+    'ztpl-deployment-name', 
     config=LocalChartOpts(
         path='./chart',
         namespace = namespace,
