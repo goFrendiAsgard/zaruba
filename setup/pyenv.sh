@@ -8,11 +8,11 @@ SCRIPT="$(cat "${ZARUBA_HOME}/setup/templates/bash/pyenv.sh")"
 echo "${SCRIPT}" >> "${ZARUBA_HOME}/init.sh"
 . "${ZARUBA_HOME}/init.sh"
 
-echo "🔽 Install python 3.8.0."
-pyenv install 3.8.0
+echo "🔽 Install python 3.9.0."
+pyenv install 3.9.0
 
-echo "🔽 Set pyenv 3.8.0 as default."
-pyenv global 3.8.0
+echo "🔽 Set pyenv 3.9.0 as default."
+pyenv global 3.9.0
 
 echo "🔽 Install pipenv."
 pip install pipenv
