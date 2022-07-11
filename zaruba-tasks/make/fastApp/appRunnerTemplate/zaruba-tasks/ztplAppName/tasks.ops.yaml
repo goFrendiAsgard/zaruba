@@ -4,6 +4,8 @@ tasks:
     icon: 🔧
     extend: zrbRunShellScript
     location: ztplAppTaskLocation
+    dependencies:
+      - prepareZtplAppName
     configRefs:
       - createZtplAppNameMigration
       - ztplAppName
