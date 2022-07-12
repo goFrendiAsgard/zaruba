@@ -6,6 +6,8 @@ configs:
     start: |
       . "{{ .GetProjectPath "zaruba-tasks/ztplDeploymentName/bash/run.sh" }}" "{{ .GetProjectPath "zaruba-tasks/ztplDeploymentName/bash/preparation.sh" }}"
       DEPLOYMENT_CONFIG={}
+      IMAGE_REPOSITORY="{{ .GetDockerImageName }}"
+      IMAGE_TAG="{{ if .GetConfig "imageTag" }}{{ .GetConfig "imageTag" }}{{ else }}latest{{ end }}"
       RAW_ENVS='{{ .Util.Json.FromStringDict .GetEnvs }}'
       . '{{ .GetProjectPath "zaruba-tasks/ztplDeploymentName/bash/util.sh" }}'
       . '{{ .GetProjectPath "zaruba-tasks/ztplDeploymentName/bash/prepareVariables.sh" }}'

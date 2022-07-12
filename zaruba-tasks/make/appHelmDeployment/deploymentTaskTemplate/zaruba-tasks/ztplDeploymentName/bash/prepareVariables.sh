@@ -41,6 +41,8 @@ do
     CONTAINER_PORTS="$("${ZARUBA_BIN}" list append "${CONTAINER_PORTS}" "${CONTAINER_PORT_MAP}")"
 done
 
+setDeploymentConfig "image.repository" "${IMAGE_REPOSITORY}"
+setDeploymentConfig "image.tag" "${IMAGE_TAG}"
 setDeploymentConfig "env" "${CONTAINER_ENVS}"
 setDeploymentConfig "ports" "${CONTAINER_PORTS}"
 setDeploymentConfig "service.ports" "${SERVICE_PORTS}"

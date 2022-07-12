@@ -1,5 +1,7 @@
 {
     "env": [],
+    "image.repository": "",
+    "image.tag": "",
     "ports": [],
     "service.ports": []
 }

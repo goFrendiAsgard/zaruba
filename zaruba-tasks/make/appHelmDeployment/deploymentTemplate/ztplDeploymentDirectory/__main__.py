@@ -17,8 +17,8 @@ app = Chart(
         namespace = os.getenv('NAMESPACE', 'default'),
         values = {
             'image': {
-                'repository': os.getenv('IMAGE_REPOSITORY'),
-                'tag': os.getenv('IMAGE_TAG', 'latest')
+                'repository': config.get('image.repository'),
+                'tag': config.get('image.tag', 'latest')
             },
             'fullnameOverride': os.getenv('FULLNAME_OVERRIDE'),
             'replicaCount': int(os.getenv('REPLICA_COUNT', '1')),
