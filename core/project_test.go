@@ -392,7 +392,7 @@ func TestProjectGetInputsInexistTask(t *testing.T) {
 		return
 	}
 	errorMessage := err.Error()
-	if errorMessage != "task 'inexistTask' is not exist" {
+	if errorMessage != "task 'inexistTask' does not exist" {
 		t.Errorf("invalid error message: %s", errorMessage)
 	}
 }
@@ -432,7 +432,7 @@ func TestProjectValidateByTaskNamesInexistTask(t *testing.T) {
 		return
 	}
 	errorMessage := err.Error()
-	if errorMessage != "task 'inexistTask' is not exist" {
+	if errorMessage != "task 'inexistTask' does not exist" {
 		t.Errorf("invalid error message: %s", errorMessage)
 	}
 }

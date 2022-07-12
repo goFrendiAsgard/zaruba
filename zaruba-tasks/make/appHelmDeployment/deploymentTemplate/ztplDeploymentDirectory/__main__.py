@@ -3,6 +3,7 @@ from pulumi_kubernetes.helm.v3 import Chart, ChartOpts, LocalChartOpts
 
 import pulumi
 import json
+import os
 
 # define config
 config: Mapping[str, Any]
@@ -13,20 +14,20 @@ app = Chart(
     'ztpl-deployment-name', 
     config=LocalChartOpts(
         path = './chart',
-        namespace = config.get('namespace', 'default'),
+        namespace = os.getenv('NAMESPACE', 'default'),
         values = {
             'image': {
-                'repository': config.get('image.repository'),
-                'tag': config.get('image.tag', 'latest')
+                'repository': os.getenv('IMAGE_REPOSITORY'),
+                'tag': os.getenv('IMAGE_TAG', 'latest')
             },
-            'fullnameOverride': config.get('fullnameOverride'),
-            'replicaCount': config.get('replicaCount', '1'),
+            'fullnameOverride': os.getenv('FULLNAME_OVERRIDE'),
+            'replicaCount': int(os.getenv('REPLICA_COUNT', '1')),
             'env': config.get('env', []),
             'ports': config.get('ports', []),
             'service': {
                 'ports': config.get('service.ports', []),
-                'type': config.get('service.type', 'ClusterIP'),
-                'enabled': config.get('service.enabled', 'true'),
+                'type': os.getenv('SERVICE_TYPE', 'ClusterIP'),
+                'enabled': os.getenv('SERVICE_ENABLED', 'True') == 'True',
             }
         },
         skip_await = True

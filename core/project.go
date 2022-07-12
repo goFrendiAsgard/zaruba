@@ -295,7 +295,7 @@ func (p *Project) GetInputs(taskNames []string) (inputs map[string]*Variable, in
 	for _, taskName := range taskNames {
 		task, taskExist := p.Tasks[taskName]
 		if !taskExist {
-			return inputs, inputOrder, fmt.Errorf("task '%s' is not exist", taskName)
+			return inputs, inputOrder, fmt.Errorf("task '%s' does not exist", taskName)
 		}
 		// include task's dependencies
 		dependencyTaskNames := []string{}
@@ -355,7 +355,7 @@ func (p *Project) ValidateByTaskNames(taskNames []string) (err error) {
 	for _, taskName := range taskNames {
 		task, taskExist := p.Tasks[taskName]
 		if !taskExist {
-			return fmt.Errorf("task '%s' is not exist", taskName)
+			return fmt.Errorf("task '%s' does not exist", taskName)
 		}
 		for _, inputName := range task.Inputs {
 			value := p.values[inputName]

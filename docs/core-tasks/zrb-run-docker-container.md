@@ -22,7 +22,7 @@ Description:
     Run docker container.
     If container is already started, its stdout/stderr will be shown.
     If container is exist but not started, it will be started.
-    If container is not exist, it will be created and started.
+    If container does not exist, it will be created and started.
     Common configs:
       setup          : Script to be executed before start service or check service readiness.
       beforeStart    : Script to be executed before start service.

@@ -6,7 +6,7 @@ tasks:
     location: ztplDeploymentTaskLocation
     configRefs:
       - prepareZtplDeploymentName
-    envRef: ztplDeploymentName
+    envRef: ztplDeploymentNameEnv
     syncEnvLocation: ztplAppTaskLocation
 
   previewZtplDeploymentName:
@@ -15,7 +15,8 @@ tasks:
     location: ztplDeploymentTaskLocation
     timeout: 1h
     envRef: ztplDeploymentName
-    syncEnvLocation: ztplAppTaskLocation
+    dependencies:
+      - prepareZtplDeploymentName
 
   deployZtplDeploymentName:
     icon: ztplAppIcon

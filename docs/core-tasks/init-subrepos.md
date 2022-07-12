@@ -153,7 +153,7 @@ Value:
         git remote set-url "${NAME}" "${URL}"
       elif [ "$ORIGIN_EXISTS" = "0" ]
       then
-        echo "$NAME origin is not exist"
+        echo "$NAME origin does not exist"
         gitSave "Save works before pulling from ${URL}"
         PREFIX_EXISTS=0
         if [ -d "$PREFIX" ]

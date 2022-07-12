@@ -33,7 +33,7 @@ func TestRunnerInexistTask(t *testing.T) {
 		return
 	}
 	errorMessage := err.Error()
-	if errorMessage != "task 'inexist' is not exist" {
+	if errorMessage != "task 'inexist' does not exist" {
 		t.Errorf("invalid error message: %s", errorMessage)
 	}
 }

@@ -40,7 +40,7 @@ func (taskUtil *TaskUtil) getTaskByProjectFile(projectFile, taskName string) (ta
 func (taskUtil *TaskUtil) getTaskByProject(project *Project, taskName string) (task *Task, err error) {
 	task, taskExist := project.Tasks[taskName]
 	if !taskExist {
-		return nil, fmt.Errorf("task %s is not exist", taskName)
+		return nil, fmt.Errorf("task %s does not exist", taskName)
 	}
 	return task, nil
 }
@@ -52,7 +52,7 @@ func (taskUtil *TaskUtil) GetIcon(taskName, projectFile string) (icon string, er
 	}
 	task, taskExist := project.Tasks[taskName]
 	if !taskExist {
-		return "", fmt.Errorf("task %s is not exist", taskName)
+		return "", fmt.Errorf("task %s does not exist", taskName)
 	}
 	return task.Icon, nil
 }
@@ -76,7 +76,7 @@ func (taskUtil *TaskUtil) AddDependencies(taskName string, dependencyTaskNames [
 	}
 	for _, dependencyTaskName := range dependencyTaskNames {
 		if _, dependencyExist := task.Project.Tasks[dependencyTaskName]; !dependencyExist {
-			return fmt.Errorf("dependency task %s is not exist", dependencyTaskName)
+			return fmt.Errorf("dependency task %s does not exist", dependencyTaskName)
 		}
 	}
 	yamlLocation := task.GetFileLocation()
@@ -131,7 +131,7 @@ func (taskUtil *TaskUtil) AddParents(taskName string, parentTaskNames []string, 
 	}
 	for _, parentTaskName := range parentTaskNames {
 		if _, parentExist := task.Project.Tasks[parentTaskName]; !parentExist {
-			return fmt.Errorf("parent task %s is not exist", parentTaskName)
+			return fmt.Errorf("parent task %s does not exist", parentTaskName)
 		}
 	}
 	yamlLocation := task.GetFileLocation()

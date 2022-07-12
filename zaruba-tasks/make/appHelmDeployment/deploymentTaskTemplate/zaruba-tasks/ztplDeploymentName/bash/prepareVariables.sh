@@ -41,13 +41,6 @@ do
     CONTAINER_PORTS="$("${ZARUBA_BIN}" list append "${CONTAINER_PORTS}" "${CONTAINER_PORT_MAP}")"
 done
 
-setDeploymentConfig "namespace" "${ZARUBA_CONFIG_NAMESPACE}"
-setDeploymentConfig "image.repository" "${IMAGE_NAME}"
-setDeploymentConfig "image.tag" "${IMAGE_TAG}"
-setDeploymentConfig "replicaCount" "${ZARUBA_CONFIG_REPLICA_COUNT}"
 setDeploymentConfig "env" "${CONTAINER_ENVS}"
 setDeploymentConfig "ports" "${CONTAINER_PORTS}"
 setDeploymentConfig "service.ports" "${SERVICE_PORTS}"
-setDeploymentConfig "service.type" "${ZARUBA_CONFIG_SERVICE_TYPE}"
-setDeploymentConfig "service.enabled" "${ZARUBA_CONFIG_SERVICE_ENABLED}"
-setDeploymentConfig "fullnameOverride" "${ZARUBA_CONFIG_FULLNAME_OVERRIDE}"

@@ -147,7 +147,7 @@ Value:
       echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
       echo "${_BOLD}${_YELLOW}Docker container ${CONTAINER} removed${_NORMAL}"
     else
-      echo "${_BOLD}${_YELLOW}Docker container ${CONTAINER} is not exist${_NORMAL}"
+      echo "${_BOLD}${_YELLOW}Docker container ${CONTAINER} does not exist${_NORMAL}"
     fi
 
 
