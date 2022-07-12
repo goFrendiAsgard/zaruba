@@ -127,8 +127,8 @@ zaruba please startServer -t -w 1s
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.959µs
-         Current Time: 08:00:00
+         Elapsed Time: 1.435µs
+         Current Time: 09:25:38
 💀 🏁 Run 🍏 'startServer' service on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/low-level
 💀 🏁 Check 🍏 'startServer' readiness on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/low-level
 💀    🔎 startServer          🍏 not ready
@@ -141,19 +141,19 @@ zaruba please startServer -t -w 1s
 💀    🔎 startServer          🍏 ready
 💀 🎉 Successfully running 🍏 'startServer' readiness check
 💀 🔎 Job Running...
-         Elapsed Time: 12.12721067s
-         Current Time: 08:00:12
+         Elapsed Time: 12.124308518s
+         Current Time: 09:25:50
          Active Process:
-           * (PID=7522) 🍏 'startServer' service
+           * (PID=2312) 🍏 'startServer' service
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
-💀 🔪 Kill 🍏 'startServer' service (PID=7522)
+💀 🔪 Kill 🍏 'startServer' service (PID=2312)
 💀    🚀 startServer          🍏 
 💀    🚀 startServer          🍏 Keyboard interrupt received, exiting.
 💀 🔎 Job Ended...
-         Elapsed Time: 14.331978893s
-         Current Time: 08:00:14
+         Elapsed Time: 14.332612652s
+         Current Time: 09:25:52
 💀 🔥 🍏 'startServer' service exited without any error message
 zaruba please startServer   -t -w 1s
 ```````
@@ -199,8 +199,8 @@ zaruba please startServer -t -w 1s
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.654µs
-         Current Time: 08:00:14
+         Elapsed Time: 1.258µs
+         Current Time: 09:25:53
 💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/high-level
 💀    🚀 updateProjectLinks   🔗 🎉🎉🎉
 💀    🚀 updateProjectLinks   🔗 Links updated
@@ -214,22 +214,22 @@ zaruba please startServer -t -w 1s
 💀    🔎 startServer          🍏 📜 Task 'startServer' is ready
 💀 🎉 Successfully running 🍏 'startServer' readiness check
 💀 🔎 Job Running...
-         Elapsed Time: 11.26706024s
-         Current Time: 08:00:26
+         Elapsed Time: 11.250522192s
+         Current Time: 09:26:04
          Active Process:
-           * (PID=19576) 🍏 'startServer' service
+           * (PID=2345) 🍏 'startServer' service
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
-💀 🔪 Kill 🍏 'startServer' service (PID=19576)
+💀 🔪 Kill 🍏 'startServer' service (PID=2345)
 💀    🚀 startServer          🍏 
 💀    🚀 startServer          🍏 Keyboard interrupt received, exiting.
 💀    🚀 startServer          🍏 🎉🎉🎉
 💀    🚀 startServer          🍏 📜 Task 'startServer' is started
-💀 🔎 Job Ended...
-         Elapsed Time: 13.474788756s
-         Current Time: 08:00:28
 💀 🔥 🍏 'startServer' service exited without any error message
+💀 🔎 Job Ended...
+         Elapsed Time: 13.457724246s
+         Current Time: 09:26:06
 zaruba please startServer   -t -w 1s
 ```````
 </details>

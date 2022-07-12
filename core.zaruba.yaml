@@ -236,12 +236,6 @@ includes:
   - ./zaruba-tasks/make/goAppRunner/task.addGoAppRunner.yaml
   - ./zaruba-tasks/make/goAppRunner/task.makeGoAppRunner.yaml
 
-  - ./zaruba-tasks/make/helmDeployment/config.makeHelmDeployment.yaml
-  - ./zaruba-tasks/make/helmDeployment/config.makeHelmDeploymentTask.yaml
-  - ./zaruba-tasks/make/helmDeployment/task.addHelmDeployment.yaml
-  - ./zaruba-tasks/make/helmDeployment/task.makeHelmDeployment.yaml
-  - ./zaruba-tasks/make/helmDeployment/task.makeHelmDeploymentTask.yaml
-
   - ./zaruba-tasks/make/jupyterNotebook/config.makeJupyterNotebookApp.yaml
   - ./zaruba-tasks/make/jupyterNotebook/config.makeJupyterNotebookAppRunner.yaml
   - ./zaruba-tasks/make/jupyterNotebook/task.addJupyterNotebook.yaml

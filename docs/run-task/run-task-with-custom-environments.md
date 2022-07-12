@@ -22,20 +22,20 @@ zaruba please printHelloHuman -e GREETINGS=はじめまして
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.079µs
-         Current Time: 07:59:39
+         Elapsed Time: 1.155µs
+         Current Time: 09:25:17
 💀 🏁 Run 🍏 'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/run-tasks
 💀    🚀 printHelloHuman      🍏 はじめまして human
 💀 🎉 Successfully running 🍏 'printHelloHuman' command
 💀 🔎 Job Running...
-         Elapsed Time: 102.526086ms
-         Current Time: 07:59:39
+         Elapsed Time: 103.074501ms
+         Current Time: 09:25:17
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 507.692708ms
-         Current Time: 07:59:39
+         Elapsed Time: 508.094237ms
+         Current Time: 09:25:17
 zaruba please printHelloHuman -e 'GREETINGS=はじめまして'
 ```````
 </details>
@@ -65,20 +65,20 @@ zaruba please printHelloHuman -e sample.env
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.097µs
-         Current Time: 07:59:39
+         Elapsed Time: 2.618µs
+         Current Time: 09:25:18
 💀 🏁 Run 🍏 'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/run-tasks
 💀    🚀 printHelloHuman      🍏 Hola human
 💀 🎉 Successfully running 🍏 'printHelloHuman' command
 💀 🔎 Job Running...
-         Elapsed Time: 102.873957ms
-         Current Time: 07:59:39
+         Elapsed Time: 102.648524ms
+         Current Time: 09:25:18
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 505.18908ms
-         Current Time: 07:59:40
+         Elapsed Time: 509.673967ms
+         Current Time: 09:25:18
 zaruba please printHelloHuman -e 'sample.env'
 ```````
 </details>
