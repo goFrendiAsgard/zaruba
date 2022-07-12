@@ -31,20 +31,20 @@ zaruba please printHelloHuman humanName="Go Frendi"
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.585µs
-         Current Time: 09:25:18
+         Elapsed Time: 1.531µs
+         Current Time: 10:38:44
 💀 🏁 Run 🍏 'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/run-tasks
 💀    🚀 printHelloHuman      🍏 hello Go Frendi
 💀 🎉 Successfully running 🍏 'printHelloHuman' command
 💀 🔎 Job Running...
-         Elapsed Time: 102.504979ms
-         Current Time: 09:25:19
+         Elapsed Time: 101.647768ms
+         Current Time: 10:38:44
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 507.077374ms
-         Current Time: 09:25:19
+         Elapsed Time: 503.144728ms
+         Current Time: 10:38:45
 zaruba please printHelloHuman  -v 'humanName=Go Frendi'
 ```````
 </details>
@@ -73,20 +73,20 @@ zaruba please printHelloHuman -v sample.values.yaml
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.209µs
-         Current Time: 09:25:19
+         Elapsed Time: 1.19µs
+         Current Time: 10:38:45
 💀 🏁 Run 🍏 'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/run-tasks
 💀    🚀 printHelloHuman      🍏 hello Avogadro
 💀 🎉 Successfully running 🍏 'printHelloHuman' command
 💀 🔎 Job Running...
-         Elapsed Time: 102.789809ms
-         Current Time: 09:25:19
+         Elapsed Time: 102.795102ms
+         Current Time: 10:38:45
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 507.641025ms
-         Current Time: 09:25:20
+         Elapsed Time: 504.65769ms
+         Current Time: 10:38:46
 zaruba please printHelloHuman  -v 'sample.values.yaml'
 ```````
 </details>
