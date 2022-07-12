@@ -1,6 +1,10 @@
 configs:
 
   prepareZtplDeploymentName:
+    useImagePrefix: true
+    imagePrefix: '{{ .GetValue "defaultImagePrefix" }}'
+    imageName: ztpl-app-image-name
+    imageTag: '{{ if .GetValue "ztplDeploymentImageTag" }}{{ .GetValue "ztplDeploymentImageTag" }}{{ else }}latest{{ end }}'
     ports: |
       ztplAppYamlPorts
     start: |
