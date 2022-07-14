@@ -55,6 +55,20 @@ Let's see the following example:
 
 ![meme](docs/images/solution-example.png)
 
+First, you can use `dependencies` keyword to __set task dependencies__:
+- `start` depends on `startFrontend` and `startBackend`.
+- `startBackend` depends on `startMysql`.
+
+You can also __share environment values__ among tasks:
+- `startMysql.envs.MYSQL_ROOT_PASSWORD` and `startBackend.envs.DB_PASSWORD` shared the same value (i.e., `DB_PASSWORD=Alch3mist`).
+- `startFrontend.envs.BACKEND_PORT` and `startBackend.envs.APP_HTTP_PORT` shared the same value (i.e., `BACKEND_PORT=3000`).
+
+Finally, you can start your tasks by invoking a single command:
+
+```bash
+zaruba please start
+```
+
 ## 🔍 Example
 
 You can visit the [end-to-end tutorials](docs/use-cases/from-zero-to-cloud.md) to see:
