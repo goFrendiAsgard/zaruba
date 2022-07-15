@@ -7,12 +7,18 @@ This end-to-end tutorial shows you how you can use Zaruba to develop/deploy your
 
 At the end of this tutorial, you will have:
 
-* A working [monolith-ready microservices](https://github.com/state-alchemists/amalgam/blob/master/myProject/myApp/_docs/motivation-and-architecture/README.md).
+* A working [microservices-ready monolith](https://github.com/state-alchemists/amalgam/blob/master/myProject/myApp/_docs/motivation-and-architecture/README.md).
 * A single command to run everything on your 🖥️ local computer.
 * A single command to run everything on your local computer as 🐳 containers.
 * A single command to deploy everything on your ☸️ kubernetes cluster.
 
 To see a working example, you can visit: [amalgam repository](https://github.com/state-alchemists/amalgam).
+
+To follow this tutorial, you need to have:
+
+- `Zaruba` installed. Please visit this [guide](../../README.md#👨‍💻-installation) to install Zaruba quickly.
+- [Python](https://www.python.org/) with [venv](https://docs.python.org/3/library/venv.html) installed.
+- [Docker desktop](https://www.docker.com/products/docker-desktop/) installed, with [kubernetes enabled](https://www.techrepublic.com/article/how-to-install-docker-desktop-kubernetes-support/).
 
 # Start a project
 
