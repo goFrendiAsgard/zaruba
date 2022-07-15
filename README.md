@@ -1,5 +1,7 @@
 ![zaruba-logo](arts/zaruba-250.png)
 
+[Documentation](docs/README.md) | [Tutorial](docs/use-cases/from-zero-to-cloud.md)
+
 > ⚠️ Things might change pretty fast and pretty often before we reach `v.1.0.0`. Please open [an issue](https://github.com/state-alchemists/zaruba/issues) if you find any problem using Zaruba.
 
 # 💀 Zaruba 
@@ -55,15 +57,15 @@ Let's see the following example:
 
 ![meme](docs/images/solution-example.png)
 
-First, you can use `dependencies` keyword to __set task dependencies__:
+First, Zaruba allows you to __set task dependencies__ using `dependencies` keyword:
 - `start` depends on `startFrontend` and `startBackend`.
 - `startBackend` depends on `startMysql`.
 
-You can also __share environment values__ among tasks:
+Zaruba also allows you to __share environment values__ among your tasks:
 - `startMysql.envs.MYSQL_ROOT_PASSWORD` and `startBackend.envs.DB_PASSWORD` shared the same value (i.e., `DB_PASSWORD=Alch3mist`).
 - `startFrontend.envs.BACKEND_PORT` and `startBackend.envs.APP_HTTP_PORT` shared the same value (i.e., `BACKEND_PORT=3000`).
 
-Finally, you can start your tasks by invoking a single command:
+More importantly, Zaruba allows you to __start your tasks__ by invoking a __single command__:
 
 ```bash
 zaruba please start
