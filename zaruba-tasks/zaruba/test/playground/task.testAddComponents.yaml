@@ -49,16 +49,27 @@ tasks:
         ../zaruba please addCassandra appDirectory=provoCassandra
         ../zaruba please addElasticsearch appDirectory=provoElasticsearch
         ../zaruba please addJupyterNotebook appDirectory=provoJupyterNotebook
+
         ../zaruba please addKafka appDirectory=provoKafka
+        ../zaruba task setConfig startProvoKafkaContainer afterCheck 'sleep 15'
+
         ../zaruba please addMeltano appDirectory=provoMeltano
         ../zaruba please addMetabase appDirectory=provoMetabase
         ../zaruba please addMinio appDirectory=provoMinio
         ../zaruba please addMongodb appDirectory=provoMongodb
+
         ../zaruba please addMysql appDirectory=provoMysql
+        ../zaruba task setConfig startProvoMysqlContainer afterCheck 'sleep 15'
+
         ../zaruba please addNginx appDirectory=provoNginx appPorts='["8980:80", "8943:443"]'
         ../zaruba please addPostgresql appDirectory=provoPostgresql
+
         ../zaruba please addPrefect appDirectory=provoPrefect
+        ../zaruba task setConfig startProvoPrefectContainer afterCheck 'sleep 15'
+
         ../zaruba please addRabbitmq appDirectory=provoRabbitmq
+        ../zaruba task setConfig startProvoRabbitmqContainer afterCheck 'sleep 15'
+
         ../zaruba please addRedis appDirectory=provoRedis
         ../zaruba please addSonarqube appDirectory=provoSonarqube
         ../zaruba please addSpark appDirectory=provoSpark
@@ -69,3 +80,4 @@ tasks:
 
         ../zaruba please addMysqlHelmDeployment deploymentDirectory=provoMysqlDeployment
         ../zaruba please addRabbitmqHelmDeployment deploymentDirectory=provoRabbitmqDeployment
+        ../zaruba project setValue pulumiUseLocalBackend true 

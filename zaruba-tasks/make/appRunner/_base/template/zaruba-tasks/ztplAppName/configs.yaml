@@ -10,7 +10,7 @@ configs:
     imageName: ztpl-app-image-name
     containerName: ztplAppContainerName
     localhost: host.docker.internal
-    afterCheck: sleep 3
+    afterCheck: sleep 5
     checkCommand: |
       ztplAppCheckCommand
     command : |

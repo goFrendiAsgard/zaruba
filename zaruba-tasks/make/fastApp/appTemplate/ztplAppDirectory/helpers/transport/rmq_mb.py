@@ -74,7 +74,7 @@ class RMQMessageBus(RMQConnection, MessageBus):
             exchange = self._event_map.get_exchange_name(event_name)
             routing_key = self._event_map.get_queue_name(event_name)
             body = self._event_map.get_encoder(event_name)(message)
-            ch = self.publich_connection.channel()
+            ch = self._publish_connection.channel()
             ch.exchange_declare(exchange=exchange, exchange_type='fanout', durable=True)
             print({'action': 'publish_rmq_event', 'event_name': event_name, 'message': message, 'exchange': exchange, 'routing_key': routing_key, 'body': body})
             ch.basic_publish(

@@ -1,14 +1,11 @@
 from typing import Any, Mapping
-from pulumi_kubernetes.helm.v3 import Chart, ChartOpts, LocalChartOpts
+from configHelper import load_config, get_probe
+from pulumi_kubernetes.helm.v3 import Chart, LocalChartOpts
 
 import pulumi
-import json
 import os
 
-# define config
-config: Mapping[str, Any]
-with open('./config/config.json') as f:
-    config = json.load(f)
+config : Mapping[str, Any] = load_config('./config/config.json')
 
 app = Chart(
     'ztpl-deployment-name', 
@@ -28,7 +25,26 @@ app = Chart(
                 'ports': config.get('service.ports', []),
                 'type': os.getenv('SERVICE_TYPE', 'ClusterIP'),
                 'enabled': os.getenv('SERVICE_ENABLED', 'True') == 'True',
-            }
+            },
+            'resources': {
+                'limits': {
+                    'cpu': os.getenv('RESOURCES_LIMITS_CPU', '100m'),
+                    'memory': os.getenv('RESOURCES_LIMITS_MEMORY', '128Mi'),
+                },
+                'requests': {
+                    'cpu': os.getenv('RESOURCES_REQUESTS_CPU', '100m'),
+                    'memory': os.getenv('RESOURCES_REQUESTS_MEMORY', '128Mi'),
+                },
+            },
+            'autoscaling': {
+                'enabled': os.getenv('AUTOSCALING_ENABLED', 'True') == 'True',
+                'minReplicas': int(os.getenv('AUTOSCALING_MIN_REPLICAS', '1')),
+                'maxReplicas': int(os.getenv('AUTOSCALING_MAX_REPLICAS', '1')),
+                'targetCPUUtilizationPercentage': int(os.getenv('AUTOSCALING_TARGET_CPU_UTILIZATION_PERCENTAGE', '80')),
+                'targetMemorytilizationPercentage': int(os.getenv('AUTOSCALING_TARGET_MEMORY_UTILIZATION_PERCENTAGE', '80')),
+            },
+            'livenessProbe': get_probe('LIVENESS_PROBE', config),
+            'readinessProbe': get_probe('READINESS_PROBE', config),
         },
         skip_await = True
     )

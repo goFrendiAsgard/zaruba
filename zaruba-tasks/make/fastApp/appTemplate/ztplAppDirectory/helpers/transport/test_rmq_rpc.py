@@ -5,8 +5,9 @@ from helpers.transport.rmq_connection import create_rmq_connection_parameters
 
 import os
 import warnings
+import asyncio
 
-def test_rmq_rpc():
+async def test_rmq_rpc():
     if os.getenv('TEST_INTEGRATION', '0') != '1':
         warnings.warn(UserWarning('TEST_INTEGRATION != 1, RMQRPC is not tested'))
         return None
@@ -19,6 +20,7 @@ def test_rmq_rpc():
     rmq_event_map = RMQEventMap({})
 
     rpc = RMQRPC(rmq_connection_parameters, rmq_event_map)
+    await asyncio.sleep(3)
 
     parameters = {}
     @rpc.handle('test_rpc')

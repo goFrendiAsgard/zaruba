@@ -11,7 +11,7 @@ Since big tech companies use microservices architecture, people start to get int
 
 Sometimes monolith is just right, but sometimes microservices-architecture is better.
 
-Let's see how microservices and monolith are different from each other.
+Let's see how microservices and a monolith compared to each other.
 
 ## Microservices: The good and the bad
 
@@ -45,7 +45,9 @@ Monolith architecture is bad because:
 
 ## Microservices or monolith?
 
-In conclusion, if you are just __getting started__, a __monolith architecture__ is probably your best option. But when you need to think about __scaling__, __microservices architecture__ is your best option.
+If you are just __getting started__, a __monolith architecture__ is probably your best option.
+
+Once you need to __scale__ different aspects of your system differently, you can start with __microservices architecture__.
 
 # Microservices-ready monolith
 
@@ -61,7 +63,7 @@ We can make things better by creating a monolith application that can be deploye
 
 You can think of a microservices-ready monolith as a super-soldier than has gone through a lot of training. Alone, this super-soldier is already capable of a lot of things. He can shoot, fight, drive a helicopter, and even hack a satellite.
 
-But when you do a bigger mission, you cannot just rely on a single super-soldier. You need a team of super-soldiers. Every member of the team can be assigned to a very specific task to achieve the same goal.
+But when you do a bigger mission, you cannot just rely on a single super-soldier. You need a team of super-soldiers. You need to assign different tasks for every member so that they can achieve a bigger goal.
 
 ![image of a soldier](images/soldier.jpg)
 
@@ -69,7 +71,7 @@ But when you do a bigger mission, you cannot just rely on a single super-soldier
 
 Microservices-ready monolith is good because:
 
-- It can be deployed and executed locally as a monolith.
+- It can be deployed and executed easily as a monolith.
 - It has a single codebase.
 - It can be deployed as microservices using [feature flags](feature-flags.md).
 - Everyone is aware of code changes.
@@ -81,7 +83,7 @@ It is bad because:
 
 # Example
 
-Suppose you have two modules in ZtplAppDirectory:
+Suppose you have two modules in `ZtplAppDirectory`:
 
 - Library
 - Auth
@@ -90,21 +92,21 @@ Each module serves different domains, and someday you will need to scale them in
 
 ![Monolith mode](images/fastApp-monolith.png)
 
-You can configure ZtplAppDirectory using environment variables. For example, you can enable/disable the user interface by passing `0` or `1` to `APP_ENABLE_UI`.
+You can configure `ZtplAppDirectory` using environment variables. For example, you can enable/disable the user interface by passing `0` or `1` to `APP_ENABLE_UI`.
 
-When you run ZtplAppDirectory as a monolith, you need to enable every feature flag.
+When you run `ZtplAppDirectory` as a monolith, you need to enable every feature flag.
 
-You should also use `local` message bus/RPC(remote procedure call) instead of RabbitMq or Kafka. Even though local message bus/RPC is not scalable, it is simple and reliable for a single application. You should not overcomplicate things in the beginning. Also, [network is not reliable](https://particular.net/blog/the-network-is-reliable).
+You should also use `local` message bus/RPC(remote procedure call) instead of RabbitMq or Kafka. Even though local message bus/RPC is not scalable, it is simple and reliable for a single application. You don't want to overcomplicate things in the beginning. Also, [network is not reliable](https://particular.net/blog/the-network-is-reliable).
 
 All good, you can run everything locally.
 
 ## Into microservices
 
-At some point, you need to scale your modules independently. You can achieve this without doing any change in ZtplAppDirectory codebase. What you need to do is just deploy multiple ZtplAppDirectory with different feature flags (configurations).
+At some point, you need to scale your modules independently. You can achieve this without doing any change in `ZtplAppDirectory` codebase. What you need to do is just deploy multiple `ZtplAppDirectory` with different feature flags (configurations).
 
 ![Microservices mode](images/fastApp-microservices.png)
 
-Let's take a look at every instance of ZtplAppDirectory:
+Let's take a look at every instance of `ZtplAppDirectory`:
 
 ### Frontend
 

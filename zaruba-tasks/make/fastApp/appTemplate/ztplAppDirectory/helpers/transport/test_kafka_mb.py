@@ -24,6 +24,7 @@ async def _test_kafka_mb():
     kafka_event_map = KafkaEventMap({})
 
     mb = KafkaMessageBus(kafka_connection_parameters, kafka_event_map)
+    await asyncio.sleep(3)
 
     result = {}
     @mb.handle('test_event')

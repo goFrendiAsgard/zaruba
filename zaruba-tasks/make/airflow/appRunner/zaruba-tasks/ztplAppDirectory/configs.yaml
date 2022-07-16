@@ -11,7 +11,7 @@ configs:
       set +e
       chmod -R 777 "${DOCKER_COMPOSE_VOLUME}"
       set -e
-    afterCheck: sleep 3
+    afterCheck: sleep 5
     checkCommand: |
       ztplAppCheckCommand
   

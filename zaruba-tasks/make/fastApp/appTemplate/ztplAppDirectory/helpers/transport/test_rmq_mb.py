@@ -24,6 +24,7 @@ async def _test_rmq_mb():
     rmq_event_map = RMQEventMap({})
 
     mb = RMQMessageBus(rmq_connection_parameters, rmq_event_map)
+    await asyncio.sleep(3)
 
     result = {}
     @mb.handle('test_event')
@@ -32,6 +33,11 @@ async def _test_rmq_mb():
         mb.shutdown()
     
     mb.publish('test_event', 'test_message')
-    await asyncio.sleep(5)
+
+    trial: int = 10
+    while trial > 0 and not 'message' in result:
+        await asyncio.sleep(1)
+        trial -= 1
+
     assert 'message' in result
     assert result['message'] == 'test_message'

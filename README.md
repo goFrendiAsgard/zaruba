@@ -1,6 +1,6 @@
 ![zaruba-logo](arts/zaruba-250.png)
 
-[Documentation](docs/README.md) | [Tutorial](docs/use-cases/from-zero-to-cloud.md)
+[Documentation](docs/README.md) | [Tutorial](docs/use-cases/from-zero-to-cloud.md) | [Installation](#👨‍💻-installation)
 
 > ⚠️ Things might change pretty fast and pretty often before we reach `v.1.0.0`. Please open [an issue](https://github.com/state-alchemists/zaruba/issues) if you find any problem using Zaruba.
 
@@ -49,9 +49,9 @@ Instead of opening many tmux panels, Zaruba allows you to create and run __a sin
 
 ![meme](docs/images/solution-meme.png)
 
-In Zaruba, you can think of [tasks](docs/core-concepts/task/README.md) as [DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph). A task can have many [dependencies](docs/core-concepts/task/define-task-dependencies.md). And Zaruba will always run the dependencies first before running your tasks.
+In Zaruba, you can think of [tasks](docs/core-concepts/task/README.md) as [DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph). __A task can have many [dependencies](docs/core-concepts/task/define-task-dependencies.md)__. And Zaruba will always run the dependencies first before running your tasks.
 
-Zaruba also lets you link [task environments](docs/core-concepts/task/task-envs/README.md) to system environments. This allows you to configure your applications as a single system.
+Zaruba also lets you __link [task environments](docs/core-concepts/task/task-envs/README.md) to system environments__. This allows you to configure your applications as a single system.
 
 Let's see the following example:
 
@@ -71,15 +71,15 @@ More importantly, Zaruba allows you to __start your tasks__ by invoking a __sing
 zaruba please start
 ```
 
-## 🔍 Example
+## 🔍 Tutorial
 
 You can visit the [end-to-end tutorials](docs/use-cases/from-zero-to-cloud.md) to see:
-- How you can add MySQL container, backend application, and frontend application to your project.
-- How you can generate CRUD for your backend.
-- How to start your applications locally.
-- How to start your applications as containers.
-- How to deploy your applications to Kubernetes.
-- How to run only a few applications locally.
+
+- How to make a working [microservices-ready monolith](https://github.com/state-alchemists/amalgam/blob/master/myProject/myApp/_docs/motivation-and-architecture/README.md).
+- How to create CRUD features and web pages
+- How to run everything on your 🖥️ local computer (as monolith or microservices).
+- How to run everything on your local computer as 🐳 containers (as monolith or microservices).
+- How to deploy everything on your ☸️ Kubernetes cluster.
 
 ## 💡 Similar Projects/Solutions
 
