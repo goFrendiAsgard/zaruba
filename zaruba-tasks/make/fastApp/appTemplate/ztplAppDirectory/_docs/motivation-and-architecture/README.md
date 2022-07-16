@@ -184,5 +184,5 @@ The idea of a microservices-ready monolith is only possible because of [feature 
 # Sub-topics
 * [Feature flags](feature-flags.md)
 * [Interface and layers](interface-and-layers.md)
-* [Connecting layers](connecting-layers.md)
+* [Connecting components](connecting-components.md)
 <!--endTocSubTopic-->

@@ -3,11 +3,11 @@
 # Interface and layers
 <!--endTocHeader-->
 
-ZtplAppDirectory is organized in a layered architecture. Every layers are encapsulated, yet they can pass data to each other.
+`ZtplAppDirectory` is organized in a layered architecture. Every layers are encapsulated, yet they can pass data to each other.
 
 For example, a UI layer should not know about database layer's implementation, but it should be able to pass data into/receive data from it.
 
-You can also swap a layer with another one as long as both layer has the same interface. For example, you can choose to use `LocalRPC` or `RMQRPC`. Both of them are compatible to each other, because they have the same interface: `RPC` interface.
+You can also swap a layer component with another one as long as both layer has the same interface. For example, you can choose to use `LocalRPC` or `RMQRPC`. Both of them are compatible to each other, because they have the same interface (i.e., `RPC` interface).
 
 # Available layers
 
