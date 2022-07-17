@@ -1,6 +1,6 @@
 ![zaruba-logo](arts/zaruba-250.png)
 
-[Documentation](docs/README.md) | [Tutorial](docs/use-cases/from-zero-to-cloud.md) | [Installation](#👨‍💻-installation)
+[Documentation](docs/README.md) | [Tutorial](docs/use-cases/from-zero-to-cloud.md) | [Installation](#-installation)
 
 > ⚠️ Things might change pretty fast and pretty often before we reach `v.1.0.0`. Please open [an issue](https://github.com/state-alchemists/zaruba/issues) if you find any problem using Zaruba.
 
@@ -100,7 +100,7 @@ Zaruba is focusing on helping you to write/generate/run your applications. Some 
 ```bash
 sudo apt-get install golang wget curl git
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/state-alchemists/zaruba/master/install.sh)"
-zaruba install ubuntuEssentials
+zaruba install ubuntu-essentials
 zaruba install docker
 zaruba install kubectl
 zaruba install helm

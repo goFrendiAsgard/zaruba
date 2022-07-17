@@ -277,7 +277,7 @@ Now you can set which repo is used by `my_ervice` without changing your codebase
 
 # Connecting layers
 
-Next, you can continue to [connecting layers](connecting-layers.md).
+Next, you can continue to [connecting components guide](connecting-components.md).
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

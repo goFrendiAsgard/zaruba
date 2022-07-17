@@ -22,24 +22,24 @@ Usage:
   zaruba install [command]
 
 Available Commands:
-  awsCli           
-  gcloud           
-  gvm              
-  helm             
-  kubectl          
-  kubectx          
-  lunarvim         
-  nvm              
-  ohMyZsh          
-  pulumi           
-  pyenv            
-  scalaOnSdkman    
-  sdkman           
-  spark            
-  terraform        
-  tmuxConfig       
-  ubuntuEssentials 
-  win32yank        
+  aws-cli           
+  gcloud            
+  gvm               
+  helm              
+  kubectl           
+  kubectx           
+  lunarvim          
+  nvm               
+  oh-my-zsh         
+  pulumi            
+  pyenv             
+  scala-on-sdkman   
+  sdkman            
+  spark             
+  terraform         
+  tmux-config       
+  ubuntu-essentials 
+  win32yank         
 
 Flags:
   -h, --help   help for install

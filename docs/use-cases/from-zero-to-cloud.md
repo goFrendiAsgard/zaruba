@@ -16,7 +16,7 @@ To see the end result, you can visit: [amalgam repository](https://github.com/st
 
 To follow this tutorial, you need to have:
 
-- `Zaruba` installed. Please visit this [guide](../../README.md#👨‍💻-installation) to install Zaruba quickly.
+- `Zaruba` installed. Please visit this [guide](../../README.md#-installation) to install Zaruba quickly.
 - [Python](https://www.python.org/) with [venv](https://docs.python.org/3/library/venv.html) installed.
 - [Docker desktop](https://www.docker.com/products/docker-desktop/) installed, with [kubernetes enabled](https://www.techrepublic.com/article/how-to-install-docker-desktop-kubernetes-support/).
 

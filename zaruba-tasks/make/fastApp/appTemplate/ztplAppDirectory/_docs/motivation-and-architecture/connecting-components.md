@@ -16,7 +16,7 @@ There are two ways to connect layer components:
 
 Layers like `route handler`, `rpc handler`, and `event handler` are defined as functions. You can pass dependency componets into those layers as function parameters.
 
-For example:
+For example, to create and register `auth_route_handler`, you need `app`, `mb`, `rpc`, `auth_service`, `menu_service`, etc. In that case, you can pass those components as function parameters:
 
 ```python
 register_auth_route_handler(app, mb, rpc, auth_service, menu_service, templates, enable_ui, enable_api, create_oauth_access_token_url, create_access_token_url, renew_access_token_url)
@@ -26,11 +26,15 @@ register_auth_route_handler(app, mb, rpc, auth_service, menu_service, templates,
 
 Layers like `service` and `repo` are defined as objects. You can pass dependency components into those layers as object constructor parameter.
 
-For example:
+For example, to create `account_service`, you need `user_service` and `token_service`. Thus, you can pass those components as `AccountService`'s constructor parameter.
 
 ```python
 account_service = AccountService(user_service, token_service)
 ```
+
+# Next
+
+That was the basic mechanism of `ZtplAppDirectory`. You might want to check about [module](../creating-new-module/README.md), [authentication/authorization](../authentication-authorization.md), or [user interface](../user-interface/README.md).
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->
