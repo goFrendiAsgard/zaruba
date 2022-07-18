@@ -1,4 +1,4 @@
-from typing import Callable, List, Optional, Mapping
+from typing import Any, Callable, List, Optional, Mapping
 from schemas.authType import AuthType
 from schemas.menu import Menu
 from schemas.menuContext import MenuContext
@@ -24,7 +24,7 @@ class MenuService(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def authenticate(self, menu_name: str) -> Optional[Menu]:
+    def authenticate(self, menu_name: str) -> Callable[[Callable[[Request], Optional[User]]], MenuContext]:
         pass
 
 
@@ -57,7 +57,7 @@ class DefaultMenuService(MenuService):
             return highlighted_menu
         return accessible_menu
 
-    def authenticate(self, menu_name: str) -> Optional[Menu]:
+    def authenticate(self, menu_name: str) -> Callable[[Callable[[Request], Optional[User]]], MenuContext]:
         if menu_name not in self.menu_map:
             raise Exception('Menu {} is not registered'.format(menu_name))
         menu = self.menu_map[menu_name]
