@@ -30,7 +30,6 @@ async def _test_rmq_mb():
     @mb.handle('test_event')
     def handle(message: Any) -> Any:
         result['message'] = message
-        mb.shutdown()
     
     mb.publish('test_event', 'test_message')
 
@@ -39,5 +38,6 @@ async def _test_rmq_mb():
         await asyncio.sleep(1)
         trial -= 1
 
+    mb.shutdown()
     assert 'message' in result
     assert result['message'] == 'test_message'

@@ -11,9 +11,13 @@ tasks:
     configs:
       start: |
         ../zaruba project setValue pulumiUseLocalBackend true 
+        set +e
         ../zaruba please prepareDeployments
-        until [ "$?" = "0" ]
+        _RETRY=3
+        until [ "$?" = "0" ] || [ "${_RETRY}" -lt 1 ]
         do
+          _RETRY=$(( ${_RETRY} - 1 ))
           ../zaruba please prepareDeployments
         done
+        set -e
         ../zaruba please deploy

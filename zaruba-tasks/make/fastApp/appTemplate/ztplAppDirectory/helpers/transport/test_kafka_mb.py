@@ -30,7 +30,6 @@ async def _test_kafka_mb():
     @mb.handle('test_event')
     def handle(message: Any) -> Any:
         result['message'] = message
-        mb.shutdown()
     
     await asyncio.sleep(3)
     mb.publish('test_event', 'test_message')
@@ -40,5 +39,6 @@ async def _test_kafka_mb():
         await asyncio.sleep(1)
         trial -= 1
 
+    mb.shutdown()
     assert 'message' in result
     assert result['message'] == 'test_message'

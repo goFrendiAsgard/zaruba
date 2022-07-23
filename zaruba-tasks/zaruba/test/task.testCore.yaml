@@ -10,5 +10,13 @@ tasks:
         ZARUBA_HOME=""
         mkdir -p ./coverage
         rm -f ./test-resources/logs/log.zaruba.csv
+        set +e
+        _RETRY=3
         go test -v ./... --race -coverprofile=./coverage/profile.out -covermode=atomic
+        until [ "$?" = "0" ] || [ "${_RETRY}" -lt 1 ]
+        do
+          _RETRY=$(( ${_RETRY} - 1 ))
+          go test -v ./... --race -coverprofile=./coverage/profile.out -covermode=atomic
+        done
+        set -e
         go tool cover -html=./coverage/profile.out -o ./coverage/coverage.html

@@ -1,11 +1,11 @@
 from typing import Any, Mapping
-from configHelper import load_config, get_probe
 from pulumi_kubernetes.helm.v3 import Chart, LocalChartOpts
 
+import helper
 import pulumi
 import os
 
-config : Mapping[str, Any] = load_config('./config/config.json')
+config : Mapping[str, Any] = helper.load_config('./config/config.json')
 
 app = Chart(
     'ztpl-deployment-name', 
@@ -43,8 +43,8 @@ app = Chart(
                 'targetCPUUtilizationPercentage': int(os.getenv('AUTOSCALING_TARGET_CPU_UTILIZATION_PERCENTAGE', '80')),
                 'targetMemorytilizationPercentage': int(os.getenv('AUTOSCALING_TARGET_MEMORY_UTILIZATION_PERCENTAGE', '80')),
             },
-            'livenessProbe': get_probe('LIVENESS_PROBE', config),
-            'readinessProbe': get_probe('READINESS_PROBE', config),
+            'livenessProbe': helper.get_probe('LIVENESS_PROBE', config),
+            'readinessProbe': helper.get_probe('READINESS_PROBE', config),
         },
         skip_await = True
     )

@@ -16,7 +16,7 @@ def get_probe(env_prefix: str, config: Mapping[str, Any]) -> Mapping[str, Any]:
         probe_config = get_http_get_probe(env_prefix, config)
     elif method == 'tcpSocket':
         probe_config = get_http_get_probe(env_prefix, config)
-    else:
+    if len(probe_config) == 0:
         return probe_config
     # add properties
     probe_config['failureThreshold'] = int(os.getenv('{}_FAILURE_THRESHOLD'.format(env_prefix), '3'))

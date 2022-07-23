@@ -12,7 +12,7 @@ def test_local_rpc():
         return 'hello world'
     
     result = rpc.call('test_rpc', 'hello', 'world')
+    rpc.shutdown()
     assert parameters['first'] == 'hello'
     assert parameters['second'] == 'world'
     assert result == 'hello world'
-    rpc.shutdown()
