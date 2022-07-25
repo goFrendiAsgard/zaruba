@@ -4,14 +4,11 @@ configs:
     appIcon: 📙
     defaultDeploymentDirectory: '{{ .ProjectName }}Ec2'
     ec2Region: '{{ .GetValue "ec2Region" }}'
-    ec2ClusterName: '{{ if .GetValue "ec2ClusterName" }}{{ .GetValue "ec2ClusterName" }}{{ else }}{{ .ProjectName }}{{ end }}'
     _skipCreationPath: '${_ZRB_DEPLOYMENT_DIRECTORY}'
     _prepareVariables: |
-      _ZRB_EKS_REGION='{{ .GetConfig "ec2Region" }}'
-      _ZRB_EKS_CLUSTER_NAME={{ .Util.Str.ToKebab (.GetConfig "ec2ClusterName") }}
+      _ZRB_EC2_REGION='{{ .GetConfig "ec2Region" }}'
     _prepareReplacementMap: |
-      _setReplacementMap "ztpl-region" "${_ZRB_EKS_REGION}"
-      _setReplacementMap "ztpl-cluster-name" "${_ZRB_EKS_CLUSTER_NAME}"ec2Region: '{{ if .GetValue "ec2Region" }}{{ .GetValue "ec2Region" }}{{ else }}us-east-1{{ end }}'
+      _setReplacementMap "ztpl-region" "${_ZRB_EC2_REGION}"
     _validateAppDirectory: ''
     templateLocations: |
       [

@@ -5,5 +5,4 @@ tasks:
     extend: makeApp
     inputs:
       - deploymentDirectory
-      - ec2ClusterName
     configRef: makeEc2Deployment
