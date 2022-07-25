@@ -1,0 +1,8 @@
+tasks:
+ 
+  makeEc2Deployment:
+    icon: 📙
+    extend: makeApp
+    inputs:
+      - deploymentDirectory
+    configRef: makeEc2Deployment

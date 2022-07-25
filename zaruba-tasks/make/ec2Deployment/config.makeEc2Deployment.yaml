@@ -1,0 +1,16 @@
+configs:
+ 
+  makeEc2Deployment:
+    appIcon: 📙
+    defaultDeploymentDirectory: '{{ .ProjectName }}Ec2'
+    ec2Region: '{{ .GetValue "ec2Region" }}'
+    _skipCreationPath: '${_ZRB_DEPLOYMENT_DIRECTORY}'
+    _prepareVariables: |
+      _ZRB_EC2_REGION='{{ .GetConfig "ec2Region" }}'
+    _prepareReplacementMap: |
+      _setReplacementMap "ztpl-region" "${_ZRB_EC2_REGION}"
+    _validateAppDirectory: ''
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/ec2Deployment/deploymentTemplate"
+      ]

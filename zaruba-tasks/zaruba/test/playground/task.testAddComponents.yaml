@@ -19,7 +19,8 @@ tasks:
 
         ../zaruba project setValue showAdvertisement false
 
-        ../zaruba please addEksDeployment deploymentDirectory=provoEks eksClusterName=provo eksRegion=us-east-1
+        ../zaruba please addEksDeployment deploymentDirectory=provoEks eksClusterName=provo eksRegion=ap-southeast-1
+        ../zaruba please addEc2Deployment deploymentDirectory=provoEc2 ec2Region=ap-southeast-1
 
         ../zaruba please addMysqlHelmDeployment deploymentDirectory=provoMysqlDeployment
 

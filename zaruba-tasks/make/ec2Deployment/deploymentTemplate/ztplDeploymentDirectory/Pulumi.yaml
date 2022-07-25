@@ -1,0 +1,6 @@
+name: ec2rds
+runtime:
+  name: python
+  options:
+    virtualenv: venv
+description: Deploying EC2 and RDS
