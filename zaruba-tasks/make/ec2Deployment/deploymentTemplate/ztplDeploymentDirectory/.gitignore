@@ -1,0 +1,6 @@
+*.pyc
+venv/
+__pycache__
+
+app-keypair
+app-keypair.pub

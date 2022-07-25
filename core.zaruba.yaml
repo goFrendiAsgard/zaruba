@@ -182,7 +182,14 @@ includes:
   - ./zaruba-tasks/make/dockerAppRunner/task.addDockerAppRunner.yaml
   - ./zaruba-tasks/make/dockerComposeAppRunner/task.addDockerComposeAppRunner.yaml
 
-  - ./zaruba-tasks/make/eksDeployment/config.makeEksDeployment.yaml
+  - ./zaruba-tasks/make/ec2Deployment/config.makeEc2Deployment.yaml
+  - ./zaruba-tasks/make/ec2Deployment/config.makeEc2DeploymentTask.yaml
+  - ./zaruba-tasks/make/ec2Deployment/input.makeEc2Deployment.yaml
+  - ./zaruba-tasks/make/ec2Deployment/task.addEc2Deployment.yaml
+  - ./zaruba-tasks/make/ec2Deployment/task.makeEc2Deployment.yaml
+  - ./zaruba-tasks/make/ec2Deployment/task.makeEc2DeploymentTask.yaml
+
+  - ./zaruba-tasks/make/eksDeployment/config.makeEc2Deployment.yaml
   - ./zaruba-tasks/make/eksDeployment/config.makeEksDeploymentTask.yaml
   - ./zaruba-tasks/make/eksDeployment/input.makeEksDeployment.yaml
   - ./zaruba-tasks/make/eksDeployment/task.addEksDeployment.yaml

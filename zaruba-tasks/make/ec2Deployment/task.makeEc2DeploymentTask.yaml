@@ -1,0 +1,10 @@
+tasks:
+
+  makeEc2DeploymentTask:
+    icon: 📙
+    extend:  zrbMake
+    inputs:
+      - deploymentDirectory
+    dependencies:
+      - makeEc2Deployment
+    configRef: makeEc2DeploymentTask

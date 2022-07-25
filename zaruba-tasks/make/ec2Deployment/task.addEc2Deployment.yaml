@@ -1,0 +1,6 @@
+tasks:
+
+  addEc2Deployment:
+    icon: 📙
+    dependencies:
+      - makeEc2DeploymentTask
