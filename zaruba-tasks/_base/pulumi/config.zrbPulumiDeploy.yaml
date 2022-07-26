@@ -4,3 +4,4 @@ configs:
     _start: |
       {{ .GetConfig "_preparePulumi" }}
       pulumi up -y
+    start: ''

@@ -3,6 +3,7 @@ if [ "${_NO_VENV}" = "1" ] && [ ! -d "./venv" ]
 then
     echo "${_BOLD}${_YELLOW}Creating venv${_NORMAL}"
     python -m venv ./venv
+    ./venv/bin/python -m pip install --upgrade pip
 fi
 if [ -f "requirements.txt" ]
 then

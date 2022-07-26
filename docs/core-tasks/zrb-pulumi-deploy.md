@@ -65,10 +65,13 @@ Value:
 Value:
 
     {{ if .Util.Bool.IsTrue (.GetConfig "pulumiUseLocalBackend") -}}
-    mkdir -p ./pulumiLock
-    PULUMI_BACKEND_URL="file://./pulumiLock"
-    {{ else -}}
-    PULUMI_BACKEND_URL=${ZARUBA_CONFIG_PLUMI_BACKEND_URL}
+    if [ ! -z "${ZARUBA_CONFIG_PULUMI_BACKEND_URL}" ]
+    then
+      PULUMI_BACKEND_URL=${ZARUBA_CONFIG_PULUMI_BACKEND_URL}
+    else
+      mkdir -p ./pulumiLock
+      PULUMI_BACKEND_URL="file://./pulumiLock"
+    fi
     {{ end -}}
     pulumi stack select "${ZARUBA_CONFIG_PULUMI_STACK}" || pulumi stack init "${ZARUBA_CONFIG_PULUMI_STACK}" 
 
