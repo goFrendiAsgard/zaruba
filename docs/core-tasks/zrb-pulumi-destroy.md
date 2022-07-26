@@ -67,13 +67,16 @@ Value:
     {{ if .Util.Bool.IsTrue (.GetConfig "pulumiUseLocalBackend") -}}
     if [ ! -z "${ZARUBA_CONFIG_PULUMI_BACKEND_URL}" ]
     then
-      PULUMI_BACKEND_URL=${ZARUBA_CONFIG_PULUMI_BACKEND_URL}
+      export PULUMI_BACKEND_URL=${ZARUBA_CONFIG_PULUMI_BACKEND_URL}
     else
       mkdir -p ./pulumiLock
-      PULUMI_BACKEND_URL="file://./pulumiLock"
+      export PULUMI_BACKEND_URL="file://./pulumiLock"
     fi
+    echo "${_YELLOW}Pulumi backend URL: ${PULUMI_BACKEND_URL}${_NORMAL}"
     {{ end -}}
     pulumi stack select "${ZARUBA_CONFIG_PULUMI_STACK}" || pulumi stack init "${ZARUBA_CONFIG_PULUMI_STACK}" 
+    echo "${_YELLOW}Pulumi stack: ${ZARUBA_CONFIG_PULUMI_STACK}${_NORMAL}"
+
 
 
 ### Configs._setup
@@ -89,6 +92,7 @@ Value:
 
     {{ .GetConfig "_preparePulumi" }}
     pulumi destroy -y
+
 
 
 ### Configs.afterStart
@@ -156,10 +160,6 @@ Value:
 
 
 ### Configs.start
-
-Value:
-
-    echo hello world
 
 
 ### Configs.strictMode

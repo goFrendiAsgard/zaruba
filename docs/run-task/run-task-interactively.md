@@ -45,7 +45,8 @@ Search: █
 ? Do you want to load additional value file?: 
   ▸ 🏁 No
 ✔ 🏁 No
-💀 Load additional env
+  ▸ 🏁 No
+    📝 Yes
 Search: █
 ? Do you want to load additional env?: 
   ▸ 🏁 No
@@ -58,20 +59,20 @@ Search: █
 ✔ Let me type it!
 Your name: 
 💀 🔎 Job Starting...
-         Elapsed Time: 1.897µs
-         Current Time: 07:11:19
+         Elapsed Time: 1.378µs
+         Current Time: 09:35:53
 💀 🏁 Run 🍏 'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/run-tasks
 💀    🚀 printHelloHuman      🍏 hello
 💀 🎉 Successfully running 🍏 'printHelloHuman' command
 💀 🔎 Job Running...
-         Elapsed Time: 102.854373ms
-         Current Time: 07:11:19
+         Elapsed Time: 102.097804ms
+         Current Time: 09:35:53
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 505.865061ms
-         Current Time: 07:11:19
+         Elapsed Time: 504.940875ms
+         Current Time: 09:35:53
 zaruba please printHelloHuman  -v 'humanName='
 ```````
 </details>
