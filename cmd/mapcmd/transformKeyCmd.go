@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
-	"github.com/state-alchemists/zaruba/core"
+	"github.com/state-alchemists/zaruba/dsl"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -22,7 +22,7 @@ var transformKeyCmd = &cobra.Command{
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 1)
 		mapString, prefix, suffix := args[0], transformKeyPrefix, transformKeySuffix
 		transformers := []func(string) string{}
-		util := core.NewCoreUtil()
+		util := dsl.NewDSLUtil()
 		for _, alias := range transformKeyTransformation {
 			switch alias {
 			case "upper":
@@ -52,7 +52,7 @@ var transformKeyCmd = &cobra.Command{
 }
 
 func init() {
-	core.SetDefaultEnv()
+	dsl.SetDefaultEnv()
 	transformKeyCmd.Flags().StringVarP(&transformKeyPrefix, "prefix", "p", "", "key prefix")
 	transformKeyCmd.Flags().StringVarP(&transformKeySuffix, "suffix", "s", "", "key suffix")
 	transformKeyCmd.Flags().StringArrayVarP(&transformKeyTransformation, "transformation", "t", []string{}, "transformation (e.g., '-t upper', '-t lower', '-t upperSnake', -t 'camel', '-t kebab', '-t pascal', '-t snake')")

@@ -447,34 +447,34 @@ zaruba please serveHttp -t -w 2s
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 2.073µs
-         Current Time: 09:36:04
-💀 🏁 Run 🔗 'updateProjectLinks' command on /home/gofrendi/zaruba/docs
+         Elapsed Time: 1.666µs
+         Current Time: 19:26:17
+💀 🏁 Run 🔗 'updateProjectLinks' on /home/gofrendi/zaruba/docs (Attempt 1)
 💀    🚀 updateProjectLinks   🔗 🎉🎉🎉
 💀    🚀 updateProjectLinks   🔗 Links updated
-💀 🎉 Successfully running 🔗 'updateProjectLinks' command
-💀 🏁 Run 🌐 'serveHttp' service on /home/gofrendi/zaruba/docs
-💀 🏁 Check 🌐 'serveHttp' readiness on /home/gofrendi/zaruba/docs
-💀    🔎 serveHttp            🌐 🔎 Waiting for port '8080'
+💀 🎉 Successfully running 🔗 'updateProjectLinks' runner
+💀 🏁 Start 🌐 'serveHttp' on /home/gofrendi/zaruba/docs (Attempt 1)
 💀    🚀 serveHttp            🌐 Serving /home/gofrendi/zaruba/docs on HTTP port 8080
 💀    🚀 serveHttp            🌐 You can open http://localhost:8080
+💀 🏁 Check 🌐 'serveHttp' readiness on /home/gofrendi/zaruba/docs (Attempt: 1)
+💀    🔎 serveHttp            🌐 🔎 Waiting for port '8080'
 💀    🔎 serveHttp            🌐 🔎 Port '8080' is ready
 💀    🔎 serveHttp            🌐 🎉🎉🎉
 💀    🔎 serveHttp            🌐 📜 Task 'serveHttp' is ready
-💀 🎉 Successfully running 🌐 'serveHttp' readiness check
+💀 🎉 Successfully running 🌐 'serveHttp' readiness checker
 💀 🔎 Job Running...
-         Elapsed Time: 244.348444ms
-         Current Time: 09:36:04
+         Elapsed Time: 223.969682ms
+         Current Time: 19:26:17
          Active Process:
-           * (PID=24743) 🌐 'serveHttp' service
+           * (PID=22750) 🌐 'serveHttp' starter
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
-💀 🔪 Kill 🌐 'serveHttp' service (PID=24743)
-💀 🔥 🌐 'serveHttp' service exited: signal: interrupt
+💀 🔪 Kill 🌐 'serveHttp' starter (PID=22750)
+💀 🔥 🌐 'serveHttp' starter exited: signal: interrupt
 💀 🔎 Job Ended...
-         Elapsed Time: 3.451047066s
-         Current Time: 09:36:08
+         Elapsed Time: 3.431488514s
+         Current Time: 19:26:20
 zaruba please serveHttp   -t -w 2s
 ```````
 </details>

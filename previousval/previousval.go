@@ -3,12 +3,12 @@ package previousval
 import (
 	"os"
 
-	"github.com/state-alchemists/zaruba/core"
+	"github.com/state-alchemists/zaruba/dsl"
 	yaml "gopkg.in/yaml.v3"
 )
 
 // Load load previous value
-func Load(project *core.Project, fileName string) (err error) {
+func Load(project *dsl.Project, fileName string) (err error) {
 	if _, statErr := os.Stat(fileName); os.IsNotExist(statErr) {
 		return nil
 	}
@@ -16,7 +16,7 @@ func Load(project *core.Project, fileName string) (err error) {
 }
 
 // Save save non-secret input into file
-func Save(project *core.Project, fileName string) (err error) {
+func Save(project *dsl.Project, fileName string) (err error) {
 	values := map[string]string{}
 	projectValues := project.GetValues()
 	for key, val := range projectValues {

@@ -1,4 +1,4 @@
-package core
+package dsl
 
 type EnvRef struct {
 	Map          map[string]*Env

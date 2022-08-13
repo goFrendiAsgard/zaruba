@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
-	"github.com/state-alchemists/zaruba/core"
+	"github.com/state-alchemists/zaruba/dsl"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -16,7 +16,7 @@ var rangeIndexCmd = &cobra.Command{
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 1)
-		util := core.NewCoreUtil()
+		util := dsl.NewDSLUtil()
 		length, err := util.Json.List.GetLength(args[0])
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)

@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
-	"github.com/state-alchemists/zaruba/core"
+	"github.com/state-alchemists/zaruba/dsl"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -17,7 +17,7 @@ var insertAfterCmd = &cobra.Command{
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 3)
-		util := core.NewCoreUtil()
+		util := dsl.NewDSLUtil()
 		jsonLines, jsonReplacements := args[0], args[2]
 		index, err := strconv.Atoi(args[1])
 		if err != nil {

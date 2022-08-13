@@ -9,7 +9,7 @@ import (
 
 	"github.com/spf13/cobra"
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
-	"github.com/state-alchemists/zaruba/core"
+	"github.com/state-alchemists/zaruba/dsl"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -20,7 +20,7 @@ var Cmd = &cobra.Command{
 
 func Init() {
 	setupFilePath := filepath.Join(os.Getenv("ZARUBA_HOME"), "setup")
-	util := core.NewCoreUtil()
+	util := dsl.NewDSLUtil()
 	fileList, err := util.File.List(setupFilePath)
 	if err != nil {
 		fmt.Printf("warning: %s is not found", setupFilePath)

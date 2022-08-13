@@ -11,14 +11,14 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/state-alchemists/zaruba/core"
+	"github.com/state-alchemists/zaruba/dsl"
 	"github.com/state-alchemists/zaruba/output"
 )
 
 // Runner is used to run tasks
 type Runner struct {
 	taskNames              []string
-	project                *core.Project
+	project                *dsl.Project
 	taskStatus             map[string]*TaskStatus
 	taskStatusMutex        *sync.RWMutex
 	cmdInfo                map[string]*CmdInfo
@@ -42,7 +42,7 @@ type Runner struct {
 }
 
 // NewRunner create new runner
-func NewRunner(logger output.Logger, recordLogger output.RecordLogger, project *core.Project, taskNames []string, statusTImeIntervalStr string, statusLineInterval int, autoTerminate bool, autoTerminateDelayStr string) (runner *Runner, err error) {
+func NewRunner(logger output.Logger, recordLogger output.RecordLogger, project *dsl.Project, taskNames []string, statusTImeIntervalStr string, statusLineInterval int, autoTerminate bool, autoTerminateDelayStr string) (runner *Runner, err error) {
 	if !project.IsInitialized {
 		return &Runner{}, fmt.Errorf("cannot create runner because project was not initialized")
 	}
@@ -96,7 +96,7 @@ func (r *Runner) Run() (err error) {
 	ch := make(chan error)
 	go r.handleTerminationSignal(ch)
 	go r.run(ch)
-	go r.waitAnyProcessError(ch)
+	go r.waitLongRunningCmd(ch)
 	go r.showStatusByInterval()
 	err = <-ch
 	r.waitOutputWg(50*time.Millisecond, 2)
@@ -194,7 +194,7 @@ func (r *Runner) showStatusByInterval() {
 	}
 }
 
-func (r *Runner) waitAnyProcessError(ch chan error) {
+func (r *Runner) waitLongRunningCmd(ch chan error) {
 	seen := map[string]bool{}
 	for {
 		r.sleep(50 * time.Millisecond)
@@ -209,10 +209,57 @@ func (r *Runner) waitAnyProcessError(ch chan error) {
 			}
 			seen[label] = true
 			currentLabel := label
+			currentTask := cmdInfo.Task
+			currentTaskName := currentTask.GetName()
+			currentCmdMaker := cmdInfo.CmdMaker
+			currentMaxRetry := cmdInfo.MaxRetry
+			currentRetryDelayDuration := cmdInfo.RetryDelayDuration
+			isInfiniteRetry := currentMaxRetry < 1 // 0 or less means infinite
 			currentCmd := cmdInfo.Cmd
-			currentTaskName := cmdInfo.TaskName
-			go func() {
+			go func(currentCmd *exec.Cmd) {
 				err := currentCmd.Wait()
+				if err != nil {
+					r.logger.DPrintfError("Error running %s (Attempt: %d/%d)\n", currentLabel, 1, currentMaxRetry)
+					r.unregisterCmd(currentLabel)
+					for attempt := 2; isInfiniteRetry || attempt <= currentMaxRetry; attempt++ {
+						isLastAttempt := !isInfiniteRetry && attempt == currentMaxRetry
+						currentCmd, err = currentCmdMaker()
+						if err != nil {
+							ch <- err
+							return
+						}
+						stdinPipe, err := currentCmd.StdinPipe()
+						if err != nil {
+							ch <- err
+							return
+						}
+						r.registerCmd(currentLabel, currentTask, currentCmdMaker, currentCmd, stdinPipe, currentMaxRetry, currentRetryDelayDuration, true)
+						r.logger.DPrintfStarted("Running %s on %s (Attempt: %d/%d)\n", currentLabel, currentCmd.Dir, attempt, currentMaxRetry)
+						err = currentCmd.Start()
+						if err != nil {
+							r.logger.DPrintfError("Failed running %s (Attempt: %d/%d)\n", currentLabel, attempt, currentMaxRetry)
+							r.unregisterCmd(currentLabel)
+							continue
+						}
+						err = currentCmd.Wait()
+						// no error, quit loop
+						if err == nil {
+							r.logger.DPrintfSuccess("Successfully running %s (Attempt: %d/%d)\n", currentLabel, attempt, currentMaxRetry)
+							break
+						}
+						// any error
+						if !r.getKilledSignal() && !r.getSurpressWaitErrorSignal() {
+							r.logger.DPrintfError("Error running %s (Attempt: %d/%d):\n%s\n%s\n", currentLabel, attempt, currentMaxRetry, r.sprintfCmdArgs(currentCmd), err)
+						} else {
+							r.logger.DPrintfError("Error running %s (Attempt: %d/%d): %s\n", currentLabel, attempt, currentMaxRetry, err)
+						}
+						// going to retry
+						if !isLastAttempt {
+							r.unregisterCmd(currentLabel)
+							r.sleep(currentRetryDelayDuration)
+						}
+					}
+				}
 				if err != nil {
 					if !r.getKilledSignal() && !r.getSurpressWaitErrorSignal() {
 						r.logger.DPrintfError("%s exited:\n%s\n\n%s\n", currentLabel, r.sprintfCmdArgs(currentCmd), err)
@@ -238,7 +285,7 @@ func (r *Runner) waitAnyProcessError(ch chan error) {
 				r.unregisterCmd(currentLabel)
 				r.logger.DPrintfError("%s exited without any error message\n", currentLabel)
 				ch <- fmt.Errorf("%s exited without any error message", currentLabel)
-			}()
+			}(currentCmd)
 		}
 		r.cmdInfoMutex.Unlock()
 	}
@@ -338,7 +385,7 @@ func (r *Runner) run(ch chan error) {
 }
 
 func (r *Runner) runTaskByNames(taskNames []string) (err error) {
-	tasks := []*core.Task{}
+	tasks := []*dsl.Task{}
 	for _, taskName := range taskNames {
 		task := r.project.Tasks[taskName]
 		tasks = append(tasks, task)
@@ -356,7 +403,7 @@ func (r *Runner) runTaskByNames(taskNames []string) (err error) {
 	return err
 }
 
-func (r *Runner) runTask(task *core.Task, ch chan error) {
+func (r *Runner) runTask(task *dsl.Task, ch chan error) {
 	if !r.registerTask(task.GetName()) {
 		ch <- r.waitTaskFinished(task.GetName())
 		return
@@ -365,124 +412,122 @@ func (r *Runner) runTask(task *core.Task, ch chan error) {
 		ch <- err
 		return
 	}
-	startCmd, startExist, startErr := task.GetStartCmd()
-	if !startExist {
+	if !task.IsHavingStartCmd() {
 		// wrapper task
 		r.logger.DPrintfSuccess("Reach %s '%s' wrapper\n", r.decoration.Icon(task.Icon), task.GetName())
 		r.markTaskFinished(task.GetName(), nil)
 		ch <- nil
 		return
 	}
-	if startErr != nil {
-		ch <- startErr
-		return
-	}
-	checkCmd, checkExist, checkErr := task.GetCheckCmd()
-	if !checkExist {
-		// command task
-		err := r.runCommandTask(task, startCmd)
+	if !task.IsHavingCheckCmd() {
+		// simple task
+		err := r.runSimpleTask(task)
 		r.markTaskFinished(task.GetName(), err)
 		ch <- err
 		return
 	}
-	if checkErr != nil {
-		ch <- checkErr
-		return
-	}
 	// long running task
-	err := r.runServiceTask(task, startCmd, checkCmd)
+	err := r.runLongRunningTask(task)
 	r.markTaskFinished(task.GetName(), err)
 	ch <- err
 }
 
-func (r *Runner) runCommandTask(task *core.Task, startCmd *exec.Cmd) (err error) {
-	r.logger.DPrintfStarted("Run %s '%s' command on %s\n", r.decoration.Icon(task.Icon), task.GetName(), startCmd.Dir)
-	startStdinPipe, err := startCmd.StdinPipe()
-	if err == nil {
-		err = startCmd.Start()
-	}
-	if err != nil {
-		if !r.getKilledSignal() && !r.getSurpressWaitErrorSignal() {
-			r.logger.DPrintfError("Error running command %s '%s':\n%s\n%s\n", r.decoration.Icon(task.Icon), task.GetName(), r.sprintfCmdArgs(startCmd), err)
-		} else {
-			r.logger.DPrintfError("Error running command %s '%s': %s\n", r.decoration.Icon(task.Icon), task.GetName(), err)
-		}
-		return err
-	}
-	startCmdLabel := fmt.Sprintf("%s '%s' command", r.decoration.Icon(task.Icon), task.GetName())
-	r.registerCommandCmd(startCmdLabel, task.GetName(), startCmd, startStdinPipe)
-	err = r.waitTaskCmd(task, startCmd, startCmdLabel)
+func (r *Runner) runSimpleTask(task *dsl.Task) (err error) {
+	maxStartRetry := task.GetMaxStartRetry()
+	startRetryDelayDuration := task.GetStartRetryDelayDuration()
+	startCmdLabel := fmt.Sprintf("%s '%s' runner", r.decoration.Icon(task.Icon), task.GetName())
+	err = r.waitSimpleCmd(startCmdLabel, task, task.GetStartCmd, maxStartRetry, startRetryDelayDuration)
 	r.unregisterCmd(startCmdLabel)
 	return err
 }
 
-func (r *Runner) runServiceTask(task *core.Task, startCmd *exec.Cmd, checkCmd *exec.Cmd) (err error) {
-	if err = r.runStartServiceTask(task, startCmd); err != nil {
+func (r *Runner) runLongRunningTask(task *dsl.Task) (err error) {
+	if err = r.startLongRunningTask(task); err != nil {
 		return err
 	}
-	err = r.runCheckServiceTask(task, checkCmd)
+	err = r.checkLongRunningTask(task)
 	return err
 }
 
-func (r *Runner) runStartServiceTask(task *core.Task, startCmd *exec.Cmd) (err error) {
-	r.logger.DPrintfStarted("Run %s '%s' service on %s\n", r.decoration.Icon(task.Icon), task.GetName(), startCmd.Dir)
+func (r *Runner) startLongRunningTask(task *dsl.Task) (err error) {
+	maxStartRetry := task.GetMaxStartRetry()
+	startRetryDelayDuration := task.GetStartRetryDelayDuration()
+	startCmdLabel := fmt.Sprintf("%s '%s' starter", r.decoration.Icon(task.Icon), task.GetName())
+	startCmdMaker := task.GetStartCmd
+	startCmd, err := startCmdMaker()
+	if err != nil {
+		return err
+	}
 	startStdinPipe, err := startCmd.StdinPipe()
-	if err == nil {
-		err = startCmd.Start()
-	}
 	if err != nil {
-		if !r.getKilledSignal() && !r.getSurpressWaitErrorSignal() {
-			r.logger.DPrintfError("Error starting service %s '%s':\n%s\n%s\n", r.decoration.Icon(task.Icon), task.GetName(), r.sprintfCmdArgs(startCmd), err)
-		} else {
-			r.logger.DPrintfError("Error starting service %s '%s': %s\n", r.decoration.Icon(task.Icon), task.GetName(), err)
-		}
 		return err
 	}
-	startCmdLabel := fmt.Sprintf("%s '%s' service", r.decoration.Icon(task.Icon), task.GetName())
-	r.registerProcessCmd(startCmdLabel, task.GetName(), startCmd, startStdinPipe)
-	return err
+	r.logger.DPrintfStarted("Running %s on %s (Attempt: %d)\n", startCmdLabel, startCmd.Dir, 1)
+	r.registerCmd(startCmdLabel, task, startCmdMaker, startCmd, startStdinPipe, maxStartRetry, startRetryDelayDuration, true)
+	startCmd.Start()
+	return nil
 }
 
-func (r *Runner) runCheckServiceTask(task *core.Task, checkCmd *exec.Cmd) (err error) {
-	r.logger.DPrintfStarted("Check %s '%s' readiness on %s\n", r.decoration.Icon(task.Icon), task.GetName(), checkCmd.Dir)
-	checkStdinPipe, err := checkCmd.StdinPipe()
-	if err == nil {
-		err = checkCmd.Start()
-	}
-	if err != nil {
-		if !r.getKilledSignal() && !r.getSurpressWaitErrorSignal() {
-			r.logger.DPrintfError("Error checking service %s '%s' readiness:\n%s\n\n%s", r.decoration.Icon(task.Icon), task.GetName(), r.sprintfCmdArgs(checkCmd), err)
-		} else {
-			r.logger.DPrintfError("Error checking service %s '%s' readiness: %s\n", r.decoration.Icon(task.Icon), task.GetName(), err)
-		}
-		return err
-	}
-	checkCmdLabel := fmt.Sprintf("%s '%s' readiness check", r.decoration.Icon(task.Icon), task.GetName())
-	r.registerCommandCmd(checkCmdLabel, task.GetName(), checkCmd, checkStdinPipe)
-	err = r.waitTaskCmd(task, checkCmd, checkCmdLabel)
+func (r *Runner) checkLongRunningTask(task *dsl.Task) (err error) {
+	maxCheckRetry := task.GetMaxCheckRetry()
+	checkRetryDelayDuration := task.GetCheckRetryDelayDuration()
+	checkCmdLabel := fmt.Sprintf("%s '%s' readiness checker", r.decoration.Icon(task.Icon), task.GetName())
+	err = r.waitSimpleCmd(checkCmdLabel, task, task.GetCheckCmd, maxCheckRetry, checkRetryDelayDuration)
 	r.unregisterCmd(checkCmdLabel)
 	return err
 }
 
-func (r *Runner) waitTaskCmd(task *core.Task, cmd *exec.Cmd, cmdLabel string) (err error) {
+func (r *Runner) waitSimpleCmd(cmdLabel string, task *dsl.Task, cmdMaker func() (*exec.Cmd, error), maxRetry int, retryDelayDuration time.Duration) (err error) {
+	isInfiniteRetry := maxRetry < 1 // 0 or less means infinite
 	executed := false
 	ch := make(chan error)
+	// run task
 	go func() {
-		waitErr := cmd.Wait()
-		r.sleep(100 * time.Millisecond)
-		if waitErr != nil {
-			if !r.getKilledSignal() && !r.getSurpressWaitErrorSignal() {
-				r.logger.DPrintfError("Error running %s:\n%s\n%s\n", cmdLabel, r.sprintfCmdArgs(cmd), waitErr)
-			} else {
-				r.logger.DPrintfError("Error running %s: %s\n", cmdLabel, waitErr)
+		var cmdErr error
+		var cmd *exec.Cmd
+		var stdinPipe io.WriteCloser
+		for attempt := 1; isInfiniteRetry || attempt <= maxRetry; attempt++ {
+			isLastAttempt := !isInfiniteRetry && attempt == maxRetry
+			cmd, cmdErr = cmdMaker()
+			if cmdErr != nil {
+				ch <- cmdErr
+				return
 			}
-			ch <- waitErr
-			return
+			stdinPipe, cmdErr = cmd.StdinPipe()
+			if cmdErr != nil {
+				ch <- cmdErr
+				return
+			}
+			r.logger.DPrintfStarted("Running %s on %s (Attempt: %d/%d)\n", cmdLabel, cmd.Dir, attempt, maxRetry)
+			r.registerCmd(cmdLabel, task, cmdMaker, cmd, stdinPipe, maxRetry, retryDelayDuration, false)
+			cmdErr = cmd.Start()
+			if cmdErr != nil {
+				r.logger.DPrintfError("Failed running %s (Attempt: %d/%d)\n", cmdLabel, attempt, maxRetry)
+				r.unregisterCmd(cmdLabel)
+				continue
+			}
+			cmdErr = cmd.Wait()
+			// no error, quit this function
+			if cmdErr == nil {
+				r.logger.DPrintfSuccess("Successfully running %s (Attempt: %d/%d)\n", cmdLabel, attempt, maxRetry)
+				ch <- nil
+				return
+			}
+			// any error
+			if !r.getKilledSignal() && !r.getSurpressWaitErrorSignal() {
+				r.logger.DPrintfError("Error running %s (Attempt: %d/%d):\n%s\n%s\n", cmdLabel, attempt, maxRetry, r.sprintfCmdArgs(cmd), cmdErr)
+			} else {
+				r.logger.DPrintfError("Error running %s (Attempt: %d/%d): %s\n", cmdLabel, attempt, maxRetry, cmdErr)
+			}
+			// going to retry
+			if !isLastAttempt {
+				r.unregisterCmd(cmdLabel)
+				r.sleep(retryDelayDuration)
+			}
 		}
-		executed = true
-		r.logger.DPrintfSuccess("Successfully running %s\n", cmdLabel)
-		ch <- nil
+		ch <- cmdErr
 	}()
+	// checking timeout
 	go func() {
 		r.sleep(task.GetTimeoutDuration())
 		if executed {
@@ -496,21 +541,16 @@ func (r *Runner) waitTaskCmd(task *core.Task, cmd *exec.Cmd, cmdLabel string) (e
 	return err
 }
 
-func (r *Runner) registerCommandCmd(label, taskName string, cmd *exec.Cmd, stdinPipe io.WriteCloser) {
-	r.registerCmd(label, taskName, cmd, stdinPipe, false)
-}
-
-func (r *Runner) registerProcessCmd(label, taskName string, cmd *exec.Cmd, stdinPipe io.WriteCloser) {
-	r.registerCmd(label, taskName, cmd, stdinPipe, true)
-}
-
-func (r *Runner) registerCmd(label, taskName string, cmd *exec.Cmd, stdinPipe io.WriteCloser, isProcess bool) {
+func (r *Runner) registerCmd(label string, task *dsl.Task, cmdMaker func() (*exec.Cmd, error), cmd *exec.Cmd, stdinPipe io.WriteCloser, maxRetry int, retryDelayDuration time.Duration, isProcess bool) {
 	r.cmdInfoMutex.Lock()
 	r.cmdInfo[label] = &CmdInfo{
-		Cmd:       cmd,
-		IsProcess: isProcess,
-		StdInPipe: stdinPipe,
-		TaskName:  taskName,
+		Cmd:                cmd,
+		IsProcess:          isProcess,
+		StdInPipe:          stdinPipe,
+		Task:               task,
+		CmdMaker:           cmdMaker,
+		MaxRetry:           maxRetry,
+		RetryDelayDuration: retryDelayDuration,
 	}
 	r.cmdInfoMutex.Unlock()
 }

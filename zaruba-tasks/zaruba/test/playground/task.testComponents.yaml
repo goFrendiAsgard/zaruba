@@ -41,17 +41,8 @@ tasks:
         ../zaruba please stopProvoFastAppContainer
 
         ../zaruba please startProvoGitlab -t
-        set +e
         sleep 5
         ../zaruba please registerProvoGitlabRunner
-        _RETRY=3
-        until [ "$?" = "0" ] || [ "${_RETRY}" -lt 1 ]
-        do
-          sleep 5
-          _RETRY=$(( ${_RETRY} - 1 ))
-          ../zaruba please registerProvoGitlabRunner
-        done
-        set -e
         ../zaruba please stopProvoGitlabContainer
 
         ../zaruba please startProvoJupyterNotebook -t
@@ -115,12 +106,6 @@ tasks:
         sleep 20
         set +e
         ../zaruba please testProvoFastApp -e 'PROVO_FAST_APP_TEST_INTEGRATION=1' 
-        _RETRY=3
-        until [ "$?" = "0" ] || [ "${_RETRY}" -lt 1 ]
-        do
-          ../zaruba please testProvoFastApp -e 'PROVO_FAST_APP_TEST_INTEGRATION=1' 
-        done
-        set -e
         ../zaruba please stopProvoRabbitmqContainer stopProvoKafkaContainer
 
         ../zaruba please startProvoTrino -t

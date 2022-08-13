@@ -3,23 +3,23 @@ package explainer
 import (
 	"fmt"
 
-	"github.com/state-alchemists/zaruba/core"
+	"github.com/state-alchemists/zaruba/dsl"
 	"github.com/state-alchemists/zaruba/output"
 )
 
 type Explainer struct {
 	logger  output.Logger
 	d       *output.Decoration
-	project *core.Project
-	util    *core.CoreUtil
+	project *dsl.Project
+	util    *dsl.DSLUtil
 }
 
-func NewExplainer(logger output.Logger, decoration *output.Decoration, project *core.Project) *Explainer {
+func NewExplainer(logger output.Logger, decoration *output.Decoration, project *dsl.Project) *Explainer {
 	return &Explainer{
 		logger:  logger,
 		d:       decoration,
 		project: project,
-		util:    core.NewCoreUtil(),
+		util:    dsl.NewDSLUtil(),
 	}
 }
 

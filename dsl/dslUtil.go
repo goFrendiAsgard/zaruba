@@ -1,4 +1,4 @@
-package core
+package dsl
 
 import (
 	"github.com/state-alchemists/zaruba/booleanutil"
@@ -10,7 +10,7 @@ import (
 	"github.com/state-alchemists/zaruba/strutil"
 )
 
-type CoreUtil struct {
+type DSLUtil struct {
 	Str     *strutil.StrUtil
 	List    *listutil.ListUtil
 	Dict    *dictutil.DictUtil
@@ -21,7 +21,7 @@ type CoreUtil struct {
 	Project *ProjectUtil
 }
 
-func NewCoreUtil() *CoreUtil {
+func NewDSLUtil() *DSLUtil {
 	strUtil := strutil.NewStrUtil()
 	listUtil := listutil.NewListUtil()
 	dictUtil := dictutil.NewDictUtil()
@@ -30,7 +30,7 @@ func NewCoreUtil() *CoreUtil {
 	projectUtil := NewProjectUtil(fileUtil, jsonUtil)
 	pathUtil := pathutil.NewPathUtil(jsonUtil)
 	booleanUtil := booleanutil.NewBooleanUtil()
-	coreUtil := &CoreUtil{
+	coreUtil := &DSLUtil{
 		Str:     strUtil,
 		List:    listUtil,
 		Dict:    dictUtil,

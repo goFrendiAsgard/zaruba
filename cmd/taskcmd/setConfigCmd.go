@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
-	"github.com/state-alchemists/zaruba/core"
+	"github.com/state-alchemists/zaruba/dsl"
 	common "github.com/state-alchemists/zaruba/jsonutil/helper"
 	"github.com/state-alchemists/zaruba/output"
 )
@@ -18,7 +18,7 @@ var setConfigsCmd = &cobra.Command{
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 2)
-		util := core.NewCoreUtil()
+		util := dsl.NewDSLUtil()
 		taskName, jsonConfigMap := args[0], args[1]
 		projectFileArgIndex := 2
 		configMap, err := util.Json.ToStringDict(jsonConfigMap)

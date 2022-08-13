@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/manifoldco/promptui"
-	"github.com/state-alchemists/zaruba/core"
+	"github.com/state-alchemists/zaruba/dsl"
 	"github.com/state-alchemists/zaruba/output"
 	"github.com/state-alchemists/zaruba/pathutil"
 )
@@ -35,11 +35,11 @@ type Action struct {
 type Prompter struct {
 	logger  output.Logger
 	d       *output.Decoration
-	project *core.Project
-	util    *core.CoreUtil
+	project *dsl.Project
+	util    *dsl.DSLUtil
 }
 
-func NewPrompter(logger output.Logger, decoration *output.Decoration, project *core.Project) *Prompter {
+func NewPrompter(logger output.Logger, decoration *output.Decoration, project *dsl.Project) *Prompter {
 	return &Prompter{
 		logger:  logger,
 		d:       decoration,
@@ -424,7 +424,7 @@ func (prompter *Prompter) askPassword(inputPrompt string) (value string, err err
 	return prompt.Run()
 }
 
-func (prompter *Prompter) askInput(inputPrompt string, input *core.Variable, oldValue string) (value string, err error) {
+func (prompter *Prompter) askInput(inputPrompt string, input *dsl.Variable, oldValue string) (value string, err error) {
 	options, captions := prompter.getInputOptions(input, oldValue)
 	allowCustom := !prompter.util.Bool.IsFalse(input.AllowCustom)
 	if allowCustom {
@@ -455,7 +455,7 @@ func (prompter *Prompter) askInput(inputPrompt string, input *core.Variable, old
 	return options[selectedIndex], err
 }
 
-func (prompter *Prompter) askUserInput(inputPrompt string, input *core.Variable) (value string, err error) {
+func (prompter *Prompter) askUserInput(inputPrompt string, input *dsl.Variable) (value string, err error) {
 	prompt := promptui.Prompt{
 		Label: inputPrompt,
 		Validate: func(userInput string) error {
@@ -465,7 +465,7 @@ func (prompter *Prompter) askUserInput(inputPrompt string, input *core.Variable)
 	return prompt.Run()
 }
 
-func (prompter *Prompter) getInputOptions(input *core.Variable, oldValue string) (options []string, captions []string) {
+func (prompter *Prompter) getInputOptions(input *dsl.Variable, oldValue string) (options []string, captions []string) {
 	options = []string{}
 	captions = []string{}
 	if err := input.Validate(os.ExpandEnv(oldValue)); err == nil {

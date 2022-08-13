@@ -3,9 +3,10 @@ package strcmd
 import (
 	"fmt"
 
+	"github.com/state-alchemists/zaruba/dsl"
+
 	"github.com/spf13/cobra"
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
-	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -21,7 +22,7 @@ var splitCmd = &cobra.Command{
 		if len(args) > 1 {
 			separator = args[1]
 		}
-		util := core.NewCoreUtil()
+		util := dsl.NewDSLUtil()
 		list := util.Str.Split(text, separator)
 		jsonList, err := util.Json.FromStringList(list)
 		if err != nil {

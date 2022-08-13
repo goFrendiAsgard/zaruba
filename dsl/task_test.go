@@ -1,4 +1,4 @@
-package core
+package dsl
 
 import (
 	"os"
@@ -83,7 +83,7 @@ func TestTaskHaveStartCmd(t *testing.T) {
 	}
 	task := project.Tasks["taskName"]
 	expected := true
-	actual := task.HaveStartCmd()
+	actual := task.IsHavingStartCmd()
 	if actual != expected {
 		t.Errorf("expected: %t, actual: %t", expected, actual)
 	}
@@ -97,7 +97,7 @@ func TestTaskHaveStartCmdByParent(t *testing.T) {
 	}
 	task := project.Tasks["taskName"]
 	expected := true
-	actual := task.HaveStartCmd()
+	actual := task.IsHavingStartCmd()
 	if actual != expected {
 		t.Errorf("expected: %t, actual: %t", expected, actual)
 	}
@@ -111,7 +111,7 @@ func TestTaskHaveNoStartCmd(t *testing.T) {
 	}
 	task := project.Tasks["taskName"]
 	expected := false
-	actual := task.HaveStartCmd()
+	actual := task.IsHavingStartCmd()
 	if actual != expected {
 		t.Errorf("expected: %t, actual: %t", expected, actual)
 	}
@@ -125,7 +125,7 @@ func TestTaskHaveCheckCmd(t *testing.T) {
 	}
 	task := project.Tasks["taskName"]
 	expected := true
-	actual := task.HaveCheckCmd()
+	actual := task.IsHavingCheckCmd()
 	if actual != expected {
 		t.Errorf("expected: %t, actual: %t", expected, actual)
 	}
@@ -139,7 +139,7 @@ func TestTaskHaveCheckCmdByParent(t *testing.T) {
 	}
 	task := project.Tasks["taskName"]
 	expected := true
-	actual := task.HaveCheckCmd()
+	actual := task.IsHavingCheckCmd()
 	if actual != expected {
 		t.Errorf("expected: %t, actual: %t", expected, actual)
 	}
@@ -153,7 +153,7 @@ func TestTaskHaveNoCheckCmd(t *testing.T) {
 	}
 	task := project.Tasks["taskName"]
 	expected := false
-	actual := task.HaveCheckCmd()
+	actual := task.IsHavingCheckCmd()
 	if actual != expected {
 		t.Errorf("expected: %t, actual: %t", expected, actual)
 	}

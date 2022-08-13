@@ -11,7 +11,7 @@ You can use Zaruba's go template in:
 * task's start property
 * task's check property
 
-To see complete list of supported functions, you can take a look at [zaruba's source code](../../../core/tpl.go).
+To see complete list of supported functions, you can take a look at [zaruba's source code](../../../dsl/tpl.go).
 
 # Most Commonly Used Functions
 
@@ -89,7 +89,7 @@ echo "Hello {{ .GetConfig "name" }}"
 
 # List of All Functions
 
-Please visit [zaruba's source code](../../core/tpl.go) to see available functions/values.
+Please visit [zaruba's source code](../../dsl/tpl.go) to see available functions/values.
 
 
 <!--startTocSubTopic-->

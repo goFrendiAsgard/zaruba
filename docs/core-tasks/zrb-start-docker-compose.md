@@ -15,7 +15,7 @@ Should Sync Env:
 
 Type:
 
-    service
+    long running
 
 Description:
 
@@ -115,11 +115,6 @@ Value:
     {{ $checkCommand := .Util.Str.Trim (.GetConfig "checkCommand") "\n" -}}
     echo "${_INSPECT_ICON} ${_BOLD}${_YELLOW}Run check: {{ .Util.Str.EscapeShellValue $checkCommand }}${_NORMAL}"
     {{ $checkCommand }}
-    until [ "$?" = "0" ]
-    do
-      sleep 3
-      {{ $checkCommand }}
-    done
     echo "${_INSPECT_ICON} ${_BOLD}${_YELLOW}Successfully run check: {{ .Util.Str.EscapeShellValue $checkCommand }}${_NORMAL}"
     set "${_OLD_STATE}"
     {{ end -}}

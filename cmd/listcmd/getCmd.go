@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
-	"github.com/state-alchemists/zaruba/core"
+	"github.com/state-alchemists/zaruba/dsl"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -22,7 +22,7 @@ var getCmd = &cobra.Command{
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-		util := core.NewCoreUtil()
+		util := dsl.NewDSLUtil()
 		data, err := util.Json.List.GetValue(listString, index)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)

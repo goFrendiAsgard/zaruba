@@ -1,4 +1,4 @@
-package core
+package dsl
 
 import (
 	"fmt"
@@ -27,7 +27,7 @@ func (envUtil *TaskEnvUtil) Sync(taskName, projectFile string) (err error) {
 	if err != nil {
 		return err
 	}
-	if !task.ShouldSyncEnv() {
+	if !task.GetShouldSyncEnv() {
 		return nil
 	}
 	projectDir := filepath.Dir(task.Project.GetFileLocation())
@@ -159,7 +159,7 @@ func (envUtil *TaskEnvUtil) set(task *Task, envMap map[string]string) (err error
 }
 
 func (envUtil *TaskEnvUtil) setEnvsRef(envRef *EnvRef, envMap map[string]string) (err error) {
-	util := NewCoreUtil()
+	util := NewDSLUtil()
 	envRefName := envRef.GetName()
 	envPrefix := strings.ToUpper(util.Str.ToSnake(envRefName))
 	yamlLocation := envRef.GetFileLocation()

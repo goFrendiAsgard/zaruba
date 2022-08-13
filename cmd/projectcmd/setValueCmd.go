@@ -3,7 +3,7 @@ package projectcmd
 import (
 	"github.com/spf13/cobra"
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
-	"github.com/state-alchemists/zaruba/core"
+	"github.com/state-alchemists/zaruba/dsl"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -20,7 +20,7 @@ var setValueCmd = &cobra.Command{
 		if len(args) > 2 {
 			projectFile = args[2]
 		}
-		util := core.NewCoreUtil()
+		util := dsl.NewDSLUtil()
 		if err := util.Project.SetValue(key, value, projectFile); err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}

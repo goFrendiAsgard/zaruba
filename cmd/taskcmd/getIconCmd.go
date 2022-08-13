@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
-	"github.com/state-alchemists/zaruba/core"
+	"github.com/state-alchemists/zaruba/dsl"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -26,7 +26,7 @@ var getIconCmd = &cobra.Command{
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-		util := core.NewCoreUtil()
+		util := dsl.NewDSLUtil()
 		icon, err := util.Project.Task.GetIcon(taskName, projectFile)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)

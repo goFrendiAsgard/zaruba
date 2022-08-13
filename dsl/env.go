@@ -1,4 +1,4 @@
-package core
+package dsl
 
 // Env is task environment
 type Env struct {

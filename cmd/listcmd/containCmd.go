@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
-	"github.com/state-alchemists/zaruba/core"
+	"github.com/state-alchemists/zaruba/dsl"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -18,7 +18,7 @@ var containCmd = &cobra.Command{
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 2)
 		listString := args[0]
 		elementStr := args[1]
-		util := core.NewCoreUtil()
+		util := dsl.NewDSLUtil()
 		exist, err := util.Json.List.Contain(listString, elementStr)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)

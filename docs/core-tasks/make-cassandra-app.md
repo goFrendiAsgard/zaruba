@@ -15,7 +15,7 @@ Should Sync Env:
 
 Type:
 
-    command
+    simple
 
 
 ## Extends

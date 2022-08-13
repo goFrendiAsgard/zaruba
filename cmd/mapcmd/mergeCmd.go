@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
-	"github.com/state-alchemists/zaruba/core"
+	"github.com/state-alchemists/zaruba/dsl"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -17,7 +17,7 @@ var mergeCmd = &cobra.Command{
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 2)
 		mapStrings := args
-		util := core.NewCoreUtil()
+		util := dsl.NewDSLUtil()
 		mergedMapString, err := util.Json.Map.Merge(mapStrings...)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)

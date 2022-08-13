@@ -9,7 +9,7 @@ import (
 
 	"github.com/spf13/cobra"
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
-	"github.com/state-alchemists/zaruba/core"
+	"github.com/state-alchemists/zaruba/dsl"
 	"github.com/state-alchemists/zaruba/explainer"
 	"github.com/state-alchemists/zaruba/input"
 	"github.com/state-alchemists/zaruba/output"
@@ -98,8 +98,8 @@ var pleaseCmd = &cobra.Command{
 }
 
 func init() {
-	core.SetDefaultEnv()
-	util := core.NewCoreUtil()
+	dsl.SetDefaultEnv()
+	util := dsl.NewDSLUtil()
 	// get current working directory
 	dir, err := os.Getwd()
 	if err != nil {
@@ -161,7 +161,7 @@ func getDefaultProjectFile(dir string) string {
 	return defaultProjectFile
 }
 
-func showLastPleaseCommand(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, project *core.Project, taskNames []string) {
+func showLastPleaseCommand(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, project *dsl.Project, taskNames []string) {
 	nodeCmd := cmd
 	commandName := ""
 	for nodeCmd != nil {
@@ -221,7 +221,7 @@ func explainOrExit(cmd *cobra.Command, logger *output.ConsoleLogger, decoration 
 	}
 }
 
-func loadPreviousValuesOrExit(cmd *cobra.Command, logger *output.ConsoleLogger, decoration *output.Decoration, project *core.Project, previousValueFile string) {
+func loadPreviousValuesOrExit(cmd *cobra.Command, logger *output.ConsoleLogger, decoration *output.Decoration, project *dsl.Project, previousValueFile string) {
 	if err := previousval.Load(project, previousValueFile); err != nil {
 		cmdHelper.Exit(cmd, []string{}, logger, decoration, err)
 	}
@@ -253,14 +253,14 @@ func askAutoTerminateOrExit(cmd *cobra.Command, logger *output.ConsoleLogger, de
 	return autoTerminate
 }
 
-func initProjectOrExit(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, project *core.Project) {
+func initProjectOrExit(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, project *dsl.Project) {
 	if err := project.Init(); err != nil {
 		cmdHelper.Exit(cmd, []string{}, logger, decoration, err)
 	}
 }
 
-func getProjectAndTaskName(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, showLogTime bool, args []string) (project *core.Project, taskNames []string) {
-	project, err := core.NewProject(pleaseProjectFile, decoration, showLogTime)
+func getProjectAndTaskName(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, showLogTime bool, args []string) (project *dsl.Project, taskNames []string) {
+	project, err := dsl.NewProject(pleaseProjectFile, decoration, showLogTime)
 	if err != nil {
 		cmdHelper.Exit(cmd, args, logger, decoration, err)
 	}

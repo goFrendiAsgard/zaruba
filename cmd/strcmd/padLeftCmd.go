@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/state-alchemists/zaruba/dsl"
+
 	"github.com/spf13/cobra"
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
-	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -26,7 +27,7 @@ var padLeftCmd = &cobra.Command{
 		if len(args) > 2 {
 			pad = args[2]
 		}
-		util := core.NewCoreUtil()
+		util := dsl.NewDSLUtil()
 		fmt.Println(util.Str.PadLeft(text, length, pad))
 	},
 }

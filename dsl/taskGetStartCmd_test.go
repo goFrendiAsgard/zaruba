@@ -1,23 +1,23 @@
-package core
+package dsl
 
 import (
 	"strings"
 	"testing"
 )
 
-func TestTaskGetCheckCmdPatterns(t *testing.T) {
-	project, err := getProjectAndInit("../test-resources/task/getCheckCmd.zaruba.yaml")
+func TestTaskGetStartCmdPatterns(t *testing.T) {
+	project, err := getProjectAndInit("../test-resources/task/getStartCmd.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	task := project.Tasks["taskWithCheckCmd"]
+	task := project.Tasks["taskWithStartCmd"]
 	expectedList := []string{"sleep", "2"}
-	actualList, exist, err := task.GetCheckCmdPatterns()
+	actualList, err := task.GetStartCmdPatterns()
 	if err != nil {
 		t.Error(err)
 	}
-	if !exist {
+	if !task.IsHavingStartCmd() {
 		t.Errorf("pattern should be exist")
 	}
 	if len(actualList) != len(expectedList) {
@@ -32,19 +32,19 @@ func TestTaskGetCheckCmdPatterns(t *testing.T) {
 	}
 }
 
-func TestTaskGetCheckCmdPatternsFromTaskWhichParentHasCheckCmd(t *testing.T) {
-	project, err := getProjectAndInit("../test-resources/task/getCheckCmd.zaruba.yaml")
+func TestTaskGetStartCmdPatternsFromTaskWhichParentHasStartCmd(t *testing.T) {
+	project, err := getProjectAndInit("../test-resources/task/getStartCmd.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	task := project.Tasks["taskWhichParentHasCheckCmd"]
+	task := project.Tasks["taskWhichParentHasStartCmd"]
 	expectedList := []string{"sleep", "1"}
-	actualList, exist, err := task.GetCheckCmdPatterns()
+	actualList, err := task.GetStartCmdPatterns()
 	if err != nil {
 		t.Error(err)
 	}
-	if !exist {
+	if !task.IsHavingStartCmd() {
 		t.Errorf("pattern should be exist")
 	}
 	if len(actualList) != len(expectedList) {
@@ -59,24 +59,24 @@ func TestTaskGetCheckCmdPatternsFromTaskWhichParentHasCheckCmd(t *testing.T) {
 	}
 }
 
-func TestTaskGetCheckCmdPatternsFromTaskWithoutCheckCmd(t *testing.T) {
-	project, err := getProjectAndInit("../test-resources/task/getCheckCmd.zaruba.yaml")
+func TestTaskGetStartCmdPatternsFromTaskWithoutStartCmd(t *testing.T) {
+	project, err := getProjectAndInit("../test-resources/task/getStartCmd.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	task := project.Tasks["taskWithoutCheckCmd"]
+	task := project.Tasks["taskWithoutStartCmd"]
 	expectedList := []string{}
-	actualList, exist, err := task.GetCheckCmdPatterns()
+	actualList, err := task.GetStartCmdPatterns()
 	if err == nil {
 		t.Error("error expected")
 		return
 	}
 	errorMessage := err.Error()
-	if !strings.Contains(errorMessage, "cannot retrieve check cmd from any parent task of taskWithoutCheckCmd") {
+	if !strings.Contains(errorMessage, "cannot retrieve start cmd from any parent task of taskWithoutStartCmd") {
 		t.Errorf("invalid error message: %s", errorMessage)
 	}
-	if exist {
+	if task.IsHavingStartCmd() {
 		t.Errorf("pattern should not be exist")
 	}
 	if len(actualList) != len(expectedList) {
@@ -85,18 +85,18 @@ func TestTaskGetCheckCmdPatternsFromTaskWithoutCheckCmd(t *testing.T) {
 	}
 }
 
-func TestTaskGetCheckCmd(t *testing.T) {
-	project, err := getProjectAndInit("../test-resources/task/getCheckCmd.zaruba.yaml")
+func TestTaskGetStartCmd(t *testing.T) {
+	project, err := getProjectAndInit("../test-resources/task/getStartCmd.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	task := project.Tasks["taskWithCheckCmd"]
-	cmd, exist, err := task.GetCheckCmd()
+	task := project.Tasks["taskWithStartCmd"]
+	cmd, err := task.GetStartCmd()
 	if err != nil {
 		t.Error(err)
 	}
-	if !exist {
+	if !task.IsHavingStartCmd() {
 		t.Errorf("cmd should be exist")
 	}
 	if cmd == nil {
@@ -104,18 +104,18 @@ func TestTaskGetCheckCmd(t *testing.T) {
 	}
 }
 
-func TestTaskGetCheckCmdFromTaskWhichParentHasCheckCmd(t *testing.T) {
-	project, err := getProjectAndInit("../test-resources/task/getCheckCmd.zaruba.yaml")
+func TestTaskGetStartCmdFromTaskWhichParentHasStartCmd(t *testing.T) {
+	project, err := getProjectAndInit("../test-resources/task/getStartCmd.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	task := project.Tasks["taskWhichParentHasCheckCmd"]
-	cmd, exist, err := task.GetCheckCmd()
+	task := project.Tasks["taskWhichParentHasStartCmd"]
+	cmd, err := task.GetStartCmd()
 	if err != nil {
 		t.Error(err)
 	}
-	if !exist {
+	if !task.IsHavingStartCmd() {
 		t.Errorf("cmd should be exist")
 	}
 	if cmd == nil {
@@ -123,23 +123,23 @@ func TestTaskGetCheckCmdFromTaskWhichParentHasCheckCmd(t *testing.T) {
 	}
 }
 
-func TestTaskGetCheckCmdFromTaskWithoutCheckCmd(t *testing.T) {
-	project, err := getProjectAndInit("../test-resources/task/getCheckCmd.zaruba.yaml")
+func TestTaskGetStartCmdFromTaskWithoutStartCmd(t *testing.T) {
+	project, err := getProjectAndInit("../test-resources/task/getStartCmd.zaruba.yaml")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	task := project.Tasks["taskWithoutCheckCmd"]
-	cmd, exist, err := task.GetCheckCmd()
+	task := project.Tasks["taskWithoutStartCmd"]
+	cmd, err := task.GetStartCmd()
 	if err == nil {
 		t.Error("error expected")
 		return
 	}
 	errorMessage := err.Error()
-	if !strings.Contains(errorMessage, "cannot retrieve check cmd from any parent task of taskWithoutCheckCmd") {
+	if !strings.Contains(errorMessage, "cannot retrieve start cmd from any parent task of taskWithoutStartCmd") {
 		t.Errorf("invalid error message: %s", errorMessage)
 	}
-	if exist {
+	if task.IsHavingStartCmd() {
 		t.Errorf("cmd should not be exist")
 	}
 	if cmd != nil {

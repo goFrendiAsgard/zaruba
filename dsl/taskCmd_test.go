@@ -1,4 +1,4 @@
-package core
+package dsl
 
 import (
 	"strings"
@@ -12,26 +12,27 @@ func TestTaskGetCmdFromTaskWithConfig(t *testing.T) {
 		return
 	}
 	task := project.Tasks["taskWithConfig"]
-	cmd, exist, err := task.GetStartCmd()
+	startCmdExist := task.IsHavingStartCmd()
+	if !startCmdExist {
+		t.Errorf("startCmd should be exist")
+	}
+	startCmd, err := task.GetStartCmd()
 	if err != nil {
 		t.Error(err)
 	}
-	if !exist {
-		t.Errorf("cmd should be exist")
-	}
-	if cmd == nil {
+	if startCmd == nil {
 		t.Errorf("cmd is nil")
 		return
 	}
 	envFound := false
-	for _, env := range cmd.Env {
+	for _, env := range startCmd.Env {
 		if env == "ZARUBA_CONFIG_SOME_KEY=value" {
 			envFound = true
 			break
 		}
 	}
 	if !envFound {
-		t.Errorf("env ZARUBA_CONFIG_SOME_KEY=value not found in %#v", cmd.Env)
+		t.Errorf("env ZARUBA_CONFIG_SOME_KEY=value not found in %#v", startCmd.Env)
 	}
 }
 
@@ -42,26 +43,27 @@ func TestTaskGetCmdFromTaskWithEnv(t *testing.T) {
 		return
 	}
 	task := project.Tasks["taskWithEnv"]
-	cmd, exist, err := task.GetStartCmd()
+	startCmdExist := task.IsHavingStartCmd()
+	if !startCmdExist {
+		t.Errorf("startCmd should be exist")
+	}
+	startCmd, err := task.GetStartCmd()
 	if err != nil {
 		t.Error(err)
 	}
-	if !exist {
-		t.Errorf("cmd should be exist")
-	}
-	if cmd == nil {
+	if startCmd == nil {
 		t.Errorf("cmd is nil")
 		return
 	}
 	envFound := false
-	for _, env := range cmd.Env {
+	for _, env := range startCmd.Env {
 		if env == "KEY=VALUE" {
 			envFound = true
 			break
 		}
 	}
 	if !envFound {
-		t.Errorf("env KEY=VALUE not found in %#v", cmd.Env)
+		t.Errorf("env KEY=VALUE not found in %#v", startCmd.Env)
 	}
 }
 
@@ -72,16 +74,17 @@ func TestTaskGetCmdFromTaskWithBrokenEnv(t *testing.T) {
 		return
 	}
 	task := project.Tasks["taskWithBrokenEnv"]
-	_, exist, err := task.GetStartCmd()
+	startCmdExist := task.IsHavingStartCmd()
+	if !startCmdExist {
+		t.Errorf("startCmd should be exist")
+	}
+	_, err = task.GetStartCmd()
 	if err == nil {
 		t.Error("error expected")
 	}
 	errorMessage := err.Error()
 	if !strings.HasPrefix(errorMessage, "template:") {
 		t.Errorf("invalid error message: %s", errorMessage)
-	}
-	if !exist {
-		t.Errorf("cmd should be exist")
 	}
 }
 
@@ -92,15 +95,16 @@ func TestTaskGetCmdFromTaskWithBrokenCmd(t *testing.T) {
 		return
 	}
 	task := project.Tasks["taskWithBrokenCmd"]
-	_, exist, err := task.GetStartCmd()
+	startCmdExist := task.IsHavingStartCmd()
+	if !startCmdExist {
+		t.Errorf("startCmd should be exist")
+	}
+	_, err = task.GetStartCmd()
 	if err == nil {
 		t.Error("error expected")
 	}
 	errorMessage := err.Error()
 	if !strings.HasPrefix(errorMessage, "template:") {
 		t.Errorf("invalid error message: %s", errorMessage)
-	}
-	if !exist {
-		t.Errorf("cmd should be exist")
 	}
 }

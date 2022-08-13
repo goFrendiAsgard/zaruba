@@ -1,4 +1,4 @@
-package core
+package dsl
 
 import (
 	"strings"
@@ -12,18 +12,19 @@ func TestTaskGetCmdLog(t *testing.T) {
 		return
 	}
 	task := project.Tasks["taskName"]
-	cmd, exist, err := task.GetStartCmd()
+	startCmdExist := task.IsHavingStartCmd()
+	if !startCmdExist {
+		t.Errorf("startCmd should be exist")
+	}
+	startCmd, err := task.GetStartCmd()
 	if err != nil {
 		t.Error(err)
 	}
-	if !exist {
-		t.Errorf("cmd should be exist")
-	}
-	if cmd == nil {
+	if startCmd == nil {
 		t.Errorf("cmd is nil")
 		return
 	}
-	if err = cmd.Run(); err != nil {
+	if err = startCmd.Run(); err != nil {
 		t.Error(err)
 		return
 	}

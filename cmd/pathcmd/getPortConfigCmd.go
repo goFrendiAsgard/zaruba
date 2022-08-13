@@ -3,9 +3,10 @@ package pathcmd
 import (
 	"fmt"
 
+	"github.com/state-alchemists/zaruba/dsl"
+
 	"github.com/spf13/cobra"
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
-	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -16,7 +17,7 @@ var getPortConfigCmd = &cobra.Command{
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 1)
-		util := core.NewCoreUtil()
+		util := dsl.NewDSLUtil()
 		location := args[0]
 		jsonList, err := util.Path.GetPortConfigByLocation(location)
 		if err != nil {
