@@ -22,20 +22,20 @@ zaruba please printHelloHuman -e GREETINGS=はじめまして
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.166µs
-         Current Time: 19:26:02
-💀 🏁 Run 🍏 'printHelloHuman' on /home/gofrendi/zaruba/docs/examples/run-tasks (Attempt 1)
+         Elapsed Time: 1.596µs
+         Current Time: 00:24:51
+💀 🏁 Running 🍏 'printHelloHuman' runner on /home/gofrendi/zaruba/docs/examples/run-tasks (Attempt: 1/3)
 💀    🚀 printHelloHuman      🍏 はじめまして human
-💀 🎉 Successfully running 🍏 'printHelloHuman' runner
+💀 🎉 Successfully running 🍏 'printHelloHuman' runner (Attempt: 1/3)
 💀 🔎 Job Running...
-         Elapsed Time: 102.593163ms
-         Current Time: 19:26:02
+         Elapsed Time: 1.348148ms
+         Current Time: 00:24:51
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 505.811126ms
-         Current Time: 19:26:03
+         Elapsed Time: 405.600128ms
+         Current Time: 00:24:51
 zaruba please printHelloHuman -e 'GREETINGS=はじめまして'
 ```````
 </details>
@@ -65,20 +65,20 @@ zaruba please printHelloHuman -e sample.env
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.372µs
-         Current Time: 19:26:03
-💀 🏁 Run 🍏 'printHelloHuman' on /home/gofrendi/zaruba/docs/examples/run-tasks (Attempt 1)
+         Elapsed Time: 1.49µs
+         Current Time: 00:24:51
+💀 🏁 Running 🍏 'printHelloHuman' runner on /home/gofrendi/zaruba/docs/examples/run-tasks (Attempt: 1/3)
 💀    🚀 printHelloHuman      🍏 Hola human
-💀 🎉 Successfully running 🍏 'printHelloHuman' runner
+💀 🎉 Successfully running 🍏 'printHelloHuman' runner (Attempt: 1/3)
 💀 🔎 Job Running...
-         Elapsed Time: 102.190761ms
-         Current Time: 19:26:03
+         Elapsed Time: 1.659436ms
+         Current Time: 00:24:51
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 504.003779ms
-         Current Time: 19:26:03
+         Elapsed Time: 403.454544ms
+         Current Time: 00:24:52
 zaruba please printHelloHuman -e 'sample.env'
 ```````
 </details>

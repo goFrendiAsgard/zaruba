@@ -31,20 +31,20 @@ zaruba please printHelloHuman humanName="Go Frendi"
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.218µs
-         Current Time: 19:26:04
-💀 🏁 Run 🍏 'printHelloHuman' on /home/gofrendi/zaruba/docs/examples/run-tasks (Attempt 1)
+         Elapsed Time: 1.951µs
+         Current Time: 00:24:52
+💀 🏁 Running 🍏 'printHelloHuman' runner on /home/gofrendi/zaruba/docs/examples/run-tasks (Attempt: 1/3)
 💀    🚀 printHelloHuman      🍏 hello Go Frendi
-💀 🎉 Successfully running 🍏 'printHelloHuman' runner
+💀 🎉 Successfully running 🍏 'printHelloHuman' runner (Attempt: 1/3)
 💀 🔎 Job Running...
-         Elapsed Time: 101.622912ms
-         Current Time: 19:26:04
+         Elapsed Time: 1.363637ms
+         Current Time: 00:24:52
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 504.801688ms
-         Current Time: 19:26:04
+         Elapsed Time: 405.537692ms
+         Current Time: 00:24:52
 zaruba please printHelloHuman  -v 'humanName=Go Frendi'
 ```````
 </details>
@@ -73,20 +73,20 @@ zaruba please printHelloHuman -v sample.values.yaml
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.212µs
-         Current Time: 19:26:04
-💀 🏁 Run 🍏 'printHelloHuman' on /home/gofrendi/zaruba/docs/examples/run-tasks (Attempt 1)
+         Elapsed Time: 1.849µs
+         Current Time: 00:24:52
+💀 🏁 Running 🍏 'printHelloHuman' runner on /home/gofrendi/zaruba/docs/examples/run-tasks (Attempt: 1/3)
 💀    🚀 printHelloHuman      🍏 hello Avogadro
-💀 🎉 Successfully running 🍏 'printHelloHuman' runner
+💀 🎉 Successfully running 🍏 'printHelloHuman' runner (Attempt: 1/3)
 💀 🔎 Job Running...
-         Elapsed Time: 102.612447ms
-         Current Time: 19:26:04
+         Elapsed Time: 2.054615ms
+         Current Time: 00:24:52
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 504.549198ms
-         Current Time: 19:26:05
+         Elapsed Time: 407.111841ms
+         Current Time: 00:24:53
 zaruba please printHelloHuman  -v 'sample.values.yaml'
 ```````
 </details>
