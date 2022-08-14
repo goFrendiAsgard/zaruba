@@ -3,9 +3,10 @@ package projectcmd
 import (
 	"path/filepath"
 
+	"github.com/state-alchemists/zaruba/dsl"
+
 	"github.com/spf13/cobra"
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
-	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -25,7 +26,7 @@ var includeCmd = &cobra.Command{
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-		util := core.NewCoreUtil()
+		util := dsl.NewDSLUtil()
 		if err = util.Project.IncludeFile(fileName, projectFilePath); err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}

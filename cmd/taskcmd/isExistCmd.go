@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
-	"github.com/state-alchemists/zaruba/core"
+	"github.com/state-alchemists/zaruba/dsl"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -26,7 +26,7 @@ var isExistCmd = &cobra.Command{
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-		util := core.NewCoreUtil()
+		util := dsl.NewDSLUtil()
 		exist, err := util.Project.Task.IsExist(taskName, projectFile)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)

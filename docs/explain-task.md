@@ -33,7 +33,7 @@ Should Sync Env:
 
 Type:
 
-    command
+    simple
 
 
 ## Start

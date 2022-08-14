@@ -3,9 +3,10 @@ package strcmd
 import (
 	"fmt"
 
+	"github.com/state-alchemists/zaruba/dsl"
+
 	"github.com/spf13/cobra"
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
-	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -17,7 +18,7 @@ var submatchCmd = &cobra.Command{
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 2)
 		text, pattern := args[0], args[1]
-		util := core.NewCoreUtil()
+		util := dsl.NewDSLUtil()
 		submatch, err := util.Str.Submatch(text, pattern)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)

@@ -31,20 +31,20 @@ zaruba please printHelloHuman humanName="Go Frendi"
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.132µs
-         Current Time: 09:35:49
-💀 🏁 Run 🍏 'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/run-tasks
+         Elapsed Time: 1.622µs
+         Current Time: 12:42:00
+💀 🏁 Running 🍏 printHelloHuman runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
 💀    🚀 printHelloHuman      🍏 hello Go Frendi
-💀 🎉 Successfully running 🍏 'printHelloHuman' command
+💀 🎉 Successfully running 🍏 printHelloHuman runner (Attempt 1 of 3)
 💀 🔎 Job Running...
-         Elapsed Time: 101.832932ms
-         Current Time: 09:35:50
+         Elapsed Time: 1.889161ms
+         Current Time: 12:42:00
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 503.819624ms
-         Current Time: 09:35:50
+         Elapsed Time: 405.479133ms
+         Current Time: 12:42:00
 zaruba please printHelloHuman  -v 'humanName=Go Frendi'
 ```````
 </details>
@@ -73,20 +73,20 @@ zaruba please printHelloHuman -v sample.values.yaml
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.063µs
-         Current Time: 09:35:50
-💀 🏁 Run 🍏 'printHelloHuman' command on /home/gofrendi/zaruba/docs/examples/run-tasks
+         Elapsed Time: 1.221µs
+         Current Time: 12:42:00
+💀 🏁 Running 🍏 printHelloHuman runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
 💀    🚀 printHelloHuman      🍏 hello Avogadro
-💀 🎉 Successfully running 🍏 'printHelloHuman' command
+💀 🎉 Successfully running 🍏 printHelloHuman runner (Attempt 1 of 3)
 💀 🔎 Job Running...
-         Elapsed Time: 102.324817ms
-         Current Time: 09:35:50
+         Elapsed Time: 1.623103ms
+         Current Time: 12:42:00
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 505.784849ms
-         Current Time: 09:35:51
+         Elapsed Time: 403.37504ms
+         Current Time: 12:42:01
 zaruba please printHelloHuman  -v 'sample.values.yaml'
 ```````
 </details>

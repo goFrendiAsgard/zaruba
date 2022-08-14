@@ -22,6 +22,8 @@ Usage:
   zaruba install [command]
 
 Available Commands:
+  4-essentials      
+  4-essentials      
   aws-cli           
   gcloud            
   gvm               

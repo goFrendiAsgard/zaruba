@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/state-alchemists/zaruba/dsl"
+
 	"github.com/spf13/cobra"
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
-	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -24,7 +25,7 @@ var getIndentationCmd = &cobra.Command{
 				level = levelInput
 			}
 		}
-		util := core.NewCoreUtil()
+		util := dsl.NewDSLUtil()
 		result, err := util.Str.GetIndentation(text, level)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)

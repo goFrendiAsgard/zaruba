@@ -1,4 +1,4 @@
-package core
+package dsl
 
 import (
 	"github.com/state-alchemists/zaruba/output"

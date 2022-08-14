@@ -1,4 +1,4 @@
-package core
+package dsl
 
 import (
 	"encoding/json"
@@ -38,7 +38,7 @@ type Project struct {
 	sortedInputNames           []string
 	maxPublishedTaskNameLength int
 	Decoration                 *output.Decoration
-	Util                       *CoreUtil
+	Util                       *DSLUtil
 	additionalEnvNames         []string
 	additionalValueNames       []string
 	showLogTime                bool
@@ -101,7 +101,7 @@ func loadRawProject(projectFile string) (p *Project, err error) {
 		ConfigRefMap:               map[string]*ConfigRef{},
 		IsInitialized:              false,
 		maxPublishedTaskNameLength: 20,
-		Util:                       NewCoreUtil(),
+		Util:                       NewDSLUtil(),
 	}
 	keyValidator := NewKeyValidator(parsedProjectFile)
 	b, err := keyValidator.Validate()
@@ -477,7 +477,7 @@ func (p *Project) validateTask() (err error) {
 func (p *Project) validateTaskAutoTerminte() (err error) {
 	for _, task := range p.Tasks {
 		autoTerminate := task.GetAutoTerminate()
-		haveCheckCmd := task.HaveCheckCmd()
+		haveCheckCmd := task.IsHavingCheckCmd()
 		if haveCheckCmd && autoTerminate {
 			return fmt.Errorf("restricted autoTerminate value on '%s': Task '%s' is autoTerminate, but tasks[%s][check] is not empty (also check task's parents)", task.GetFileLocation(), task.GetName(), task.GetName())
 		}

@@ -8,3 +8,5 @@ tasks:
     envRef: ztplAppName
     configs:
       templateLocation: '{{ .GetProjectPath "zaruba-tasks/ztplAppName/utilities/flush" }}'
+    maxStartRetry: 5
+    startRetryDelay: 5s

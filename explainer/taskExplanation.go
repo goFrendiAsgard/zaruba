@@ -5,8 +5,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/state-alchemists/zaruba/core"
 	"github.com/state-alchemists/zaruba/dictutil"
+	"github.com/state-alchemists/zaruba/dsl"
 	"github.com/state-alchemists/zaruba/output"
 	"github.com/state-alchemists/zaruba/strutil"
 )
@@ -44,16 +44,18 @@ type TaskExplanation struct {
 	Envs            map[string]TaskExplanationEnv      `yaml:"Envs"`
 }
 
-func NewTaskExplanation(decoration *output.Decoration, task *core.Task) (taskExplanation *TaskExplanation) {
+func NewTaskExplanation(decoration *output.Decoration, task *dsl.Task) (taskExplanation *TaskExplanation) {
 	// start, check,
-	startPattern, startExist, _ := task.GetStartCmdPatterns()
-	checkPattern, checkExist, _ := task.GetCheckCmdPatterns()
+	startExist := task.IsHavingStartCmd()
+	checkExist := task.IsHavingCheckCmd()
 	taskType := "wrapper"
 	if startExist && checkExist {
-		taskType = "service"
+		taskType = "long running"
 	} else if startExist {
-		taskType = "command"
+		taskType = "simple"
 	}
+	startPattern, _ := task.GetStartCmdPatterns()
+	checkPattern, _ := task.GetCheckCmdPatterns()
 	// inputs
 	inputNames := task.Inputs
 	taskInputs := map[string]TaskExplanationVariable{}
@@ -90,11 +92,11 @@ func NewTaskExplanation(decoration *output.Decoration, task *core.Task) (taskExp
 	// task explanation
 	return &TaskExplanation{
 		d:               decoration,
-		Icon:            task.Icon,
+		Icon:            task.GetIcon(),
 		Name:            task.GetName(),
 		FileLocation:    task.GetFileLocation(),
 		Location:        task.GetLocation(),
-		ShouldSyncEnv:   task.ShouldSyncEnv(),
+		ShouldSyncEnv:   task.GetShouldSyncEnv(),
 		SyncEnvLocation: task.GetSyncEnvLocation(),
 		Type:            taskType,
 		Description:     task.Description,

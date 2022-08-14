@@ -236,7 +236,7 @@ func TestReplaceLineFirst(t *testing.T) {
 	}
 }
 
-func TestReplaceLineMiddle(t *testing.T) {
+func TestReplaceLineMidsle(t *testing.T) {
 	lines := []string{"something", "to be replaced", "is here"}
 	actual, err := StrReplaceLineAtIndex(lines, 1, []string{"new", "and interesting"})
 	if err != nil {

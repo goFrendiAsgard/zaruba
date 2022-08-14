@@ -1,4 +1,4 @@
-package core
+package dsl
 
 import (
 	"fmt"
@@ -54,7 +54,7 @@ func (taskUtil *TaskUtil) GetIcon(taskName, projectFile string) (icon string, er
 	if !taskExist {
 		return "", fmt.Errorf("task %s does not exist", taskName)
 	}
-	return task.Icon, nil
+	return task.GetIcon(), nil
 }
 
 func (taskUtil *TaskUtil) IsExist(taskName, projectFile string) (exist bool, err error) {

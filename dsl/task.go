@@ -1,4 +1,4 @@
-package core
+package dsl
 
 import (
 	"bufio"
@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"sort"
+	"strconv"
 	"strings"
 	"syscall"
 	"text/template"
@@ -18,65 +19,220 @@ import (
 
 // Task is zaruba task
 type Task struct {
-	Start                 []string          `yaml:"start,omitempty"`
-	Check                 []string          `yaml:"check,omitempty"`
-	Timeout               string            `yaml:"timeout,omitempty"`
-	Private               bool              `yaml:"private,omitempty"`
-	AutoTerminate         string            `yaml:"autoTerminate,omitempty"`
-	Extend                string            `yaml:"extend,omitempty"`
-	Extends               []string          `yaml:"extends,omitempty"`
-	Location              string            `yaml:"location,omitempty"`
-	ConfigRef             string            `yaml:"configRef,omitempty"`
-	ConfigRefs            []string          `yaml:"configRefs,omitempty"`
-	Configs               map[string]string `yaml:"configs,omitempty"`
-	EnvRef                string            `yaml:"envRef,omitempty"`
-	EnvRefs               []string          `yaml:"envRefs,omitempty"`
-	Envs                  map[string]*Env   `yaml:"envs,omitempty"`
-	Dependencies          []string          `yaml:"dependencies,omitempty"`
-	Inputs                []string          `yaml:"inputs,omitempty"`
-	Description           string            `yaml:"description,omitempty"`
-	Icon                  string            `yaml:"icon,omitempty"`
-	SaveLog               string            `yaml:"saveLog,omitempty"`
-	SyncEnv               string            `yaml:"syncEnv,omitempty"`
-	SyncEnvLocation       string            `yaml:"syncEnvLocation,omitempty"`
-	Project               *Project          `yaml:"_project,omitempty"`
-	fileLocation          string            // File location where this task was declared
-	uuid                  string            // Unique identifier of current task
-	name                  string            // Current task name
-	generatedRandomName   string            // Random name
-	logPrefix             string            // Task prefix for logging
-	timeoutDuration       time.Duration
-	td                    *Tpl
-	maxRecursiveLevel     int
-	currentRecursiveLevel int
+	Start                   []string          `yaml:"start,omitempty"`
+	MaxStartRetryStr        string            `yaml:"maxStartRetry,omitempty"`
+	StartRetryDelayStr      string            `yaml:"startRetryDelay,omitempty"`
+	Check                   []string          `yaml:"check,omitempty"`
+	MaxCheckRetryStr        string            `yaml:"maxCheckRetry,omitempty"`
+	CheckRetryDelayStr      string            `yaml:"checkRetryDelay,omitempty"`
+	TimeoutStr              string            `yaml:"timeout,omitempty"`
+	Private                 bool              `yaml:"private,omitempty"`
+	AutoTerminateStr        string            `yaml:"autoTerminate,omitempty"`
+	Extend                  string            `yaml:"extend,omitempty"`
+	Extends                 []string          `yaml:"extends,omitempty"`
+	Location                string            `yaml:"location,omitempty"`
+	ConfigRef               string            `yaml:"configRef,omitempty"`
+	ConfigRefs              []string          `yaml:"configRefs,omitempty"`
+	Configs                 map[string]string `yaml:"configs,omitempty"`
+	EnvRef                  string            `yaml:"envRef,omitempty"`
+	EnvRefs                 []string          `yaml:"envRefs,omitempty"`
+	Envs                    map[string]*Env   `yaml:"envs,omitempty"`
+	Dependencies            []string          `yaml:"dependencies,omitempty"`
+	Inputs                  []string          `yaml:"inputs,omitempty"`
+	Description             string            `yaml:"description,omitempty"`
+	Icon                    string            `yaml:"icon,omitempty"`
+	SaveLog                 string            `yaml:"saveLog,omitempty"`
+	SyncEnv                 string            `yaml:"syncEnv,omitempty"`
+	SyncEnvLocation         string            `yaml:"syncEnvLocation,omitempty"`
+	Project                 *Project          `yaml:"_project,omitempty"`
+	fileLocation            string            // File location where this task was declared
+	uuid                    string            // Unique identifier of current task
+	name                    string            // Current task name
+	generatedRandomName     string            // Random name
+	logPrefix               string            // Task prefix for logging
+	timeoutDuration         time.Duration
+	startRetry              int
+	startRetryDelayDuration time.Duration
+	checkRetry              int
+	checkRetryDelayDuration time.Duration
+	tpl                     *Tpl
+	maxRecursiveLevel       int
+	currentRecursiveLevel   int
+	color                   string
+	icon                    string
+	isIconGenerated         bool
 }
 
 func (task *Task) init() {
+	task.isIconGenerated = false
 	task.maxRecursiveLevel = 100
 	task.currentRecursiveLevel = 0
 	task.generateIcon()
+	task.generateColor()
 	task.generateLogPrefix()
 	task.generateUUID()
 	task.generateGeneratedRandomName()
 }
 
-// GetUUID get task uid
 func (task *Task) GetUUID() (uuid string) {
 	return task.uuid
 }
 
-// GetGeneratedRandomName get generated random name
 func (task *Task) GetGeneratedRandomName() (name string) {
 	return task.generatedRandomName
 }
 
-// GetName get task name
 func (task *Task) GetName() (name string) {
 	return task.name
 }
 
+func (task *Task) GetColor() (color string) {
+	return task.color
+}
+
+func (task *Task) GetIcon() (icon string) {
+	return task.icon
+}
+
+func (task *Task) GetDecoratedIcon() (decoratedIcon string) {
+	return task.Project.Decoration.Icon(task.icon)
+}
+
+func (task *Task) getDefaultMaxStartRetry() int {
+	return 3
+}
+
+func (task *Task) getMaxStartRetry() int {
+	startRetry, err := strconv.Atoi(task.MaxStartRetryStr)
+	if err == nil {
+		return startRetry
+	}
+	parentTaskNames := task.GetParentTaskNames()
+	if len(parentTaskNames) > 0 {
+		parentTaskName := parentTaskNames[0]
+		parentTask := task.Project.Tasks[parentTaskName]
+		parentStartRetry := parentTask.getMaxStartRetry()
+		if parentStartRetry > 0 {
+			return parentStartRetry
+		}
+	}
+	return task.getDefaultMaxStartRetry()
+}
+
+func (task *Task) GetMaxStartRetry() int {
+	if task.startRetry > 0 {
+		return task.startRetry
+	}
+	startRetry := task.getMaxStartRetry()
+	if startRetry <= 0 {
+		startRetry = task.getDefaultMaxStartRetry()
+	}
+	task.startRetry = startRetry
+	return startRetry
+}
+
+func (task *Task) getDefaultStartRetryDelayDuration() time.Duration {
+	return 1 * time.Second
+}
+
+func (task *Task) getStartRetryDelayDuration() time.Duration {
+	startRetryDelayDuration, err := time.ParseDuration(task.StartRetryDelayStr)
+	if err == nil {
+		return startRetryDelayDuration
+	}
+	parentTaskNames := task.GetParentTaskNames()
+	if len(parentTaskNames) > 0 {
+		parentTaskName := parentTaskNames[0]
+		parentTask := task.Project.Tasks[parentTaskName]
+		parentStartRetryDelayDuration := parentTask.getStartRetryDelayDuration()
+		if parentStartRetryDelayDuration > 0 {
+			return parentStartRetryDelayDuration
+		}
+	}
+	return task.getDefaultStartRetryDelayDuration()
+}
+
+func (task *Task) GetStartRetryDelayDuration() time.Duration {
+	if task.startRetryDelayDuration > 0 {
+		return task.startRetryDelayDuration
+	}
+	startRetryDelayDuration := task.getStartRetryDelayDuration()
+	if startRetryDelayDuration < 0 {
+		startRetryDelayDuration = task.getDefaultStartRetryDelayDuration()
+	}
+	task.startRetryDelayDuration = startRetryDelayDuration
+	return startRetryDelayDuration
+}
+
+func (task *Task) getDefaultMaxCheckRetry() int {
+	// 0 means infinite
+	return 0
+}
+
+func (task *Task) getMaxCheckRetry() int {
+	checkRetry, err := strconv.Atoi(task.MaxCheckRetryStr)
+	if err == nil {
+		return checkRetry
+	}
+	parentTaskNames := task.GetParentTaskNames()
+	if len(parentTaskNames) > 0 {
+		parentTaskName := parentTaskNames[0]
+		parentTask := task.Project.Tasks[parentTaskName]
+		parentCheckRetry := parentTask.getMaxCheckRetry()
+		if parentCheckRetry > 0 {
+			return parentCheckRetry
+		}
+	}
+	return task.getDefaultMaxCheckRetry()
+}
+
+func (task *Task) GetMaxCheckRetry() int {
+	if task.checkRetry > 0 {
+		return task.checkRetry
+	}
+	checkRetry := task.getMaxCheckRetry()
+	if checkRetry < 0 {
+		checkRetry = task.getDefaultMaxCheckRetry()
+	}
+	task.checkRetry = checkRetry
+	return checkRetry
+}
+
+func (task *Task) getDefaultCheckRetryDelayDuration() time.Duration {
+	return 1 * time.Second
+}
+
+func (task *Task) getCheckRetryDelayDuration() time.Duration {
+	checkRetryDelayDuration, err := time.ParseDuration(task.CheckRetryDelayStr)
+	if err == nil {
+		return checkRetryDelayDuration
+	}
+	parentTaskNames := task.GetParentTaskNames()
+	if len(parentTaskNames) > 0 {
+		parentTaskName := parentTaskNames[0]
+		parentTask := task.Project.Tasks[parentTaskName]
+		parentCheckRetryDelayDuration := parentTask.getCheckRetryDelayDuration()
+		if parentCheckRetryDelayDuration > 0 {
+			return parentCheckRetryDelayDuration
+		}
+	}
+	return task.getDefaultCheckRetryDelayDuration()
+}
+
+func (task *Task) GetCheckRetryDelayDuration() time.Duration {
+	if task.checkRetryDelayDuration > 0 {
+		return task.checkRetryDelayDuration
+	}
+	checkRetryDelayDuration := task.getCheckRetryDelayDuration()
+	if checkRetryDelayDuration < 0 {
+		checkRetryDelayDuration = task.getDefaultCheckRetryDelayDuration()
+	}
+	task.checkRetryDelayDuration = checkRetryDelayDuration
+	return checkRetryDelayDuration
+}
+
 func (task *Task) getTimeoutDuration() time.Duration {
-	timeoutDuration, err := time.ParseDuration(task.Timeout)
+	timeoutDuration, err := time.ParseDuration(task.TimeoutStr)
 	if err == nil {
 		return timeoutDuration
 	}
@@ -92,7 +248,6 @@ func (task *Task) getTimeoutDuration() time.Duration {
 	return 0
 }
 
-// GetTimeoutDuration get timeout duration of a task
 func (task *Task) GetTimeoutDuration() time.Duration {
 	if task.timeoutDuration > 0 {
 		return task.timeoutDuration
@@ -105,7 +260,6 @@ func (task *Task) GetTimeoutDuration() time.Duration {
 	return timeoutDuration
 }
 
-// GetFileLocation get file location of a task
 func (task *Task) GetFileLocation() (fileLocation string) {
 	return task.fileLocation
 }
@@ -141,7 +295,7 @@ func (task *Task) GetIsSaveLog() bool {
 	return true
 }
 
-func (task *Task) ShouldSyncEnv() bool {
+func (task *Task) GetShouldSyncEnv() bool {
 	if task.Project.Util.Bool.IsFalse(task.SyncEnv) {
 		return false
 	}
@@ -152,7 +306,7 @@ func (task *Task) ShouldSyncEnv() bool {
 	if len(parentTaskNames) > 0 {
 		parentTaskName := parentTaskNames[0]
 		parentTask := task.Project.Tasks[parentTaskName]
-		if parentTask.ShouldSyncEnv() {
+		if parentTask.GetShouldSyncEnv() {
 			return true
 		}
 	}
@@ -175,7 +329,6 @@ func (task *Task) GetSyncEnvLocation() (path string) {
 	return task.GetLocation()
 }
 
-// GetWorkPath get path of current task
 func (task *Task) GetWorkPath() (workPath string) {
 	if taskLocation := task.GetLocation(); taskLocation != "" {
 		return taskLocation
@@ -184,12 +337,11 @@ func (task *Task) GetWorkPath() (workPath string) {
 	return workPath
 }
 
-// GetAutoTerminate
 func (task *Task) GetAutoTerminate() (autoTerminate bool) {
-	if task.Project.Util.Bool.IsTrue(task.AutoTerminate) {
+	if task.Project.Util.Bool.IsTrue(task.AutoTerminateStr) {
 		return true
 	}
-	if task.Project.Util.Bool.IsFalse(task.AutoTerminate) {
+	if task.Project.Util.Bool.IsFalse(task.AutoTerminateStr) {
 		return false
 	}
 	for _, parentTaskName := range task.GetParentTaskNames() {
@@ -201,35 +353,32 @@ func (task *Task) GetAutoTerminate() (autoTerminate bool) {
 	return false
 }
 
-// HaveStartCmd return whether task has start command or not
-func (task *Task) HaveStartCmd() bool {
+func (task *Task) IsHavingStartCmd() bool {
 	if len(task.Start) > 0 {
 		return true
 	}
 	for _, parentTaskName := range task.GetParentTaskNames() {
 		parentTask := task.Project.Tasks[parentTaskName]
-		if parentTask.HaveStartCmd() {
+		if parentTask.IsHavingStartCmd() {
 			return true
 		}
 	}
 	return false
 }
 
-// HaveCheckCmd return whether task has check command or not
-func (task *Task) HaveCheckCmd() bool {
+func (task *Task) IsHavingCheckCmd() bool {
 	if len(task.Check) > 0 {
 		return true
 	}
 	for _, parentTaskName := range task.GetParentTaskNames() {
 		parentTask := task.Project.Tasks[parentTaskName]
-		if parentTask.HaveCheckCmd() {
+		if parentTask.IsHavingCheckCmd() {
 			return true
 		}
 	}
 	return false
 }
 
-// GetValue getting config of a task
 func (task *Task) GetValue(keys ...string) (val string, err error) {
 	key := strings.Join(keys, "::")
 	pattern, exist := task.Project.GetValue(key), task.Project.IsValueExist(key)
@@ -248,7 +397,6 @@ func (task *Task) GetValueKeys() (keys []string) {
 	return keys
 }
 
-// GetConfigs getting all parsed config which key matching a pattern
 func (task *Task) GetConfigs(keyPattern string) (parsedConfig map[string]string, err error) {
 	parsedConfig = map[string]string{}
 	for _, key := range task.GetConfigKeys() {
@@ -267,7 +415,6 @@ func (task *Task) GetConfigs(keyPattern string) (parsedConfig map[string]string,
 	return parsedConfig, nil
 }
 
-// GetConfig getting config of a task
 func (task *Task) GetConfig(key string) (val string, err error) {
 	if pattern, declared := task.GetConfigPattern(key); declared {
 		templateName := fmt.Sprintf("%s[config][%s]", task.GetName(), key)
@@ -313,7 +460,6 @@ func (task *Task) GetConfigPattern(key string) (pattern string, declared bool) {
 	return "", false
 }
 
-// GetEnvs getting all parsed env
 func (task *Task) GetEnvs() (parsedEnv map[string]string, err error) {
 	parsedEnv = map[string]string{}
 	for _, key := range task.GetEnvKeys() {
@@ -325,7 +471,6 @@ func (task *Task) GetEnvs() (parsedEnv map[string]string, err error) {
 	return parsedEnv, nil
 }
 
-// GetEnv getting env of a task
 func (task *Task) GetEnv(key string) (val string, err error) {
 	if env, declared := task.GetEnvObject(key); declared {
 		if env.From != "" {
@@ -439,8 +584,8 @@ func (task *Task) getParsedPattern(templateNamePrefix, pattern string) (result s
 		// normalize $ZARUBA_INPUT_<INPUT_NAME>
 		pattern = strings.ReplaceAll(pattern, fmt.Sprintf("$ZARUBA_INPUT_%s", upperSnakeInputKey), inputTemplatePattern)
 	}
-	if task.td == nil {
-		task.td = NewTpl(task)
+	if task.tpl == nil {
+		task.tpl = NewTpl(task)
 	}
 	templateName := task.getTemplateName(templateNamePrefix, pattern)
 	tmpl, err := template.New(templateName).Option("missingkey=zero").Parse(pattern)
@@ -448,7 +593,7 @@ func (task *Task) getParsedPattern(templateNamePrefix, pattern string) (result s
 		return "", err
 	}
 	var b bytes.Buffer
-	if err = tmpl.Execute(&b, task.td); err != nil {
+	if err = tmpl.Execute(&b, task.tpl); err != nil {
 		return "", err
 	}
 	result = b.String()
@@ -475,8 +620,12 @@ func (task *Task) linkToEnvs() {
 }
 
 func (task *Task) generateIcon() {
-	if task.Icon == "" {
-		task.Icon = task.Project.Decoration.GenerateIcon()
+	if !task.isIconGenerated {
+		task.icon = task.Icon
+		if task.icon == "" {
+			task.icon = task.Project.Decoration.GenerateIcon()
+		}
+		task.isIconGenerated = true
 	}
 }
 
@@ -492,6 +641,17 @@ func (task *Task) generateGeneratedRandomName() {
 	}
 }
 
+func (task *Task) generateColor() {
+	if task.color == "" {
+		d := task.Project.Decoration
+		color := d.Faint
+		if !task.Private {
+			color = d.GenerateColor()
+		}
+		task.color = color
+	}
+}
+
 func (task *Task) generateLogPrefix() {
 	logTaskName := task.GetName()
 	if len(logTaskName) > task.Project.maxPublishedTaskNameLength {
@@ -502,14 +662,9 @@ func (task *Task) generateLogPrefix() {
 		logTaskName = logTaskName + strings.Repeat(" ", repeat)
 	}
 	d := task.Project.Decoration
-	color := d.Faint
-	if !task.Private {
-		color = d.GenerateColor()
-	}
-	task.logPrefix = fmt.Sprintf("%s%s%s %s", color, logTaskName, d.Normal, d.Icon(task.Icon))
+	task.logPrefix = fmt.Sprintf("%s%s%s %s", task.color, logTaskName, d.Normal, task.GetDecoratedIcon())
 }
 
-// GetDependencies get unique dependencies of a task, recursively
 func (task *Task) GetDependencies() (dependencies []string) {
 	dependencies = task.getDependencies()
 	sort.Strings(dependencies)
@@ -543,52 +698,56 @@ func (task *Task) getDependencies() (dependencies []string) {
 	return dependencies
 }
 
-// GetStartCmd get start command of a task
-func (task *Task) GetStartCmd() (cmd *exec.Cmd, exist bool, err error) {
-	cmdPatterns, exist, err := task.GetStartCmdPatterns()
-	if err != nil || !exist {
-		return cmd, exist, err
+func (task *Task) GetStartCmd() (cmd *exec.Cmd, err error) {
+	cmdPatterns, err := task.GetStartCmdPatterns()
+	if err != nil {
+		return cmd, err
 	}
 	cmd, err = task.getCmd("START", cmdPatterns)
-	return cmd, exist, err
+	return cmd, err
 }
 
-func (task *Task) GetStartCmdPatterns() (cmdPatterns []string, exist bool, err error) {
+func (task *Task) GetStartCmdPatterns() (cmdPatterns []string, err error) {
+	if !task.IsHavingStartCmd() {
+		return cmdPatterns, fmt.Errorf("cannot retrieve start cmd from any parent task of %s", task.GetName())
+	}
 	if len(task.Start) > 0 {
-		return task.Start, true, nil
+		return task.Start, nil
 	}
 	for _, parentTaskName := range task.GetParentTaskNames() {
 		parentTask := task.Project.Tasks[parentTaskName]
-		cmdPatterns, exist, err = parentTask.GetStartCmdPatterns()
-		if err != nil || exist {
-			return cmdPatterns, exist, err
+		cmdPatterns, err = parentTask.GetStartCmdPatterns()
+		if err != nil {
+			return cmdPatterns, err
 		}
 	}
-	return cmdPatterns, false, fmt.Errorf("cannot retrieve start cmd from any parent task of %s", task.GetName())
+	return cmdPatterns, err
 }
 
-// GetCheckCmd get check command of a task
-func (task *Task) GetCheckCmd() (cmd *exec.Cmd, exist bool, err error) {
-	cmdPatterns, exist, err := task.GetCheckCmdPatterns()
-	if err != nil || !exist {
-		return cmd, exist, err
+func (task *Task) GetCheckCmd() (cmd *exec.Cmd, err error) {
+	cmdPatterns, err := task.GetCheckCmdPatterns()
+	if err != nil {
+		return cmd, err
 	}
 	cmd, err = task.getCmd("CHECK", cmdPatterns)
-	return cmd, exist, err
+	return cmd, err
 }
 
-func (task *Task) GetCheckCmdPatterns() (cmdPatterns []string, exist bool, err error) {
+func (task *Task) GetCheckCmdPatterns() (cmdPatterns []string, err error) {
+	if !task.IsHavingCheckCmd() {
+		return cmdPatterns, fmt.Errorf("cannot retrieve check cmd from any parent task of %s", task.GetName())
+	}
 	if len(task.Check) > 0 {
-		return task.Check, true, nil
+		return task.Check, nil
 	}
 	for _, parentTaskName := range task.GetParentTaskNames() {
 		parentTask := task.Project.Tasks[parentTaskName]
-		cmdPatterns, exist, err = parentTask.GetCheckCmdPatterns()
-		if err != nil || exist {
-			return cmdPatterns, exist, err
+		cmdPatterns, err = parentTask.GetCheckCmdPatterns()
+		if err != nil {
+			return cmdPatterns, err
 		}
 	}
-	return cmdPatterns, false, fmt.Errorf("cannot retrieve check cmd from any parent task of %s", task.GetName())
+	return cmdPatterns, nil
 }
 
 func (task *Task) getCmd(cmdType string, commandPatternArgs []string) (cmd *exec.Cmd, err error) {

@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
-	"github.com/state-alchemists/zaruba/core"
+	"github.com/state-alchemists/zaruba/dsl"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -25,7 +25,7 @@ var syncEnvCmd = &cobra.Command{
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-		util := core.NewCoreUtil()
+		util := dsl.NewDSLUtil()
 		if err = util.Project.Task.Env.Sync(taskName, projectFile); err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}

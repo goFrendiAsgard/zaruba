@@ -1,4 +1,4 @@
-package core
+package dsl
 
 import (
 	"bytes"
@@ -25,7 +25,7 @@ type Tpl struct {
 	ProjectDirPath      string
 	FileLocation        string
 	Decoration          *output.Decoration
-	Util                *CoreUtil
+	Util                *DSLUtil
 }
 
 func NewTpl(task *Task) (td *Tpl) {

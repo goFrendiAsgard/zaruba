@@ -1,4 +1,4 @@
-package core
+package dsl
 
 import (
 	"fmt"
@@ -112,7 +112,7 @@ func (kv *KeyValidator) checkProjectValidKeys() (err error) {
 }
 
 func (kv *KeyValidator) checkTaskValidKeys() (err error) {
-	validKeys := []string{"start", "check", "timeout", "private", "autoTerminate", "extend", "extends", "location", "configRef", "configRefs", "configs", "envRef", "envRefs", "envs", "dependencies", "inputs", "description", "icon", "saveLog", "syncEnv", "syncEnvLocation"}
+	validKeys := []string{"start", "maxStartRetry", "startRetryDelay", "check", "maxCheckRetry", "checkRetryDelay", "timeout", "private", "autoTerminate", "extend", "extends", "location", "configRef", "configRefs", "configs", "envRef", "envRefs", "envs", "dependencies", "inputs", "description", "icon", "saveLog", "syncEnv", "syncEnvLocation"}
 	for taskName, task := range kv.taskKeyCheckData.Tasks {
 		for key := range task {
 			valid := false

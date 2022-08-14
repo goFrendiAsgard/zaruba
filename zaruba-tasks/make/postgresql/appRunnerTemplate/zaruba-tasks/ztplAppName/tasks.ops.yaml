@@ -13,3 +13,5 @@ tasks:
       - sql
     configs:
       templateLocation: '{{ .GetProjectPath "zaruba-tasks/ztplAppName/queryTemplate" }}'
+    maxStartRetry: 5
+    startRetryDelay: 5s

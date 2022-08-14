@@ -19,7 +19,7 @@ import (
 	"github.com/state-alchemists/zaruba/cmd/strcmd"
 	"github.com/state-alchemists/zaruba/cmd/taskcmd"
 	"github.com/state-alchemists/zaruba/cmd/yamlcmd"
-	"github.com/state-alchemists/zaruba/core"
+	"github.com/state-alchemists/zaruba/dsl"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -42,7 +42,7 @@ AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
 }
 
 func init() {
-	core.SetDefaultEnv()
+	dsl.SetDefaultEnv()
 
 	rootCmd.AddCommand(generateCmd)
 	rootCmd.AddCommand(pleaseCmd)
