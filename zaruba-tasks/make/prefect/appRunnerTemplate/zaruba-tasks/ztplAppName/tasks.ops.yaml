@@ -15,3 +15,5 @@ tasks:
     location: ../../ztplAppDirectory/agent
     configRef: registerZtplAppNameFlows
     envRef: registerZtplAppNameFlows
+    maxStartRetry: 5
+    startRetryDelay: 5s

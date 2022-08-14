@@ -352,7 +352,7 @@ func (prompter *Prompter) GetTaskName() (taskName string, err error) {
 	privateTaskCaptions := []string{}
 	for _, taskName := range sortedTaskNames {
 		task := prompter.project.Tasks[taskName]
-		taskCaption := fmt.Sprintf("%s %s", task.Icon, taskName)
+		taskCaption := fmt.Sprintf("%s %s", task.GetIcon(), taskName)
 		if task.Private {
 			privateTaskOptions = append(privateTaskOptions, taskName)
 			privateTaskCaptions = append(privateTaskCaptions, taskCaption)

@@ -9,3 +9,5 @@ tasks:
       - registerZtplAppNameRunner
       - ztplAppName
     envRef: ztplAppName 
+    checkRetryDelay: 5s
+    maxCheckRetry: 5

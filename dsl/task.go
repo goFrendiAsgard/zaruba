@@ -58,12 +58,17 @@ type Task struct {
 	tpl                     *Tpl
 	maxRecursiveLevel       int
 	currentRecursiveLevel   int
+	color                   string
+	icon                    string
+	isIconGenerated         bool
 }
 
 func (task *Task) init() {
+	task.isIconGenerated = false
 	task.maxRecursiveLevel = 100
 	task.currentRecursiveLevel = 0
 	task.generateIcon()
+	task.generateColor()
 	task.generateLogPrefix()
 	task.generateUUID()
 	task.generateGeneratedRandomName()
@@ -79,6 +84,18 @@ func (task *Task) GetGeneratedRandomName() (name string) {
 
 func (task *Task) GetName() (name string) {
 	return task.name
+}
+
+func (task *Task) GetColor() (color string) {
+	return task.color
+}
+
+func (task *Task) GetIcon() (icon string) {
+	return task.icon
+}
+
+func (task *Task) GetDecoratedIcon() (decoratedIcon string) {
+	return task.Project.Decoration.Icon(task.icon)
 }
 
 func (task *Task) getDefaultMaxStartRetry() int {
@@ -603,8 +620,12 @@ func (task *Task) linkToEnvs() {
 }
 
 func (task *Task) generateIcon() {
-	if task.Icon == "" {
-		task.Icon = task.Project.Decoration.GenerateIcon()
+	if !task.isIconGenerated {
+		task.icon = task.Icon
+		if task.icon == "" {
+			task.icon = task.Project.Decoration.GenerateIcon()
+		}
+		task.isIconGenerated = true
 	}
 }
 
@@ -620,6 +641,17 @@ func (task *Task) generateGeneratedRandomName() {
 	}
 }
 
+func (task *Task) generateColor() {
+	if task.color == "" {
+		d := task.Project.Decoration
+		color := d.Faint
+		if !task.Private {
+			color = d.GenerateColor()
+		}
+		task.color = color
+	}
+}
+
 func (task *Task) generateLogPrefix() {
 	logTaskName := task.GetName()
 	if len(logTaskName) > task.Project.maxPublishedTaskNameLength {
@@ -630,11 +662,7 @@ func (task *Task) generateLogPrefix() {
 		logTaskName = logTaskName + strings.Repeat(" ", repeat)
 	}
 	d := task.Project.Decoration
-	color := d.Faint
-	if !task.Private {
-		color = d.GenerateColor()
-	}
-	task.logPrefix = fmt.Sprintf("%s%s%s %s", color, logTaskName, d.Normal, d.Icon(task.Icon))
+	task.logPrefix = fmt.Sprintf("%s%s%s %s", task.color, logTaskName, d.Normal, task.GetDecoratedIcon())
 }
 
 func (task *Task) GetDependencies() (dependencies []string) {

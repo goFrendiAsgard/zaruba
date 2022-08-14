@@ -22,20 +22,20 @@ zaruba please printHelloHuman -e GREETINGS=はじめまして
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.596µs
-         Current Time: 00:24:51
-💀 🏁 Running 🍏 'printHelloHuman' runner on /home/gofrendi/zaruba/docs/examples/run-tasks (Attempt: 1/3)
+         Elapsed Time: 1.378µs
+         Current Time: 10:21:54
+💀 🏁 Running 🍏 printHelloHuman runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
 💀    🚀 printHelloHuman      🍏 はじめまして human
-💀 🎉 Successfully running 🍏 'printHelloHuman' runner (Attempt: 1/3)
+💀 🎉 Successfully running 🍏 printHelloHuman runner (Attempt 1 of 3)
 💀 🔎 Job Running...
-         Elapsed Time: 1.348148ms
-         Current Time: 00:24:51
+         Elapsed Time: 1.647803ms
+         Current Time: 10:21:54
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 405.600128ms
-         Current Time: 00:24:51
+         Elapsed Time: 405.383014ms
+         Current Time: 10:21:54
 zaruba please printHelloHuman -e 'GREETINGS=はじめまして'
 ```````
 </details>
@@ -65,20 +65,20 @@ zaruba please printHelloHuman -e sample.env
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.49µs
-         Current Time: 00:24:51
-💀 🏁 Running 🍏 'printHelloHuman' runner on /home/gofrendi/zaruba/docs/examples/run-tasks (Attempt: 1/3)
+         Elapsed Time: 2.248µs
+         Current Time: 10:21:55
+💀 🏁 Running 🍏 printHelloHuman runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
+💀 🎉 Successfully running 🍏 printHelloHuman runner (Attempt 1 of 3)
 💀    🚀 printHelloHuman      🍏 Hola human
-💀 🎉 Successfully running 🍏 'printHelloHuman' runner (Attempt: 1/3)
 💀 🔎 Job Running...
-         Elapsed Time: 1.659436ms
-         Current Time: 00:24:51
+         Elapsed Time: 1.806866ms
+         Current Time: 10:21:55
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 403.454544ms
-         Current Time: 00:24:52
+         Elapsed Time: 406.430333ms
+         Current Time: 10:21:55
 zaruba please printHelloHuman -e 'sample.env'
 ```````
 </details>

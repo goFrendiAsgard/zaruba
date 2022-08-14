@@ -31,20 +31,20 @@ zaruba please printHelloHuman humanName="Go Frendi"
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.951µs
-         Current Time: 00:24:52
-💀 🏁 Running 🍏 'printHelloHuman' runner on /home/gofrendi/zaruba/docs/examples/run-tasks (Attempt: 1/3)
+         Elapsed Time: 1.312µs
+         Current Time: 10:21:55
+💀 🏁 Running 🍏 printHelloHuman runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
 💀    🚀 printHelloHuman      🍏 hello Go Frendi
-💀 🎉 Successfully running 🍏 'printHelloHuman' runner (Attempt: 1/3)
+💀 🎉 Successfully running 🍏 printHelloHuman runner (Attempt 1 of 3)
 💀 🔎 Job Running...
-         Elapsed Time: 1.363637ms
-         Current Time: 00:24:52
+         Elapsed Time: 1.695121ms
+         Current Time: 10:21:55
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 405.537692ms
-         Current Time: 00:24:52
+         Elapsed Time: 404.0144ms
+         Current Time: 10:21:56
 zaruba please printHelloHuman  -v 'humanName=Go Frendi'
 ```````
 </details>
@@ -73,20 +73,20 @@ zaruba please printHelloHuman -v sample.values.yaml
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.849µs
-         Current Time: 00:24:52
-💀 🏁 Running 🍏 'printHelloHuman' runner on /home/gofrendi/zaruba/docs/examples/run-tasks (Attempt: 1/3)
+         Elapsed Time: 1.546µs
+         Current Time: 10:21:56
+💀 🏁 Running 🍏 printHelloHuman runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
 💀    🚀 printHelloHuman      🍏 hello Avogadro
-💀 🎉 Successfully running 🍏 'printHelloHuman' runner (Attempt: 1/3)
+💀 🎉 Successfully running 🍏 printHelloHuman runner (Attempt 1 of 3)
 💀 🔎 Job Running...
-         Elapsed Time: 2.054615ms
-         Current Time: 00:24:52
+         Elapsed Time: 2.005238ms
+         Current Time: 10:21:56
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 407.111841ms
-         Current Time: 00:24:53
+         Elapsed Time: 406.561951ms
+         Current Time: 10:21:56
 zaruba please printHelloHuman  -v 'sample.values.yaml'
 ```````
 </details>

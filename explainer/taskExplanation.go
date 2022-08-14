@@ -92,7 +92,7 @@ func NewTaskExplanation(decoration *output.Decoration, task *dsl.Task) (taskExpl
 	// task explanation
 	return &TaskExplanation{
 		d:               decoration,
-		Icon:            task.Icon,
+		Icon:            task.GetIcon(),
 		Name:            task.GetName(),
 		FileLocation:    task.GetFileLocation(),
 		Location:        task.GetLocation(),

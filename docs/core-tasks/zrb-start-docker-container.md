@@ -129,14 +129,10 @@ Value:
 Value:
 
     {{ if .GetConfig "checkCommand" -}}
-    (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
-    set +e
-    sleep 3
     {{ $checkCommand := .Util.Str.Trim (.GetConfig "checkCommand") "\n" -}}
     echo "${_INSPECT_ICON} ${_BOLD}${_YELLOW}Run check in '${CONTAINER_NAME}': {{ .Util.Str.EscapeShellValue $checkCommand }}${_NORMAL}"
     docker exec "${CONTAINER_NAME}" {{ $checkCommand }}
     echo "${_INSPECT_ICON} ${_BOLD}${_YELLOW}Sucessfully run check in '${CONTAINER_NAME}': {{ .Util.Str.EscapeShellValue $checkCommand }}${_NORMAL}"
-    set "${_OLD_STATE}"
     {{ end -}}
 
 
@@ -163,17 +159,17 @@ Value:
 Value:
 
     echo "${_INSPECT_ICON} ${_BOLD}${_YELLOW}Waiting docker container '${CONTAINER_NAME}' running status${_NORMAL}"
-    if [ "$(inspectDocker "container" ".State.Running" "${CONTAINER_NAME}")" != true ]
-    then
-      echo ${_RED}${CONTAINER_NAME} is not running${_NORMAL}
-      exit 1
-    fi
+    until [ "$(inspectDocker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
+    do
+      echo "${_INSPECT_ICON} ${_BOLD}${_RED}Docker container '${CONTAINER_NAME}' is not running${_NORMAL}"
+      sleep 1
+    done
     echo "${_INSPECT_ICON} ${_BOLD}${_YELLOW}Waiting docker container '${CONTAINER_NAME}' healthcheck${_NORMAL}"
-    if [ "$(inspectDocker "container" ".State.Health" "${CONTAINER_NAME}")" = false ]
-    then
-      echo ${_RED}${CONTAINER_NAME} is not healthy${_NORMAL}
-      exit 1
-    fi
+    while [ "$(inspectDocker "container" ".State.Health" "${CONTAINER_NAME}")" = false ]
+    do
+      echo "${_INSPECT_ICON} ${_BOLD}${_RED}Docker container '${CONTAINER_NAME}' is not healthy${_NORMAL}"
+      sleep 1
+    done
     echo "${_INSPECT_ICON} ${_BOLD}${_YELLOW}Docker container '${CONTAINER_NAME}' is running${_NORMAL}"
 
 

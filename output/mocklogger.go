@@ -41,6 +41,8 @@ func (m *MockLogger) RegisterTrigger(subStr string, trigger MockLoggerTrigger) {
 
 func (m *MockLogger) GetOutput() (output string) {
 	lines := []string{}
+	m.Mutex.Lock()
+	defer m.Mutex.Unlock()
 	for _, data := range m.Data {
 		lines = append(lines, strings.Trim(data.Str, "\n"))
 	}
