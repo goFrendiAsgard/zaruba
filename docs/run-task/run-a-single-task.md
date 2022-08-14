@@ -30,24 +30,24 @@ zaruba please showSolidPrinciple
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.881µs
-         Current Time: 10:21:52
+         Elapsed Time: 1.65µs
+         Current Time: 12:41:57
 💀 🏁 Running 🦉 showSolidPrinciple runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs
 💀    🚀 showSolidPrinciple   🦉  S  Single Responsibility Principle 
 💀    🚀 showSolidPrinciple   🦉  O  Open/Closed Principle 
 💀    🚀 showSolidPrinciple   🦉  L  Liskov's Substitution Principle 
 💀    🚀 showSolidPrinciple   🦉  I  Interface Segregation Principle 
+💀    🚀 showSolidPrinciple   🦉  D  Dependency Inversion Principle 
 💀 🎉 Successfully running 🦉 showSolidPrinciple runner (Attempt 1 of 3)
 💀 🔎 Job Running...
-         Elapsed Time: 5.57257ms
-         Current Time: 10:21:52
+         Elapsed Time: 8.038994ms
+         Current Time: 12:41:57
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
-💀    🚀 showSolidPrinciple   🦉  D  Dependency Inversion Principle 
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 308.671431ms
-         Current Time: 10:21:53
+         Elapsed Time: 310.995866ms
+         Current Time: 12:41:57
 zaruba please showSolidPrinciple
 ```````
 </details>
@@ -81,20 +81,20 @@ zaruba please printHelloWorld
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.499µs
-         Current Time: 10:21:53
+         Elapsed Time: 1.255µs
+         Current Time: 12:41:57
 💀 🏁 Running 🍎 printHelloWorld runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
 💀    🚀 printHelloWorld      🍎 hello world
 💀 🎉 Successfully running 🍎 printHelloWorld runner (Attempt 1 of 3)
 💀 🔎 Job Running...
-         Elapsed Time: 1.378795ms
-         Current Time: 10:21:53
+         Elapsed Time: 1.529296ms
+         Current Time: 12:41:57
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 403.426662ms
-         Current Time: 10:21:53
+         Elapsed Time: 403.280431ms
+         Current Time: 12:41:58
 zaruba please printHelloWorld
 ```````
 </details>

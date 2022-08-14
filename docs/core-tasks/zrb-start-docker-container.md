@@ -129,10 +129,19 @@ Value:
 Value:
 
     {{ if .GetConfig "checkCommand" -}}
+    (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
+    set +e
+    sleep 3
     {{ $checkCommand := .Util.Str.Trim (.GetConfig "checkCommand") "\n" -}}
     echo "${_INSPECT_ICON} ${_BOLD}${_YELLOW}Run check in '${CONTAINER_NAME}': {{ .Util.Str.EscapeShellValue $checkCommand }}${_NORMAL}"
     docker exec "${CONTAINER_NAME}" {{ $checkCommand }}
+    until [ "$?" = "0" ]
+    do
+      sleep 3
+      docker exec "${CONTAINER_NAME}" {{ $checkCommand }}
+    done
     echo "${_INSPECT_ICON} ${_BOLD}${_YELLOW}Sucessfully run check in '${CONTAINER_NAME}': {{ .Util.Str.EscapeShellValue $checkCommand }}${_NORMAL}"
+    set "${_OLD_STATE}"
     {{ end -}}
 
 
