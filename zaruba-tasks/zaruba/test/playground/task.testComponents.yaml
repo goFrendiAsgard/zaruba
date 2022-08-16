@@ -104,7 +104,6 @@ tasks:
 
         ../zaruba please startProvoRabbitmqContainer startProvoKafkaContainer -t
         sleep 20
-        set +e
         ../zaruba please testProvoFastApp -e 'PROVO_FAST_APP_TEST_INTEGRATION=1' 
         ../zaruba please stopProvoRabbitmqContainer stopProvoKafkaContainer
 

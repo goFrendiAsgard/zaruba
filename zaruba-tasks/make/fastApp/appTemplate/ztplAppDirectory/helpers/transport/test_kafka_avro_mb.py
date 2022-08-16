@@ -5,13 +5,11 @@ from helpers.transport.kafka_avro_config import KafkaAvroEventMap
 import os
 import warnings
 import asyncio
+import pytest
 
 
-def test_kafka_avro_mb():
-    asyncio.run(_test_kafka_avro_mb())
-
-
-async def _test_kafka_avro_mb():
+@pytest.mark.asyncio
+async def test_kafka_avro_mb():
     if os.getenv('TEST_INTEGRATION', '0') != '1':
         warnings.warn(UserWarning('TEST_INTEGRATION != 1, KafkaAvroMessageBus is not tested'))
         return None
@@ -21,7 +19,8 @@ async def _test_kafka_avro_mb():
         schema_registry = os.getenv('TEST_KAFKA_SCHEMA_REGISTRY', 'http://localhost:8035'),
         sasl_mechanism=os.getenv('TEST_KAFKA_SASL_MECHANISM', 'PLAIN'),
         sasl_plain_username=os.getenv('TEST_KAFKA_SASL_PLAIN_USERNAME', ''),
-        sasl_plain_password=os.getenv('TEST_KAFKA_SASL_PLAIN_PASSWORD', '')
+        sasl_plain_password=os.getenv('TEST_KAFKA_SASL_PLAIN_PASSWORD', ''),
+        security_protocol=os.getenv('TEST_KAFKA_SECURITY_PROTOCOL', 'PLAINTEXT')
     )
     kafka_avro_event_map = KafkaAvroEventMap({})
     

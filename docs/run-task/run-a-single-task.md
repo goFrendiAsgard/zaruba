@@ -30,24 +30,24 @@ zaruba please showSolidPrinciple
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.65µs
-         Current Time: 12:41:57
+         Elapsed Time: 1.743µs
+         Current Time: 08:01:56
 💀 🏁 Running 🦉 showSolidPrinciple runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs
 💀    🚀 showSolidPrinciple   🦉  S  Single Responsibility Principle 
 💀    🚀 showSolidPrinciple   🦉  O  Open/Closed Principle 
 💀    🚀 showSolidPrinciple   🦉  L  Liskov's Substitution Principle 
+💀 🎉 Successfully running 🦉 showSolidPrinciple runner (Attempt 1 of 3)
 💀    🚀 showSolidPrinciple   🦉  I  Interface Segregation Principle 
 💀    🚀 showSolidPrinciple   🦉  D  Dependency Inversion Principle 
-💀 🎉 Successfully running 🦉 showSolidPrinciple runner (Attempt 1 of 3)
 💀 🔎 Job Running...
-         Elapsed Time: 8.038994ms
-         Current Time: 12:41:57
+         Elapsed Time: 8.583407ms
+         Current Time: 08:01:56
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 310.995866ms
-         Current Time: 12:41:57
+         Elapsed Time: 311.82035ms
+         Current Time: 08:01:56
 zaruba please showSolidPrinciple
 ```````
 </details>
@@ -81,20 +81,20 @@ zaruba please printHelloWorld
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.255µs
-         Current Time: 12:41:57
+         Elapsed Time: 1.963µs
+         Current Time: 08:01:56
 💀 🏁 Running 🍎 printHelloWorld runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
 💀    🚀 printHelloWorld      🍎 hello world
 💀 🎉 Successfully running 🍎 printHelloWorld runner (Attempt 1 of 3)
 💀 🔎 Job Running...
-         Elapsed Time: 1.529296ms
-         Current Time: 12:41:57
+         Elapsed Time: 2.930705ms
+         Current Time: 08:01:56
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 403.280431ms
-         Current Time: 12:41:58
+         Elapsed Time: 406.880556ms
+         Current Time: 08:01:57
 zaruba please printHelloWorld
 ```````
 </details>

@@ -402,6 +402,7 @@ func (r *Runner) waitSimpleCmd(cmdLabel string, task *dsl.Task, cmdMaker func() 
 			// no error, quit this function
 			if cmdErr == nil {
 				r.handleCmdWaitSuccess(cmdLabel, attempt, maxRetry)
+				executed = true
 				ch <- nil
 				return
 			}
@@ -454,11 +455,11 @@ func (r *Runner) handleLongRunningCmd(cmdLabel string, cmdInfo *CmdInfo, cmd *ex
 	retryDelayDuration := cmdInfo.RetryDelayDuration
 	r.cmdInfoMutex.Unlock()
 	var stdinPipe io.WriteCloser
+	attempt := 1
 	cmdErr := cmd.Wait()
 	if cmdErr != nil {
-		r.logger.DPrintfStarted("Error running %s %s on %s\n", cmdLabel, r.getRetryAttemptCaption(1, maxRetry), cmd.Dir)
-		r.unregisterCmd(cmdLabel)
-		for attempt := 2; r.shouldRetry(attempt, maxRetry); attempt++ {
+		r.handleCmdWaitFailure(cmdLabel, cmdErr, cmd, 1, maxRetry, retryDelayDuration)
+		for attempt = 2; r.shouldRetry(attempt, maxRetry); attempt++ {
 			cmd, stdinPipe, cmdErr = r.createCmdAndStdinPipe(cmdMaker)
 			if cmdErr != nil {
 				ch <- cmdErr
@@ -481,7 +482,9 @@ func (r *Runner) handleLongRunningCmd(cmdLabel string, cmdInfo *CmdInfo, cmd *ex
 			r.handleCmdWaitFailure(cmdLabel, cmdErr, cmd, attempt, maxRetry, retryDelayDuration)
 		}
 	}
-	if cmdErr != nil {
+	if cmdErr == nil {
+		r.handleCmdWaitSuccess(cmdLabel, attempt, maxRetry)
+	} else {
 		r.handleCommonLongRunningCmdFailure("exited", cmdLabel, cmdErr, cmd)
 		ch <- cmdErr
 		return
@@ -506,9 +509,9 @@ func (r *Runner) handleCommonLongRunningCmdFailure(reason string, cmdLabel strin
 }
 
 func (r *Runner) handleCmdWaitFailure(cmdLabel string, err error, cmd *exec.Cmd, attempt, maxRetry int, retryDelayDuration time.Duration) {
-	r.handleCmdCommonFailure("Error running", cmdLabel, err, cmd, attempt, maxRetry)
+	r.handleCmdCommonFailure("Exit", cmdLabel, err, cmd, attempt, maxRetry)
 	r.unregisterCmd(cmdLabel)
-	if r.shouldRetry(attempt, maxRetry) {
+	if attempt != maxRetry && r.shouldRetry(attempt, maxRetry) {
 		r.sleep(retryDelayDuration)
 	}
 }

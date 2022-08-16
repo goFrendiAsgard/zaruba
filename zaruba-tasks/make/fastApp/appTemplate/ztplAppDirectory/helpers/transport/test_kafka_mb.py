@@ -5,12 +5,11 @@ from helpers.transport.kafka_config import KafkaEventMap
 import os
 import warnings
 import asyncio
-
-def test_kafka_mb():
-    asyncio.run(_test_kafka_mb())
+import pytest
 
 
-async def _test_kafka_mb():
+@pytest.mark.asyncio
+async def test_kafka_mb():
     if os.getenv('TEST_INTEGRATION', '0') != '1':
         warnings.warn(UserWarning('TEST_INTEGRATION != 1, KafkaMessageBus is not tested'))
         return None
@@ -19,7 +18,8 @@ async def _test_kafka_mb():
         bootstrap_servers = os.getenv('TEST_KAFKA_BOOTSTRAP_SERVERS', 'localhost:9092'),
         sasl_mechanism=os.getenv('TEST_KAFKA_SASL_MECHANISM', 'PLAIN'),
         sasl_plain_username=os.getenv('TEST_KAFKA_SASL_PLAIN_USERNAME', ''),
-        sasl_plain_password=os.getenv('TEST_KAFKA_SASL_PLAIN_PASSWORD', '')
+        sasl_plain_password=os.getenv('TEST_KAFKA_SASL_PLAIN_PASSWORD', ''),
+        security_protocol=os.getenv('TEST_KAFKA_SECURITY_PROTOCOL', 'PLAINTEXT')
     )
     kafka_event_map = KafkaEventMap({})
 

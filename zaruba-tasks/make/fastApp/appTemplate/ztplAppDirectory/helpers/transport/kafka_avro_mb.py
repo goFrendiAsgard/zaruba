@@ -12,7 +12,7 @@ def create_kafka_avro_connection_parameters(bootstrap_servers: str, schema_regis
     if sasl_mechanism == '':
         sasl_mechanism = 'PLAIN'
     if security_protocol == '':
-        security_protocol = 'SASL_PLAINTEXT'
+        security_protocol = 'PLAINTEXT'
     # https://github.com/edenhill/librdkafka/blob/master/CONFIGURATION.md
     return {
         'bootstrap.servers': bootstrap_servers,
@@ -20,8 +20,8 @@ def create_kafka_avro_connection_parameters(bootstrap_servers: str, schema_regis
         'sasl.mechanism': sasl_mechanism,
         'sasl.username': sasl_plain_username,
         'sasl.password': sasl_plain_password,
+        'security.protocol': security_protocol,
         # 'topic.metadata.propagation.max.ms': '100',
-        # 'security.protocol': security_protocol,
         **kwargs
     }
 
@@ -46,10 +46,10 @@ class KafkaAvroMessageBus(MessageBus):
     def shutdown(self):
         if self._is_shutdown:
             return
+        self._is_shutdown = True
         for event_name, consumer in self._consumers.items():
             print('stop listening to {event_name}'.format(event_name=event_name))
             consumer.close()
-        self._is_shutdown = True
 
     def handle(self, event_name: str) -> Callable[..., Any]:
         def register_event_handler(event_handler: Callable[[Any], Any]):
@@ -82,7 +82,7 @@ class KafkaAvroMessageBus(MessageBus):
                 print(traceback.format_exc())
                 consumer = AvroConsumer(consumer_args)
                 self._consumers[event_name] = consumer
-        while True:
+        while not self._is_shutdown:
             try:
                 serialized_message = consumer.poll(1)
                 if serialized_message is None:

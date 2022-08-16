@@ -6,12 +6,11 @@ from helpers.transport.rmq_connection import create_rmq_connection_parameters
 import os
 import warnings
 import asyncio
-
-def test_rmq_mb():
-    asyncio.run(_test_rmq_mb())
+import pytest
 
 
-async def _test_rmq_mb():
+@pytest.mark.asyncio
+async def test_rmq_mb():
     if os.getenv('TEST_INTEGRATION', '0') != '1':
         warnings.warn(UserWarning('TEST_INTEGRATION != 1, RMQMessageBus is not tested'))
         return None
