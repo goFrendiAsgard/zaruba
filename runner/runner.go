@@ -520,7 +520,7 @@ func (r *Runner) handleCmdWaitSuccess(cmdLabel string, attempt, maxRetry int) {
 func (r *Runner) handleCmdStartFailure(cmdLabel string, err error, cmd *exec.Cmd, attempt, maxRetry int, retryDelayDuration time.Duration) {
 	r.handleCmdCommonFailure("Cannot start", cmdLabel, err, cmd, attempt, maxRetry)
 	r.unregisterCmd(cmdLabel)
-	if r.shouldRetry(attempt, maxRetry) {
+	if attempt != maxRetry && r.shouldRetry(attempt, maxRetry) {
 		r.sleep(retryDelayDuration)
 	}
 }
