@@ -455,11 +455,10 @@ func (r *Runner) handleLongRunningCmd(cmdLabel string, cmdInfo *CmdInfo, cmd *ex
 	retryDelayDuration := cmdInfo.RetryDelayDuration
 	r.cmdInfoMutex.Unlock()
 	var stdinPipe io.WriteCloser
-	attempt := 1
-	cmdErr := cmd.Wait()
-	if cmdErr != nil {
-		r.handleCmdWaitFailure(cmdLabel, cmdErr, cmd, 1, maxRetry, retryDelayDuration)
-		for attempt = 2; r.shouldRetry(attempt, maxRetry); attempt++ {
+	var cmdErr error
+	for attempt := 1; r.shouldRetry(attempt, maxRetry); attempt++ {
+		// for attempt == 1, cmd has already been started. So we don't have to re-create and start cmd
+		if attempt > 1 {
 			cmd, stdinPipe, cmdErr = r.createCmdAndStdinPipe(cmdMaker)
 			if cmdErr != nil {
 				ch <- cmdErr
@@ -472,19 +471,17 @@ func (r *Runner) handleLongRunningCmd(cmdLabel string, cmdInfo *CmdInfo, cmd *ex
 				r.handleCmdStartFailure(cmdLabel, cmdErr, cmd, attempt, maxRetry, retryDelayDuration)
 				continue
 			}
-			cmdErr = cmd.Wait()
-			// no error, quit loop
-			if cmdErr == nil {
-				r.handleCmdWaitSuccess(cmdLabel, attempt, maxRetry)
-				break
-			}
-			// any error
-			r.handleCmdWaitFailure(cmdLabel, cmdErr, cmd, attempt, maxRetry, retryDelayDuration)
 		}
+		cmdErr = cmd.Wait()
+		// no error, quit loop
+		if cmdErr == nil {
+			r.handleCmdWaitSuccess(cmdLabel, attempt, maxRetry)
+			break
+		}
+		// any error
+		r.handleCmdWaitFailure(cmdLabel, cmdErr, cmd, attempt, maxRetry, retryDelayDuration)
 	}
-	if cmdErr == nil {
-		r.handleCmdWaitSuccess(cmdLabel, attempt, maxRetry)
-	} else {
+	if cmdErr != nil {
 		r.handleCommonLongRunningCmdFailure("exited", cmdLabel, cmdErr, cmd)
 		ch <- cmdErr
 		return
