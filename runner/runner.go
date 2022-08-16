@@ -508,7 +508,7 @@ func (r *Runner) handleCommonLongRunningCmdFailure(reason string, cmdLabel strin
 func (r *Runner) handleCmdWaitFailure(cmdLabel string, err error, cmd *exec.Cmd, attempt, maxRetry int, retryDelayDuration time.Duration) {
 	r.handleCmdCommonFailure("Exit", cmdLabel, err, cmd, attempt, maxRetry)
 	r.unregisterCmd(cmdLabel)
-	if r.shouldRetry(attempt, maxRetry) {
+	if attempt != maxRetry && r.shouldRetry(attempt, maxRetry) {
 		r.sleep(retryDelayDuration)
 	}
 }
