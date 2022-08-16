@@ -30,24 +30,24 @@ zaruba please showSolidPrinciple
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.743µs
-         Current Time: 08:01:56
+         Elapsed Time: 1.572µs
+         Current Time: 16:37:52
 💀 🏁 Running 🦉 showSolidPrinciple runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs
 💀    🚀 showSolidPrinciple   🦉  S  Single Responsibility Principle 
 💀    🚀 showSolidPrinciple   🦉  O  Open/Closed Principle 
 💀    🚀 showSolidPrinciple   🦉  L  Liskov's Substitution Principle 
-💀 🎉 Successfully running 🦉 showSolidPrinciple runner (Attempt 1 of 3)
 💀    🚀 showSolidPrinciple   🦉  I  Interface Segregation Principle 
 💀    🚀 showSolidPrinciple   🦉  D  Dependency Inversion Principle 
+💀 🎉 Successfully running 🦉 showSolidPrinciple runner (Attempt 1 of 3)
 💀 🔎 Job Running...
-         Elapsed Time: 8.583407ms
-         Current Time: 08:01:56
+         Elapsed Time: 5.721182ms
+         Current Time: 16:37:52
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 311.82035ms
-         Current Time: 08:01:56
+         Elapsed Time: 308.658863ms
+         Current Time: 16:37:52
 zaruba please showSolidPrinciple
 ```````
 </details>
@@ -81,20 +81,20 @@ zaruba please printHelloWorld
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.963µs
-         Current Time: 08:01:56
+         Elapsed Time: 1.066µs
+         Current Time: 16:37:52
 💀 🏁 Running 🍎 printHelloWorld runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
-💀    🚀 printHelloWorld      🍎 hello world
 💀 🎉 Successfully running 🍎 printHelloWorld runner (Attempt 1 of 3)
 💀 🔎 Job Running...
-         Elapsed Time: 2.930705ms
-         Current Time: 08:01:56
+         Elapsed Time: 1.438953ms
+         Current Time: 16:37:52
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
+💀    🚀 printHelloWorld      🍎 hello world
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 406.880556ms
-         Current Time: 08:01:57
+         Elapsed Time: 403.692882ms
+         Current Time: 16:37:53
 zaruba please printHelloWorld
 ```````
 </details>
