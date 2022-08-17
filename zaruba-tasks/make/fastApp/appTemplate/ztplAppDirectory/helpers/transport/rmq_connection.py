@@ -47,9 +47,11 @@ class RMQConnection():
     def _stop_connections(self):
         for connection in self._connections:
             try:
+                connection.process_data_events()
                 connection.close()
             except:
-                print(traceback.format_exc()) 
+                print('connection is not fully closed')
+                # print(traceback.format_exc()) 
     
 
     def _stop_threads(self):
