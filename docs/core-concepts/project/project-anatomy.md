@@ -75,10 +75,14 @@ tasks:
       - bash
       - '-c' 
       - python -m http.server 8080
+    maxStartRetry: 3                # max start retries (0 indicate infinite retries)
+    startRetryDelay: 10s            # delay interval between each start retry
     check:                          # command to check the completeness of a long-running process
       - bash, 
       - '-c' 
-      - until nc -z localhost 8080; do sleep 2 && echo "not ready"; done && echo "ready" 
+      - nc -z localhost 8080
+    maxCheckRetry: 0                # max check retries (0 indicate infinite retries)
+    checkRetryDelay: 1s             # delay interval between each check retry
     configs:                        # task's configurations
       someConfig: someValue
     envs:                           # task's environments
