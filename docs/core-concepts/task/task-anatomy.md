@@ -447,34 +447,34 @@ zaruba please serveHttp -t -w 2s
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.482µs
-         Current Time: 05:56:40
+         Elapsed Time: 1.127µs
+         Current Time: 06:15:18
 💀 🏁 Running 🔗 updateProjectLinks runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs
-💀    🚀 updateProjectLinks   🔗 🎉🎉🎉
-💀    🚀 updateProjectLinks   🔗 Links updated
+💀    🚀 🔗 updateProjectLinks   🎉🎉🎉
+💀    🚀 🔗 updateProjectLinks   Links updated
 💀 🎉 Successfully running 🔗 updateProjectLinks runner (Attempt 1 of 3)
 💀 🏁 Running 🌐 serveHttp starter (Attempt 1 of 3) on /home/gofrendi/zaruba/docs
-💀    🚀 serveHttp            🌐 Serving /home/gofrendi/zaruba/docs on HTTP port 8080
-💀    🚀 serveHttp            🌐 You can open http://localhost:8080
+💀    🚀 🌐 serveHttp            Serving /home/gofrendi/zaruba/docs on HTTP port 8080
+💀    🚀 🌐 serveHttp            You can open http://localhost:8080
 💀 🏁 Running 🌐 serveHttp readiness checker (Attempt 1 of infinite) on /home/gofrendi/zaruba/docs
-💀    🔎 serveHttp            🌐 🔎 Waiting for port '8080'
-💀    🔎 serveHttp            🌐 🔎 Port '8080' is ready
-💀    🔎 serveHttp            🌐 🎉🎉🎉
-💀    🔎 serveHttp            🌐 📜 Task 'serveHttp' is ready
+💀    🔎 🌐 serveHttp            🔎 Waiting for port '8080'
+💀    🔎 🌐 serveHttp            🔎 Port '8080' is ready
+💀    🔎 🌐 serveHttp            🎉🎉🎉
+💀    🔎 🌐 serveHttp            📜 Task 'serveHttp' is ready
 💀 🎉 Successfully running 🌐 serveHttp readiness checker (Attempt 1 of infinite)
 💀 🔎 Job Running...
-         Elapsed Time: 23.687411ms
-         Current Time: 05:56:40
+         Elapsed Time: 21.286318ms
+         Current Time: 06:15:18
          Active Process:
-           * (PID=1157) 🌐 serveHttp starter (Attempt 1 of 3)
+           * (PID=21971) 🌐 serveHttp starter (Attempt 1 of 3)
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
-💀 🔪 Kill 🌐 serveHttp starter (PID=1157)
+💀 🔪 Kill 🌐 serveHttp starter (PID=21971)
 💀 🔥 Exit 🌐 serveHttp starter (Attempt 1 of 3): signal: interrupt
 💀 🔎 Job Ended...
-         Elapsed Time: 3.232355348s
-         Current Time: 05:56:43
+         Elapsed Time: 3.228059927s
+         Current Time: 06:15:22
 💀 🔥 🌐 serveHttp starter exited: signal: interrupt
 zaruba please serveHttp   -t -w 2s
 ```````

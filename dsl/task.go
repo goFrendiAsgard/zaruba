@@ -662,7 +662,7 @@ func (task *Task) generateLogPrefix() {
 		logTaskName = logTaskName + strings.Repeat(" ", repeat)
 	}
 	d := task.Project.Decoration
-	task.logPrefix = fmt.Sprintf("%s%s%s %s", task.color, logTaskName, d.Normal, task.GetDecoratedIcon())
+	task.logPrefix = fmt.Sprintf("%s %s%s%s", task.GetDecoratedIcon(), task.color, logTaskName, d.Normal)
 }
 
 func (task *Task) GetDependencies() (dependencies []string) {
