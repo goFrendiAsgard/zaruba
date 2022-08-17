@@ -50,7 +50,8 @@ class RMQMessageBus(RMQConnection, MessageBus):
                     ch.start_consuming()
                 except:
                     self._is_failing = True
-                    print(traceback.format_exc()) 
+                    if self._should_check_connection:
+                        print(traceback.format_exc()) 
             thread = threading.Thread(target=consume)
             thread.start()
         return register_event_handler

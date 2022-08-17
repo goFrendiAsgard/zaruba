@@ -56,7 +56,8 @@ class RMQRPC(RMQConnection, RPC):
                     ch.start_consuming()
                 except:
                     self._is_failing = True
-                    print(traceback.format_exc()) 
+                    if self._should_check_connection:
+                        print(traceback.format_exc()) 
             thread = threading.Thread(target=consume)
             thread.start()
         return register_rpc_handler
@@ -109,11 +110,12 @@ class RMQRPCCaller():
         self.ch = self.connection.channel()
         self.corr_id = str(uuid.uuid4())
         self.replied = False
+        self.reply_queue = ''
 
     def call(self, rpc_name: str, *args: Any) -> Any:
         # consume from reply queue
-        reply_queue = 'reply.' + rpc_name + self.corr_id
-        self._consume_from_reply_queue(rpc_name, reply_queue)
+        self.reply_queue = 'reply.' + rpc_name + self.corr_id
+        self._consume_from_reply_queue(rpc_name, self.reply_queue)
         # publish message
         exchange = self.event_map.get_exchange_name(rpc_name)
         routing_key = self.event_map.get_queue_name(rpc_name)
@@ -124,7 +126,7 @@ class RMQRPCCaller():
             exchange=exchange,
             routing_key=routing_key,
             properties=pika.BasicProperties(
-                reply_to=reply_queue,
+                reply_to=self.reply_queue,
                 correlation_id=self.corr_id,
             ),
             body=body
@@ -132,13 +134,18 @@ class RMQRPCCaller():
         # handle timeout
         self._handle_timeout(rpc_name)
         # clean up
-        self.ch.stop_consuming()
-        self.ch.queue_delete(reply_queue)
+        self._clean_up()
+        if self.is_timeout:
+            raise Exception('Timeout while calling {}'.format(rpc_name))
         if self.reply is None:
             raise Exception('No reply')
         if self.reply.error_message:
             raise Exception(self.reply.error_message)
         return self.reply.result
+
+    def _clean_up(self):
+        self.ch.stop_consuming()
+        self.ch.queue_delete(self.reply_queue)
 
     def _consume_from_reply_queue(self, rpc_name: str, reply_queue: str):
         self.ch.queue_declare(queue=reply_queue, exclusive=True)
@@ -167,5 +174,3 @@ class RMQRPCCaller():
             if start + rpc_timeout < time.time() * 1000:
                 self.is_timeout = True
                 break
-        if self.is_timeout:
-            raise Exception('Timeout while calling {}'.format(rpc_name))

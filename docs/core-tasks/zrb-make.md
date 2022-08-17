@@ -82,6 +82,7 @@ Description:
       ztpl_app_url                        : App's url (snake case)
       ztplAppUrl                          : App's url (camel case)
       ztpl-app-url                        : App's url (kebab case)
+      ztpl-normalized-app-url             : App's url (kebab case and normalized, i.e., turn to / if empty)
       ZtplAppUrl                          : App's url (pascal case)
       ZtplAppUrlTitle                     : App's url title
       ztpl_deployment_directory           : App's deployment directory (snake case)

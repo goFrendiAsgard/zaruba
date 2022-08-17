@@ -402,6 +402,7 @@ func (r *Runner) waitSimpleCmd(cmdLabel string, task *dsl.Task, cmdMaker func() 
 			// no error, quit this function
 			if cmdErr == nil {
 				r.handleCmdWaitSuccess(cmdLabel, attempt, maxRetry)
+				executed = true
 				ch <- nil
 				return
 			}
@@ -454,11 +455,10 @@ func (r *Runner) handleLongRunningCmd(cmdLabel string, cmdInfo *CmdInfo, cmd *ex
 	retryDelayDuration := cmdInfo.RetryDelayDuration
 	r.cmdInfoMutex.Unlock()
 	var stdinPipe io.WriteCloser
-	cmdErr := cmd.Wait()
-	if cmdErr != nil {
-		r.logger.DPrintfStarted("Error running %s %s on %s\n", cmdLabel, r.getRetryAttemptCaption(1, maxRetry), cmd.Dir)
-		r.unregisterCmd(cmdLabel)
-		for attempt := 2; r.shouldRetry(attempt, maxRetry); attempt++ {
+	var cmdErr error
+	for attempt := 1; r.shouldRetry(attempt, maxRetry); attempt++ {
+		// for attempt == 1, cmd has already been started. So we don't have to re-create and start cmd
+		if attempt > 1 {
 			cmd, stdinPipe, cmdErr = r.createCmdAndStdinPipe(cmdMaker)
 			if cmdErr != nil {
 				ch <- cmdErr
@@ -471,15 +471,15 @@ func (r *Runner) handleLongRunningCmd(cmdLabel string, cmdInfo *CmdInfo, cmd *ex
 				r.handleCmdStartFailure(cmdLabel, cmdErr, cmd, attempt, maxRetry, retryDelayDuration)
 				continue
 			}
-			cmdErr = cmd.Wait()
-			// no error, quit loop
-			if cmdErr == nil {
-				r.handleCmdWaitSuccess(cmdLabel, attempt, maxRetry)
-				break
-			}
-			// any error
-			r.handleCmdWaitFailure(cmdLabel, cmdErr, cmd, attempt, maxRetry, retryDelayDuration)
 		}
+		cmdErr = cmd.Wait()
+		// no error, quit loop
+		if cmdErr == nil {
+			r.handleCmdWaitSuccess(cmdLabel, attempt, maxRetry)
+			break
+		}
+		// any error
+		r.handleCmdWaitFailure(cmdLabel, cmdErr, cmd, attempt, maxRetry, retryDelayDuration)
 	}
 	if cmdErr != nil {
 		r.handleCommonLongRunningCmdFailure("exited", cmdLabel, cmdErr, cmd)
@@ -506,9 +506,9 @@ func (r *Runner) handleCommonLongRunningCmdFailure(reason string, cmdLabel strin
 }
 
 func (r *Runner) handleCmdWaitFailure(cmdLabel string, err error, cmd *exec.Cmd, attempt, maxRetry int, retryDelayDuration time.Duration) {
-	r.handleCmdCommonFailure("Error running", cmdLabel, err, cmd, attempt, maxRetry)
+	r.handleCmdCommonFailure("Exit", cmdLabel, err, cmd, attempt, maxRetry)
 	r.unregisterCmd(cmdLabel)
-	if r.shouldRetry(attempt, maxRetry) {
+	if attempt != maxRetry && r.shouldRetry(attempt, maxRetry) {
 		r.sleep(retryDelayDuration)
 	}
 }
@@ -520,7 +520,7 @@ func (r *Runner) handleCmdWaitSuccess(cmdLabel string, attempt, maxRetry int) {
 func (r *Runner) handleCmdStartFailure(cmdLabel string, err error, cmd *exec.Cmd, attempt, maxRetry int, retryDelayDuration time.Duration) {
 	r.handleCmdCommonFailure("Cannot start", cmdLabel, err, cmd, attempt, maxRetry)
 	r.unregisterCmd(cmdLabel)
-	if r.shouldRetry(attempt, maxRetry) {
+	if attempt != maxRetry && r.shouldRetry(attempt, maxRetry) {
 		r.sleep(retryDelayDuration)
 	}
 }
@@ -666,7 +666,7 @@ func (r *Runner) sleep(duration time.Duration) {
 
 func (r *Runner) getProcessRow(label string, cmd *exec.Cmd) string {
 	d := r.decoration
-	return fmt.Sprintf("%s* (PID=%d) %s%s", d.Faint, cmd.Process.Pid, label, d.Normal)
+	return fmt.Sprintf("%s* (PID=%d) %s%s%s", d.Faint, cmd.Process.Pid, d.Normal, label, d.Normal)
 }
 
 func (r *Runner) showStatus() {

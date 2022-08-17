@@ -2,12 +2,11 @@ from typing import Any
 from helpers.transport.local_mb import LocalMessageBus
 
 import asyncio
-
-def test_local_mb():
-    asyncio.run(_test_local_mb())
+import pytest
 
 
-async def _test_local_mb():
+@pytest.mark.asyncio
+async def test_local_mb():
     mb = LocalMessageBus()
 
     result = {}
