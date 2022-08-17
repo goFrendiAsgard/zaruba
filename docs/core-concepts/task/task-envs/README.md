@@ -57,37 +57,35 @@ zaruba please startServer -t -w 500ms
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.148µs
-         Current Time: 13:21:58
+         Elapsed Time: 1.309µs
+         Current Time: 05:57:07
 💀 🏁 Running 🔗 updateProjectLinks runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/task-envs
+💀 🎉 Successfully running 🔗 updateProjectLinks runner (Attempt 1 of 3)
 💀    🚀 updateProjectLinks   🔗 🎉🎉🎉
 💀    🚀 updateProjectLinks   🔗 Links updated
-💀 🎉 Successfully running 🔗 updateProjectLinks runner (Attempt 1 of 3)
 💀 🏁 Running 🍏 startServer starter (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/task-envs
 💀 🏁 Running 🍏 startServer readiness checker (Attempt 1 of infinite) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/task-envs
 💀    🔎 startServer          🍏 🔎 Waiting for port '3000'
 💀    🚀 startServer          🍏 Serving HTTP on 0.0.0.0 port 3000 (http://0.0.0.0:3000/) ...
 💀    🔎 startServer          🍏 🔎 Port '3000' is ready
 💀    🔎 startServer          🍏 🎉🎉🎉
-💀    🔎 startServer          🍏 📜 Task 'startServer' is ready
 💀 🎉 Successfully running 🍏 startServer readiness checker (Attempt 1 of infinite)
+💀    🔎 startServer          🍏 📜 Task 'startServer' is ready
 💀 🔎 Job Running...
-         Elapsed Time: 11.039165591s
-         Current Time: 13:22:09
+         Elapsed Time: 11.041814972s
+         Current Time: 05:57:18
          Active Process:
-           * (PID=7910) 🍏 startServer starter
+           * (PID=1371) 🍏 startServer starter (Attempt 1 of 3)
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
-💀 🔪 Kill 🍏 startServer starter (PID=7910)
+💀 🔪 Kill 🍏 startServer starter (PID=1371)
 💀    🚀 startServer          🍏 
 💀    🚀 startServer          🍏 Keyboard interrupt received, exiting.
-💀    🚀 startServer          🍏 🎉🎉🎉
-💀    🚀 startServer          🍏 📜 Task 'startServer' is started
 💀 🎉 Successfully running 🍏 startServer starter (Attempt 1 of 3)
 💀 🔎 Job Ended...
-         Elapsed Time: 12.743609363s
-         Current Time: 13:22:11
+         Elapsed Time: 12.749243619s
+         Current Time: 05:57:19
 💀 🔥 🍏 startServer starter exited without any error message
 zaruba please startServer   -t -w 500ms
 ```````

@@ -15,6 +15,7 @@ type CmdInfo struct {
 	StdInPipe          io.WriteCloser
 	Task               *dsl.Task
 	CmdMaker           func() (*exec.Cmd, error) // function to recreate Cmd
+	Attempt            int
 	MaxRetry           int
 	RetryDelayDuration time.Duration
 }

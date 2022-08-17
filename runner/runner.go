@@ -362,8 +362,10 @@ func (r *Runner) startLongRunningTask(task *dsl.Task) (err error) {
 		return err
 	}
 	r.logger.DPrintfStarted("Running %s %s on %s\n", cmdLabel, r.getRetryAttemptCaption(1, maxRetry), cmd.Dir)
-	cmd.Start()
-	r.registerCmd(cmdLabel, task, cmdMaker, cmd, startStdinPipe, maxRetry, retryDelayDuration, true)
+	if err = cmd.Start(); err != nil {
+		return err
+	}
+	r.registerCmd(cmdLabel, task, cmdMaker, cmd, startStdinPipe, 1, maxRetry, retryDelayDuration, true)
 	return nil
 }
 
@@ -393,7 +395,7 @@ func (r *Runner) waitSimpleCmd(cmdLabel string, task *dsl.Task, cmdMaker func() 
 			}
 			r.logger.DPrintfStarted("Running %s %s on %s\n", cmdLabel, r.getRetryAttemptCaption(attempt, maxRetry), cmd.Dir)
 			cmdErr = cmd.Start()
-			r.registerCmd(cmdLabel, task, cmdMaker, cmd, stdinPipe, maxRetry, retryDelayDuration, false)
+			r.registerCmd(cmdLabel, task, cmdMaker, cmd, stdinPipe, attempt, maxRetry, retryDelayDuration, false)
 			if cmdErr != nil {
 				r.handleCmdStartFailure(cmdLabel, cmdErr, cmd, attempt, maxRetry, retryDelayDuration)
 				continue
@@ -466,7 +468,7 @@ func (r *Runner) handleLongRunningCmd(cmdLabel string, cmdInfo *CmdInfo, cmd *ex
 			}
 			r.logger.DPrintfStarted("Running %s %s on %s\n", cmdLabel, r.getRetryAttemptCaption(attempt, maxRetry), cmd.Dir)
 			cmdErr = cmd.Start()
-			r.registerCmd(cmdLabel, cmdTask, cmdMaker, cmd, stdinPipe, maxRetry, retryDelayDuration, true)
+			r.registerCmd(cmdLabel, cmdTask, cmdMaker, cmd, stdinPipe, attempt, maxRetry, retryDelayDuration, true)
 			if cmdErr != nil {
 				r.handleCmdStartFailure(cmdLabel, cmdErr, cmd, attempt, maxRetry, retryDelayDuration)
 				continue
@@ -564,7 +566,7 @@ func (r *Runner) createCmdAndStdinPipe(cmdMaker func() (*exec.Cmd, error)) (cmd 
 	return cmd, stdinPipe, cmdErr
 }
 
-func (r *Runner) registerCmd(label string, task *dsl.Task, cmdMaker func() (*exec.Cmd, error), cmd *exec.Cmd, stdinPipe io.WriteCloser, maxRetry int, retryDelayDuration time.Duration, isProcess bool) {
+func (r *Runner) registerCmd(label string, task *dsl.Task, cmdMaker func() (*exec.Cmd, error), cmd *exec.Cmd, stdinPipe io.WriteCloser, attempt int, maxRetry int, retryDelayDuration time.Duration, isProcess bool) {
 	r.cmdInfoMutex.Lock()
 	r.cmdInfo[label] = &CmdInfo{
 		Cmd:                cmd,
@@ -572,6 +574,7 @@ func (r *Runner) registerCmd(label string, task *dsl.Task, cmdMaker func() (*exe
 		StdInPipe:          stdinPipe,
 		Task:               task,
 		CmdMaker:           cmdMaker,
+		Attempt:            attempt,
 		MaxRetry:           maxRetry,
 		RetryDelayDuration: retryDelayDuration,
 	}
@@ -664,9 +667,11 @@ func (r *Runner) sleep(duration time.Duration) {
 	<-done
 }
 
-func (r *Runner) getProcessRow(label string, cmd *exec.Cmd) string {
+func (r *Runner) getProcessRow(label string, cmdInfo *CmdInfo) string {
 	d := r.decoration
-	return fmt.Sprintf("%s* (PID=%d) %s%s%s", d.Faint, cmd.Process.Pid, d.Normal, label, d.Normal)
+	pidCaption := fmt.Sprintf("(PID=%d)", cmdInfo.Cmd.Process.Pid)
+	attemptCaption := r.getRetryAttemptCaption(cmdInfo.Attempt, cmdInfo.MaxRetry)
+	return fmt.Sprintf("%s* %s %s%s %s%s%s", d.Faint, pidCaption, d.Normal, label, d.Faint, attemptCaption, d.Normal)
 }
 
 func (r *Runner) showStatus() {
@@ -676,8 +681,7 @@ func (r *Runner) showStatus() {
 	processRows := []string{}
 	r.cmdInfoMutex.Lock()
 	for label, cmdInfo := range r.cmdInfo {
-		cmd := cmdInfo.Cmd
-		processRow := r.getProcessRow(label, cmd)
+		processRow := r.getProcessRow(label, cmdInfo)
 		processRows = append(processRows, processRow)
 	}
 	r.cmdInfoMutex.Unlock()

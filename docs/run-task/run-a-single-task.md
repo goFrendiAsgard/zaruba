@@ -30,24 +30,24 @@ zaruba please showSolidPrinciple
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.344µs
-         Current Time: 13:21:16
+         Elapsed Time: 2.087µs
+         Current Time: 05:56:24
 💀 🏁 Running 🦉 showSolidPrinciple runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs
 💀    🚀 showSolidPrinciple   🦉  S  Single Responsibility Principle 
 💀    🚀 showSolidPrinciple   🦉  O  Open/Closed Principle 
 💀    🚀 showSolidPrinciple   🦉  L  Liskov's Substitution Principle 
 💀    🚀 showSolidPrinciple   🦉  I  Interface Segregation Principle 
-💀    🚀 showSolidPrinciple   🦉  D  Dependency Inversion Principle 
 💀 🎉 Successfully running 🦉 showSolidPrinciple runner (Attempt 1 of 3)
 💀 🔎 Job Running...
-         Elapsed Time: 5.145882ms
-         Current Time: 13:21:16
+         Elapsed Time: 6.051581ms
+         Current Time: 05:56:24
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
+💀    🚀 showSolidPrinciple   🦉  D  Dependency Inversion Principle 
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 307.931284ms
-         Current Time: 13:21:16
+         Elapsed Time: 310.402585ms
+         Current Time: 05:56:24
 zaruba please showSolidPrinciple
 ```````
 </details>
@@ -81,20 +81,20 @@ zaruba please printHelloWorld
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.4µs
-         Current Time: 13:21:16
+         Elapsed Time: 1.218µs
+         Current Time: 05:56:25
 💀 🏁 Running 🍎 printHelloWorld runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
+💀    🚀 printHelloWorld      🍎 hello world
 💀 🎉 Successfully running 🍎 printHelloWorld runner (Attempt 1 of 3)
 💀 🔎 Job Running...
-         Elapsed Time: 1.354399ms
-         Current Time: 13:21:16
+         Elapsed Time: 1.655579ms
+         Current Time: 05:56:25
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
-💀    🚀 printHelloWorld      🍎 hello world
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 404.055297ms
-         Current Time: 13:21:16
+         Elapsed Time: 406.452268ms
+         Current Time: 05:56:25
 zaruba please printHelloWorld
 ```````
 </details>
