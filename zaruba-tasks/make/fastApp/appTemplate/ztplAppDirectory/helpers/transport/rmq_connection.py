@@ -3,8 +3,7 @@ from pika.adapters.blocking_connection import BlockingConnection, BlockingChanne
 
 import pika
 import threading
-import traceback
-import time
+import asyncio
 
 def create_rmq_connection_parameters(host: str, user: str, password: str, virtual_host: str = '/', heartbeat: int = 60, blocked_connection_timeout: int = 30) -> pika.ConnectionParameters:
     return pika.ConnectionParameters(
@@ -30,7 +29,7 @@ class RMQConnection():
 
         def process_data_events():
             while self._should_check_connection:
-                time.sleep(1)
+                asyncio.run(asyncio.sleep(3))
                 connection.process_data_events()
 
         def callback():

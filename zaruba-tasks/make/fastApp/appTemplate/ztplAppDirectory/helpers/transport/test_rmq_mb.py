@@ -26,17 +26,20 @@ async def test_rmq_mb():
     # await asyncio.sleep(3)
 
     result = {}
-    @mb.handle('test_event')
-    def handle(message: Any) -> Any:
-        result['message'] = message
-    
-    mb.publish('test_event', 'test_message')
+    try:
+        @mb.handle('test_event')
+        def handle(message: Any) -> Any:
+            result['message'] = message
+        
+        await asyncio.sleep(3)
+        mb.publish('test_event', 'test_message')
 
-    trial: int = 10
-    while trial > 0 and not 'message' in result:
-        await asyncio.sleep(1)
-        trial -= 1
-
-    mb.shutdown()
+        trial: int = 10
+        while trial > 0 and not 'message' in result:
+            await asyncio.sleep(1)
+            trial -= 1
+    finally:
+        mb.shutdown()
     assert 'message' in result
     assert result['message'] == 'test_message'
+    
