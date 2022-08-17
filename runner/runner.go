@@ -666,7 +666,7 @@ func (r *Runner) sleep(duration time.Duration) {
 
 func (r *Runner) getProcessRow(label string, cmd *exec.Cmd) string {
 	d := r.decoration
-	return fmt.Sprintf("%s* (PID=%d) %s%s", d.Faint, cmd.Process.Pid, label, d.Normal)
+	return fmt.Sprintf("%s* (PID=%d) %s%s%s", d.Faint, cmd.Process.Pid, d.Normal, label, d.Normal)
 }
 
 func (r *Runner) showStatus() {

@@ -70,20 +70,20 @@ Search: █
   ▸ 🏁 No
 ✔ 🏁 No
 💀 🔎 Job Starting...
-         Elapsed Time: 1.412µs
-         Current Time: 17:32:39
+         Elapsed Time: 1.396µs
+         Current Time: 09:52:30
 💀 🏁 Running 🍎 printHelloWorld runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
 💀    🚀 printHelloWorld      🍎 hello world
 💀 🎉 Successfully running 🍎 printHelloWorld runner (Attempt 1 of 3)
 💀 🔎 Job Running...
-         Elapsed Time: 1.419499ms
-         Current Time: 17:32:39
+         Elapsed Time: 1.488714ms
+         Current Time: 09:52:30
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 402.980452ms
-         Current Time: 17:32:40
+         Elapsed Time: 404.339578ms
+         Current Time: 09:52:31
 zaruba please printHelloWorld
 ```````
 </details>

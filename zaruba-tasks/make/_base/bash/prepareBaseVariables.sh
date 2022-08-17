@@ -120,19 +120,13 @@ fi
 if [ ! -z "${_ZRB_APP_URL}" ]
 then
     _ZRB_SNAKE_APP_URL="$("${ZARUBA_BIN}" str toSnake "${_ZRB_APP_URL}")"
-    if [ -z "${_ZRB_SNAKE_APP_URL}" ]
-    then
-        _ZRB_SNAKE_APP_URL="/"
-    fi
     _ZRB_PASCAL_APP_URL="$("${ZARUBA_BIN}" str toPascal "${_ZRB_APP_URL}")"
-    if [ -z "${_ZRB_PASCAL_APP_URL}" ]
-    then
-        _ZRB_PASCAL_APP_URL="/"
-    fi
     _ZRB_KEBAB_APP_URL="$("${ZARUBA_BIN}" str toKebab "${_ZRB_APP_URL}")"
     if [ -z "${_ZRB_KEBAB_APP_URL}" ]
     then
-        _ZRB_KEBAB_APP_URL="/"
+        _ZRB_NORMALIZED_APP_URL="/"
+    else
+        _ZRB_NORMALIZED_APP_URL="${_ZRB_KEBAB_APP_URL}" 
     fi
 fi
 

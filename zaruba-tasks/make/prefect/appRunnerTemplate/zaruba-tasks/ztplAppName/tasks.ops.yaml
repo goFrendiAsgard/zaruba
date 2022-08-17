@@ -16,4 +16,4 @@ tasks:
     configRef: registerZtplAppNameFlows
     envRef: registerZtplAppNameFlows
     maxStartRetry: 5
-    startRetryDelay: 5s
+    startRetryDelay: 10s
