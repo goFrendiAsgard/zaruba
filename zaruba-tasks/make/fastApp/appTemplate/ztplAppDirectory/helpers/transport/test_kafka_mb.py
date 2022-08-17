@@ -24,14 +24,14 @@ async def test_kafka_mb():
     kafka_event_map = KafkaEventMap({})
 
     mb = KafkaMessageBus(kafka_connection_parameters, kafka_event_map)
-    await asyncio.sleep(3)
+    # await asyncio.sleep(3)
 
     result = {}
     @mb.handle('test_event')
     def handle(message: Any) -> Any:
         result['message'] = message
     
-    await asyncio.sleep(3)
+    # await asyncio.sleep(3)
     mb.publish('test_event', 'test_message')
 
     trial: int = 10

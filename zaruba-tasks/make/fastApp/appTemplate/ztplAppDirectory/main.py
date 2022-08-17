@@ -24,7 +24,8 @@ rmq_connection_parameters = create_rmq_connection_parameters(
     user = os.getenv('APP_RABBITMQ_USER', ''),
     password = os.getenv('APP_RABBITMQ_PASS', ''),
     virtual_host = os.getenv('APP_RABBITMQ_VHOST', '/'),
-    heartbeat=30
+    heartbeat=60,
+    blocked_connection_timeout=30
 )
 rmq_event_map = RMQEventMap({})
 

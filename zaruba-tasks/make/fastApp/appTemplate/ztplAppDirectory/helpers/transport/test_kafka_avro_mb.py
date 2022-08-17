@@ -25,7 +25,7 @@ async def test_kafka_avro_mb():
     kafka_avro_event_map = KafkaAvroEventMap({})
     
     mb = KafkaAvroMessageBus(kafka_connection_parameters, kafka_avro_event_map)
-    await asyncio.sleep(3)
+    # await asyncio.sleep(3)
 
     result = {}
     @mb.handle('test_avro_event')

@@ -23,7 +23,7 @@ async def test_rmq_rpc():
     rmq_event_map = RMQEventMap({})
 
     rpc = RMQRPC(rmq_connection_parameters, rmq_event_map)
-    await asyncio.sleep(3)
+    # await asyncio.sleep(3)
 
     parameters = {}
     @rpc.handle('test_rpc')

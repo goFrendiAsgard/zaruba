@@ -1,17 +1,18 @@
 from typing import List
-from pika.adapters.blocking_connection import BlockingConnection
+from pika.adapters.blocking_connection import BlockingConnection, BlockingChannel
 
 import pika
 import threading
 import traceback
 import time
 
-def create_rmq_connection_parameters(host: str, user: str, password: str, virtual_host: str = '/', heartbeat: int = 30) -> pika.ConnectionParameters:
+def create_rmq_connection_parameters(host: str, user: str, password: str, virtual_host: str = '/', heartbeat: int = 60, blocked_connection_timeout: int = 30) -> pika.ConnectionParameters:
     return pika.ConnectionParameters(
         host=host,
         credentials=pika.PlainCredentials(user, password),
         virtual_host=virtual_host,
-        heartbeat=heartbeat
+        heartbeat=heartbeat,
+        blocked_connection_timeout=blocked_connection_timeout
     )
 
 class RMQConnection():
@@ -24,12 +25,12 @@ class RMQConnection():
         self._threads: List[threading.Thread] = []
 
     
-    def create_connection(self) -> pika.BlockingConnection:
+    def create_connection(self) -> BlockingConnection:
         connection: BlockingConnection = pika.BlockingConnection(self._connection_parameters)
 
         def process_data_events():
             while self._should_check_connection:
-                time.sleep(5)
+                time.sleep(1)
                 connection.process_data_events()
 
         def callback():
@@ -43,16 +44,24 @@ class RMQConnection():
         return connection
 
 
-    def shutdown(self):
-        if self._is_shutdown:
-            return
-        self._should_check_connection = False
-        print('closing RMQ connection')
+    def _stop_connections(self):
         for connection in self._connections:
             try:
                 connection.close()
             except:
-                print(traceback.format_exc())
+                print(traceback.format_exc()) 
+    
+
+    def _stop_threads(self):
         for thread in self._threads:
-            thread.join()
+            thread.join()        
+
+
+    def shutdown(self):
+        if self._is_shutdown:
+            return
+        self._should_check_connection = False
+        print('closing RMQ connections')
+        self._stop_connections()
+        self._stop_threads()
         self._is_shutdown = True

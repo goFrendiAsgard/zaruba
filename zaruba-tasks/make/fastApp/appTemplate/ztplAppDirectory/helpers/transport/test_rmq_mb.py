@@ -23,7 +23,7 @@ async def test_rmq_mb():
     rmq_event_map = RMQEventMap({})
 
     mb = RMQMessageBus(rmq_connection_parameters, rmq_event_map)
-    await asyncio.sleep(3)
+    # await asyncio.sleep(3)
 
     result = {}
     @mb.handle('test_event')
