@@ -22,16 +22,27 @@ class RMQConnection():
         self._connection_parameters = connection_parameters
         self._should_check_connection = True
         self._is_shutdown = False
+        self._is_failing = False
         self._connections: List[BlockingConnection] = []
         self._threads: List[threading.Thread] = []
 
-    
+
+    def is_failing(self) -> bool:
+        return self._is_failing
+
+
     def create_connection(self) -> BlockingConnection:
         connection: BlockingConnection = pika.BlockingConnection(self._connection_parameters)
 
         def process_data_events():
-            while self._should_check_connection and not connection.is_closesd:
-                connection.process_data_events()
+            while self._should_check_connection and not connection.is_closed and not self._is_shutdown:
+                try:
+                    connection.process_data_events()
+                except:
+                    print('find problem while processing data event', file=sys.stderr)
+                    print(traceback.format_exc(), file=sys.stderr) 
+                    self._is_failing =  True
+                    self.shutdown()
                 time.sleep(1)
 
         def callback():
@@ -48,10 +59,13 @@ class RMQConnection():
     def _stop_connections(self):
         for connection in self._connections:
             try:
-                connection.process_data_events()
-                connection.close()
+                if connection.is_closed:
+                    continue
+                # connection.process_data_events()
+                if not connection.is_closed:
+                    connection.close()
             except:
-                print('connection is not fully closed', file=sys.stderr)
+                print('find problem while closing connection', file=sys.stderr)
                 print(traceback.format_exc(), file=sys.stderr) 
     
 
@@ -66,5 +80,6 @@ class RMQConnection():
         self._should_check_connection = False
         print('closing RMQ connections')
         self._stop_connections()
+        print('remove threads')
         self._stop_threads()
         self._is_shutdown = True

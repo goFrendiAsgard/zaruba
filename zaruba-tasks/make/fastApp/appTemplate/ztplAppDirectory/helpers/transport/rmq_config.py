@@ -57,7 +57,7 @@ class RMQEventMap:
     def get_rpc_timeout(self, event_name: str) -> int:
         if event_name in self.mapping and 'rpc_timeout' in self.mapping[event_name] and self.mapping[event_name]['rpc_timeout'] > 0:
             return self.mapping[event_name]['rpc_timeout']
-        return 5000
+        return 10000
 
     def get_prefetch_count(self, event_name: str) -> int:
         if event_name in self.mapping and 'prefetch_count' in self.mappping[event_name] and self.mapping[event_name]['prefetch_count'] > 0:

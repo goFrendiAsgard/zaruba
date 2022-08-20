@@ -2,7 +2,7 @@
 
 [Documentation](docs/README.md) | [Tutorial](docs/use-cases/from-zero-to-cloud.md) | [Installation](#-installation)
 
-> ⚠️ Things might change pretty fast and pretty often before we reach `v.1.0.0`. Please open [an issue](https://github.com/state-alchemists/zaruba/issues) if you find any problem using Zaruba.
+> ⚠️ We didn't reach `v.1.0.0` yet, but the API is pretty much stable. Please open [an issue](https://github.com/state-alchemists/zaruba/issues) if you find any problem using Zaruba.
 
 # 💀 Zaruba 
 
@@ -26,8 +26,8 @@ You will need to run the following tasks __every time__:
 
 You can see that:
 
-- ⛓️ Several tasks are better __running in parallel__ (i.e., the four most left tasks).
-- 🔗 Several tasks have __dependencies__. For example:
+- ⛓️ Several tasks are better __running in parallel__ (i.e., `Run the MySQL container`, `Install pip packages`, `Run the Redis container`, `Run backend application`).
+- 🔗 Several tasks __have dependencies__ and cannot be executed properly unless the dependencies are resolved. For example:
   - To run database migration, you have to `Run the MySQL container` and `Install pip packages` first.
   - To start your backend application, you have to run database migration.
 - 📐 Several tasks might __share similar behavior__. For example:

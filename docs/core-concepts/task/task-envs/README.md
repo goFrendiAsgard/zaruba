@@ -57,12 +57,12 @@ zaruba please startServer -t -w 500ms
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.249µs
-         Current Time: 07:43:22
+         Elapsed Time: 1.217µs
+         Current Time: 09:56:45
 💀 🏁 Running 🔗 updateProjectLinks runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/task-envs
-💀 🎉 Successfully running 🔗 updateProjectLinks runner (Attempt 1 of 3)
 💀    🚀 🔗 updateProjectLinks   🎉🎉🎉
 💀    🚀 🔗 updateProjectLinks   Links updated
+💀 🎉 Successfully running 🔗 updateProjectLinks runner (Attempt 1 of 3)
 💀 🏁 Running 🍏 startServer starter (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/task-envs
 💀 🏁 Running 🍏 startServer readiness checker (Attempt 1 of infinite) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/task-envs
 💀    🔎 🍏 startServer          🔎 Waiting for port '3000'
@@ -71,23 +71,23 @@ zaruba please startServer -t -w 500ms
 💀    🔎 🍏 startServer          🎉🎉🎉
 💀 🎉 Successfully running 🍏 startServer readiness checker (Attempt 1 of infinite)
 💀 🔎 Job Running...
-         Elapsed Time: 11.040150845s
-         Current Time: 07:43:33
+         Elapsed Time: 11.042148326s
+         Current Time: 09:56:56
          Active Process:
-           * (PID=18756) 🍏 startServer starter (Attempt 1 of 3)
+           * (PID=2236) 🍏 startServer starter (Attempt 1 of 3)
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀    🔎 🍏 startServer          📜 Task 'startServer' is ready
 💀 🔥 Terminating
-💀 🔪 Kill 🍏 startServer starter (PID=18756)
+💀 🔪 Kill 🍏 startServer starter (PID=2236)
 💀    🚀 🍏 startServer          
 💀    🚀 🍏 startServer          Keyboard interrupt received, exiting.
 💀    🚀 🍏 startServer          🎉🎉🎉
 💀    🚀 🍏 startServer          📜 Task 'startServer' is started
 💀 🎉 Successfully running 🍏 startServer starter (Attempt 1 of 3)
 💀 🔎 Job Ended...
-         Elapsed Time: 12.746315159s
-         Current Time: 07:43:35
+         Elapsed Time: 12.746596695s
+         Current Time: 09:56:58
 💀 🔥 🍏 startServer starter exited without any error message
 zaruba please startServer   -t -w 500ms
 ```````

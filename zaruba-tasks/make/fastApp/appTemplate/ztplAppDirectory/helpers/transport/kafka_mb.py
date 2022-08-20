@@ -68,8 +68,9 @@ class KafkaMessageBus(MessageBus):
                 thread = threading.Thread(target=self._handle, args=[consumer, consumer_args, event_name, topic, group_id, event_handler], daemon = True)
                 thread.start()
             except:
-                self._is_failing = True
                 print(traceback.format_exc(), file=sys.stderr) 
+                self._is_failing = True
+                self.shutdown()
         return register_event_handler
 
     def _handle(self, consumer: Consumer, consumer_args, event_name: str, topic: str, group_id: str, event_handler: Callable[[Any], Any]):

@@ -22,14 +22,10 @@ class RMQRPC(RMQConnection, RPC):
         RMQConnection.__init__(self, rmq_connection_parameters)
         self._event_map = rmq_event_map
         self._error_count = 0
-        self._is_failing = False
         self._publish_connection = self.create_connection()
 
     def get_error_count(self) -> int:
         return self._error_count
-
-    def is_failing(self) -> bool:
-        return self._is_failing
 
     def handle(self, rpc_name: str) -> Callable[..., Any]:
         def register_rpc_handler(rpc_handler: Callable[..., Any]):
@@ -56,9 +52,10 @@ class RMQRPC(RMQConnection, RPC):
                     ch.basic_consume(queue=queue, on_message_callback=on_rpc_request, auto_ack=auto_ack)
                     ch.start_consuming()
                 except:
-                    self._is_failing = True
                     if self._should_check_connection:
                         print(traceback.format_exc(), file=sys.stderr) 
+                    self._is_failing = True
+                    self.shutdown()
             thread = threading.Thread(target=consume)
             thread.start()
         return register_rpc_handler
