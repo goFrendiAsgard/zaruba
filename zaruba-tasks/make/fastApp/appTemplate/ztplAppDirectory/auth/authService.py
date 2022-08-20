@@ -10,6 +10,7 @@ from schemas.user import User
 
 import abc
 import traceback
+import sys
 
 class AuthService(abc.ABC):
 

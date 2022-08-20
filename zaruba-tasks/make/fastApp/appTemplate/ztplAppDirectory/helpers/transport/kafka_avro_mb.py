@@ -6,7 +6,7 @@ from confluent_kafka.avro import AvroProducer, AvroConsumer
 
 import threading
 import traceback
-
+import sys
 
 def create_kafka_avro_connection_parameters(bootstrap_servers: str, schema_registry: str = '', sasl_mechanism: str = '', sasl_plain_username: str = '', sasl_plain_password: str = '', security_protocol='', **kwargs) -> Mapping[str, Any]:
     if sasl_mechanism == '':
@@ -69,7 +69,7 @@ class KafkaAvroMessageBus(MessageBus):
                 thread.start()
             except:
                 self._is_failing = True
-                print(traceback.format_exc()) 
+                print(traceback.format_exc(), file=sys.stderr) 
         return register_event_handler
 
     def _handle(self, consumer: AvroConsumer, consumer_args, event_name: str, topic: str, group_id: str, event_handler: Callable[[Any], Any]):
@@ -79,7 +79,7 @@ class KafkaAvroMessageBus(MessageBus):
                 consumer.subscribe([topic])
                 break
             except:
-                print(traceback.format_exc())
+                print(traceback.format_exc(), file=sys.stderr)
                 consumer = AvroConsumer(consumer_args)
                 self._consumers[event_name] = consumer
         while not self._is_shutdown:
@@ -96,7 +96,7 @@ class KafkaAvroMessageBus(MessageBus):
                     event_handler(message)
             except:
                 self._error_count += 1
-                print(traceback.format_exc())
+                print(traceback.format_exc(), file=sys.stderr)
                 consumer = AvroConsumer(consumer_args)
                 self._consumers[event_name] = consumer
                 print({'action': 're_subscribe_kafka_avro_topic', 'topic': topic})

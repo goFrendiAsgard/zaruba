@@ -10,7 +10,7 @@ from schemas.menuContext import MenuContext
 from schemas.user import User, UserData, UserResult
 
 import traceback
-
+import sys
 
 def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, templates: Jinja2Templates, enable_ui: bool, enable_api:bool):
 
@@ -25,7 +25,7 @@ def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
             try:
                 result = rpc.call('find_users', keyword, limit, offset)
             except:
-                print(traceback.format_exc()) 
+                print(traceback.format_exc(), file=sys.stderr) 
                 raise HTTPException(status_code=500, detail='Internal Server Error')
             return UserResult.parse_obj(result)
 
@@ -36,7 +36,7 @@ def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
             try:
                 result = rpc.call('find_user_by_id', id)
             except:
-                print(traceback.format_exc()) 
+                print(traceback.format_exc(), file=sys.stderr) 
                 raise HTTPException(status_code=500, detail='Internal Server Error')
             if result is None:
                 raise HTTPException(status_code=404, detail='Not Found')
@@ -49,7 +49,7 @@ def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
             try:
                 result = rpc.call('insert_user', data.dict(), current_user.dict())
             except:
-                print(traceback.format_exc()) 
+                print(traceback.format_exc(), file=sys.stderr) 
                 raise HTTPException(status_code=500, detail='Internal Server Error')
             if result is None:
                 raise HTTPException(status_code=404, detail='Not Found')
@@ -62,7 +62,7 @@ def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
             try:
                 result = rpc.call('update_user', id, data.dict(), current_user.dict())
             except:
-                print(traceback.format_exc()) 
+                print(traceback.format_exc(), file=sys.stderr) 
                 raise HTTPException(status_code=500, detail='Internal Server Error')
             if result is None:
                 raise HTTPException(status_code=404, detail='Not Found')
@@ -75,7 +75,7 @@ def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
             try:
                 result = rpc.call('delete_user', id, current_user.dict())
             except:
-                print(traceback.format_exc()) 
+                print(traceback.format_exc(), file=sys.stderr) 
                 raise HTTPException(status_code=500, detail='Internal Server Error')
             if result is None:
                 raise HTTPException(status_code=404, detail='Not Found')

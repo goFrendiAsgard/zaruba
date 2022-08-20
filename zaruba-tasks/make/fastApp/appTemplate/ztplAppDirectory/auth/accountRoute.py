@@ -11,6 +11,7 @@ from schemas.menuContext import MenuContext
 from ui.menuService import MenuService
 
 import traceback
+import sys
 
 class CreateAccessTokenRequest(BaseModel):
     username: str
@@ -43,7 +44,7 @@ def register_account_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service:
                 access_token = rpc.call('create_access_token', username, password)
                 return CreateAccessTokenResponse(access_token = access_token, token_type = 'bearer')
             except:
-                print(traceback.format_exc()) 
+                print(traceback.format_exc(), file=sys.stderr) 
                 raise HTTPException(status_code=400, detail='Incorrect identity or password')
 
         @app.post(create_access_token_url, response_model=CreateAccessTokenResponse)
@@ -54,7 +55,7 @@ def register_account_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service:
                 access_token = rpc.call('create_access_token', username, password)
                 return CreateAccessTokenResponse(access_token = access_token, token_type = 'bearer')
             except:
-                print(traceback.format_exc()) 
+                print(traceback.format_exc(), file=sys.stderr) 
                 raise HTTPException(status_code=400, detail='Incorrect identity or password')
 
         @app.post(refresh_access_token_url, response_model=RefreshAccessTokenResponse)
@@ -64,7 +65,7 @@ def register_account_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service:
                 new_access_token = rpc.call('refresh_access_token', old_access_token)
                 return RefreshAccessTokenResponse(access_token = new_access_token, token_type = 'bearer')
             except:
-                print(traceback.format_exc()) 
+                print(traceback.format_exc(), file=sys.stderr) 
                 raise HTTPException(status_code=400, detail='Incorrect identity or password')
     
 

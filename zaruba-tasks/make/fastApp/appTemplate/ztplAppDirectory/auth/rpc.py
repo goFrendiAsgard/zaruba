@@ -10,6 +10,7 @@ from typing import Mapping, List, Any
 from helpers.transport import RPC
 
 import traceback
+import sys
 
 def register_auth_rpc_handler(rpc: RPC, role_service: RoleService, user_service: UserService, token_service: TokenService, account_service: AccountService):
     register_account_rpc(rpc, account_service)

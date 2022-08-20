@@ -3,7 +3,9 @@ from pika.adapters.blocking_connection import BlockingConnection, BlockingChanne
 
 import pika
 import threading
-import asyncio
+import time
+import traceback
+import sys
 
 def create_rmq_connection_parameters(host: str, user: str, password: str, virtual_host: str = '/', heartbeat: int = 60, blocked_connection_timeout: int = 30) -> pika.ConnectionParameters:
     return pika.ConnectionParameters(
@@ -28,9 +30,9 @@ class RMQConnection():
         connection: BlockingConnection = pika.BlockingConnection(self._connection_parameters)
 
         def process_data_events():
-            while self._should_check_connection:
-                asyncio.run(asyncio.sleep(3))
+            while self._should_check_connection and not connection.is_closesd:
                 connection.process_data_events()
+                time.sleep(1)
 
         def callback():
             thread = threading.Thread(target=process_data_events)
@@ -49,8 +51,8 @@ class RMQConnection():
                 connection.process_data_events()
                 connection.close()
             except:
-                print('connection is not fully closed')
-                # print(traceback.format_exc()) 
+                print('connection is not fully closed', file=sys.stderr)
+                print(traceback.format_exc(), file=sys.stderr) 
     
 
     def _stop_threads(self):

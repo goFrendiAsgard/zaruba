@@ -299,7 +299,7 @@ Value:
 
 Value:
 
-    _skipIfExist "{{ .GetConfig "_skipCreationPath" }}"
+    _skipIfPathExist "{{ .GetConfig "_skipCreationPath" }}"
 
 
 ### Configs._skipCreationPath

@@ -12,7 +12,7 @@ if enable_ui:
                 'content_path': 'ztplAppModuleName/ztpl_app_url.html'
             }, status_code=200)
         except:
-            print(traceback.format_exc()) 
+            print(traceback.format_exc(), file=sys.stderr) 
             return templates.TemplateResponse('default_error.html', context={
                 'request': request,
                 'status_code': 500,

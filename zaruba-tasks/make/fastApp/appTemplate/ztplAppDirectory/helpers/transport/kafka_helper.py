@@ -2,6 +2,7 @@ from typing import Mapping, Any
 
 from confluent_kafka.admin import AdminClient, NewTopic
 import traceback
+import sys
 
 def create_kafka_topic(topic, config: Mapping[str, Any]):
     kafka_admin = AdminClient(config)
@@ -16,6 +17,6 @@ def create_kafka_topic(topic, config: Mapping[str, Any]):
             topic_metadata = kafka_admin.list_topics()
             trial -=1
         except:
-            print(traceback.format_exc())
+            print(traceback.format_exc(), file=sys.stderr)
     if topic_metadata.topics.get(topic) is None and trial > 0:
         raise Exception('Cannot create topic: {}'.format(topic))

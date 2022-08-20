@@ -7,6 +7,7 @@ import time
 import pika
 import threading
 import traceback
+import sys
 
 class RMQMessageBus(RMQConnection, MessageBus):
 
@@ -51,7 +52,7 @@ class RMQMessageBus(RMQConnection, MessageBus):
                 except:
                     self._is_failing = True
                     if self._should_check_connection:
-                        print(traceback.format_exc()) 
+                        print(traceback.format_exc(), file=sys.stderr) 
             thread = threading.Thread(target=consume)
             thread.start()
         return register_event_handler
@@ -64,7 +65,7 @@ class RMQMessageBus(RMQConnection, MessageBus):
                 event_handler(message)
             except Exception as e:
                 self._error_count += 1
-                print(traceback.format_exc()) 
+                print(traceback.format_exc(), file=sys.stderr) 
             finally:
                 if not auto_ack:
                     ch.basic_ack(delivery_tag=method.delivery_tag)

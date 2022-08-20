@@ -57,7 +57,7 @@ configs:
     _prepareReplacementMap: ''
     _prepare: ''
     _skipCreationPath: ''
-    _skipCreation: '_skipIfExist "{{ .GetConfig "_skipCreationPath" }}"'
+    _skipCreation: '_skipIfPathExist "{{ .GetConfig "_skipCreationPath" }}"'
     _prepareVariables: ''
     _validate: ''
     _validateAppDirectory: '. "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/validateAppDirectory.sh"'

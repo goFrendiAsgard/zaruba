@@ -11,6 +11,7 @@ from schemas.menuContext import MenuContext
 from schemas.user import User
 
 import traceback
+import sys
 
 def register_ztpl_app_crud_entity_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, templates: Jinja2Templates, enable_ui: bool, enable_api:bool):
 
@@ -25,7 +26,7 @@ def register_ztpl_app_crud_entity_route(app: FastAPI, mb: MessageBus, rpc: RPC, 
             try:
                 result = rpc.call('find_ztpl_app_crud_entity', keyword, limit, offset)
             except:
-                print(traceback.format_exc()) 
+                print(traceback.format_exc(), file=sys.stderr) 
                 raise HTTPException(status_code=500, detail='Internal Server Error')
             return ZtplAppCrudEntityResult.parse_obj(result)
 
@@ -36,7 +37,7 @@ def register_ztpl_app_crud_entity_route(app: FastAPI, mb: MessageBus, rpc: RPC, 
             try:
                 ztpl_app_crud_entity = rpc.call('find_ztpl_app_crud_entity_by_id', id)
             except:
-                print(traceback.format_exc()) 
+                print(traceback.format_exc(), file=sys.stderr) 
                 raise HTTPException(status_code=500, detail='Internal Server Error')
             if ztpl_app_crud_entity is None:
                 raise HTTPException(status_code=404, detail='Not Found')
@@ -49,7 +50,7 @@ def register_ztpl_app_crud_entity_route(app: FastAPI, mb: MessageBus, rpc: RPC, 
             try:
                 ztpl_app_crud_entity = rpc.call('insert_ztpl_app_crud_entity', ztpl_app_crud_entity_data.dict(), current_user.dict())
             except:
-                print(traceback.format_exc()) 
+                print(traceback.format_exc(), file=sys.stderr) 
                 raise HTTPException(status_code=500, detail='Internal Server Error')
             if ztpl_app_crud_entity is None:
                 raise HTTPException(status_code=404, detail='Not Found')
@@ -62,7 +63,7 @@ def register_ztpl_app_crud_entity_route(app: FastAPI, mb: MessageBus, rpc: RPC, 
             try:
                 ztpl_app_crud_entity = rpc.call('update_ztpl_app_crud_entity', id, ztpl_app_crud_entity_data.dict(), current_user.dict())
             except:
-                print(traceback.format_exc()) 
+                print(traceback.format_exc(), file=sys.stderr) 
                 raise HTTPException(status_code=500, detail='Internal Server Error')
             if ztpl_app_crud_entity is None:
                 raise HTTPException(status_code=404, detail='Not Found')
@@ -75,7 +76,7 @@ def register_ztpl_app_crud_entity_route(app: FastAPI, mb: MessageBus, rpc: RPC, 
             try:
                 ztpl_app_crud_entity = rpc.call('delete_ztpl_app_crud_entity', id, current_user.dict())
             except:
-                print(traceback.format_exc()) 
+                print(traceback.format_exc(), file=sys.stderr) 
                 raise HTTPException(status_code=500, detail='Internal Server Error')
             if ztpl_app_crud_entity is None:
                 raise HTTPException(status_code=404, detail='Not Found')

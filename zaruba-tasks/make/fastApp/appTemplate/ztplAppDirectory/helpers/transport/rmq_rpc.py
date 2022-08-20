@@ -10,6 +10,7 @@ import uuid
 import pika
 import threading
 import traceback
+import sys
 
 class RMQRPCReply(BaseModel):
     result: Any
@@ -57,7 +58,7 @@ class RMQRPC(RMQConnection, RPC):
                 except:
                     self._is_failing = True
                     if self._should_check_connection:
-                        print(traceback.format_exc()) 
+                        print(traceback.format_exc(), file=sys.stderr) 
             thread = threading.Thread(target=consume)
             thread.start()
         return register_rpc_handler
@@ -73,7 +74,7 @@ class RMQRPC(RMQConnection, RPC):
                 except Exception as e:
                     reply.error_message = getattr(e, 'message', repr(e))
                     self._error_count += 1
-                    print(traceback.format_exc()) 
+                    print(traceback.format_exc(), file=sys.stderr) 
                 body: Any = self._event_map.get_encoder(rpc_name)(reply.dict())
                 # send reply
                 ch.basic_publish(
@@ -85,7 +86,7 @@ class RMQRPC(RMQConnection, RPC):
                 print({'action': 'send_rmq_rpc_reply', 'rpc_name': rpc_name, 'args': args, 'result': reply.result, 'error': reply.error_message, 'exchange': exchange, 'routing_key': queue, 'correlation_id': props.correlation_id})
             except Exception as e:
                 self._error_count += 1
-                print(traceback.format_exc()) 
+                print(traceback.format_exc(), file=sys.stderr) 
             finally:
                 if not auto_ack:
                     ch.basic_ack(delivery_tag=method.delivery_tag)
@@ -161,7 +162,7 @@ class RMQRPCCaller():
                     print({'action': 'get_rmq_rpc_reply', 'queue': reply_queue, 'correlation_id': self.corr_id, 'result': self.reply.result, 'error': self.reply.error_message})
                 except Exception as e:
                     print({'action': 'get_rmq_rpc_reply', 'queue': reply_queue, 'correlation_id': self.corr_id, 'body': body, 'error': getattr(e, 'message', repr(e))})
-                    print(traceback.format_exc()) 
+                    print(traceback.format_exc(), file=sys.stderr) 
                 self.replied = True
             ch.basic_ack(delivery_tag=method.delivery_tag)
         return on_rpc_response

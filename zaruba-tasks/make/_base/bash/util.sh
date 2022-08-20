@@ -72,14 +72,11 @@ _getYamlEnvs() {
     echo "${__ZRB_YAML_ENVS}"
 }
 
-_skipIfExist() {
+_skipIfPathExist() {
     __ZRB_PATH="${1}"
-    if [ ! -z "${__ZRB_PATH}" ]
+    if [ ! -z "${__ZRB_PATH}" ] && [ -e "${__ZRB_PATH}" ]
     then
-        if [ -x "${__ZRB_PATH}" ]
-        then
-            echo "${_YELLOW}[SKIP] ${__ZRB_PATH} already exist.${_NORMAL}"
-            exit 0
-        fi
+        echo "${_YELLOW}[SKIP] ${__ZRB_PATH} already exist.${_NORMAL}"
+        exit 0
     fi
 }

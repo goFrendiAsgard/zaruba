@@ -11,6 +11,7 @@ from schemas.role import Role, RoleData, RoleResult
 from schemas.user import User
  
 import traceback
+import sys
 
 def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, templates: Jinja2Templates, enable_ui: bool, enable_api:bool):
 
@@ -25,7 +26,7 @@ def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
             try:
                 result = rpc.call('find_roles', keyword, limit, offset)
             except:
-                print(traceback.format_exc()) 
+                print(traceback.format_exc(), file=sys.stderr) 
                 raise HTTPException(status_code=500, detail='Internal Server Error')
             return RoleResult.parse_obj(result)
 
@@ -36,7 +37,7 @@ def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
             try:
                 result = rpc.call('find_role_by_id', id)
             except:
-                print(traceback.format_exc()) 
+                print(traceback.format_exc(), file=sys.stderr) 
                 raise HTTPException(status_code=500, detail='Internal Server Error')
             if result is None:
                 raise HTTPException(status_code=404, detail='Not Found')
@@ -49,7 +50,7 @@ def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
             try:
                 result = rpc.call('insert_role', role_data.dict(), current_user.dict())
             except:
-                print(traceback.format_exc()) 
+                print(traceback.format_exc(), file=sys.stderr) 
                 raise HTTPException(status_code=500, detail='Internal Server Error')
             if result is None:
                 raise HTTPException(status_code=404, detail='Not Found')
@@ -62,7 +63,7 @@ def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
             try:
                 result = rpc.call('update_role', id, role_data.dict(), current_user.dict())
             except:
-                print(traceback.format_exc()) 
+                print(traceback.format_exc(), file=sys.stderr) 
                 raise HTTPException(status_code=500, detail='Internal Server Error')
             if result is None:
                 raise HTTPException(status_code=404, detail='Not Found')
@@ -75,7 +76,7 @@ def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
             try:
                 result = rpc.call('delete_role', id, current_user.dict())
             except:
-                print(traceback.format_exc()) 
+                print(traceback.format_exc(), file=sys.stderr) 
                 raise HTTPException(status_code=500, detail='Internal Server Error')
             if result is None:
                 raise HTTPException(status_code=404, detail='Not Found')
