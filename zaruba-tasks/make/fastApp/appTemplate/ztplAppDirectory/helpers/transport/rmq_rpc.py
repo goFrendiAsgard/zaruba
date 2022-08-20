@@ -1,5 +1,5 @@
 from typing import Any, Callable, List, Optional
-from pika.adapters.blocking_connection import BlockingChannel
+from pika.adapters.blocking_connection import BlockingChannel, BlockingConnection
 from helpers.transport.interface import RPC
 from helpers.transport.rmq_connection import RMQConnection
 from helpers.transport.rmq_config import RMQEventMap
@@ -22,7 +22,6 @@ class RMQRPC(RMQConnection, RPC):
         RMQConnection.__init__(self, rmq_connection_parameters)
         self._event_map = rmq_event_map
         self._error_count = 0
-        self._publish_connection = self.create_connection()
 
     def get_error_count(self) -> int:
         return self._error_count
@@ -37,25 +36,25 @@ class RMQRPC(RMQConnection, RPC):
             arguments = self._event_map.get_queue_arguments(rpc_name)
             prefetch_count = self._event_map.get_prefetch_count(rpc_name)
             def consume():
-                try:
-                    connection = self.create_connection()
-                    ch = connection.channel()
-                    if self._event_map.get_ttl(rpc_name) > 0:
-                        ch.exchange_declare(exchange=dead_letter_exchange, exchange_type='fanout', durable=True)
-                        ch.queue_declare(queue=dead_letter_queue, durable=True, exclusive=False)
-                        ch.queue_bind(exchange=dead_letter_exchange, queue=dead_letter_queue)
-                    ch.exchange_declare(exchange=exchange, exchange_type='fanout', durable=True)
-                    ch.queue_declare(queue=queue, exclusive=False, durable=True, arguments=arguments)
-                    ch.queue_bind(exchange=exchange, queue=queue)
-                    ch.basic_qos(prefetch_count=prefetch_count)
-                    on_rpc_request = self._create_rpc_request_handler(rpc_name, exchange, queue, auto_ack, rpc_handler)
-                    ch.basic_consume(queue=queue, on_message_callback=on_rpc_request, auto_ack=auto_ack)
-                    ch.start_consuming()
-                except:
-                    if self._should_check_connection:
-                        print(traceback.format_exc(), file=sys.stderr) 
-                    self._is_failing = True
-                    self.shutdown()
+                while not self._is_shutdown:
+                    connection: BlockingConnection = None
+                    try:
+                        connection = self.create_connection()
+                        ch = connection.channel()
+                        if self._event_map.get_ttl(rpc_name) > 0:
+                            ch.exchange_declare(exchange=dead_letter_exchange, exchange_type='fanout', durable=True)
+                            ch.queue_declare(queue=dead_letter_queue, durable=True, exclusive=False)
+                            ch.queue_bind(exchange=dead_letter_exchange, queue=dead_letter_queue)
+                        ch.exchange_declare(exchange=exchange, exchange_type='fanout', durable=True)
+                        ch.queue_declare(queue=queue, exclusive=False, durable=True, arguments=arguments)
+                        ch.queue_bind(exchange=exchange, queue=queue)
+                        ch.basic_qos(prefetch_count=prefetch_count)
+                        on_rpc_request = self._create_rpc_request_handler(rpc_name, exchange, queue, auto_ack, rpc_handler)
+                        ch.basic_consume(queue=queue, on_message_callback=on_rpc_request, auto_ack=auto_ack)
+                        ch.start_consuming()
+                    except:
+                        self.remove_connection(connection)
+                        self._error_count += 1
             thread = threading.Thread(target=consume)
             thread.start()
         return register_rpc_handler
@@ -103,8 +102,9 @@ class RMQRPCCaller():
     def __init__(self, rpc: RMQRPC):
         self.is_timeout: bool = False
         self.reply: Optional[RMQRPCReply] = None
+        self.rpc = rpc
         self.event_map = rpc._event_map
-        self.connection = rpc._publish_connection
+        self.connection = rpc.create_connection()
         self.ch = self.connection.channel()
         self.corr_id = str(uuid.uuid4())
         self.replied = False
@@ -144,6 +144,8 @@ class RMQRPCCaller():
     def _clean_up(self):
         self.ch.stop_consuming()
         self.ch.queue_delete(self.reply_queue)
+        self.ch.close()
+        self.rpc.remove_connection(self.connection)
 
     def _consume_from_reply_queue(self, rpc_name: str, reply_queue: str):
         self.ch.queue_declare(queue=reply_queue, exclusive=True)
