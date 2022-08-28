@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"regexp"
+	"strings"
 
 	"github.com/spf13/cobra"
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
@@ -47,7 +48,12 @@ func getLog(decoration *output.Decoration, pattern, logFileName string) (logMess
 	}
 	logMessage = ""
 	for _, row := range records {
-		timestamp, output_type, command_type, taskName, log := row[0], row[1], row[2], row[3], row[4]
+		timestamp, output_type, command_type, taskName, log, sessionId := row[0], row[1], row[2], row[3], row[4], row[5]
+		sessionIdParts := strings.Split(sessionId, "-")
+		shortSessionId := fmt.Sprintf("%s-%s", sessionIdParts[0], sessionIdParts[1])
+		for len(shortSessionId) < 30 {
+			shortSessionId += " "
+		}
 		match, err := regexp.Match(pattern, []byte(taskName))
 		if err != nil || !match {
 			continue
@@ -64,7 +70,7 @@ func getLog(decoration *output.Decoration, pattern, logFileName string) (logMess
 		} else {
 			output_type = decoration.EmptyIcon
 		}
-		logMessage += fmt.Sprintf("%s %s %s\t%s%s%s %s\n", output_type, command_type, taskName, decoration.Faint, timestamp[:23], decoration.Normal, log)
+		logMessage += fmt.Sprintf("%s%s%s \t %s %s %s\t%s%s%s %s\n", decoration.Faint, shortSessionId, decoration.Normal, output_type, command_type, taskName, decoration.Faint, timestamp[:23], decoration.Normal, log)
 	}
 	return logMessage, nil
 }

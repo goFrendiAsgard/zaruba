@@ -42,6 +42,7 @@ type Project struct {
 	additionalEnvNames         []string
 	additionalValueNames       []string
 	showLogTime                bool
+	sessionId                  string
 }
 
 func NewDefaultProject(projectFile string) (p *Project, err error) {
@@ -154,6 +155,13 @@ func (p *Project) include(parsedProjectFile string, defaultIncludes []string) {
 			p.Includes = append(p.Includes, parsedScript)
 		}
 	}
+}
+
+func (p *Project) GetSessionId() (sessionId string) {
+	if p.sessionId == "" {
+		p.sessionId = fmt.Sprintf("%s-%s", p.Util.Str.NewName(), p.Util.Str.NewUUID())
+	}
+	return p.sessionId
 }
 
 // GetName get projectName

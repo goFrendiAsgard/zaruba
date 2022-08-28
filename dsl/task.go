@@ -636,7 +636,7 @@ func (task *Task) generateUUID() {
 }
 
 func (task *Task) generateGeneratedRandomName() {
-	if task.uuid == "" {
+	if task.generatedRandomName == "" {
 		task.generatedRandomName = task.Project.Util.Str.NewName()
 	}
 }
@@ -808,6 +808,7 @@ func (task *Task) readLogFromBuffer(cmdType, logType string, pipe io.ReadCloser,
 	if isSaveLog {
 		outputWgAdditionPerRow = 2
 	}
+	sessionId := task.Project.GetSessionId()
 	cmdIconType := task.getCmdIconType(cmdType)
 	logPrefix := fmt.Sprintf("%s %s", cmdIconType, task.logPrefix)
 	taskName := task.GetName()
@@ -822,17 +823,17 @@ func (task *Task) readLogFromBuffer(cmdType, logType string, pipe io.ReadCloser,
 		// previous and next chan is necessary to make sure that logChan and logRecordChan get message in order
 		if isFirstTime {
 			isFirstTime = false
-			go task.sendLog(cmdType, logType, logPrefix, taskName, content, isSaveLog, previousChan, nextChan, logChan, logRecordChan)
+			go task.sendLog(cmdType, logType, logPrefix, sessionId, taskName, content, isSaveLog, previousChan, nextChan, logChan, logRecordChan)
 			previousChan <- true
 			continue
 		}
 		previousChan = nextChan
 		nextChan = make(chan bool)
-		go task.sendLog(cmdType, logType, logPrefix, taskName, content, isSaveLog, previousChan, nextChan, logChan, logRecordChan)
+		go task.sendLog(cmdType, logType, logPrefix, sessionId, taskName, content, isSaveLog, previousChan, nextChan, logChan, logRecordChan)
 	}
 }
 
-func (task *Task) sendLog(cmdType, logType, logPrefix, taskName, content string, saveLog bool, previousChan, nextChan chan bool, logChan chan string, logRecordChan chan []string) {
+func (task *Task) sendLog(cmdType, logType, logPrefix, sessionId, taskName, content string, saveLog bool, previousChan, nextChan chan bool, logChan chan string, logRecordChan chan []string) {
 	d := task.Project.Decoration
 	now := time.Now()
 	decoratedContent := ""
@@ -846,7 +847,7 @@ func (task *Task) sendLog(cmdType, logType, logPrefix, taskName, content string,
 	logChan <- decoratedContent
 	if saveLog {
 		nowStr := now.String()
-		rowContent := []string{nowStr, logType, cmdType, taskName, content}
+		rowContent := []string{nowStr, logType, cmdType, taskName, content, sessionId}
 		logRecordChan <- rowContent
 	}
 	nextChan <- true
