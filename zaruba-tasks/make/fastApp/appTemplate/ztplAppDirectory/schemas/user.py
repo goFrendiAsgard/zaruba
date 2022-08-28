@@ -2,14 +2,13 @@ from typing import List, Optional
 from pydantic import BaseModel
 import datetime, re
 
-class UserData(BaseModel):
+class UserDataWithoutPassword(BaseModel):
     username: str = ''
     email: str = ''
     phone_number: str = ''
     permissions: List[str] = []
     role_ids: List[str] = []
     active: bool = False
-    password: Optional[str] = ''
     full_name: str = ''
     created_at: Optional[datetime.datetime]
     created_by: Optional[str]
@@ -44,6 +43,16 @@ class UserData(BaseModel):
         self.role_ids = new_role_ids
 
 
+class UserWithoutPassword(UserDataWithoutPassword):
+    id: str
+    class Config:
+        orm_mode = True
+
+
+class UserData(UserDataWithoutPassword):
+    password: Optional[str] = ''
+
+
 class User(UserData):
     id: str
     class Config:
@@ -52,4 +61,4 @@ class User(UserData):
 
 class UserResult(BaseModel):
     count: int
-    rows: List[User]
+    rows: List[UserWithoutPassword]

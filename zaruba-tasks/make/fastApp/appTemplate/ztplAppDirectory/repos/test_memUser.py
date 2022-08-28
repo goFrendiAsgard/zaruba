@@ -26,7 +26,6 @@ def test_find_by_id():
     assert user.email == 'test_exist_email@domain.com'
     assert user.phone_number == '+62812345678'
     assert user.active == True
-    assert user.password == 'test_exist_password'
     assert len(user.role_ids) == 0
     assert len(user.permissions) == 1
     assert user.permissions[0] == 'test_exist_user_permission'
@@ -77,7 +76,6 @@ def test_find():
     assert user.email == 'test_exist_email@domain.com'
     assert user.phone_number == '+62812345678'
     assert user.active == True
-    assert user.password == 'test_exist_password'
     assert len(user.role_ids) == 0
     assert len(user.permissions) == 1
     assert user.permissions[0] == 'test_exist_user_permission'
@@ -115,7 +113,6 @@ def test_insert():
     assert new_user.email == 'test_new_email@domain.com'
     assert new_user.phone_number == '+62812345678'
     assert new_user.active == True
-    assert new_user.password == 'test_new_password'
     assert len(new_user.role_ids) == 0
     assert len(new_user.permissions) == 1
     assert new_user.permissions[0] == 'test_new_user_permission'
@@ -155,7 +152,6 @@ def test_update():
     assert updated_user.email == 'test_new_email@domain.com'
     assert updated_user.phone_number == '+62812345678'
     assert updated_user.active == True
-    assert updated_user.password == 'test_new_password'
     assert len(updated_user.role_ids) == 0
     assert len(updated_user.permissions) == 1
     assert updated_user.permissions[0] == 'test_new_user_permission'
@@ -199,7 +195,6 @@ def test_update_inexist():
     assert user.email == 'test_exist_email@domain.com'
     assert user.phone_number == '+62812345678'
     assert user.active == True
-    assert user.password == 'test_exist_password'
     assert len(user.role_ids) == 0
     assert len(user.permissions) == 1
     assert user.permissions[0] == 'test_exist_user_permission'
@@ -228,7 +223,6 @@ def test_delete():
     assert deleted_user.email == 'test_exist_email@domain.com'
     assert deleted_user.phone_number == '+62812345678'
     assert deleted_user.active == True
-    assert deleted_user.password == 'test_exist_password'
     assert len(deleted_user.role_ids) == 0
     assert len(deleted_user.permissions) == 1
     users = mem_user_repo.find('', 10, 0)
@@ -262,7 +256,6 @@ def test_delete_inexist():
     assert user.email == 'test_exist_email@domain.com'
     assert user.phone_number == '+62812345678'
     assert user.active == True
-    assert user.password == 'test_exist_password'
     assert len(user.role_ids) == 0
     assert len(user.permissions) == 1
     assert user.permissions[0] == 'test_exist_user_permission'

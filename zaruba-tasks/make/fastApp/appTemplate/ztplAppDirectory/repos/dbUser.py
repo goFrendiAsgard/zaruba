@@ -4,7 +4,7 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session
 from sqlalchemy import and_, or_, Boolean, Column, DateTime, ForeignKey, Integer, String, Text
-from schemas.user import User, UserData
+from schemas.user import User, UserWithoutPassword, UserData
 from repos.user import UserRepo
 from repos import Base
 
@@ -50,8 +50,8 @@ class DBUserRepo(UserRepo):
     def _get_keyword_filter(self, keyword: str) -> str:
         return '%{}%'.format(keyword) if keyword != '' else '%'
 
-    def _from_db_result(self, db_result: Any) -> User:
-        user = User.from_orm(db_result)
+    def _from_db_result(self, db_result: Any) -> UserWithoutPassword:
+        user = UserWithoutPassword.from_orm(db_result)
         user.permissions = json.loads(db_result.json_permissions)
         user.role_ids = json.loads(db_result.json_role_ids)
         return user
@@ -68,9 +68,9 @@ class DBUserRepo(UserRepo):
             db.close()
         return user
 
-    def find_by_id(self, id: str) -> Optional[User]:
+    def find_by_id(self, id: str) -> Optional[UserWithoutPassword]:
         db = Session(self.engine)
-        user: User
+        user: UserWithoutPassword
         try:
             db_user = db.query(DBUserEntity).filter(DBUserEntity.id == id).first()
             if db_user is None:
@@ -80,9 +80,9 @@ class DBUserRepo(UserRepo):
             db.close()
         return user
     
-    def find_by_identity_and_password(self, identity: str, password: str) -> Optional[User]:
+    def find_by_identity_and_password(self, identity: str, password: str) -> Optional[UserWithoutPassword]:
         db = Session(self.engine)
-        user: User
+        user: UserWithoutPassword
         try:
             db_user = db.query(DBUserEntity).filter(
                     or_(
@@ -98,9 +98,9 @@ class DBUserRepo(UserRepo):
             db.close()
         return user
 
-    def find(self, keyword: str, limit: int, offset: int) -> List[User]:
+    def find(self, keyword: str, limit: int, offset: int) -> List[UserWithoutPassword]:
         db = Session(self.engine)
-        users: List[User] = []
+        users: List[UserWithoutPassword] = []
         try:
             keyword_filter = self._get_keyword_filter(keyword)
             db_users = db.query(DBUserEntity).filter(
@@ -133,9 +133,9 @@ class DBUserRepo(UserRepo):
             db.close()
         return user_count
 
-    def insert(self, user_data: UserData) -> Optional[User]:
+    def insert(self, user_data: UserData) -> Optional[UserWithoutPassword]:
         db = Session(self.engine)
-        new_user: User
+        new_user: UserWithoutPassword
         try:
             new_user_id=str(uuid.uuid4())
             db_user = DBUserEntity(
@@ -159,9 +159,9 @@ class DBUserRepo(UserRepo):
             db.close()
         return new_user
 
-    def update(self, id: str, user_data: UserData) -> Optional[User]:
+    def update(self, id: str, user_data: UserData) -> Optional[UserWithoutPassword]:
         db = Session(self.engine)
-        updated_user: User
+        updated_user: UserWithoutPassword
         try:
             db_user = db.query(DBUserEntity).filter(DBUserEntity.id == id).first()
             if db_user is None:
@@ -185,9 +185,9 @@ class DBUserRepo(UserRepo):
             db.close()
         return updated_user
 
-    def delete(self, id: str) -> Optional[User]:
+    def delete(self, id: str) -> Optional[UserWithoutPassword]:
         db = Session(self.engine)
-        deleted_user: User
+        deleted_user: UserWithoutPassword
         try:
             db_user = db.query(DBUserEntity).filter(DBUserEntity.id == id).first()
             if db_user is None:
