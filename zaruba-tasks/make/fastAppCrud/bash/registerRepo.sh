@@ -21,7 +21,7 @@ _MAIN_LINES="$("${ZARUBA_BIN}" lines read "${_MAIN_FILE_LOCATION}")"
 _MAIN_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_MAIN_LINES}" 0 "${_IMPORT_REPO_SCRIPT}")"
 
 # init repo
-_PATTERN="engine(\s*)="
+_PATTERN="if enable_${_ZRB_SNAKE_APP_MODULE_NAME}_module:"
 _ENGINE_DECLARATION_INDEX="$("${ZARUBA_BIN}" lines getIndex "${_MAIN_LINES}" "${_PATTERN}")"
 if [ "${_ENGINE_DECLARATION_INDEX}" = "-1" ]
 then
@@ -29,7 +29,9 @@ then
     exit 1
 fi
 
-_MAIN_LINES="$("${ZARUBA_BIN}" lines insertAfter "${_MAIN_LINES}" "${_ENGINE_DECLARATION_INDEX}" "${_INIT_REPO_SCRIPT}")"
+_INIT_REPO_SCRIPT_INDENTATION="    "
+_INDENTED_INIT_REPO_SCRIPT="$("${ZARUBA_BIN}" str fullIndent "${_INIT_REPO_SCRIPT}" "${_INIT_REPO_SCRIPT_INDENTATION}")"
+_MAIN_LINES="$("${ZARUBA_BIN}" lines insertAfter "${_MAIN_LINES}" "${_ENGINE_DECLARATION_INDEX}" "${_INDENTED_INIT_REPO_SCRIPT}")"
 
 ####################################################################
 # look for rpc call

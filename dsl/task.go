@@ -769,12 +769,13 @@ func (task *Task) getCmd(cmdType string, commandPatternArgs []string) (cmd *exec
 	if err = task.setCmdEnv(cmd); err != nil {
 		return cmd, err
 	}
+	sessionId := task.Project.GetSessionId()
 	// log stdout
 	outPipe, _ := cmd.StdoutPipe()
-	go task.readLogFromBuffer(cmdType, "OUT", outPipe, task.Project.StdoutChan, task.Project.StdoutRecordChan)
+	go task.readLogFromBuffer(sessionId, cmdType, "OUT", outPipe, task.Project.StdoutChan, task.Project.StdoutRecordChan)
 	// log stderr
 	errPipe, _ := cmd.StderrPipe()
-	go task.readLogFromBuffer(cmdType, "ERR", errPipe, task.Project.StderrChan, task.Project.StderrRecordChan)
+	go task.readLogFromBuffer(sessionId, cmdType, "ERR", errPipe, task.Project.StderrChan, task.Project.StderrRecordChan)
 	// combine stdout and stderr done
 	return cmd, err
 }
@@ -801,14 +802,13 @@ func (task *Task) setCmdEnv(cmd *exec.Cmd) error {
 	return nil
 }
 
-func (task *Task) readLogFromBuffer(cmdType, logType string, pipe io.ReadCloser, logChan chan string, logRecordChan chan []string) {
+func (task *Task) readLogFromBuffer(sessionId, cmdType, logType string, pipe io.ReadCloser, logChan chan string, logRecordChan chan []string) {
 	buf := bufio.NewScanner(pipe)
 	isSaveLog := task.GetIsSaveLog()
 	outputWgAdditionPerRow := 1
 	if isSaveLog {
 		outputWgAdditionPerRow = 2
 	}
-	sessionId := task.Project.GetSessionId()
 	cmdIconType := task.getCmdIconType(cmdType)
 	logPrefix := fmt.Sprintf("%s %s", cmdIconType, task.logPrefix)
 	taskName := task.GetName()

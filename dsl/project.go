@@ -79,6 +79,7 @@ func NewCustomProject(projectFile string, decoration *output.Decoration, showLog
 	p.linkToTasks()
 	p.linkToInputs()
 	p.setDefaultValues()
+	p.generateSessionId()
 	if err = p.validateTask(); err != nil {
 		return p, err
 	}
@@ -158,9 +159,6 @@ func (p *Project) include(parsedProjectFile string, defaultIncludes []string) {
 }
 
 func (p *Project) GetSessionId() (sessionId string) {
-	if p.sessionId == "" {
-		p.sessionId = fmt.Sprintf("%s-%s", p.Util.Str.NewName(), p.Util.Str.NewUUID())
-	}
 	return p.sessionId
 }
 
@@ -686,6 +684,10 @@ func (p *Project) cascadeConfigRef(parsedIncludeLocation string, includedProject
 		p.ConfigRefMap[configRefName] = configRef
 	}
 	return nil
+}
+
+func (p *Project) generateSessionId() {
+	p.sessionId = fmt.Sprintf("%s-%s", p.Util.Str.NewName(), p.Util.Str.NewUUID())
 }
 
 func (p *Project) setSortedTaskNames() {

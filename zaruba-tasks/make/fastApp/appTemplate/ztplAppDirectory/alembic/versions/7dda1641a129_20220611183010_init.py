@@ -7,6 +7,7 @@ Create Date: 2022-06-11 18:30:10.609881
 """
 from alembic import op
 import sqlalchemy as sa
+import os
 
 
 # revision identifiers, used by Alembic.
@@ -17,6 +18,8 @@ depends_on = None
 
 
 def upgrade() -> None:
+    if os.getenv('APP_ENABLE_AUTH_MODULE', '1') == '0':
+        return None
     # Roles
     op.create_table('roles',
         sa.Column('id', sa.String(length=36), nullable=False),
@@ -57,6 +60,8 @@ def upgrade() -> None:
 
 
 def downgrade() -> None:
+    if os.getenv('APP_ENABLE_AUTH_MODULE', '1') == '0':
+        return None
     # Users
     op.drop_index(op.f('ix_users_username'), table_name='users')
     op.drop_index(op.f('ix_users_phone_number'), table_name='users')

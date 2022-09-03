@@ -18,5 +18,9 @@ tasks:
           _RETRY=$(( ${_RETRY} - 1 ))
           go test -v ./... --race -coverprofile=./coverage/profile.out -covermode=atomic
         done
+        if [ "$?" != "0" ]
+        then
+          exit 1
+        fi
         set -e
         go tool cover -html=./coverage/profile.out -o ./coverage/coverage.html

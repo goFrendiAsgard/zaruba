@@ -1,6 +1,6 @@
 
 ################################################
-# -- 🧩 ztplAppModuleName
+# -- 🧩 ZtplAppModuleName module
 ################################################
 enable_ztpl_app_module_name_module = os.getenv('APP_ENABLE_ZTPL_APP_MODULE_NAME_MODULE', '1') != '0'
 if enable_ztpl_app_module_name_module:
