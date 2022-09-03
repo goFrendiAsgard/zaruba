@@ -57,6 +57,9 @@ Search: █
 Search: █
 ? Do you want to load additional value file?: 
   ▸ 🏁 No
+  ▸ 🏁 No
+  ▸ 🏁 No
+    📝 Yes
 ✔ 🏁 No
 💀 Load additional env
 Search: █
@@ -64,26 +67,26 @@ Search: █
   ▸ 🏁 No
     📝 Yes, from file
 ✔ 🏁 No
-💀 Auto terminate
+✔ 🏁 No
 Search: █
 ? 💀 Do you want to terminate tasks once completed?: 
   ▸ 🏁 No
 ✔ 🏁 No
 💀 🔎 Job Starting...
-         Elapsed Time: 2.027µs
-         Current Time: 08:35:59
+         Elapsed Time: 1.771µs
+         Current Time: 12:12:25
 💀 🏁 Running 🍎 printHelloWorld runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
 💀    🚀 🍎 printHelloWorld      hello world
 💀 🎉 Successfully running 🍎 printHelloWorld runner (Attempt 1 of 3)
 💀 🔎 Job Running...
-         Elapsed Time: 1.469686ms
-         Current Time: 08:35:59
+         Elapsed Time: 2.170755ms
+         Current Time: 12:12:25
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 403.897156ms
-         Current Time: 08:35:59
+         Elapsed Time: 404.893893ms
+         Current Time: 12:12:25
 zaruba please printHelloWorld
 ```````
 </details>

@@ -17,8 +17,12 @@ branch_labels = None
 depends_on = None
 
 
+def run_migration() -> bool:
+    return os.getenv('MIGRATION_RUN_ALL', '0') != '0' or os.getenv('APP_ENABLE_AUTH_MODULE', '1') != 0
+
+
 def upgrade() -> None:
-    if os.getenv('APP_ENABLE_AUTH_MODULE', '1') == '0':
+    if not run_migration():
         return None
     # Roles
     op.create_table('roles',
@@ -60,7 +64,7 @@ def upgrade() -> None:
 
 
 def downgrade() -> None:
-    if os.getenv('APP_ENABLE_AUTH_MODULE', '1') == '0':
+    if not run_migration():
         return None
     # Users
     op.drop_index(op.f('ix_users_username'), table_name='users')

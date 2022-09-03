@@ -17,9 +17,17 @@ branch_labels = ${repr(branch_labels)}
 depends_on = ${repr(depends_on)}
 
 
+def run_migration() -> bool:
+    return os.getenv('MIGRATION_RUN_ALL', '0') != '0'
+
+
 def upgrade() -> None:
+    if not run_migration():
+        return None
     ${upgrades if upgrades else "pass"}
 
 
 def downgrade() -> None:
+    if not run_migration():
+        return None
     ${downgrades if downgrades else "pass"}
