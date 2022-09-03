@@ -18,7 +18,7 @@ depends_on = None
 
 
 def run_migration() -> bool:
-    return os.getenv('MIGRATION_RUN_ALL', '0') != '0' or os.getenv('APP_ENABLE_AUTH_MODULE', '1') != 0
+    return os.getenv('MIGRATION_RUN_ALL', '0') != '0' or os.getenv('APP_ENABLE_AUTH_MODULE', '1') != '0'
 
 
 def upgrade() -> None:
