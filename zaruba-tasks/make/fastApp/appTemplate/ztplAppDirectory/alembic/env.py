@@ -31,7 +31,8 @@ target_metadata = Base.metadata
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
-env_db_url = os.getenv('MIGRATION_SQLALCHEMY_DATABASE_URL', '')
+is_generating_migration = os.getenv('IS_GENERATING_MIGRATION', '0') != '0'
+env_db_url = os.getenv('MIGRATION_SQLALCHEMY_DATABASE_URL', '') if is_generating_migration else os.getenv('APP_SQLALCHEMY_DATABASE_URL', '')
 if env_db_url != '':
     config.set_main_option('sqlalchemy.url', env_db_url)
 
