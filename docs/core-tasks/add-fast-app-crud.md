@@ -254,7 +254,7 @@ Value:
     . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrud/bash/setRepoFieldInsert.sh"
     . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrud/bash/setRepoFieldUpdate.sh"
     . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrud/bash/setSchemaFieldDeclaration.sh"
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrud/bash/setJinjaTemplate.sh"
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrud/bash/setVueComponent.sh"
 
 
 

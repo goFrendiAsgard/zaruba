@@ -75,7 +75,7 @@ def register_account_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service:
     if enable_ui:
 
         @app.get('/account/login', response_class=HTMLResponse)
-        async def user_interface(request: Request, context: MenuContext = Depends(menu_service.authenticate('account/login'))):
+        async def user_interface(request: Request, context: MenuContext = Depends(menu_service.authenticate('account:login'))):
             return templates.TemplateResponse(
                 'default_login.html', 
                 context={
@@ -87,7 +87,7 @@ def register_account_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service:
             )
 
         @app.get('/account/logout', response_class=HTMLResponse)
-        async def user_interface(request: Request, context: MenuContext = Depends(menu_service.authenticate('account/logout'))):
+        async def user_interface(request: Request, context: MenuContext = Depends(menu_service.authenticate('account:logout'))):
             return templates.TemplateResponse(
                 'default_logout.html', 
                 context={

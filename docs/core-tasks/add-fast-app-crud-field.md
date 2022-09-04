@@ -175,7 +175,7 @@ Value:
     . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrudField/bash/addSchemaFieldDeclaration.sh"
     . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrudField/bash/addMemRepoField.sh"
     . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrudField/bash/addDbRepoField.sh"
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrudField/bash/addUi.sh"
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrudField/bash/addVueComponent.sh"
 
 
 

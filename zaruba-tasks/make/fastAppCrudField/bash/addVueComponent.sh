@@ -1,20 +1,20 @@
-echo "Updating jinja template"
+echo "Updating vue component"
 
-_FORM_INPUT_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/jinja/form_input.html")"
+_FORM_INPUT_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/vue/form_input.html")"
 _FORM_INPUT_SCRIPT="$("${ZARUBA_BIN}" str replace "${_FORM_INPUT_SCRIPT}" "${_ZRB_REPLACEMENT_MAP}" )"
 
-_COLUMN_HEADER_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/jinja/column_header.html")"
+_COLUMN_HEADER_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/vue/column_header.html")"
 _COLUMN_HEADER_SCRIPT="$("${ZARUBA_BIN}" str replace "${_COLUMN_HEADER_SCRIPT}" "${_ZRB_REPLACEMENT_MAP}" )"
 
-_COLUMN_VALUE_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/jinja/column_value.html")"
+_COLUMN_VALUE_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/vue/column_value.html")"
 _COLUMN_VALUE_SCRIPT="$("${ZARUBA_BIN}" str replace "${_COLUMN_VALUE_SCRIPT}" "${_ZRB_REPLACEMENT_MAP}" )"
 
 #########################################################
-# Read existing jinja template
+# Read existing vue component
 
-_JINJA_TEMPLATE_FILE_LOCATION="${_ZRB_APP_DIRECTORY}/_jinja_templates/${_ZRB_APP_MODULE_NAME}/crud/${_ZRB_APP_CRUD_ENTITIES}.html"
+_UI_COMPONENT_FILE_LOCATION="${_ZRB_APP_DIRECTORY}/_public/vue/${_ZRB_APP_MODULE_NAME}/crud/${_ZRB_APP_CRUD_ENTITIES}Crud.vue"
 
-_LINES="$("${ZARUBA_BIN}" lines read "${_JINJA_TEMPLATE_FILE_LOCATION}")"
+_LINES="$("${ZARUBA_BIN}" lines read "${_UI_COMPONENT_FILE_LOCATION}")"
 
 #########################################################
 # FORM_INPUT
@@ -107,9 +107,9 @@ then
 fi
 
 #########################################################
-# Overwrite existing jinja template
+# Overwrite existing vue component
 
-chmod 755 "${_JINJA_TEMPLATE_FILE_LOCATION}"
-"${ZARUBA_BIN}" lines write "${_JINJA_TEMPLATE_FILE_LOCATION}" "${_LINES}"
+chmod 755 "${_UI_COMPONENT_FILE_LOCATION}"
+"${ZARUBA_BIN}" lines write "${_UI_COMPONENT_FILE_LOCATION}" "${_LINES}"
 
-echo "Done updating jinja template"
+echo "Done updating vue component"

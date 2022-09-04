@@ -1,11 +1,11 @@
 set -e
-echo "Set jinja template"
+echo "Set vue component"
 
-_COLUMN_HEADERS_SCRIPT_TEMPLATE="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrud/partials/jinja/column_header.html")"
+_COLUMN_HEADERS_SCRIPT_TEMPLATE="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrud/partials/vue/column_header.html")"
 _COLUMN_HEADERS_SCRIPT_LINES='[]'
-_COLUMN_VALUES_SCRIPT_TEMPLATE="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrud/partials/jinja/column_values.html")"
+_COLUMN_VALUES_SCRIPT_TEMPLATE="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrud/partials/vue/column_values.html")"
 _COLUMN_VALUES_SCRIPT_LINES='[]'
-_FORM_INPUTS_SCRIPT_TEMPLATE="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrud/partials/jinja/form_input.html")"
+_FORM_INPUTS_SCRIPT_TEMPLATE="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrud/partials/vue/form_input.html")"
 _FORM_INPUTS_SCRIPT_LINES='[]'
 
 for _INDEX in $("${ZARUBA_BIN}" list rangeIndex "${_ZRB_APP_CRUD_FIELDS}")
@@ -43,4 +43,4 @@ _setReplacementMap "${_COLUMN_VALUES_PATTERN}" "${_ZRB_COLUMN_VALUES}"
 _FORM_INPUTS_PATTERN="[\t ]*<!-- CRUD form inputs -->"
 _setReplacementMap "${_FORM_INPUTS_PATTERN}" "${_ZRB_FORM_INPUTS}"
 
-echo "Done setting jinja template"
+echo "Done setting vue component"
