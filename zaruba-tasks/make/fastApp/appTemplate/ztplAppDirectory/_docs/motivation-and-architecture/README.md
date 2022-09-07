@@ -61,9 +61,11 @@ When businesses get bigger, tech departments usually suffer from any of these pr
 
 We can make things better by creating a monolith application that can be deployed as microservices.
 
-You can think of a microservices-ready monolith as a super-soldier than has gone through a lot of training. Alone, this super-soldier is already capable of a lot of things. He can shoot, fight, drive a helicopter, and even hack a satellite.
+You can think of a microservices-ready monolith as a super-soldier who has gone through a lot of training. Alone, this super-soldier is already capable of a lot of things. He can shoot, fight, drive a helicopter, and even hack a satellite.
 
 But when you do a bigger mission, you cannot just rely on a single super-soldier. You need a team of super-soldiers. You need to assign different tasks for every member so that they can achieve a bigger goal.
+
+At some point, you can even swap one of your super soldiers with someone who better fits the job. For example, you hire a real hacker instead of occupying an expensive super soldier just to hack your enemy's satellite.
 
 ![image of a soldier](images/soldier.jpg)
 
@@ -80,6 +82,8 @@ It is bad because:
 
 - Everyone is aware of code changes (Code-level authorization is nearly impossible).
 - People tend to cross the domain boundary because they can.
+
+> ⚠️ __Warning:__ Never cross domain boundary even if you can. Assume every module will live in different servers/pods and accessing different database server. Otherwise, your application will ends up as big spaghetti-code monolith that can't go anywhere.
 
 # Example
 
