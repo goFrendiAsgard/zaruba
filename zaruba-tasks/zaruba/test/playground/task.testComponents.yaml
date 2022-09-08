@@ -51,6 +51,10 @@ tasks:
         sleep 5
         ../zaruba please stopProvoAirflowContainer
 
+        ../zaruba please startProvoClickhouse -t
+        sleep 5
+        ../zaruba please stopProvoClickhouseContainer
+
         ../zaruba please startProvoJupyterNotebook -t
         sleep 5
         ../zaruba please stopProvoJupyterNotebookContainer
