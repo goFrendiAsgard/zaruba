@@ -1,0 +1,6 @@
+tasks:
+
+  addClickhouse:
+    icon: 🟨
+    dependencies:
+      - makeClickhouseAppRunner

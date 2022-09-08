@@ -173,6 +173,12 @@ includes:
   - ./zaruba-tasks/make/cassandra/task.makeCassandraApp.yaml
   - ./zaruba-tasks/make/cassandra/task.makeCassandraAppRunner.yaml
 
+  - ./zaruba-tasks/make/clickhouse/config.makeClickhouseApp.yaml
+  - ./zaruba-tasks/make/clickhouse/config.makeClickhouseAppRunner.yaml
+  - ./zaruba-tasks/make/clickhouse/task.addClickhouse.yaml
+  - ./zaruba-tasks/make/clickhouse/task.makeClickhouseApp.yaml
+  - ./zaruba-tasks/make/clickhouse/task.makeClickhouseAppRunner.yaml
+
   - ./zaruba-tasks/make/containerRegistry/config.makeContainerRegistryApp.yaml
   - ./zaruba-tasks/make/containerRegistry/config.makeContainerRegistryAppRunner.yaml
   - ./zaruba-tasks/make/containerRegistry/task.addContainerRegistry.yaml

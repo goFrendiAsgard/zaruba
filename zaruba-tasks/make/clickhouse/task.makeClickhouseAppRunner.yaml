@@ -1,0 +1,15 @@
+tasks:
+
+  makeClickhouseAppRunner:
+    icon: 🟨
+    extend: makeDockerContainerAppRunner
+    dependencies:
+      - makeClickhouseApp
+    inputs:
+      - appDirectory
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    configRef: makeClickhouseAppRunner

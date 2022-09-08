@@ -1,0 +1,8 @@
+tasks:
+ 
+  makeClickhouseApp:
+    icon: 🟨
+    extend: makeApp
+    inputs:
+      - appDirectory
+    configRef: makeClickhouseApp
