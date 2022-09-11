@@ -85,7 +85,7 @@ auth_service = TokenOAuth2AuthService(rpc, oauth2_scheme)
 menu_service = create_menu_service(rpc, auth_service)
 site_name = os.getenv('APP_UI_SITE_NAME', 'App')
 http_port = os.getenv('APP_HTTP_PORT', '3000')
-backend_url = os.getenv('APP_UI_BACKEND_URL', 'localhost:{}'.format(http_port))
+backend_url = os.getenv('APP_UI_BACKEND_URL', 'http://localhost:{}'.format(http_port))
 public_url = os.getenv('APP_PUBLIC_URL', '/public')
 templates = create_templates(
     directory = os.getenv('APP_UI_JINJA_DIR', '_jinja_templates'),
@@ -120,7 +120,7 @@ enable_ui = os.getenv('APP_ENABLE_UI', '1') != '0'
 enable_api = os.getenv('APP_ENABLE_API', '1') != '0'
 enable_event_handler = os.getenv('APP_ENABLE_EVENT_HANDLER', '1') != '0'
 enable_rpc_handler = os.getenv('APP_ENABLE_RPC_HANDLER', '1') != '0'
-public_dir = get_abs_static_dir(os.getenv('APP_PUBLIC_DIR', 'public'))
+public_dir = get_abs_static_dir(os.getenv('APP_PUBLIC_DIR', '_public'))
 handle_app_shutdown(app, mb, rpc)
 register_readiness_handler(app, mb, rpc, error_threshold)
 register_public_dir_route_handler(app, public_url, public_dir, public_route_name='static-resources')
@@ -139,9 +139,9 @@ if enable_auth_module:
         user_seeder_service = UserSeederService(user_service)
         user_seeder_service.seed(UserData(
             username = os.getenv('APP_ROOT_USERNAME', 'root'),
-            email = os.getenv('APP_ROOT_INITIAL_EMAIL', 'root@root.com'),
+            email = os.getenv('APP_ROOT_INITIAL_EMAIL', 'root@innistrad.com'),
             phone_number = os.getenv('APP_ROOT_INITIAL_PHONE_NUMBER', '+621234567890'),
-            password = os.getenv('APP_ROOT_INITIAL_PASSWORD', 'toor'),
+            password = os.getenv('APP_ROOT_INITIAL_PASSWORD', 'Alch3mist'),
             active = True,
             permissions = [root_permission],
             full_name = os.getenv('APP_ROOT_INITIAL_FULL_NAME', 'root')

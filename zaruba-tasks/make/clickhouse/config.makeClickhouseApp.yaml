@@ -1,0 +1,8 @@
+configs:
+ 
+  makeClickhouseApp:
+    defaultAppDirectory: '{{ .ProjectName }}Clickhouse'
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/clickhouse/appTemplate"
+      ]

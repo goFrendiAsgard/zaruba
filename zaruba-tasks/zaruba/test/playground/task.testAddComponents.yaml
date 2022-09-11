@@ -48,6 +48,7 @@ tasks:
         ../zaruba please addAirflow appDirectory=provoAirflow
         ../zaruba please addAirbyte appDirectory=provoAirbyte
         ../zaruba please addCassandra appDirectory=provoCassandra
+        ../zaruba please addClickhouse appDirectory=provoClickhouse
         ../zaruba please addElasticsearch appDirectory=provoElasticsearch
         ../zaruba please addJupyterNotebook appDirectory=provoJupyterNotebook
 
