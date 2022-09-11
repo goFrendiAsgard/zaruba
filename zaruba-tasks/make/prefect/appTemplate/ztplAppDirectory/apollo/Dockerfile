@@ -1,1 +1,0 @@
-FROM prefecthq/apollo:core-1.1.0

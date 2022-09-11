@@ -1,11 +1,7 @@
 configs:
 
-  startZtplAppNameAgent:
-    prefectEnvParameter: |
-      {{ $this := . -}}
-      {{ range $key, $val := $this.GetEnvs -}}
-        -e {{ $this.Util.Str.EscapeShellValue (printf "%s=%s" $key $val) }} {{ "" -}}
-      {{ end -}}
+  registerZtplAppNameFlows:
+    projectName: coba
     start: |
       if [ ! -z "venv" ]
       then
@@ -14,19 +10,10 @@ configs:
       fi
       source venv/bin/activate
       pip install -r requirements.txt
-      set +e
-      prefect backend server
-      prefect server create-tenant --name default --slug default
-      set -e
-      prefect agent local start {{ .GetConfig "prefectEnvParameter" }}
-    check: echo "ok"
-
-  registerZtplAppNameFlows:
-    projectName: coba
-    start: |
-      source venv/bin/activate
-      prefect create project "${ZARUBA_CONFIG_PROJECT_NAME}"
       {{ $this := . -}}
-      {{ range $file := $this.Util.File.List ($this.GetWorkPath "flows" ) -}}
-        prefect register --project "${ZARUBA_CONFIG_PROJECT_NAME}" --path "flows/{{ $file }}"
+      {{ range $file := $this.Util.File.List ($this.GetWorkPath "." ) -}}
+        {{ if $this.Util.Str.Submatch $file "\\.py$" -}}
+          echo "${_YELLOW}${_BOLD}Registering {{ $file }}${_NORMAL}"
+          python {{ $file }}
+        {{ end -}}
       {{ end -}}

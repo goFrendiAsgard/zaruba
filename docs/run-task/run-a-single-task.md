@@ -30,24 +30,24 @@ zaruba please showSolidPrinciple
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.537µs
-         Current Time: 08:44:25
+         Elapsed Time: 1.752µs
+         Current Time: 10:54:07
 💀 🏁 Running 🦉 showSolidPrinciple runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs
 💀    🚀 🦉 showSolidPrinciple    S  Single Responsibility Principle 
 💀    🚀 🦉 showSolidPrinciple    O  Open/Closed Principle 
 💀    🚀 🦉 showSolidPrinciple    L  Liskov's Substitution Principle 
-💀 🎉 Successfully running 🦉 showSolidPrinciple runner (Attempt 1 of 3)
 💀    🚀 🦉 showSolidPrinciple    I  Interface Segregation Principle 
-💀    🚀 🦉 showSolidPrinciple    D  Dependency Inversion Principle 
+💀 🎉 Successfully running 🦉 showSolidPrinciple runner (Attempt 1 of 3)
 💀 🔎 Job Running...
-         Elapsed Time: 5.579167ms
-         Current Time: 08:44:25
+         Elapsed Time: 7.354116ms
+         Current Time: 10:54:07
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
+💀    🚀 🦉 showSolidPrinciple    D  Dependency Inversion Principle 
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 309.208622ms
-         Current Time: 08:44:25
+         Elapsed Time: 310.557149ms
+         Current Time: 10:54:07
 zaruba please showSolidPrinciple
 ```````
 </details>
@@ -81,20 +81,20 @@ zaruba please printHelloWorld
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.046µs
-         Current Time: 08:44:25
+         Elapsed Time: 1.119µs
+         Current Time: 10:54:07
 💀 🏁 Running 🍎 printHelloWorld runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
 💀    🚀 🍎 printHelloWorld      hello world
 💀 🎉 Successfully running 🍎 printHelloWorld runner (Attempt 1 of 3)
 💀 🔎 Job Running...
-         Elapsed Time: 1.604526ms
-         Current Time: 08:44:25
+         Elapsed Time: 1.958156ms
+         Current Time: 10:54:07
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 405.995882ms
-         Current Time: 08:44:26
+         Elapsed Time: 405.765239ms
+         Current Time: 10:54:08
 zaruba please printHelloWorld
 ```````
 </details>

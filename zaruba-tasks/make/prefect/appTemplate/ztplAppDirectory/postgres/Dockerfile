@@ -1,1 +1,1 @@
-FROM docker.io/postgres:11
+FROM docker.io/postgres:14.1-alpine
