@@ -12,7 +12,7 @@ _COLUMN_VALUE_SCRIPT="$("${ZARUBA_BIN}" str replace "${_COLUMN_VALUE_SCRIPT}" "$
 #########################################################
 # Read existing vue component
 
-_UI_COMPONENT_FILE_LOCATION="${_ZRB_APP_DIRECTORY}/_public/vue/${_ZRB_APP_MODULE_NAME}/crud/${_ZRB_APP_CRUD_ENTITIES}Crud.vue"
+_UI_COMPONENT_FILE_LOCATION="${_ZRB_APP_DIRECTORY}/public/vue/${_ZRB_APP_MODULE_NAME}/crud/${_ZRB_APP_CRUD_ENTITIES}Crud.vue"
 
 _LINES="$("${ZARUBA_BIN}" lines read "${_UI_COMPONENT_FILE_LOCATION}")"
 

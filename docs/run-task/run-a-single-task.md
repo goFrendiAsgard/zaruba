@@ -30,24 +30,24 @@ zaruba please showSolidPrinciple
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.752µs
-         Current Time: 10:54:07
+         Elapsed Time: 1.505µs
+         Current Time: 19:46:33
 💀 🏁 Running 🦉 showSolidPrinciple runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs
 💀    🚀 🦉 showSolidPrinciple    S  Single Responsibility Principle 
 💀    🚀 🦉 showSolidPrinciple    O  Open/Closed Principle 
 💀    🚀 🦉 showSolidPrinciple    L  Liskov's Substitution Principle 
 💀    🚀 🦉 showSolidPrinciple    I  Interface Segregation Principle 
+💀    🚀 🦉 showSolidPrinciple    D  Dependency Inversion Principle 
 💀 🎉 Successfully running 🦉 showSolidPrinciple runner (Attempt 1 of 3)
 💀 🔎 Job Running...
-         Elapsed Time: 7.354116ms
-         Current Time: 10:54:07
+         Elapsed Time: 6.463644ms
+         Current Time: 19:46:33
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
-💀    🚀 🦉 showSolidPrinciple    D  Dependency Inversion Principle 
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 310.557149ms
-         Current Time: 10:54:07
+         Elapsed Time: 309.535847ms
+         Current Time: 19:46:33
 zaruba please showSolidPrinciple
 ```````
 </details>
@@ -81,20 +81,20 @@ zaruba please printHelloWorld
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.119µs
-         Current Time: 10:54:07
+         Elapsed Time: 1.095µs
+         Current Time: 19:46:34
 💀 🏁 Running 🍎 printHelloWorld runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
 💀    🚀 🍎 printHelloWorld      hello world
 💀 🎉 Successfully running 🍎 printHelloWorld runner (Attempt 1 of 3)
 💀 🔎 Job Running...
-         Elapsed Time: 1.958156ms
-         Current Time: 10:54:07
+         Elapsed Time: 3.054724ms
+         Current Time: 19:46:34
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 405.765239ms
-         Current Time: 10:54:08
+         Elapsed Time: 406.455308ms
+         Current Time: 19:46:34
 zaruba please printHelloWorld
 ```````
 </details>
