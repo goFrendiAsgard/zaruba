@@ -21,6 +21,12 @@ tasks:
     extend: zrbWrapper
     dependencies: []
 
+  stop:
+    icon: ✋
+    extend: zrbWrapper
+    dependencies:
+      - stopContainers
+
   run:
     icon: 🏁
     extend: zrbWrapper
