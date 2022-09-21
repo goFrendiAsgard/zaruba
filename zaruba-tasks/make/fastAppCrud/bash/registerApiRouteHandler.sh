@@ -1,21 +1,15 @@
 set -e
-echo "Registering route handler"
+echo "Registering API route handler"
 
-_IMPORT_ROUTE_HANDLER_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrud/partials/import_route_handler.py")"
-_IMPORT_ROUTE_HANDLER_SCRIPT="$("${ZARUBA_BIN}" str replace "${_IMPORT_ROUTE_HANDLER_SCRIPT}" "${_ZRB_REPLACEMENT_MAP}" )"
-
-_HANDLE_ROUTE_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrud/partials/handle_route.py")"
+_HANDLE_ROUTE_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrud/partials/handle_api_route.py")"
 _HANDLE_ROUTE_SCRIPT="$("${ZARUBA_BIN}" str replace "${_HANDLE_ROUTE_SCRIPT}" "${_ZRB_REPLACEMENT_MAP}" )"
 
 _CONTROLLER_FILE_LOCATION="${_ZRB_APP_DIRECTORY}/modules/${_ZRB_APP_MODULE_NAME}/route.py"
 
 _LINES="$("${ZARUBA_BIN}" lines read "${_CONTROLLER_FILE_LOCATION}")"
 
-# insert import
-_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" 0 "${_IMPORT_ROUTE_HANDLER_SCRIPT}")"
-
 # look for handler function
-_PATTERN="def register_${_ZRB_SNAKE_APP_MODULE_NAME}_route_handler"
+_PATTERN="def register_${_ZRB_SNAKE_APP_MODULE_NAME}_api_route"
 _FUNCTION_INDEX="$("${ZARUBA_BIN}" lines getIndex "${_LINES}" "${_PATTERN}")"
 if [ "${_FUNCTION_INDEX}" = "-1" ]
 then
@@ -34,4 +28,4 @@ _LINES="$("${ZARUBA_BIN}" lines insertAfter "${_LINES}" "${_FUNCTION_INDEX}" "${
 chmod 755 "${_CONTROLLER_FILE_LOCATION}"
 "${ZARUBA_BIN}" lines write "${_CONTROLLER_FILE_LOCATION}" "${_LINES}"
 
-echo "Done registering route handler"
+echo "Done registering API route handler"

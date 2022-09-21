@@ -1,6 +1,6 @@
 from typing import Optional
 from schemas.ztplAppCrudEntity import ZtplAppCrudEntity, ZtplAppCrudEntityData, ZtplAppCrudEntityResult
-from repos.ztplAppCrudEntity import ZtplAppCrudEntityRepo
+from modules.ztplAppModuleName.ztplAppCrudEntity.repos.ztplAppCrudEntityRepo import ZtplAppCrudEntityRepo
 
 class ZtplAppCrudEntityService():
 

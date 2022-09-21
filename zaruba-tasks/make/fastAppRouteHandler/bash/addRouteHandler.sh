@@ -7,7 +7,7 @@ _CONTROLLER_FILE_LOCATION="${_ZRB_APP_DIRECTORY}/modules/${_ZRB_APP_MODULE_NAME}
 
 _LINES="$("${ZARUBA_BIN}" lines read "${_CONTROLLER_FILE_LOCATION}")"
 
-_PATTERN="def register_${_ZRB_SNAKE_APP_MODULE_NAME}_route_handler"
+_PATTERN="def register_${_ZRB_SNAKE_APP_MODULE_NAME}_api_route"
 _FUNCTION_INDEX="$("${ZARUBA_BIN}" lines getIndex "${_LINES}" "${_PATTERN}")"
 if [ "${_FUNCTION_INDEX}" = "-1" ]
 then

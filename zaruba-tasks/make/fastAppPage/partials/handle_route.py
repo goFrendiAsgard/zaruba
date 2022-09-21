@@ -1,5 +1,4 @@
 
-if enable_ui:
     @app.get('ztplAppUrl', response_class=HTMLResponse)
     async def get_ztpl_app_url(request: Request, context: MenuContext = Depends(menu_service.authenticate('ztplAppModuleName:ztplAppUrl'))) -> HTMLResponse:
         '''

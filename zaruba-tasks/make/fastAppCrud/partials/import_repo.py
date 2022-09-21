@@ -1,1 +1,1 @@
-from repos.dbZtplAppCrudEntity import DBZtplAppCrudEntityRepo
+from modules.ztplAppModuleName.ztplAppCrudEntity.repos.dbZtplAppCrudEntityRepo import DBZtplAppCrudEntityRepo

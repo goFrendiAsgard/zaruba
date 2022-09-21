@@ -30,24 +30,24 @@ zaruba please showSolidPrinciple
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.184µs
-         Current Time: 21:03:49
+         Elapsed Time: 2.291µs
+         Current Time: 06:04:35
 💀 🏁 Running 🦉 showSolidPrinciple runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs
 💀    🚀 🦉 showSolidPrinciple    S  Single Responsibility Principle 
 💀    🚀 🦉 showSolidPrinciple    O  Open/Closed Principle 
 💀    🚀 🦉 showSolidPrinciple    L  Liskov's Substitution Principle 
+💀    🚀 🦉 showSolidPrinciple    I  Interface Segregation Principle 
 💀 🎉 Successfully running 🦉 showSolidPrinciple runner (Attempt 1 of 3)
+💀    🚀 🦉 showSolidPrinciple    D  Dependency Inversion Principle 
 💀 🔎 Job Running...
-         Elapsed Time: 7.485972ms
-         Current Time: 21:03:49
+         Elapsed Time: 7.268076ms
+         Current Time: 06:04:35
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
-💀    🚀 🦉 showSolidPrinciple    I  Interface Segregation Principle 
-💀    🚀 🦉 showSolidPrinciple    D  Dependency Inversion Principle 
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 311.067697ms
-         Current Time: 21:03:50
+         Elapsed Time: 311.230186ms
+         Current Time: 06:04:35
 zaruba please showSolidPrinciple
 ```````
 </details>
@@ -81,20 +81,20 @@ zaruba please printHelloWorld
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.271µs
-         Current Time: 21:03:50
+         Elapsed Time: 1.739µs
+         Current Time: 06:04:36
 💀 🏁 Running 🍎 printHelloWorld runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
 💀    🚀 🍎 printHelloWorld      hello world
 💀 🎉 Successfully running 🍎 printHelloWorld runner (Attempt 1 of 3)
 💀 🔎 Job Running...
-         Elapsed Time: 2.114508ms
-         Current Time: 21:03:50
+         Elapsed Time: 2.186115ms
+         Current Time: 06:04:36
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 405.971183ms
-         Current Time: 21:03:50
+         Elapsed Time: 406.484054ms
+         Current Time: 06:04:36
 zaruba please printHelloWorld
 ```````
 </details>

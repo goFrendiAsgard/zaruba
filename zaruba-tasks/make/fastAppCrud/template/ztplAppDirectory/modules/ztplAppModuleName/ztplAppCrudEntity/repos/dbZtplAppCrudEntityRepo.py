@@ -4,7 +4,7 @@ from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
 from schemas.ztplAppCrudEntity import ZtplAppCrudEntity, ZtplAppCrudEntityData
-from repos.ztplAppCrudEntity import ZtplAppCrudEntityRepo
+from modules.ztplAppModuleName.ztplAppCrudEntity.repos.ztplAppCrudEntityRepo import ZtplAppCrudEntityRepo
 from repos import Base
 
 import uuid
@@ -26,8 +26,10 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
         if create_all:
             Base.metadata.create_all(bind=engine)
 
+
     def _get_keyword_filter(self, keyword: str) -> str:
         return '%{}%'.format(keyword) if keyword != '' else '%'
+
 
     def find_by_id(self, id: str) -> Optional[ZtplAppCrudEntity]:
         db = Session(self.engine)
@@ -41,6 +43,7 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
             db.close()
         return ztpl_app_crud_entity
 
+
     def find(self, keyword: str, limit: int, offset: int) -> List[ZtplAppCrudEntity]:
         db = Session(self.engine)
         ztpl_app_crud_entities: List[ZtplAppCrudEntity] = []
@@ -52,6 +55,7 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
             db.close()
         return ztpl_app_crud_entities
 
+
     def count(self, keyword: str) -> int:
         db = Session(self.engine)
         ztpl_app_crud_entity_count = 0
@@ -61,6 +65,7 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
         finally:
             db.close()
         return ztpl_app_crud_entity_count
+
 
     def insert(self, ztpl_app_crud_entity_data: ZtplAppCrudEntityData) -> Optional[ZtplAppCrudEntity]:
         db = Session(self.engine)
@@ -80,6 +85,7 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
             db.close()
         return ztpl_app_crud_entity
 
+
     def update(self, id: str, ztpl_app_crud_entity_data: ZtplAppCrudEntityData) -> Optional[ZtplAppCrudEntity]:
         db = Session(self.engine)
         ztpl_app_crud_entity: ZtplAppCrudEntity
@@ -96,6 +102,7 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
         finally:
             db.close()
         return ztpl_app_crud_entity
+
 
     def delete(self, id: str) -> Optional[ZtplAppCrudEntity]:
         db = Session(self.engine)

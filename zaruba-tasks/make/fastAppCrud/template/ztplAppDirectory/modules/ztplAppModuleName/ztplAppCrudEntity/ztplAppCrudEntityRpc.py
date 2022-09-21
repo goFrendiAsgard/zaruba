@@ -2,8 +2,8 @@ from typing import Any, Optional, Mapping
 from helpers.transport import RPC
 from schemas.ztplAppCrudEntity import ZtplAppCrudEntity, ZtplAppCrudEntityData
 from schemas.user import User
-from repos.ztplAppCrudEntity import ZtplAppCrudEntityRepo
-from modules.ztplAppModuleName.ztplAppCrudEntityService import ZtplAppCrudEntityService
+from modules.ztplAppModuleName.ztplAppCrudEntity.repos.ztplAppCrudEntityRepo import ZtplAppCrudEntityRepo
+from modules.ztplAppModuleName.ztplAppCrudEntity.ztplAppCrudEntityService import ZtplAppCrudEntityService
 
 def register_ztpl_app_crud_entity_rpc(rpc: RPC, ztpl_app_crud_entity_repo: ZtplAppCrudEntityRepo):
 
