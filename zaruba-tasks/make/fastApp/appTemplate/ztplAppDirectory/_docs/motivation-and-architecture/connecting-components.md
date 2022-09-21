@@ -26,10 +26,10 @@ register_auth_route_handler(app, mb, rpc, auth_service, menu_service, page_templ
 
 Layers like `service` and `repo` are defined as objects. You can pass dependency components into those layers as object constructor parameter.
 
-For example, to create `account_service`, you need `user_service` and `token_service`. Thus, you can pass those components as `AccountService`'s constructor parameter.
+For example, to create `session_service`, you need `user_service` and `token_service`. Thus, you can pass those components as `SessionService`'s constructor parameter.
 
 ```python
-account_service = AccountService(user_service, token_service)
+session_service = SessionService(user_service, token_service)
 ```
 
 # Next

@@ -1,7 +1,7 @@
 _HANDLE_EVENT_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppEventHandler/partials/handle_event.py")"
 _HANDLE_EVENT_SCRIPT="$("${ZARUBA_BIN}" str replace "${_HANDLE_EVENT_SCRIPT}" "${_ZRB_REPLACEMENT_MAP}" )"
 
-_CONTROLLER_FILE_LOCATION="${_ZRB_APP_DIRECTORY}/${_ZRB_APP_MODULE_NAME}/event.py"
+_CONTROLLER_FILE_LOCATION="${_ZRB_APP_DIRECTORY}/modules/${_ZRB_APP_MODULE_NAME}/event.py"
 
 _LINES="$("${ZARUBA_BIN}" lines read "${_CONTROLLER_FILE_LOCATION}")"
 

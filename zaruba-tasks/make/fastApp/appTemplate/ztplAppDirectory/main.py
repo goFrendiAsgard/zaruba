@@ -1,11 +1,10 @@
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy import create_engine
-from repos.dbUser import DBUserRepo
-from repos.dbRole import DBRoleRepo
 from schemas.user import UserData
-from auth import (
-    register_auth_route_handler, register_auth_event_handler, register_auth_rpc_handler,
-    AccountService, TokenOAuth2AuthService, JWTTokenService, DefaultUserService, UserSeederService, RoleService
+from modules.auth import (
+    register_auth_api_route, register_auth_ui_route, register_auth_event_handler, register_auth_rpc_handler,
+    SessionService, TokenOAuth2AuthService, JWTTokenService, DefaultUserService, UserSeederService, RoleService,
+    DBRoleRepo, DBUserRepo
 )
 from configs import (
     # feature flags
@@ -80,10 +79,16 @@ if enable_auth_module:
         access_token_algorithm = access_token_algorithm,
         access_token_expire = access_token_expire
     )
-    account_service = AccountService(user_service, token_service)
-    if enable_route_handler:
-        register_auth_route_handler(app, mb, rpc, auth_service, menu_service, page_template, enable_ui, enable_api, create_oauth_access_token_url_path, create_access_token_url_path, renew_access_token_url_path)
+    session_service = SessionService(user_service, token_service)
+    # API route
+    if enable_route_handler and enable_api:
+        register_auth_api_route(app, mb, rpc, auth_service, create_oauth_access_token_url_path, create_access_token_url_path, renew_access_token_url_path)
+    # UI route
+    if enable_route_handler and enable_ui:
+        register_auth_ui_route(app, mb, rpc, menu_service, page_template, create_access_token_url_path)
+    # event
     if enable_event_handler:
         register_auth_event_handler(mb)
+    # RPC
     if enable_rpc_handler:
-        register_auth_rpc_handler(rpc, role_service, user_service, token_service, account_service)
+        register_auth_rpc_handler(rpc, role_service, user_service, token_service, session_service)

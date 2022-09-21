@@ -1,3 +1,3 @@
-from ztplAppModuleName import (
+from modules.ztplAppModuleName import (
     register_ztpl_app_module_name_route_handler, register_ztpl_app_module_name_event_handler, register_ztpl_app_module_name_rpc_handler
 )
