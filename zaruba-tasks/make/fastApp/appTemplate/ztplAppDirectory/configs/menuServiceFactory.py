@@ -1,7 +1,7 @@
-from auth.authService import AuthService
+from modules.auth import AuthService
 from helpers.transport import RPC
 from schemas.authType import AuthType
-from ui.menuService import MenuService
+from modules.ui import MenuService
 
 def create_menu_service(rpc: RPC, auth_service: AuthService) -> MenuService:
     menu_service = MenuService(rpc, auth_service)
