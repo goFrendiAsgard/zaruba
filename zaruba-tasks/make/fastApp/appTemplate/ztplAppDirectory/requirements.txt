@@ -22,7 +22,7 @@ importlib-resources==5.7.1
 iniconfig==1.1.1
 Jinja2==3.0.3
 jsons==1.5.1
-Mako==1.2.0
+mako==1.2.2
 MarkupSafe==2.1.1
 packaging==21.3
 passlib==1.7.4

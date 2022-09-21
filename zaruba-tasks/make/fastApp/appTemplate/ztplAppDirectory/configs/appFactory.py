@@ -12,7 +12,7 @@ from configs.error import error_threshold
 from configs.ui import site_name
 from configs.url import public_url_path 
 
-def create_app(mb: MessageBus, rpc: RPC, pageTemplate: Jinja2Templates) -> FastAPI:
+def create_app(mb: MessageBus, rpc: RPC, page_template: Jinja2Templates) -> FastAPI:
     app = FastAPI(title=site_name)
 
     # apply CORS middleware
