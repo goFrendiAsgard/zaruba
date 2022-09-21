@@ -1,5 +1,5 @@
 from typing import Any
-from helpers.transport.local_rpc import LocalRPC
+from helpers.transport.localRpc import LocalRPC
 
 def test_local_rpc():
     rpc = LocalRPC()

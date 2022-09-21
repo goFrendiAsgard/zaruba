@@ -15,10 +15,10 @@ import sys
 
 
 
-def register_auth_route_handler(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, templates: Jinja2Templates, enable_ui: bool, enable_api: bool, create_oauth_access_token_url, create_access_token_url: str, refresh_access_token_url: str):
+def register_auth_route_handler(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, page_template: Jinja2Templates, enable_ui: bool, enable_api: bool, create_oauth_access_token_url_path, create_access_token_url_path: str, renew_access_token_url_path: str):
 
-    register_role_route(app, mb, rpc, auth_service, menu_service, templates, enable_ui, enable_api)
-    register_user_route(app, mb, rpc, auth_service, menu_service, templates, enable_ui, enable_api)
-    register_account_route(app, mb, rpc, menu_service, templates, enable_ui, enable_api, create_oauth_access_token_url, create_access_token_url, refresh_access_token_url)
+    register_role_route(app, mb, rpc, auth_service, menu_service, page_template, enable_ui, enable_api)
+    register_user_route(app, mb, rpc, auth_service, menu_service, page_template, enable_ui, enable_api)
+    register_account_route(app, mb, rpc, menu_service, page_template, enable_ui, enable_api, create_oauth_access_token_url_path, create_access_token_url_path, renew_access_token_url_path)
 
     print('Register auth route handler')

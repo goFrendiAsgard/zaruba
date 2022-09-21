@@ -1,6 +1,6 @@
 from typing import Any
-from helpers.transport.kafka_avro_mb import KafkaAvroMessageBus, create_kafka_avro_connection_parameters
-from helpers.transport.kafka_avro_config import KafkaAvroEventMap
+from helpers.transport.kafkaAvroMessagebus import KafkaAvroMessageBus, create_kafka_avro_connection_parameters
+from helpers.transport.kafkaAvroConfig import KafkaAvroEventMap
 
 import os
 import warnings

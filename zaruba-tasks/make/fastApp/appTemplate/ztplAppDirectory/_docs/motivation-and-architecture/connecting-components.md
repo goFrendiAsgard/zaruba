@@ -19,7 +19,7 @@ Layers like `route handler`, `rpc handler`, and `event handler` are defined as f
 For example, to create and register `auth_route_handler`, you need `app`, `mb`, `rpc`, `auth_service`, `menu_service`, etc. In that case, you can pass those components as function parameters:
 
 ```python
-register_auth_route_handler(app, mb, rpc, auth_service, menu_service, templates, enable_ui, enable_api, create_oauth_access_token_url, create_access_token_url, renew_access_token_url)
+register_auth_route_handler(app, mb, rpc, auth_service, menu_service, page_template, enable_ui, enable_api, create_oauth_acess_token_path, create_acess_token_path, renew_access_token_url_path)
 ```
 
 # Passing component as object constructor parameter

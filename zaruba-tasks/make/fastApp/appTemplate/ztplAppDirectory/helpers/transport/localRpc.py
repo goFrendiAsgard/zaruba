@@ -1,5 +1,5 @@
 from typing import Any, Callable, Mapping
-from helpers.transport.interface import RPC
+from helpers.transport.rpc import RPC
 
 class LocalRPC(RPC):
 

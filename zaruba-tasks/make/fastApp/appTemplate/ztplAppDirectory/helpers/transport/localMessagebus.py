@@ -1,5 +1,5 @@
 from typing import Any, Callable, Mapping
-from helpers.transport.interface import MessageBus
+from helpers.transport.messagebus import MessageBus
 
 class LocalMessageBus(MessageBus):
 

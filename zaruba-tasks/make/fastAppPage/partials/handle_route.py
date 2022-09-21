@@ -6,14 +6,14 @@ if enable_ui:
         Handle (get) ztplAppUrl
         '''
         try:
-            return templates.TemplateResponse('default_page.html', context={
+            return page_template.TemplateResponse('default_page.html', context={
                 'request': request,
                 'context': context,
                 'content_path': 'ztplAppModuleName/ztpl_app_url.html'
             }, status_code=200)
         except:
             print(traceback.format_exc(), file=sys.stderr) 
-            return templates.TemplateResponse('default_error.html', context={
+            return page_template.TemplateResponse('default_error.html', context={
                 'request': request,
                 'status_code': 500,
                 'detail': 'Internal server error'

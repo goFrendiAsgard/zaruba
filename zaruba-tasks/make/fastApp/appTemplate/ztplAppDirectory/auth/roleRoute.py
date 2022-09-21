@@ -13,7 +13,7 @@ from schemas.user import User
 import traceback
 import sys
 
-def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, templates: Jinja2Templates, enable_ui: bool, enable_api:bool):
+def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, page_template: Jinja2Templates, enable_ui: bool, enable_api:bool):
 
     ################################################
     # -- ⚙️ API
@@ -90,7 +90,7 @@ def register_role_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
 
         @app.get('/auth/roles', response_class=HTMLResponse)
         async def user_interface(request: Request, context: MenuContext = Depends(menu_service.authenticate('auth:roles'))):
-            return templates.TemplateResponse('default_crud.html', context={
+            return page_template.TemplateResponse('default_crud.html', context={
                 'api_path': '/api/vi/roles',
                 'content_path': 'auth/crud/roles.html',
                 'request': request, 

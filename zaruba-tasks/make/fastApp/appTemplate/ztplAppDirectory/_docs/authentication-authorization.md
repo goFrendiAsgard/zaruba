@@ -75,9 +75,9 @@ menu_service = create_menu_service(rpc, auth_service)
 Inside `create_menu_service` function you can see how the menu is being aranged:
 
 ```python
-# location: helpers/app/createMenuService.py
+# location: configs/menuServiceFactory.py
 def create_menu_service(rpc: RPC, auth_service: AuthService) -> MenuService:
-    menu_service = DefaultMenuService(rpc, auth_service)
+    menu_service = MenuService(rpc, auth_service)
     menu_service.add_menu(name='account', title='Account', url='#', auth_type=AuthType.EVERYONE)
     menu_service.add_menu(name='account/login', title='Log in', url='/account/login', auth_type=AuthType.UNAUTHENTICATED, parent_name='account')
     menu_service.add_menu(name='account/logout', title='Log out', url='/account/logout', auth_type=AuthType.AUTHENTICATED, parent_name='account')
@@ -86,8 +86,6 @@ def create_menu_service(rpc: RPC, auth_service: AuthService) -> MenuService:
     menu_service.add_menu(name='auth/users', title='Users', url='/auth/users', auth_type=AuthType.AUTHORIZED, permission_name='ui:auth:user', parent_name='auth')
     return menu_service
 ```
-
-First, it tell you that it will use `DefaultMenuService`.
 
 It also tell you about the menu structure:
 
@@ -111,21 +109,21 @@ async def get_(request: Request, context: MenuContext = Depends(menu_service.aut
     Handle (get) /
     '''
     try:
-        return templates.TemplateResponse('default_page.html', context={
+        return page_template.TemplateResponse('default_page.html', context={
             'request': request,
             'context': context,
             'content_path': 'library/.html'
         }, status_code=200)
     except:
         print(traceback.format_exc()) 
-        return templates.TemplateResponse('default_error.html', context={
+        return page_template.TemplateResponse('default_error.html', context={
             'request': request,
             'status_code': 500,
             'detail': 'Internal server error'
         }, status_code=500)
 ```
 
-`menu_service.authenticate` will return `MenuContext` that you can use to render jinja templates.
+`menu_service.authenticate` will return `MenuContext` that you can use to render jinja page_template.
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

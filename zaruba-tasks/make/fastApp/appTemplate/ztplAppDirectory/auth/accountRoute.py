@@ -29,14 +29,14 @@ class RefreshAccessTokenResponse(BaseModel):
     token_type: str
 
 
-def register_account_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service: MenuService, templates: Jinja2Templates, enable_ui: bool, enable_api: bool, create_oauth_access_token_url: str, create_access_token_url: str, refresh_access_token_url: str):
+def register_account_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service: MenuService, page_template: Jinja2Templates, enable_ui: bool, enable_api: bool, create_oauth_access_token_url_path: str, create_access_token_url_path: str, renew_access_token_url_path: str):
 
     ################################################
     # -- ⚙️ API
     ################################################
     if enable_api:
 
-        @app.post(create_oauth_access_token_url, response_model=CreateAccessTokenResponse)
+        @app.post(create_oauth_access_token_url_path, response_model=CreateAccessTokenResponse)
         async def create_oauth_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
             try:
                 username = form_data.username
@@ -47,7 +47,7 @@ def register_account_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service:
                 print(traceback.format_exc(), file=sys.stderr) 
                 raise HTTPException(status_code=400, detail='Incorrect identity or password')
 
-        @app.post(create_access_token_url, response_model=CreateAccessTokenResponse)
+        @app.post(create_access_token_url_path, response_model=CreateAccessTokenResponse)
         async def create_access_token(data: CreateAccessTokenRequest):
             try:
                 username = data.username
@@ -58,7 +58,7 @@ def register_account_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service:
                 print(traceback.format_exc(), file=sys.stderr) 
                 raise HTTPException(status_code=400, detail='Incorrect identity or password')
 
-        @app.post(refresh_access_token_url, response_model=RefreshAccessTokenResponse)
+        @app.post(renew_access_token_url_path, response_model=RefreshAccessTokenResponse)
         async def refresh_access_token(data: RefreshAccessTokenRequest):
             try:
                 old_access_token = data.access_token
@@ -76,19 +76,19 @@ def register_account_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service:
 
         @app.get('/account/login', response_class=HTMLResponse)
         async def user_interface(request: Request, context: MenuContext = Depends(menu_service.authenticate('account:login'))):
-            return templates.TemplateResponse(
+            return page_template.TemplateResponse(
                 'default_login.html', 
                 context={
                     'request': request, 
                     'context': context,
-                    'create_access_token_url': create_access_token_url
+                    'create_acess_token_path': create_access_token_url_path
                 }, 
                 status_code=200
             )
 
         @app.get('/account/logout', response_class=HTMLResponse)
         async def user_interface(request: Request, context: MenuContext = Depends(menu_service.authenticate('account:logout'))):
-            return templates.TemplateResponse(
+            return page_template.TemplateResponse(
                 'default_logout.html', 
                 context={
                     'request': request, 

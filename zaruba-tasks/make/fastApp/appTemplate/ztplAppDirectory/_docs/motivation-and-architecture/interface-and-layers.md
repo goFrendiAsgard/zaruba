@@ -34,7 +34,7 @@ APP_RPC_TYPE=local # or rmq
 Here is an example of route handler layer:
 
 ```python
-def register_book_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, templates: Jinja2Templates, enable_ui: bool, enable_api:bool):
+def register_book_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, page_template: Jinja2Templates, enable_ui: bool, enable_api:bool):
 
     if enable_api:
 

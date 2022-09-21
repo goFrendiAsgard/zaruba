@@ -1,8 +1,8 @@
 from typing import Any, Callable, List, Optional
 from pika.adapters.blocking_connection import BlockingChannel, BlockingConnection
-from helpers.transport.interface import RPC
-from helpers.transport.rmq_connection import RMQConnection
-from helpers.transport.rmq_config import RMQEventMap
+from helpers.transport.rpc import RPC
+from helpers.transport.rmqConnection import RMQConnection
+from helpers.transport.rmqConfig import RMQEventMap
 from pydantic import BaseModel
 
 import time

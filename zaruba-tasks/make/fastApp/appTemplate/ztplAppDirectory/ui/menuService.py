@@ -7,28 +7,11 @@ from fastapi import Depends, status
 from starlette.requests import Request
 from auth.authService import AuthService
 from helpers.transport import RPC
-from ui.templateException import TemplateException
+from ui.pageTemplateException import PageTemplateException
 
-import abc
 import copy
 
-
-class MenuService(abc.ABC):
-
-    @abc.abstractmethod
-    def add_menu(self, menu_name: str, title: str, url: str, permission_name: Optional[str], parent_name: Optional[str]):
-        pass
-
-    @abc.abstractmethod
-    def get_accessible_menu(self, menu_name: str, user: User) -> Optional[Menu]:
-        pass
-
-    @abc.abstractmethod
-    def authenticate(self, menu_name: str) -> Callable[[Callable[[Request], Optional[User]]], MenuContext]:
-        pass
-
-
-class DefaultMenuService(MenuService):
+class MenuService():
 
     def __init__(self, rpc: RPC, auth_service: AuthService, root_menu_name: str = 'root', root_menu_title: str = '', root_menu_url: str = '/', permission_name: Optional[str] = None):
         self.auth_service: AuthService = auth_service
@@ -86,7 +69,7 @@ class DefaultMenuService(MenuService):
             accessible_menu = accessible_menu
         )
         if not self._is_menu_accessible(current_menu, current_user):
-            raise TemplateException(status_code=status.HTTP_403_FORBIDDEN, detail='Forbidden', menu_context = menu_context)
+            raise PageTemplateException(status_code=status.HTTP_403_FORBIDDEN, detail='Forbidden', menu_context = menu_context)
         return menu_context
 
     def _highlight_menu_by_names(self, menu: Menu, names: List[str]) -> Menu:

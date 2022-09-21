@@ -3,7 +3,7 @@ echo "Registering user interface"
 _REGISTER_UI_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrud/partials/register_ui.py")"
 _REGISTER_UI_SCRIPT="$("${ZARUBA_BIN}" str replace "${_REGISTER_UI_SCRIPT}" "${_ZRB_REPLACEMENT_MAP}" )"
 
-_CREATE_MENU_SERVICE_FILE_LOCATION="${_ZRB_APP_DIRECTORY}/helpers/app/createMenuService.py"
+_CREATE_MENU_SERVICE_FILE_LOCATION="${_ZRB_APP_DIRECTORY}/configs/menuServiceFactory.py"
 
 _LINES="$("${ZARUBA_BIN}" lines read "${_CREATE_MENU_SERVICE_FILE_LOCATION}")"
 

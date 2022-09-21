@@ -1,12 +1,13 @@
 from typing import Mapping
-from helpers.transport.interface import MessageBus, RPC
-from helpers.transport.rmq_connection import create_rmq_connection_parameters
-from helpers.transport.rmq_mb import RMQMessageBus
-from helpers.transport.rmq_rpc import RMQRPC
-from helpers.transport.rmq_config import RMQEventMap
-from helpers.transport.kafka_mb import KafkaMessageBus, create_kafka_connection_parameters
-from helpers.transport.kafka_avro_mb import KafkaAvroMessageBus, create_kafka_avro_connection_parameters
-from helpers.transport.kafka_config import KafkaEventMap
-from helpers.transport.kafka_avro_config import KafkaAvroEventMap
-from helpers.transport.local_mb import LocalMessageBus
-from helpers.transport.local_rpc import LocalRPC
+from helpers.transport.messagebus import MessageBus
+from helpers.transport.rpc import RPC
+from helpers.transport.rmqConnection import create_rmq_connection_parameters
+from helpers.transport.rmqMessagebus import RMQMessageBus
+from helpers.transport.rmqRpc import RMQRPC
+from helpers.transport.rmqConfig import RMQEventMap
+from helpers.transport.kafkaMessagebus import KafkaMessageBus, create_kafka_connection_parameters
+from helpers.transport.kafkaAvroMessagebus import KafkaAvroMessageBus, create_kafka_avro_connection_parameters
+from helpers.transport.kafkaConfig import KafkaEventMap
+from helpers.transport.kafkaAvroConfig import KafkaAvroEventMap
+from helpers.transport.localMessagebus import LocalMessageBus
+from helpers.transport.localRpc import LocalRPC

@@ -1,5 +1,5 @@
 from typing import Any
-from helpers.transport.local_mb import LocalMessageBus
+from helpers.transport.localMessagebus import LocalMessageBus
 
 import asyncio
 import pytest

@@ -12,7 +12,7 @@ from schemas.user import User, UserData, UserResult
 import traceback
 import sys
 
-def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, templates: Jinja2Templates, enable_ui: bool, enable_api:bool):
+def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, page_template: Jinja2Templates, enable_ui: bool, enable_api:bool):
 
     ################################################
     # -- ⚙️ API
@@ -89,7 +89,7 @@ def register_user_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: Au
 
         @app.get('/auth/users', response_class=HTMLResponse)
         async def user_interface(request: Request, context: MenuContext = Depends(menu_service.authenticate('auth:users'))):
-            return templates.TemplateResponse('default_crud.html', context={
+            return page_template.TemplateResponse('default_crud.html', context={
                 'api_path': '/api/vi/users',
                 'content_path': 'auth/crud/users.html',
                 'request': request, 
