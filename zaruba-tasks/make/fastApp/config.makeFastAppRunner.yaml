@@ -3,6 +3,7 @@ configs:
   makeFastAppRunner:
     appIcon: ⚛️
     pythonStartCommand: ./start.sh
+    defaultAppDirectory: '{{ .ProjectName }}FastApp'
     defaultAppPorts: '["{{ .Template ".GetEnv \\\"APP_HTTP_PORT\\\"" }}"]'
     defaultAppMigrateCommand: './migrate.sh'
     _adjustPermission: |
