@@ -17,7 +17,7 @@ fi
 
 # get indentation
 _FUNCTION_LINE="$("${ZARUBA_BIN}" list get "${_LINES}" "${_FUNCTION_INDEX}")"
-_INDENTATION="$("${ZARUBA_BIN}" str getIndentation "${_FUNCTION_LINE}")"
+_INDENTATION="    $("${ZARUBA_BIN}" str getIndentation "${_FUNCTION_LINE}")"
 _INDENTED_HANDLE_ROUTE_SCRIPT="$("${ZARUBA_BIN}" str fullIndent "${_HANDLE_ROUTE_SCRIPT}" "${_INDENTATION}")"
 
 # insert handler

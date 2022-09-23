@@ -1,6 +1,7 @@
 configs:
  
   makeKafkaApp:
+    defaultAppDirectory: '{{ .ProjectName }}Kafka'
     templateLocations: |
       [
         "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/appTemplate"

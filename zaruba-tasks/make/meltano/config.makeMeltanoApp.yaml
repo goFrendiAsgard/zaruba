@@ -1,6 +1,7 @@
 configs:
  
   makeMeltanoApp:
+    defaultAppDirectory: '{{ .ProjectName }}Meltano'
     templateLocations: |
       [
         "{{ .ZarubaHome }}/zaruba-tasks/make/meltano/appTemplate"
