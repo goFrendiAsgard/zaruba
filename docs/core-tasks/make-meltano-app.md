@@ -527,7 +527,7 @@ Value:
 
 Value:
 
-    {{ .GeneratedRandomName }}
+    {{ .ProjectName }}Meltano
 
 
 ### Configs.defaultAppMigrateCommand

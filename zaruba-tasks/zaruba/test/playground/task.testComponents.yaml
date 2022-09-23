@@ -59,6 +59,10 @@ tasks:
         sleep 5
         ../zaruba please stopProvoJupyterNotebookContainer
 
+        ../zaruba please startProvoMaterialize -t
+        sleep 5
+        ../zaruba please removeProvoMaterializeContainer
+
         ../zaruba please runProvoMeltano runProvoMeltanoContainer
         ../zaruba please removeProvoMeltanoContainer
 

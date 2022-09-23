@@ -1,13 +1,13 @@
 <!--startTocHeader-->
 [🏠](../README.md) > [🥝 Core Tasks](README.md)
-# 🚌 makeKafkaApp
+# 🧪 makeMaterializeApp
 <!--endTocHeader-->
 
 ## Information
 
 File Location:
 
-    ~/.zaruba/zaruba-tasks/make/kafka/task.makeKafkaApp.yaml
+    ~/.zaruba/zaruba-tasks/make/materialize/task.makeMaterializeApp.yaml
 
 Should Sync Env:
 
@@ -520,7 +520,7 @@ Value:
 
 Value:
 
-    {{ .ProjectName }}Kafka
+    {{ .ProjectName }}Materialize
 
 
 ### Configs.defaultAppMigrateCommand
@@ -622,7 +622,7 @@ Value:
 Value:
 
     [
-      "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/appTemplate"
+      "{{ .ZarubaHome }}/zaruba-tasks/make/materialize/appTemplate"
     ]
 
 

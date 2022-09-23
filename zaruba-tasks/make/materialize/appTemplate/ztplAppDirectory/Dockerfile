@@ -1,0 +1,1 @@
+FROM materialize/materialized:v0.26.4

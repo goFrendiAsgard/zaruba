@@ -261,6 +261,12 @@ includes:
   - ./zaruba-tasks/make/kafka/task.makeKafkaApp.yaml
   - ./zaruba-tasks/make/kafka/task.makeKafkaAppRunner.yaml
 
+  - ./zaruba-tasks/make/materialize/config.makeMaterializeApp.yaml
+  - ./zaruba-tasks/make/materialize/config.makeMaterializeAppRunner.yaml
+  - ./zaruba-tasks/make/materialize/task.addMaterialize.yaml
+  - ./zaruba-tasks/make/materialize/task.makeMaterializeApp.yaml
+  - ./zaruba-tasks/make/materialize/task.makeMaterializeAppRunner.yaml
+
   - ./zaruba-tasks/make/meltano/config.makeMeltanoApp.yaml
   - ./zaruba-tasks/make/meltano/config.makeMeltanoAppRunner.yaml
   - ./zaruba-tasks/make/meltano/task.addMeltano.yaml

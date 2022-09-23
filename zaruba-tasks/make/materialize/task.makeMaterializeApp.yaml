@@ -1,0 +1,8 @@
+tasks:
+ 
+  makeMaterializeApp:
+    icon: 🧪
+    extend: makeApp
+    inputs:
+      - appDirectory
+    configRef: makeMaterializeApp

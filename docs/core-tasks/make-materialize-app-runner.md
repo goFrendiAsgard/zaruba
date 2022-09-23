@@ -1,13 +1,13 @@
 <!--startTocHeader-->
 [🏠](../README.md) > [🥝 Core Tasks](README.md)
-# 🚌 makeKafkaApp
+# 🧪 makeMaterializeAppRunner
 <!--endTocHeader-->
 
 ## Information
 
 File Location:
 
-    ~/.zaruba/zaruba-tasks/make/kafka/task.makeKafkaApp.yaml
+    ~/.zaruba/zaruba-tasks/make/materialize/task.makeMaterializeAppRunner.yaml
 
 Should Sync Env:
 
@@ -20,11 +20,13 @@ Type:
 
 ## Extends
 
-* [makeApp](make-app.md)
+* [makeDockerContainerAppRunner](make-docker-container-app-runner.md)
 
 
 ## Dependencies
 
+* [makeMaterializeApp](make-materialize-app.md)
+* [zrbIsProject](zrb-is-project.md)
 * [zrbShowAdv](zrb-show-adv.md)
 
 
@@ -49,6 +51,25 @@ Type:
 ## Inputs
 
 
+### Inputs.appContainerName
+
+Description:
+
+    Application container name
+
+Prompt:
+
+    Application container name
+
+Secret:
+
+    false
+
+Validation:
+
+    ^[a-zA-Z0-9_]*$
+
+
 ### Inputs.appDirectory
 
 Description:
@@ -64,18 +85,77 @@ Secret:
     false
 
 
+### Inputs.appEnvs
+
+Description:
+
+    Application envs
+
+Prompt:
+
+    Application envs
+
+Default Value:
+
+    {}
+
+Secret:
+
+    false
+
+
+### Inputs.appImageName
+
+Description:
+
+    App's image name
+
+Secret:
+
+    false
+
+
+### Inputs.appName
+
+Description:
+
+    Name of the app
+
+Prompt:
+
+    Name of the app
+
+Secret:
+
+    false
+
+
+### Inputs.appPorts
+
+Description:
+
+    Application ports
+
+Default Value:
+
+    []
+
+Secret:
+
+    false
+
+
 ## Configs
 
 
 ### Configs._adjustPermission
 
+
+### Configs._containerPrepareAppRunnerTaskName
+
 Value:
 
-    if [ -f "${_ZRB_APP_DIRECTORY}/start.sh" ]
-    then
-      chmod 755 "${_ZRB_APP_DIRECTORY}/start.sh"
-    fi
-
+    start${_ZRB_PASCAL_APP_NAME}Container
 
 
 ### Configs._finish
@@ -89,6 +169,13 @@ Value:
 
 
 ### Configs._includeModuleIndex
+
+Value:
+
+    {{ if .GetConfig "_taskIndexPath" -}}
+    "{{ .ZarubaBin }}" project include "{{ .GetConfig "_taskIndexPath" }}" "${_ZRB_PROJECT_FILE_NAME}" 
+    {{ end -}}
+
 
 
 ### Configs._initShell
@@ -105,6 +192,9 @@ Value:
 
 
 ### Configs._integrate
+
+
+### Configs._nativePrepareAppRunnerTaskName
 
 
 ### Configs._prepare
@@ -170,8 +260,18 @@ Value:
 
 ### Configs._registerAppRunnerTasks
 
+Value:
+
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerAppRunnerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"
+
 
 ### Configs._setProjectValue
+
+Value:
+
+    echo "Set project value run${_ZRB_PASCAL_APP_NAME}InLocal to true"
+    ${ZARUBA_BIN} project setValue "run${_ZRB_PASCAL_APP_NAME}InLocal" true
+
 
 
 ### Configs._setup
@@ -192,7 +292,7 @@ Value:
 
 Value:
 
-    ${_ZRB_APP_DIRECTORY}
+    ./zaruba-tasks/${_ZRB_APP_NAME}
 
 
 ### Configs._start
@@ -253,6 +353,10 @@ Value:
 
 
 ### Configs._taskIndexPath
+
+Value:
+
+    ./zaruba-tasks/${_ZRB_APP_NAME}/index.yaml
 
 
 ### Configs._validate
@@ -394,6 +498,10 @@ Value:
 
 ### Configs.appIcon
 
+Value:
+
+    🧪
+
 
 ### Configs.appImageName
 
@@ -520,7 +628,7 @@ Value:
 
 Value:
 
-    {{ .ProjectName }}Kafka
+    {{ .ProjectName }}Materialize
 
 
 ### Configs.defaultAppMigrateCommand
@@ -530,7 +638,7 @@ Value:
 
 Value:
 
-    []
+    ["6875:6875"]
 
 
 ### Configs.defaultAppPrepareCommand
@@ -622,7 +730,8 @@ Value:
 Value:
 
     [
-      "{{ .ZarubaHome }}/zaruba-tasks/make/kafka/appTemplate"
+      "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template",
+      "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/dockerContainer/template"
     ]
 
 

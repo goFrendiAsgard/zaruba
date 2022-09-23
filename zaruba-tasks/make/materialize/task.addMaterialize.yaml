@@ -1,0 +1,6 @@
+tasks:
+
+  addMaterialize:
+    icon: 🧪
+    dependencies:
+      - makeMaterializeAppRunner

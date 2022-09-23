@@ -643,7 +643,7 @@ Value:
 
 Value:
 
-    {{ .GeneratedRandomName }}
+    {{ .ProjectName }}FastApp
 
 
 ### Configs.defaultAppMigrateCommand

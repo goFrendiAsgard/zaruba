@@ -1,0 +1,7 @@
+configs:
+
+  makeMaterializeAppRunner:
+    appIcon: 🧪
+    defaultAppDirectory: '{{ .ProjectName }}Materialize'
+    defaultAppPorts: '["6875:6875"]'
+    defaultAppContainerVolumes: '[]'

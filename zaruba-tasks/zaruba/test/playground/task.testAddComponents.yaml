@@ -55,6 +55,7 @@ tasks:
         ../zaruba please addKafka appDirectory=provoKafka
         ../zaruba task setConfig startProvoKafkaContainer afterCheck 'sleep 15'
 
+        ../zaruba please addMaterialize appDirectory=provoMaterialize
         ../zaruba please addMeltano appDirectory=provoMeltano
         ../zaruba please addMetabase appDirectory=provoMetabase
         ../zaruba please addMinio appDirectory=provoMinio

@@ -1,0 +1,8 @@
+configs:
+ 
+  makeMaterializeApp:
+    defaultAppDirectory: '{{ .ProjectName }}Materialize'
+    templateLocations: |
+      [
+        "{{ .ZarubaHome }}/zaruba-tasks/make/materialize/appTemplate"
+      ]

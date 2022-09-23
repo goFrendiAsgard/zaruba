@@ -1,0 +1,15 @@
+tasks:
+
+  makeMaterializeAppRunner:
+    icon: 🧪
+    extend: makeDockerContainerAppRunner
+    dependencies:
+      - makeMaterializeApp
+    inputs:
+      - appDirectory
+      - appName
+      - appEnvs
+      - appPorts
+      - appImageName
+      - appContainerName
+    configRef: makeMaterializeAppRunner
