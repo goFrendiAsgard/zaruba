@@ -6,6 +6,7 @@ In this documentation, you will see `ZtplAppDirectory`'s [motivation and archite
 
 <!--startToc-->
 * [Motivation and architecture](motivation-and-architecture/README.md)
+    * [Directory structure](motivation-and-architecture/directory-structure.md)
     * [Feature flags](motivation-and-architecture/feature-flags.md)
     * [Interface and layers](motivation-and-architecture/interface-and-layers.md)
     * [Connecting components](motivation-and-architecture/connecting-components.md)

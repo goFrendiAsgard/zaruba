@@ -2,7 +2,7 @@
 
 `ZtplAppDirectory` is a microservice-ready monolith application.
 
-This application is created using [Zaruba](https://github.com/state-alchemists/zaruba). To create this application from scratch, you can invoke:
+This application is created using [Zaruba](https://github.com/state-alchemists/zaruba). To create the application, you can invoke:
 
 ```bash
 zaruba please initProject # or cd to your zaruba project
@@ -11,9 +11,9 @@ zaruba please addFastApp appDirectory=ztplAppDirectory
 # zaruba please start
 ```
 
-# How to start
+# 🏁 How to start
 
-You can run it by invoking:
+You can run `ztplAppDirectory` by invoking:
 
 ```bash
 zaruba please startZtplAppDirectory
@@ -40,6 +40,12 @@ source template.env
 ./start.sh
 ```
 
-# Documentation
+# ☑️ Prerequisites
+
+- Python 3.9
+- Pip
+- Virtual env
+
+# 📖 Documentation
 
 Please visit ZtplAppDirectory documentation [here](_docs/README.md).
