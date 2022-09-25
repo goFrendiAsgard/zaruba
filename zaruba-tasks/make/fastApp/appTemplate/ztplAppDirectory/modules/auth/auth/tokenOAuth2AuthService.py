@@ -15,6 +15,10 @@ class TokenOAuth2AuthService(AuthService):
         self.rpc = rpc
         self.oauth2_scheme = oauth2_scheme
 
+    def _get_guest_user(self) -> User:
+        guest_user_data = self.rpc.call('get_guest_user')
+        return User.parse_obj(guest_user_data)
+
     def _raise_error_or_return_none(self, throw_error: bool, status_code: int, detail: str) -> None:
         if not throw_error:
             return None
@@ -27,7 +31,7 @@ class TokenOAuth2AuthService(AuthService):
     def _get_user_by_token(self, token: str) -> Optional[User]:
         try:
             user_data = self.rpc.call('get_user_by_token', token)
-            return None if user_data is None else User.parse_obj(user_data)
+            return self._get_guest_user() if user_data is None else User.parse_obj(user_data)
         except:
             print(traceback.format_exc)
             return None
