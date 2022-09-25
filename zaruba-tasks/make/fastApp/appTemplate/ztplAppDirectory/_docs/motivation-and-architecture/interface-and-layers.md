@@ -3,15 +3,57 @@
 # Interface and layers
 <!--endTocHeader-->
 
-`ZtplAppDirectory` is organized in a layered architecture. Every layers are encapsulated, yet they can pass data to each other.
+You can break down `ZtplAppDirectory` code into several layers.
 
-For example, a UI layer should not know about database layer's implementation, but it should be able to pass data into/receive data from it.
+A layer component can pass data into its top/botoom layer. However, every layer should be independent from each other.
 
-You can also swap a layer component with another one as long as both layer has the same interface. For example, you can choose to use `LocalRPC` or `RMQRPC`. Both of them are compatible to each other, because they have the same interface (i.e., `RPC` interface).
+# Interface
+
+![interface ilustration](images/fastApp-interfaces.png)
+
+In `ZtplAppDirectory`, we use [Abstract Base Class](https://docs.python.org/3/library/abc.html) as interface.
+
+Interface helps you to make your code more configurable. For example, as `Repo B` and `Repo A` comply `Repo` interface, you can use either `Repo B` or `Repo A` in your application.
+
+This is why we are able to swap `LocalMessageBus` with `RMQMessageBus`, `KafkaAvroMessageBus`, or `KafkaMessageBus` easily.
+
+You can see that all messagebus implementation comply `MessageBus` interface:
+
+```python
+class MessageBus(abc.ABC):
+
+    @abc.abstractmethod
+    def handle(self, event_name: str) -> Callable[..., Any]:
+        pass
+
+    @abc.abstractmethod
+    def publish(self, event_name: str, message: Any) -> Any:
+        pass
+
+    @abc.abstractmethod
+    def shutdown(self) -> Any:
+        pass
+
+    @abc.abstractclassmethod
+    def get_error_count(self) -> int:
+        pass
+
+    @abc.abstractclassmethod
+    def is_failing(self) -> bool:
+        pass
+```
+
+This way, you will be able to create your own `messagebus` implementation as long as your implementation comply the interface.
 
 # Available layers
 
+We have several layers in `ZtplAppDirectory`
+
 ![image of available layer if fastApp](images/fastApp-layers.png)
+
+Layers are independent from each other, but they can pass data to each others. Some data are passed via function/method call, while some others require network communication (i.e., message bus, RPC, Database Query).
+
+Let's see how each layers work:
 
 ## Route handler
 
@@ -21,41 +63,31 @@ In most cases, route handler talk to RPC/event handler through message broker.
 Route handler usually located on:
 
 - `<module-name>/route.py`
-- `<module-name>/<entity>Route.py`
-
-You can use `LocalRPC` or `RMQRPC` seamlessly. LocalRPC doesn't take your data over the wire, thus it is ideal for development/single monolith deployment.
-
-To switch between `LocalRPC` or `RMQRPC`, you can use `APP_RPC_TYPE` environment:
-
-```bash
-APP_RPC_TYPE=local # or rmq
-```
+- `<module-name>/<entity>/<entity>Route.py`
 
 Here is an example of route handler layer:
 
 ```python
-def register_book_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, menu_service: MenuService, page_template: Jinja2Templates, enable_ui: bool, enable_api:bool):
+def register_book_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService):
 
-    if enable_api:
-
-        @app.get('/api/v1/books/', response_model=BookResult)
-        def find_books(keyword: str='', limit: int=100, offset: int=0, current_user:  User = Depends(auth_service.is_authorized('api:book:read'))) -> BookResult:
-            result = {}
-            try:
-                result = rpc.call('find_book', keyword, limit, offset)
-            except:
-                print(traceback.format_exc()) 
-                raise HTTPException(status_code=500, detail='Internal Server Error')
-            return BookResult.parse_obj(result)
+    @app.get('/api/v1/books/', response_model=BookResult)
+    def find_books(keyword: str='', limit: int=100, offset: int=0, current_user:  User = Depends(auth_service.is_authorized('api:book:read'))) -> BookResult:
+        result = {}
+        try:
+            result = rpc.call('find_book', keyword, limit, offset)
+        except:
+            print(traceback.format_exc(), file=sys.stderr) 
+            raise HTTPException(status_code=500, detail='Internal Server Error')
+        return BookResult.parse_obj(result)
 ```
 
 This route handler handle `GET /api/v1/books` request.
 
-To access the url, a user need `api:book:read` permission.
+As for authorization, the URL can only be accessed by anyone who has `api:book:read` permission.
 
-Once authorized, the handler will pass the keyword, limit, and offset into into `find_book` RPC handler.
+If the request is authorized, the route handler will pass the parameters into `find_book` RPC handler.
 
-Please note that RPC handler and event handler only accept/return primitive data, list, and dictionary. Thus, you need to call `BookResult.parse_obj(result)` to convert `result` into `BookResult` object.
+Please note that RPC handler and event handler only accept/return primitive data type, list, or dictionary. Thus, you need to call `BookResult.parse_obj(result)` to convert `result` into `BookResult` object.
 
 ## RPC handler
 
@@ -64,7 +96,7 @@ This layer handle RPC call from message broker. An RPC call usually expect a rep
 RPC handler usually located on:
 
 - `<module-name>/rpc.py`
-- `<module-name>/<entity>Rpc.py`
+- `<module-name>/<entity>/<entity>Rpc.py`
 
 Example:
 
@@ -82,7 +114,7 @@ def register_book_rpc(rpc: RPC, book_repo: BookRepo):
 
 This handler handle `find_book` RPC call.
 
-Once it get a RPC call, it will pass the `keyword`, `limit`, and `offset` into repo layer (i.e., `book_service.find(keyword, limit, offset)`).
+Once triggered, it will pass the parameters into repo layer (i.e., `book_service.find(keyword, limit, offset)`).
 
 Since RPC handler expect to send/receive data over the network, it can only accept/return primitive data type, list or dictionary. Thus, it needs to render `book_result` into dictionary by invoking `book_result.dict()`.
 
@@ -109,7 +141,9 @@ def register_library_event_handler(mb: MessageBus):
 
 ## Service
 
-This layer handle your business logic. It is usually called by `RPC handler` or `Event handler`. When a service need to retrive something from/store something into database, it usually need to talk to `Repo` layer. For example:
+This layer handle your business logic. It is usually triggered by `RPC handler` or `Event handler`.
+
+When a service need to retrive something from/store something into database, it usually need to talk to `Repo` layer. For example:
 
 ```python
 
@@ -170,111 +204,6 @@ class DBBookRepo(BookRepo):
             db.close()
         return book_count
 ```
-
-# Interface
-
-Interface is contract. It helps you define set of behaviors.
-
-In Python, we can use `abstract base class` or `abc` instead of interface.
-
-Using interface allows you to change the implementation by configuration.
-
-For example, you have `DBBookRepo` and `MemBookRepo` that implement `BookRepo`:
-
-```python
-
-##############################################################################
-# BookRepo interface
-##############################################################################
-
-class BookRepo(abc.ABC):
-
-    @abc.abstractmethod
-    def find(self, keyword: str, limit: int, offset: int) -> List[Book]:
-        pass
-
-    @abc.abstractmethod
-    def count(self, keyword: str) -> int:
-        pass
-
-
-##############################################################################
-# MemBookRepo implementation
-##############################################################################
-
-class MemBookRepo(BookRepo):
-
-    def __init__(self):
-        self._book_map: Mapping[str, Book] = {}
-
-    def find(self, keyword: str, limit: int, offset: int) -> List[Book]:
-        books: List[Book] = []
-        # your implementation
-        return books
-
-    def count(self, keyword: str) -> List[Book]:
-        book_count = 0
-        # your implementation
-        return book_count
-
-
-##############################################################################
-# DBBookRepo implementation
-##############################################################################
-
-class DBBookRepo(BookRepo):
-
-    def __init__(self, engine: Engine, create_all: bool):
-        self.engine = engine
-        if create_all:
-            Base.metadata.create_all(bind=engine)
-
-    def _get_keyword_filter(self, keyword: str) -> str:
-        return '%{}%'.format(keyword) if keyword != '' else '%'
-
-    def find(self, keyword: str, limit: int, offset: int) -> List[Book]:
-        db = Session(self.engine)
-        books: List[Book] = []
-        # your implementation
-        return books
-
-    def count(self, keyword: str) -> int:
-        db = Session(self.engine)
-        book_count = 0
-        # your implementation
-        return book_count
-
-```
-
-Next, you can define a service that depends on `BookRepo` interface instead of `MemBookRepo` or `DBBookRepo`:
-
-```python
-class MyService():
-    def __init__(self, book_repo: BookRepo):
-        self.book_repo: BookRepo = book_repo
-```
-
-Finally, you can create the service:
-
-```python
-def get_book_repo(app_storage: str) -> BookRepo:
-    '''
-    This function might return DBBookRepo or MemBookRepo. depends on app_storage value.
-    '''
-    if app_storage = 'db':
-        db_url = os.getenv('APP_SQLALCHEMY_DATABASE_URL', 'sqlite:///database.db')
-        engine = create_engine(db_url, echo=True)
-        return DBBookRepo(engine=engine, create_all=True)
-    return MemBookRepo()
-
-app_storage =  os.getenv('APP_STORAGE', 'db')
-book_repo = get_book_repo(app_storage)
-
-my_service = MyService(book_repo)
-```
-
-Now you can set which repo is used by `my_ervice` without changing your codebase.
-
 # Connecting layers
 
 Next, you can continue to [connecting components guide](connecting-components.md).

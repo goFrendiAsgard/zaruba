@@ -49,7 +49,7 @@ Let's see the following example:
 ```python
 # location: 
 # - <module>/route.py
-# - <module>/<entity>Route.py
+# - <module>/<entity>/<entity>Route.py
 @app.get('/api/v1/books/', response_model=BookResult)
 def find_books(keyword: str='', limit: int=100, offset: int=0, current_user:  User = Depends(auth_service.is_authorized('api:book:read'))) -> BookResult:
     result = {}

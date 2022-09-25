@@ -2,7 +2,7 @@
 
 `ZtplAppDirectory` is a microservice-ready monolith application.
 
-In this documentation, you will see `ZtplAppDirectory`'s [motivation and architecture](motivation-and-architecture/README.md) as well as how to manage `ZtplAppDirectory`.
+In this documentation, you will see `ZtplAppDirectory`'s [motivation and architecture](motivation-and-architecture/README.md) as well as how to manage and extend `ZtplAppDirectory`.
 
 <!--startToc-->
 * [Motivation and architecture](motivation-and-architecture/README.md)

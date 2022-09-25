@@ -3,9 +3,9 @@
 # Feature flags
 <!--endTocHeader-->
 
-Feature flags, also known as feature toggles, are used in software development to enable or disable functionality without having to deploy new code. You can compare them with an `if` statement that checks whether a code path should be available or not.
+Feature flags, also known as feature toggles, are used in software development to enable or disable functionality without having to deploy new code.
 
-ZtplAppDirectory use a lot of feature flags that you can toggle to active/1 or inactive/0:
+`ZtplAppDirectory` use a lot of feature flags that you can set to active (1) or inactive (0):
 
 ```bash
 # HTTP handler
@@ -29,10 +29,12 @@ APP_ENABLE_<OTHER>_MODULE=1
 You can see how ZtplAppDirectory handle feature flags in `main.py`. Basically, it is just simple if-else:
 
 ```python
-enable_ui = os.getenv('APP_ENABLE_UI', '1') == '1'
-if enable_ui:
+enable_library_module = os.getenv('APP_ENABLE_LIBRARY_MODULE', '1') != '0'
+if enable_library_module:
     serve_ui()
 ```
+
+Some feature flags are loaded directly in `main.py`, while some others are declared in `configs/featureFlag.py`.
 
 # Interface and Layers
 

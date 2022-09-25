@@ -3,15 +3,37 @@
 # Motivation and architecture
 <!--endTocHeader-->
 
+Building a system is like building a town. First, you start with some basic requirements. Over time, your requirements grow and so does your software.
+
+A monolith architecture is your best option if you are getting started. Monolith is easy to maintain/develop. Even though it won't scale very well.
+
+You can think about microservices when you need to scale some features independently.
+
+It is always better to __start with a monolith__ and __refactor to microservices__ later.
+
+Refactoring is not always easy. Sometimes it is even impossible. There are many stories of companies who failed to do so because their code was not modular/testable. Their growth is now hindered by their own technology.
+
+Some companies invest too much in Kubernetes or any other expensive technologies. They built a great microservices architecture, yet failed to maintain/develop it properly.
+
+So we need a middle ground. We need a monolith application that is ready to be deployed as microservices.
+
+Let's see the following scenarios, and see what we can do in each phase:
+
+- __You are starting a business.__ Your IT team probably consists of a CTO and a couple of software engineers. In that case, you start with a monolith application. Make sure your monolith is modular so that you can split it into microservices later. If you have database repositories in your modules, be sure to use them in the same modules. This will make your modules decoupled from other modules.
+
+- __Your software handles a lot of requests and has to be always available.__ Now you might consider using better hardware. Or you can split your monolith application into microservices. As your monolith application is modular, this process should not be very painful. You might also need to consider deploying your application into a Kubernetes cluster. Your services will be able to talk to each other using `Messagebus` or `RPC call`.
+
+- __You need different technologies/programming languages for your services.__ Python is a good general-purpose programming language. But it is not your best choice when you need to take concurrency into account. In this case, you can write some of your services in other programming languages. Make sure the new service will handle all necessary events and RPC calls.
+
+`ZtplAppDirectory` is a microservices-ready monolith. It has `LocalMessageBus` and `LocalRPC` for inter-module communication. Later, when your modules turn into microservices, you can switch into `RMQMessageBus` or `RMQRPC`. You can achieve this by changing the configuration, without touching the code.
+
 # Microservices vs Monolith
 
 In 2016, [DHH](https://twitter.com/dhh) wrote an article titled [Majestic Monolith](https://m.signalvnoise.com/the-majestic-monolith/).
 
-Since big tech companies use microservices architecture, people start to get interested in this architecture. DHH argued that not all companies need microservices architecture.
+Since big tech companies use microservices architecture, people are curious about this. They start to adopt the architecture without understanding the drawbacks. In the article, DHH argued that not all companies need microservices architecture.
 
-Sometimes monolith is just right, but sometimes microservices-architecture is better.
-
-Let's see how microservices and a monolith compared to each other.
+Let's see how microservices and a monolith are different from each other.
 
 ## Microservices: The good and the bad
 
@@ -26,7 +48,7 @@ Microservices architecture is good because:
 Microservices architecture is bad because:
 
 - There is a lot of network communication.
-- Either you build a correct one, or just create a distributed monolith.
+- Either you build a correct one, or just create a [distributed monolith](https://www.techtarget.com/searchapparchitecture/tip/The-distributed-monolith-What-it-is-and-how-to-escape-it).
 - Deploying microservices can be challenging.
 
 ## Monolith: The good and the bad
@@ -41,33 +63,24 @@ Monolith architecture is bad because:
 
 - People tend to cross the domain boundary because they can.
 - When it is down, the entire system is down.
-- You cannot scale up/down only particular services.
-
-## Microservices or monolith?
-
-If you are just __getting started__, a __monolith architecture__ is probably your best option.
-
-Once you need to __scale__ different aspects of your system differently, you can start with __microservices architecture__.
+- When you need to scale up/down, everything is scaled up/down
 
 # Microservices-ready monolith
 
-When businesses get bigger, tech departments usually suffer from any of these problems:
 
-- Moving a working monolith into microservices
-- Premature optimization/over-engineering:
-    - You find that your current "microservices" architecture is a distributed monolith that:
-        - Has all the drawbacks of microservices architecture.
-        - Has all the drawbacks of monolith architecture.
+Many companies failed to refactor their monolith application into microservices. Other companies are investing too much in Kubernetes or other expensive technologies. They are paying too much for something they didn't need.
 
-We can make things better by creating a monolith application that can be deployed as microservices.
+We can improve the situation by creating a modular monolith application. This modular monolith should be deployable as microservices later.
 
-You can think of a microservices-ready monolith as a super-soldier who has gone through a lot of training. Alone, this super-soldier is already capable of a lot of things. He can shoot, fight, drive a helicopter, and even hack a satellite.
+You can think of the application as a super-soldier with much training. Alone, this super-soldier is already capable of many things. This super soldier can shoot, fight, drive a helicopter, and even hack a satellite.
 
-But when you do a bigger mission, you cannot just rely on a single super-soldier. You need a team of super-soldiers. You need to assign different tasks for every member so that they can achieve a bigger goal.
+![image of a single super soldier](images/super-soldier-monolith.jpg)
 
-At some point, you can even swap one of your super soldiers with someone who better fits the job. For example, you hire a real hacker instead of occupying an expensive super soldier just to hack your enemy's satellite.
+But when you do a bigger mission, you cannot rely on a single super-soldier. A team consisting of multiple soldiers with different specializations will do better.
 
-![image of a soldier](images/soldier.jpg)
+So you deploy multiple super-soldiers and assign specific roles/equipment for each of them.
+
+![image of multiple super soldiers](images/super-soldier-microservices.jpg)
 
 ## Microservices-ready monolith: The good and the bad
 
@@ -80,109 +93,50 @@ Microservices-ready monolith is good because:
 
 It is bad because:
 
-- Everyone is aware of code changes (Code-level authorization is nearly impossible).
-- People tend to cross the domain boundary because they can.
+- Everyone is aware of any code changes (Code-level authorization is nearly impossible).
+- Without proper conventions, people tend to cross domain/module boundaries.
 
 > ⚠️ __Warning:__ Never cross domain boundary even if you can. Assume every module will live in different servers/pods and accessing different database server. Otherwise, your application will ends up as big spaghetti-code monolith that can't go anywhere.
 
 # Example
+
+## Run as monolith
 
 Suppose you have two modules in `ZtplAppDirectory`:
 
 - Library
 - Auth
 
-Each module serves different domains, and someday you will need to scale them independently. But for now, let's start with a monolith:
+These module serves different domains.
+
+Someday you will need to scale them independently. But for now, let's start with a monolith:
 
 ![Monolith mode](images/fastApp-monolith.png)
 
-You can configure `ZtplAppDirectory` using environment variables. For example, you can enable/disable the user interface by passing `0` or `1` to `APP_ENABLE_UI`.
+At the beginning, you want to enable every feature flags. You can do this by setting all feature-flags environments into `1`.
 
-When you run `ZtplAppDirectory` as a monolith, you need to enable every feature flag.
+You also want to use `LocalMessageBus` and `LocalRPC`, so you set `APP_MESSAGE_BUS_TYPE` and `APP_RPC_TYPE` into `local`. By setting your messagebus and RPC into local, the intermodule communication can be performed internally without any network overhead. This is a good thing because [network is not reliable](https://particular.net/blog/the-network-is-reliable)
 
-You should also use `local` message bus/RPC(remote procedure call) instead of RabbitMq or Kafka. Even though local message bus/RPC is not scalable, it is simple and reliable for a single application. You don't want to overcomplicate things in the beginning. Also, [network is not reliable](https://particular.net/blog/the-network-is-reliable).
+All good, now you can run everything locally.
 
-All good, you can run everything locally.
+## Run as microservices
 
-## Into microservices
-
-At some point, you need to scale your modules independently. You can achieve this without doing any change in `ZtplAppDirectory` codebase. What you need to do is just deploy multiple `ZtplAppDirectory` with different feature flags (configurations).
+Now you want to run `ZtplAppDirectory` as microservices. You don't need to modify the source code at all. Instead, you just need to deploy the application with different feature flags (configurations).
 
 ![Microservices mode](images/fastApp-microservices.png)
 
-Let's take a look at every instance of `ZtplAppDirectory`:
+In this example, we want to have:
 
-### Frontend
-
-Its purpose is to serve UI. It should not handle API requests, events, or RPC. But it should serve the UI of both `auth` and `library` modules.
-
-```bash
-# Only serve UI
-APP_ENABLE_ROUTE_HANDLER=1
-APP_ENABLE_ROUTE_UI=1
-
-# Using rmq (Rabbitmq) as RPC/Messagebus platform
-APP_MESSAGE_BUS_TYPE=rmq
-APP_RPC_TYPE=rmq
-
-# Enable auth and library modules
-APP_ENABLE_AUTH_MODULE=1
-APP_ENABLE_LIBRARY_MODULE=1
-```
-
-### Backend
-
-Its purpose is to serve API requests from frontend apps and external systems (e.g., mobile apps). Thus, it should not serve UI or handle events/RPC.
-
-
-```bash
-# Only serve API
-APP_ENABLE_ROUTE_HANDLER=1
-APP_ENABLE_ROUTE_API=1
-
-# Using rmq (Rabbitmq) as RPC/Messagebus platform
-APP_MESSAGE_BUS_TYPE=rmq
-APP_RPC_TYPE=rmq
-
-# Enable auth and library modules
-APP_ENABLE_AUTH_MODULE=1
-APP_ENABLE_LIBRARY_MODULE=1
-```
-
-### Auth Service
-
-Its purpose is to serve any RPC/event related to the authentication domain.
-
-```bash
-# Using rmq (Rabbitmq) as RPC/Messagebus platform, handle both RPC and events
-APP_ENABLE_EVENT_HANDLER=1
-APP_MESSAGE_BUS_TYPE=rmq
-APP_ENABLE_RPC_HANDLER=1
-APP_RPC_TYPE=rmq
-
-# Enable auth module only
-APP_ENABLE_AUTH_MODULE=1
-```
-
-### Library Service
-
-Its purpose is to serve any RPC/event related to the library domain.
-
-
-```bash
-# Using rmq (Rabbitmq) as RPC/Messagebus platform, handle both RPC and events
-APP_ENABLE_EVENT_HANDLER=1
-APP_MESSAGE_BUS_TYPE=rmq
-APP_ENABLE_RPC_HANDLER=1
-APP_RPC_TYPE=rmq
-
-# Enable library module only
-APP_ENABLE_LIBRARY_MODULE=1
-```
+- __Frontend.__ This service only serve the UI. It won't serve any API request, but it handle the UI of both `auth` and `library` module.
+- __Backend.__ This service only serve API request from `Frontend` or other external applications, and pass them into respective services.
+- __Auth Service.__ This service handle any event/RPC call for `auth` module. It also handle every database operation related to `auth` module.
+- __Library Service.__ This service handle any event/RPC call for `library` module. It also handle every database operation related to `library` module.
 
 # Next
 
-The idea of a microservices-ready monolith is only possible because of [feature flags](feature-flags.md) and [layered architecture](interface-and-layers.md). You can learn more about feature flags, interfaces, layers, and how to connect them in the sub-topics.
+The idea of a microservices-ready monolith is only possible because of [feature flags](feature-flags.md) and [layered architecture](interface-and-layers.md). You can learn more about the technical details in the sub-topics.
+
+If you want to see how we organize our code, you can visit [directory structure](directory-structure.md).
 
 <!--startTocSubTopic-->
 # Sub-topics
