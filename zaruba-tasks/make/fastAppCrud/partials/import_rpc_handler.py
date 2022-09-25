@@ -1,2 +1,2 @@
 from modules.ztplAppModuleName.ztplAppCrudEntity.repos.ztplAppCrudEntityRepo import ZtplAppCrudEntityRepo
-from modules.ztplAppModuleName.ztplAppCrudEntity.ztplAppCrudEntityRpc import register_ztpl_app_crud_entity_rpc
+from modules.ztplAppModuleName.ztplAppCrudEntity.ztplAppCrudEntityRpc import register_ztpl_app_crud_entity_entity_rpc

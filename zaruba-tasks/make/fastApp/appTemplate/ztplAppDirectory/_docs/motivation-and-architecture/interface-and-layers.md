@@ -68,7 +68,7 @@ Route handler usually located on:
 Here is an example of route handler layer:
 
 ```python
-def register_book_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService):
+def register_book_entity_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService):
 
     @app.get('/api/v1/books/', response_model=BookResult)
     def find_books(keyword: str='', limit: int=100, offset: int=0, current_user:  User = Depends(auth_service.is_authorized('api:book:read'))) -> BookResult:
@@ -102,7 +102,7 @@ Example:
 
 ```python
 
-def register_book_rpc(rpc: RPC, book_repo: BookRepo):
+def register_book_entity_rpc(rpc: RPC, book_repo: BookRepo):
 
     book_service = BookService(book_repo)
 

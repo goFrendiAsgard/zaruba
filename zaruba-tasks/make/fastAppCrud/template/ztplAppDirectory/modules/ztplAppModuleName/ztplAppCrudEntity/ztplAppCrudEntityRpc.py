@@ -5,7 +5,7 @@ from schemas.user import User
 from modules.ztplAppModuleName.ztplAppCrudEntity.repos.ztplAppCrudEntityRepo import ZtplAppCrudEntityRepo
 from modules.ztplAppModuleName.ztplAppCrudEntity.ztplAppCrudEntityService import ZtplAppCrudEntityService
 
-def register_ztpl_app_crud_entity_rpc(rpc: RPC, ztpl_app_crud_entity_repo: ZtplAppCrudEntityRepo):
+def register_ztpl_app_crud_entity_entity_rpc(rpc: RPC, ztpl_app_crud_entity_repo: ZtplAppCrudEntityRepo):
 
     ztpl_app_crud_entity_service = ZtplAppCrudEntityService(ztpl_app_crud_entity_repo)
 

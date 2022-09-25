@@ -127,8 +127,8 @@ zaruba please startServer -t -w 1s
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.516µs
-         Current Time: 13:38:46
+         Elapsed Time: 1.487µs
+         Current Time: 19:08:21
 💀 🏁 Running 🍏 startServer starter (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/low-level
 💀 🏁 Running 🍏 startServer readiness checker (Attempt 1 of infinite) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/low-level
 💀 🔥 Exit 🍏 startServer readiness checker (Attempt 1 of infinite):
@@ -152,20 +152,20 @@ exit status 1
 💀 🏁 Running 🍏 startServer readiness checker (Attempt 4 of infinite) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/low-level
 💀 🎉 Successfully running 🍏 startServer readiness checker (Attempt 4 of infinite)
 💀 🔎 Job Running...
-         Elapsed Time: 6.012859663s
-         Current Time: 13:38:52
+         Elapsed Time: 6.015624414s
+         Current Time: 19:08:27
          Active Process:
-           * (PID=26110) 🍏 startServer starter (Attempt 1 of 3)
+           * (PID=17694) 🍏 startServer starter (Attempt 1 of 3)
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
-💀 🔪 Kill 🍏 startServer starter (PID=26110)
+💀 🔪 Kill 🍏 startServer starter (PID=17694)
 💀    🚀 🍏 startServer          
 💀    🚀 🍏 startServer          Keyboard interrupt received, exiting.
 💀 🎉 Successfully running 🍏 startServer starter (Attempt 1 of 3)
 💀 🔎 Job Ended...
-         Elapsed Time: 8.218643122s
-         Current Time: 13:38:54
+         Elapsed Time: 8.221916738s
+         Current Time: 19:08:29
 💀 🔥 🍏 startServer starter exited without any error message
 zaruba please startServer   -t -w 1s
 ```````
@@ -211,12 +211,12 @@ zaruba please startServer -t -w 1s
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.387µs
-         Current Time: 13:38:54
+         Elapsed Time: 1.663µs
+         Current Time: 19:08:30
 💀 🏁 Running 🔗 updateProjectLinks runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/high-level
-💀 🎉 Successfully running 🔗 updateProjectLinks runner (Attempt 1 of 3)
 💀    🚀 🔗 updateProjectLinks   🎉🎉🎉
 💀    🚀 🔗 updateProjectLinks   Links updated
+💀 🎉 Successfully running 🔗 updateProjectLinks runner (Attempt 1 of 3)
 💀 🏁 Running 🍏 startServer starter (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/high-level
 💀 🏁 Running 🍏 startServer readiness checker (Attempt 1 of infinite) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/high-level
 💀    🔎 🍏 startServer          🔎 Waiting for port '8080'
@@ -226,14 +226,14 @@ zaruba please startServer -t -w 1s
 💀 🎉 Successfully running 🍏 startServer readiness checker (Attempt 1 of infinite)
 💀    🔎 🍏 startServer          📜 Task 'startServer' is ready
 💀 🔎 Job Running...
-         Elapsed Time: 11.053176568s
-         Current Time: 13:39:05
+         Elapsed Time: 11.055549102s
+         Current Time: 19:08:41
          Active Process:
-           * (PID=31804) 🍏 startServer starter (Attempt 1 of 3)
+           * (PID=23511) 🍏 startServer starter (Attempt 1 of 3)
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
-💀 🔪 Kill 🍏 startServer starter (PID=31804)
+💀 🔪 Kill 🍏 startServer starter (PID=23511)
 💀    🚀 🍏 startServer          
 💀    🚀 🍏 startServer          Keyboard interrupt received, exiting.
 💀    🚀 🍏 startServer          🎉🎉🎉
@@ -241,8 +241,8 @@ zaruba please startServer -t -w 1s
 💀 🎉 Successfully running 🍏 startServer starter (Attempt 1 of 3)
 💀 🔥 🍏 startServer starter exited without any error message
 💀 🔎 Job Ended...
-         Elapsed Time: 13.260073148s
-         Current Time: 13:39:08
+         Elapsed Time: 13.260925609s
+         Current Time: 19:08:43
 zaruba please startServer   -t -w 1s
 ```````
 </details>
