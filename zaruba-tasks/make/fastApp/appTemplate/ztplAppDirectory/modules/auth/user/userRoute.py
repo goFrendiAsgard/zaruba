@@ -1,5 +1,5 @@
 from os import access
-from typing import Any, List, Mapping
+from typing import Any, List, Mapping, Optional
 from modules.auth.auth.authService import AuthService
 from helpers.transport import MessageBus, RPC
 from fastapi import Depends, FastAPI, Request, HTTPException
@@ -18,9 +18,11 @@ import sys
 def register_user_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService):
 
     @app.get('/api/v1/users/', response_model=UserResult)
-    def find_user(keyword: str='', limit: int=100, offset: int=0, current_user: User = Depends(auth_service.is_authorized('api:user:read'))) -> UserResult:
+    def find_user(keyword: str='', limit: int=100, offset: int=0, current_user: Optional[User] = Depends(auth_service.is_authorized('api:user:read'))) -> UserResult:
         result = {}
         try:
+            if not current_user:
+                current_user = rpc.call('get_guest_user')
             result = rpc.call('find_users', keyword, limit, offset)
         except:
             print(traceback.format_exc(), file=sys.stderr) 
@@ -28,9 +30,11 @@ def register_user_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
         return UserResult.parse_obj(result)
 
     @app.get('/api/v1/users/{id}', response_model=User)
-    def find_user_by_id(id: str, current_user: User = Depends(auth_service.is_authorized('api:user:read'))) -> User:
+    def find_user_by_id(id: str, current_user: Optional[User] = Depends(auth_service.is_authorized('api:user:read'))) -> User:
         result = None
         try:
+            if not current_user:
+                current_user = rpc.call('get_guest_user')
             result = rpc.call('find_user_by_id', id)
         except:
             print(traceback.format_exc(), file=sys.stderr) 
@@ -40,9 +44,11 @@ def register_user_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
         return User.parse_obj(result)
 
     @app.post('/api/v1/users/', response_model=User)
-    def insert_user(data: UserData, current_user: User = Depends(auth_service.is_authorized('api:user:create'))) -> User:
+    def insert_user(data: UserData, current_user: Optional[User] = Depends(auth_service.is_authorized('api:user:create'))) -> User:
         result = None
         try:
+            if not current_user:
+                current_user = rpc.call('get_guest_user')
             result = rpc.call('insert_user', data.dict(), current_user.dict())
         except:
             print(traceback.format_exc(), file=sys.stderr) 
@@ -52,9 +58,11 @@ def register_user_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
         return User.parse_obj(result)
 
     @app.put('/api/v1/users/{id}', response_model=User)
-    def update_user(id: str, data: UserData, current_user: User = Depends(auth_service.is_authorized('api:user:update'))) -> User:
+    def update_user(id: str, data: UserData, current_user: Optional[User] = Depends(auth_service.is_authorized('api:user:update'))) -> User:
         result = None
         try:
+            if not current_user:
+                current_user = rpc.call('get_guest_user')
             result = rpc.call('update_user', id, data.dict(), current_user.dict())
         except:
             print(traceback.format_exc(), file=sys.stderr) 
@@ -64,9 +72,11 @@ def register_user_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
         return User.parse_obj(result)
 
     @app.delete('/api/v1/users/{id}')
-    def delete_user(id: str, current_user: User = Depends(auth_service.is_authorized('api:user:delete'))) -> User:
+    def delete_user(id: str, current_user: Optional[User] = Depends(auth_service.is_authorized('api:user:delete'))) -> User:
         result = None
         try:
+            if not current_user:
+                current_user = rpc.call('get_guest_user')
             result = rpc.call('delete_user', id, current_user.dict())
         except:
             print(traceback.format_exc(), file=sys.stderr) 

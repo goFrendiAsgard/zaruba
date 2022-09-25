@@ -1,6 +1,6 @@
 
 @app.ztplAppHttpMethod('ztplAppUrl', response_class=HTMLResponse)
-async def ztplAppHttpMethod_ztpl_app_url(current_user: User = Depends(auth_service.everyone())) -> HTMLResponse:
+async def ztplAppHttpMethod_ztpl_app_url(current_user: Optional[User] = Depends(auth_service.everyone())) -> HTMLResponse:
     '''
     Handle (ztplAppHttpMethod) ztplAppUrl
     To enforce authorization, you can use any of these dependencies as parameter:

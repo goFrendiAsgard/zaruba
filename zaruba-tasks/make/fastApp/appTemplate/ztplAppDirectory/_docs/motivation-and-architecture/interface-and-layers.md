@@ -71,7 +71,7 @@ Here is an example of route handler layer:
 def register_book_entity_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService):
 
     @app.get('/api/v1/books/', response_model=BookResult)
-    def find_books(keyword: str='', limit: int=100, offset: int=0, current_user:  User = Depends(auth_service.is_authorized('api:book:read'))) -> BookResult:
+    def find_books(keyword: str='', limit: int=100, offset: int=0, current_user: Optional[User] = Depends(auth_service.is_authorized('api:book:read'))) -> BookResult:
         result = {}
         try:
             result = rpc.call('find_book', keyword, limit, offset)
