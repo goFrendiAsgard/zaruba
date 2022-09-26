@@ -1,7 +1,7 @@
-from helpers.transport import RPC
+from helpers.transport import RPC, MessageBus
 from modules.auth.session.sessionService import SessionService
 
-def register_session_rpc(rpc: RPC, session_service: SessionService):
+def register_session_rpc(mb: MessageBus, rpc: RPC, session_service: SessionService):
 
     @rpc.handle('create_access_token')
     def create_access_token(identity: str, password: str) -> str:

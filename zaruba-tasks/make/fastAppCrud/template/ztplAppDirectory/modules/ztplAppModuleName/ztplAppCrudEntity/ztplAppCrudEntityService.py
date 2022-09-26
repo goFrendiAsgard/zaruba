@@ -1,10 +1,13 @@
 from typing import Optional
+from helpers.transport import RPC, MessageBus
 from schemas.ztplAppCrudEntity import ZtplAppCrudEntity, ZtplAppCrudEntityData, ZtplAppCrudEntityResult
 from modules.ztplAppModuleName.ztplAppCrudEntity.repos.ztplAppCrudEntityRepo import ZtplAppCrudEntityRepo
 
 class ZtplAppCrudEntityService():
 
-    def __init__(self, ztpl_app_crud_entity_repo: ZtplAppCrudEntityRepo):
+    def __init__(self, mb: MessageBus, rpc: RPC, ztpl_app_crud_entity_repo: ZtplAppCrudEntityRepo):
+        self.mb = mb
+        self.rpc = rpc
         self.ztpl_app_crud_entity_repo = ztpl_app_crud_entity_repo
 
     def find(self, keyword: str, limit: int, offset: int) -> ZtplAppCrudEntityResult:

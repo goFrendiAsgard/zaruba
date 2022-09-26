@@ -1,9 +1,9 @@
 from typing import Any, Optional, Mapping
-from helpers.transport import RPC
+from helpers.transport import RPC, MessageBus
 from schemas.user import User
 from modules.auth.token.tokenService import TokenService
 
-def register_token_rpc(rpc: RPC, token_service: TokenService):
+def register_token_rpc(mb: MessageBus, rpc: RPC, token_service: TokenService):
 
     @rpc.handle('create_user_token')
     def create_user_token(user_data: Mapping[str, Any]) -> str:

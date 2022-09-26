@@ -24,23 +24,23 @@ zaruba please printHelloWorld printHelloHuman
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 1.622µs
-         Current Time: 06:58:21
-💀 🏁 Running 🍎 printHelloWorld runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
+         Elapsed Time: 1.902µs
+         Current Time: 08:21:00
 💀 🏁 Running 🍏 printHelloHuman runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
+💀 🏁 Running 🍎 printHelloWorld runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
+💀    🚀 🍏 printHelloHuman      hello human
 💀    🚀 🍎 printHelloWorld      hello world
 💀 🎉 Successfully running 🍏 printHelloHuman runner (Attempt 1 of 3)
 💀 🎉 Successfully running 🍎 printHelloWorld runner (Attempt 1 of 3)
-💀    🚀 🍏 printHelloHuman      hello human
 💀 🔎 Job Running...
-         Elapsed Time: 2.250208ms
-         Current Time: 06:58:21
+         Elapsed Time: 2.139912ms
+         Current Time: 08:21:00
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 406.926688ms
-         Current Time: 06:58:21
+         Elapsed Time: 405.679787ms
+         Current Time: 08:21:01
 zaruba please printHelloWorld printHelloHuman
 ```````
 </details>

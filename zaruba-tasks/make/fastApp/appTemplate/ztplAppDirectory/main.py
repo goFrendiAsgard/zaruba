@@ -88,7 +88,7 @@ if enable_auth_module:
         register_auth_ui_route(app, mb, rpc, menu_service, page_template, create_access_token_url_path)
     # handle event
     if enable_event_handler:
-        register_auth_event_handler(mb)
+        register_auth_event_handler(mb, rpc)
     # serve RPC
     if enable_rpc_handler:
-        register_auth_rpc_handler(rpc, role_service, user_service, token_service, session_service)
+        register_auth_rpc_handler(mb, rpc, role_service, user_service, token_service, session_service)

@@ -1,10 +1,10 @@
 from typing import Any, Optional, Mapping
-from helpers.transport import RPC
+from helpers.transport import RPC, MessageBus
 from schemas.user import UserData
 from schemas.user import User
 from modules.auth.user.userService import UserService
 
-def register_user_rpc(rpc: RPC, user_service: UserService):
+def register_user_rpc(mb: MessageBus, rpc: RPC, user_service: UserService):
 
     @rpc.handle('get_guest_user')
     def get_guest_user() -> Mapping[str, Any]:
