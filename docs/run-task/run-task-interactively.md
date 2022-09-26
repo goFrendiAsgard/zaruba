@@ -50,6 +50,11 @@ Search: █
 ? Do you want to load additional env?: 
   ▸ 🏁 No
     📝 Yes, from file
+  ▸ 🏁 No
+    📝 Yes, from file
+  ▸ 🏁 No
+    📝 Yes, from file
+    📝 Yes, manually
 ✔ 🏁 No
 💀 1 of 1) humanName
 Search: █
@@ -58,20 +63,20 @@ Search: █
 ✔ Let me type it!
 Your name: 
 💀 🔎 Job Starting...
-         Elapsed Time: 1.332µs
-         Current Time: 19:08:03
+         Elapsed Time: 1.502µs
+         Current Time: 06:58:26
 💀 🏁 Running 🍏 printHelloHuman runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
 💀    🚀 🍏 printHelloHuman      hello
 💀 🎉 Successfully running 🍏 printHelloHuman runner (Attempt 1 of 3)
 💀 🔎 Job Running...
-         Elapsed Time: 1.585981ms
-         Current Time: 19:08:03
+         Elapsed Time: 1.767732ms
+         Current Time: 06:58:26
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 405.64127ms
-         Current Time: 19:08:04
+         Elapsed Time: 404.832248ms
+         Current Time: 06:58:27
 zaruba please printHelloHuman  -v 'humanName='
 ```````
 </details>
