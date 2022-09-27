@@ -1,1 +1,1 @@
-FROM airbyte/db:0.35.53-alpha
+FROM airbyte/db:0.35.60-alpha

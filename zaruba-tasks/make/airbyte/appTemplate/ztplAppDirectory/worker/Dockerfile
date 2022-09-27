@@ -1,1 +1,1 @@
-FROM airbyte/worker:0.35.53-alpha
+FROM airbyte/worker:0.35.60-alpha

@@ -14,6 +14,7 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+      JAVA_TOOL_OPTIONS: -Xmx512M
 
   broker:
     build: ./server
@@ -45,6 +46,7 @@ services:
       CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS: 1
       CONFLUENT_METRICS_ENABLE: 'true'
       CONFLUENT_SUPPORT_CUSTOMER_ID: 'anonymous'
+      JAVA_TOOL_OPTIONS: -Xmx1G
 
   schema-registry:
     build: ./schema-registry
@@ -60,6 +62,7 @@ services:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'broker:29092'
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
+      JAVA_TOOL_OPTIONS: -Xmx120M
 
   connect:
     build: ./server-connect-datagen
@@ -92,6 +95,7 @@ services:
       CONNECT_CONSUMER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringConsumerInterceptor"
       CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components"
       CONNECT_LOG4J_LOGGERS: org.apache.zookeeper=ERROR,org.I0Itec.zkclient=ERROR,org.reflections=ERROR
+      JAVA_TOOL_OPTIONS: -Xmx120M
 
   control-center:
     build: ./enterprise-control-center
@@ -117,6 +121,7 @@ services:
       CONTROL_CENTER_MONITORING_INTERCEPTOR_TOPIC_PARTITIONS: 1
       CONFLUENT_METRICS_TOPIC_REPLICATION: 1
       PORT: 9021
+      JAVA_TOOL_OPTIONS: -Xmx120M
 
   ksqldb-server:
     build: ./ksqldb-server
@@ -142,6 +147,7 @@ services:
       KSQL_KSQL_LOGGING_PROCESSING_TOPIC_REPLICATION_FACTOR: 1
       KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: 'true'
       KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: 'true'
+      JAVA_TOOL_OPTIONS: -Xmx256M
 
   ksqldb-cli:
     build: ./ksqldb-cli
@@ -195,3 +201,4 @@ services:
       KAFKA_REST_BOOTSTRAP_SERVERS: 'broker:29092'
       KAFKA_REST_LISTENERS: "http://0.0.0.0:8082"
       KAFKA_REST_SCHEMA_REGISTRY_URL: 'http://schema-registry:8081'
+      JAVA_TOOL_OPTIONS: -Xmx256M

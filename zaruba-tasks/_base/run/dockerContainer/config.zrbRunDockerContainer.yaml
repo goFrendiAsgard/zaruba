@@ -5,6 +5,7 @@ configs:
     entryPoint: ''
     command: ''
     checkCommand: ''
+    dockerOptions: '--memory=512m --cpus=1 --gpus "all,capabilities=utility"'
     rebuild: false
     ports: ''
     volumes: ''
@@ -90,6 +91,7 @@ configs:
       docker run --name "${CONTAINER_NAME}" {{ "" -}}
       --hostname "${CONTAINER_NAME}" {{ "" -}}
       --network "{{ .GetConfig "network" }}" {{ "" -}}
+      {{ .GetConfig "dockerOptions" }} {{ "" -}}
       {{ if .GetConfig "user" }}--user "{{ .GetConfig "user" }}" {{ end }} {{ "" -}}
       {{ if .GetConfig "shmSize" }}--shm-size "{{ .GetConfig "shmSize" }}" {{ end }}{{ "" -}}
       {{ .GetConfig "_startRunContainerEntryPoint" -}}

@@ -291,6 +291,7 @@ Value:
     docker run --name "${CONTAINER_NAME}" {{ "" -}}
     --hostname "${CONTAINER_NAME}" {{ "" -}}
     --network "{{ .GetConfig "network" }}" {{ "" -}}
+    {{ .GetConfig "dockerOptions" }} {{ "" -}}
     {{ if .GetConfig "user" }}--user "{{ .GetConfig "user" }}" {{ end }} {{ "" -}}
     {{ if .GetConfig "shmSize" }}--shm-size "{{ .GetConfig "shmSize" }}" {{ end }}{{ "" -}}
     {{ .GetConfig "_startRunContainerEntryPoint" -}}
@@ -406,6 +407,13 @@ Value:
 
 
 ### Configs.containerName
+
+
+### Configs.dockerOptions
+
+Value:
+
+    --memory=512m --cpus="0.5" --gpus "all,capabilities=utility"
 
 
 ### Configs.entryPoint

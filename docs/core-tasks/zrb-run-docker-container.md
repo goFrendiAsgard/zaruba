@@ -37,6 +37,10 @@ Description:
                        separated by new line.
       volumes        : Host-container volume mappings,
                        separated by new line.
+      user           : docker user (i.e., 0 for root)
+      shmSize        : Size of /dev/shm. The format is <number><unit>. number must be greater than 0. 
+                       Unit is optional and can be b (bytes), k (kilobytes), m (megabytes), or g (gigabytes).
+                       If you omit the unit, the system uses bytes. If you omit the size entirely, the system uses 64m.
       rebuild        : Should container be rebuild (This will not rebuild the image)
       command        : Command to be used (Single Line).
                        Leave blank to use container's CMD.
@@ -187,6 +191,7 @@ Value:
     docker run --name "${CONTAINER_NAME}" {{ "" -}}
     --hostname "${CONTAINER_NAME}" {{ "" -}}
     --network "{{ .GetConfig "network" }}" {{ "" -}}
+    {{ .GetConfig "dockerOptions" }} {{ "" -}}
     {{ if .GetConfig "user" }}--user "{{ .GetConfig "user" }}" {{ end }} {{ "" -}}
     {{ if .GetConfig "shmSize" }}--shm-size "{{ .GetConfig "shmSize" }}" {{ end }}{{ "" -}}
     {{ .GetConfig "_startRunContainerEntryPoint" -}}
@@ -293,6 +298,13 @@ Value:
 
 
 ### Configs.containerName
+
+
+### Configs.dockerOptions
+
+Value:
+
+    --memory=512m --cpus="0.5" --gpus "all,capabilities=utility"
 
 
 ### Configs.entryPoint

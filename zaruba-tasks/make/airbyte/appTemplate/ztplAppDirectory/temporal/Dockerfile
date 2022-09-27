@@ -1,1 +1,1 @@
-FROM airbyte/temporal:0.35.53-alpha
+FROM airbyte/temporal:0.35.60-alpha
