@@ -413,7 +413,7 @@ Value:
 
 Value:
 
-    --memory=512m --cpus="0.5" --gpus "all,capabilities=utility"
+    --memory=512m --cpus=1 --gpus "all,capabilities=utility"
 
 
 ### Configs.entryPoint
