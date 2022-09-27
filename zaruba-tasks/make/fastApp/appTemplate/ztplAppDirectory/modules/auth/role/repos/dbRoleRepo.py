@@ -93,7 +93,9 @@ class DBRoleRepo(RoleRepo):
                 name=role_data.name,
                 json_permissions=json.dumps(role_data.permissions),
                 created_at=datetime.datetime.utcnow(),
-                created_by=role_data.created_by
+                created_by=role_data.created_by,
+                updated_at=datetime.datetime.utcnow(),
+                updated_by=role_data.updated_by
             )
             db.add(db_role)
             db.commit()

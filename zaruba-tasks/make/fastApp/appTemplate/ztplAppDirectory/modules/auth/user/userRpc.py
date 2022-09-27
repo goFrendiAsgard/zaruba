@@ -35,6 +35,7 @@ def register_user_rpc(mb: MessageBus, rpc: RPC, user_service: UserService):
         current_user = User.parse_obj(current_user_data)
         user = UserData.parse_obj(data)
         user.created_by = current_user.id
+        user.updated_by = current_user.id
         new_user = user_service.insert(user)
         return None if new_user is None else new_user.dict()
 

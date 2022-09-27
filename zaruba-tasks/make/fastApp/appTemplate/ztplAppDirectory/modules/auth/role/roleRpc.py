@@ -26,6 +26,7 @@ def register_role_rpc(mb: MessageBus, rpc: RPC, role_service: RoleService):
         current_user = User.parse_obj(current_user_data)
         role = RoleData.parse_obj(role_data)
         role.created_by = current_user.id
+        role.updated_by = current_user.id
         new_role = role_service.insert(role)
         return None if new_role is None else new_role.dict()
 

@@ -24,6 +24,7 @@ def register_ztpl_app_crud_entity_entity_rpc(mb: MessageBus, rpc: RPC, ztpl_app_
         current_user = User.parse_obj(current_user_data)
         ztpl_app_crud_entity = ZtplAppCrudEntityData.parse_obj(ztpl_app_crud_entity_data) 
         ztpl_app_crud_entity.created_by = current_user.id
+        ztpl_app_crud_entity.updated_by = current_user.id
         new_ztpl_app_crud_entity = ztpl_app_crud_entity_service.insert(ztpl_app_crud_entity)
         return None if new_ztpl_app_crud_entity is None else new_ztpl_app_crud_entity.dict()
 

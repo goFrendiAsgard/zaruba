@@ -149,7 +149,9 @@ class DBUserRepo(UserRepo):
                 hashed_password=self._hash_password(user_data.password),
                 full_name=user_data.full_name,
                 created_at=datetime.datetime.utcnow(),
-                created_by=user_data.created_by
+                created_by=user_data.created_by,
+                updated_at=datetime.datetime.utcnow(),
+                updated_by=user_data.updated_by
             )
             db.add(db_user)
             db.commit()

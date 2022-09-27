@@ -75,7 +75,9 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
             db_ztpl_app_crud_entity = DBZtplAppCrudEntityEntity(
                 id=new_ztpl_app_crud_entity_id,
                 created_at=datetime.datetime.utcnow(),
-                created_by=ztpl_app_crud_entity_data.created_by
+                created_by=ztpl_app_crud_entity_data.created_by,
+                updated_at=datetime.datetime.utcnow(),
+                updated_by=ztpl_app_crud_entity_data.updated_by,
             )
             db.add(db_ztpl_app_crud_entity)
             db.commit()
