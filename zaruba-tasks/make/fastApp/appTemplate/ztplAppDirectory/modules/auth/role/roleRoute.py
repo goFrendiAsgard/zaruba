@@ -23,7 +23,7 @@ def register_role_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
         result = {}
         try:
             if not current_user:
-                current_user = rpc.call('get_guest_user')
+                current_user = User.parse_obj(rpc.call('get_guest_user'))
             result = rpc.call('find_roles', keyword, limit, offset)
         except:
             print(traceback.format_exc(), file=sys.stderr) 
@@ -36,7 +36,7 @@ def register_role_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
         result = None
         try:
             if not current_user:
-                current_user = rpc.call('get_guest_user')
+                current_user = User.parse_obj(rpc.call('get_guest_user'))
             result = rpc.call('find_role_by_id', id)
         except:
             print(traceback.format_exc(), file=sys.stderr) 
@@ -51,7 +51,7 @@ def register_role_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
         result = None
         try:
             if not current_user:
-                current_user = rpc.call('get_guest_user')
+                current_user = User.parse_obj(rpc.call('get_guest_user'))
             result = rpc.call('insert_role', role_data.dict(), current_user.dict())
         except:
             print(traceback.format_exc(), file=sys.stderr) 
@@ -66,7 +66,7 @@ def register_role_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
         result = None
         try:
             if not current_user:
-                current_user = rpc.call('get_guest_user')
+                current_user = User.parse_obj(rpc.call('get_guest_user'))
             result = rpc.call('update_role', id, role_data.dict(), current_user.dict())
         except:
             print(traceback.format_exc(), file=sys.stderr) 
@@ -81,7 +81,7 @@ def register_role_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
         result = None
         try:
             if not current_user:
-                current_user = rpc.call('get_guest_user')
+                current_user = User.parse_obj(rpc.call('get_guest_user'))
             result = rpc.call('delete_role', id, current_user.dict())
         except:
             print(traceback.format_exc(), file=sys.stderr) 

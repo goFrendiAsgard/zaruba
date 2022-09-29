@@ -193,7 +193,9 @@ Value:
     --network "{{ .GetConfig "network" }}" {{ "" -}}
     {{ .GetConfig "dockerOptions" }} {{ "" -}}
     {{ if .GetConfig "user" }}--user "{{ .GetConfig "user" }}" {{ end }} {{ "" -}}
-    {{ if .GetConfig "shmSize" }}--shm-size "{{ .GetConfig "shmSize" }}" {{ end }}{{ "" -}}
+    {{ if .GetConfig "memory" }}--memory "{{ .GetConfig "memory" }}" {{ end }}{{ "" -}}
+    {{ if .GetConfig "cpus" }}--cpus "{{ .GetConfig "cpus" }}" {{ end }}{{ "" -}}
+    {{ if .GetConfig "gpus" }}--gpus "{{ .GetConfig "gpus" }}" {{ end }}{{ "" -}}
     {{ .GetConfig "_startRunContainerEntryPoint" -}}
     {{ .GetConfig "_startRunContainerEnv" -}}
     {{ .GetConfig "_startRunContainerPorts" -}}
@@ -300,17 +302,27 @@ Value:
 ### Configs.containerName
 
 
-### Configs.dockerOptions
+### Configs.cpus
 
 Value:
 
-    --memory=512m --cpus=1 --gpus "all,capabilities=utility"
+    1
+
+
+### Configs.dockerOptions
 
 
 ### Configs.entryPoint
 
 
 ### Configs.finish
+
+
+### Configs.gpus
+
+Value:
+
+    all,capabilities=utility
 
 
 ### Configs.hostDockerInternal
@@ -338,6 +350,13 @@ Value:
 Value:
 
     localhost
+
+
+### Configs.memory
+
+Value:
+
+    512m
 
 
 ### Configs.network

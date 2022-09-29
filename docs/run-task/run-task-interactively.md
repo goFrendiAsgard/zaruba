@@ -56,23 +56,23 @@ Search: █
 ? Your name: 
   ▸ human
 ✔ Let me type it!
-Your name: Robert Boyle
+Your name: 
 💀 🔎 Job Starting...
-         Elapsed Time: 5.564µs
-         Current Time: 05:27:44
+         Elapsed Time: 1.764µs
+         Current Time: 21:01:13
 💀 🏁 Running 🍏 printHelloHuman runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
-💀    🚀 🍏 printHelloHuman      hello Robert Boyle
+💀    🚀 🍏 printHelloHuman      hello
 💀 🎉 Successfully running 🍏 printHelloHuman runner (Attempt 1 of 3)
 💀 🔎 Job Running...
-         Elapsed Time: 2.403552ms
-         Current Time: 05:27:44
+         Elapsed Time: 2.479972ms
+         Current Time: 21:01:13
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 406.151679ms
-         Current Time: 05:27:44
-zaruba please printHelloHuman  -v 'humanName=Robert Boyle'
+         Elapsed Time: 407.189246ms
+         Current Time: 21:01:14
+zaruba please printHelloHuman  -v 'humanName='
 ```````
 </details>
 <!--endCode-->
