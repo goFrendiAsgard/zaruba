@@ -23,7 +23,13 @@ mock_authenticated_user = User(
 mock_guest_user = User(
     id="mock_guest_user_id",
     username="guest_username",
-    active=True
+    email='',
+    phone_number='',
+    permissions=[],
+    role_ids=[],
+    active=True,
+    full_name='',
+    created_by='mock_user_id'
 )
 
 mock_authenticated_token = 'mock_authenticated_token'
