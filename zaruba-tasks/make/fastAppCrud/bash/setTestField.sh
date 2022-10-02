@@ -17,10 +17,7 @@ done
 _ZRB_REPO_FIELD="$("${ZARUBA_BIN}" list join "${_FIELD_SCRIPT_LINES}")"
 
 # test field pattern
-_PATTERN_1="[\t ]*(mock_ztpl_app_crud_entity_data[\t ]*=[\t ]*ZtplAppCrudEntityData\([\t ]*)"
-_setReplacementMap "${_PATTERN_1}" "${_ZRB_REPO_FIELD}"
-
-_PATTERN_2="[\t ]*(mock_ztpl_app_crud_entity[\t ]*=[\t ]*ZtplAppCrudEntity\([\t ]*)"
-_setReplacementMap "${_PATTERN_2}" "${_ZRB_REPO_FIELD}"
+_PATTERN="[\t ]*(dummy_ztpl_app_crud_entity_data[\t ]*=[\t ]*ZtplAppCrudEntityData\([\t ]*)"
+_setReplacementMap "${_PATTERN}" "${_ZRB_REPO_FIELD}"
 
 echo "Done setting test field"

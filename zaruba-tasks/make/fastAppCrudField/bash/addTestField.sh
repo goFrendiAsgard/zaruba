@@ -13,7 +13,7 @@ _LINES="$("${ZARUBA_BIN}" lines read "${_TEST_LOCATION}")"
 #########################################################
 # Mock entity data
 
-_PATTERN="[\t ]*(mock_${_ZRB_SNAKE_APP_CRUD_ENTITY}_data[\t ]*=[\t ]*${_ZRB_PASCAL_APP_CRUD_ENTITY}Data\([\t ]*)"
+_PATTERN="[\t ]*(dummy_${_ZRB_SNAKE_APP_CRUD_ENTITY}_data[\t ]*=[\t ]*${_ZRB_PASCAL_APP_CRUD_ENTITY}Data\([\t ]*)"
 _MOCK_ENTITY_DATA_INDEX="$("${ZARUBA_BIN}" lines getIndex "${_LINES}" "${_PATTERN}")"
 if [ "${_MOCK_ENTITY_DATA_INDEX}" = "-1" ]
 then
@@ -25,23 +25,6 @@ _MOCK_ENTITY_DATA_LINE="$("${ZARUBA_BIN}" list get "${_LINES}" "${_MOCK_ENTITY_D
 _INDENTATION="$("${ZARUBA_BIN}" str getIndentation "${_MOCK_ENTITY_DATA_LINE}")"
 _INDENTED_MOCK_ENTITY_DATA_SCRIPT="    $("${ZARUBA_BIN}" str fullIndent "${_TEST_FIELD_SCRIPT}" "${_INDENTATION}")"
 _LINES="$("${ZARUBA_BIN}" lines insertAfter "${_LINES}" "${_MOCK_ENTITY_DATA_INDEX}" "${_INDENTED_MOCK_ENTITY_DATA_SCRIPT}")"
-
-
-#########################################################
-# Mock entity object
-
-_PATTERN="[\t ]*(mock_${_ZRB_SNAKE_APP_CRUD_ENTITY}[\t ]*=[\t ]*${_ZRB_PASCAL_APP_CRUD_ENTITY}\([\t ]*)"
-_MOCK_ENTITY_OBJECT_INDEX="$("${ZARUBA_BIN}" lines getIndex "${_LINES}" "${_PATTERN}")"
-if [ "${_MOCK_ENTITY_OBJECT_INDEX}" = "-1" ]
-then
-    echo "Pattern not found: ${_PATTERN}"
-    exit 1
-fi
-
-_MOCK_ENTITY_OBJECT_LINE="$("${ZARUBA_BIN}" list get "${_LINES}" "${_MOCK_ENTITY_OBJECT_INDEX}")"
-_INDENTATION="$("${ZARUBA_BIN}" str getIndentation "${_MOCK_ENTITY_OBJECT_LINE}")"
-_INDENTED_MOCK_ENTITY_OBJECT_SCRIPT="    $("${ZARUBA_BIN}" str fullIndent "${_TEST_FIELD_SCRIPT}" "${_INDENTATION}")"
-_LINES="$("${ZARUBA_BIN}" lines insertAfter "${_LINES}" "${_MOCK_ENTITY_OBJECT_INDEX}" "${_INDENTED_MOCK_ENTITY_OBJECT_SCRIPT}")"
 
 
 #########################################################

@@ -1,151 +1,120 @@
 from typing import Optional, List
 from modules.auth.role.roleService import RoleService
-from modules.auth.role.repos.roleRepo import RoleRepo
-from schemas.role import Role, RoleData
+from modules.auth.role.repos.dbRoleRepo import DBRoleRepo
+from schemas.role import RoleData
 from helpers.transport import LocalRPC, LocalMessageBus
 
+from sqlalchemy import create_engine
+
 ################################################
-# -- ⚙️ Mock data and objects
+# -- ⚙️ Helpers
 ################################################
 
-mock_role_data = RoleData(
-    name='',
-    permissions=[],
-    created_by='mock_user_id'
-)
-
-mock_role = Role(
-    id='mock_user_id',
-    name='',
-    permissions=[],
-    created_by='mock_user_id',
-    updated_by='mock_user_id'
-)
-
-class MockRoleRepo(RoleRepo):
-
-    def __init__(self):
-        self.find_id: Optional[str] = None
-        self.find_keyword: Optional[str] = None
-        self.count_keyword: Optional[str] = None
-        self.find_name: Optional[str] = None
-        self.find_limit: Optional[int] = None
-        self.find_offset: Optional[int] = None
-        self.insert_role_data: Optional[RoleData] = None
-        self.update_id: Optional[str] = None
-        self.update_role_data: Optional[RoleData] = None
-        self.delete_id: Optional[str] = None
-
-    def find_by_id(self, id: str) -> Optional[Role]:
-        self.find_id = id
-        return mock_role
-
-    def find_by_name(self, name: str) -> Optional[Role]:
-        self.find_name = name
-        return mock_role
-
-    def find(self, keyword: str, limit: str, offset: int) -> List[Role]:
-        self.find_keyword = keyword
-        self.find_limit = limit
-        self.find_offset = offset
-        return [mock_role]
-
-    def count(self, keyword: str) -> int:
-        self.count_keyword = keyword
-        return 1
-
-    def insert(self, role_data: RoleData) -> Optional[Role]:
-        self.insert_role_data = role_data
-        return mock_role
-
-    def update(self, id: str, role_data: RoleData) -> Optional[Role]:
-        self.update_id = id
-        self.update_role_data = role_data
-        return mock_role
-
-    def delete(self, id: str) -> Optional[Role]:
-        self.delete_id = id
-        return mock_role
+def create_role_data():
+    dummy_role_data = RoleData(
+        name='',
+        permissions=[],
+    )
+    return dummy_role_data
 
 
 ################################################
 # -- 🧪 Test
 ################################################
 
-def test_role_service_find():
-    mock_mb = LocalMessageBus()
-    mock_rpc = LocalRPC()
-    mock_role_repo = MockRoleRepo()
-    role_service = RoleService(mock_mb, mock_rpc, mock_role_repo)
-    role_result = role_service.find('find_keyword', 73, 37)
-    # make sure all parameters are passed to repo
-    assert mock_role_repo.find_keyword == 'find_keyword'
-    assert mock_role_repo.find_limit == 73
-    assert mock_role_repo.find_offset == 37
-    assert mock_role_repo.count_keyword == 'find_keyword'
-    # make sure role_service return the result correctly
-    assert role_result.count == 1
-    assert len(role_result.rows) == 1
-    assert role_result.rows[0] == mock_role
+def test_role_service():
+    engine = create_engine('sqlite://', echo=True)
+    role_repo = DBRoleRepo(engine=engine, create_all=True)
+    mb = LocalMessageBus()
+    rpc = LocalRPC()
+    role_service = RoleService(mb, rpc, role_repo)
 
+    # prepare insert
+    inserted_role_data = create_role_data()
+    inserted_role_data.name = 'original'
+    inserted_role_data.created_by = 'original_user'
+    inserted_role_data.updated_by = 'original_user'
+    # test insert
+    inserted_role = role_service.insert(inserted_role_data)
+    assert inserted_role is not None
+    assert inserted_role.id != '' 
+    assert inserted_role.name == 'original'
+    assert inserted_role.created_by == 'original_user'
+    assert inserted_role.updated_by == 'original_user'
 
-def test_role_service_find_by_id():
-    mock_mb = LocalMessageBus()
-    mock_rpc = LocalRPC()
-    mock_role_repo = MockRoleRepo()
-    role_service = RoleService(mock_mb, mock_rpc, mock_role_repo)
-    role = role_service.find_by_id('find_id')
-    # make sure all parameters are passed to repo
-    assert mock_role_repo.find_id == 'find_id'
-    # make sure role_service return the result correctly
-    assert role == mock_role
+    # test find by id (existing, after insert)
+    existing_role = role_service.find_by_id(inserted_role.id)
+    assert existing_role is not None
+    assert existing_role.id == inserted_role.id
+    assert existing_role.name == inserted_role.name
+    assert existing_role.created_by == inserted_role.created_by
+    assert existing_role.updated_by == inserted_role.updated_by
 
+    # test find by name (existing, after insert)
+    existing_role = role_service.find_by_name('original')
+    assert existing_role is not None
+    assert existing_role.id == inserted_role.id
+    assert existing_role.name == inserted_role.name
+    assert existing_role.created_by == inserted_role.created_by
+    assert existing_role.updated_by == inserted_role.updated_by
 
-def test_role_service_find_by_name():
-    mock_mb = LocalMessageBus()
-    mock_rpc = LocalRPC()
-    mock_role_repo = MockRoleRepo()
-    role_service = RoleService(mock_mb, mock_rpc, mock_role_repo)
-    role = role_service.find_by_name('find_name')
-    # make sure all parameters are passed to repo
-    assert mock_role_repo.find_name == 'find_name'
-    # make sure role_service return the result correctly
-    assert role == mock_role
+    # test find by id (non existing)
+    non_existing_role = role_service.find_by_id('invalid_id')
+    assert non_existing_role is None
 
+    # test find by name (non existing)
+    non_existing_role = role_service.find_by_name('invalid_name')
+    assert non_existing_role is None
 
-def test_role_service_insert():
-    mock_mb = LocalMessageBus()
-    mock_rpc = LocalRPC()
-    mock_role_repo = MockRoleRepo()
-    role_service = RoleService(mock_mb, mock_rpc, mock_role_repo)
-    new_role = role_service.insert(mock_role_data)
-    # make sure all parameters are passed to repo
-    assert mock_role_repo.insert_role_data == mock_role_data
-    # make sure role_service return the result correctly
-    assert new_role == mock_role
+    # prepare update (existing)
+    updated_role_data = create_role_data()
+    updated_role_data.name = 'updated'
+    updated_role_data.updated_by = 'editor'
+    # test update (existing)
+    updated_role = role_service.update(inserted_role.id, updated_role_data)
+    assert updated_role is not None
+    assert updated_role.id == inserted_role.id
+    assert updated_role.name == 'updated'
+    assert updated_role.created_by == 'original_user'
+    assert updated_role.updated_by == 'editor'
 
+    # test update (non existing)
+    non_existing_role = role_service.update('invalid_id', updated_role_data)
+    assert non_existing_role is None
 
-def test_role_service_update():
-    mock_mb = LocalMessageBus()
-    mock_rpc = LocalRPC()
-    mock_role_repo = MockRoleRepo()
-    role_service = RoleService(mock_mb, mock_rpc, mock_role_repo)
-    updated_role = role_service.update('update_id', mock_role_data)
-    # make sure all parameters are passed to repo
-    assert mock_role_repo.update_id == 'update_id'
-    assert mock_role_repo.update_role_data == mock_role_data
-    # make sure role_service return the result correctly
-    assert updated_role == mock_role
+    # test find by id (existing, after insert)
+    existing_role = role_service.find_by_id(updated_role.id)
+    assert existing_role is not None
+    assert existing_role.id == inserted_role.id
+    assert existing_role.name == 'updated'
+    assert existing_role.created_by == 'original_user'
+    assert existing_role.updated_by == 'editor'
 
+    # test find (before delete, correct keyword)
+    existing_result = role_service.find(keyword='updated', limit=10, offset=0)
+    assert existing_result.count == 1
+    assert len(existing_result.rows) == 1
+    assert existing_result.rows[0].id == inserted_role.id
 
-def test_role_service_delete():
-    mock_mb = LocalMessageBus()
-    mock_rpc = LocalRPC()
-    mock_role_repo = MockRoleRepo()
-    role_service = RoleService(mock_mb, mock_rpc, mock_role_repo)
-    deleted_role = role_service.delete('delete_id')
-    # make sure all parameters are passed to repo
-    assert mock_role_repo.delete_id == 'delete_id'
-    # make sure role_service return the result correctly
-    assert deleted_role == mock_role
+    # test find (before delete, incorrect keyword)
+    non_existing_result = role_service.find(keyword='incorrect', limit=10, offset=0)
+    assert non_existing_result.count == 0
+    assert len(non_existing_result.rows) == 0
 
+    # test delete existing
+    deleted_role = role_service.delete(inserted_role.id)
+    assert deleted_role is not None
+    assert deleted_role.id == inserted_role.id
+    assert deleted_role.name == 'updated'
+    assert deleted_role.created_by == 'original_user'
+    assert deleted_role.updated_by == 'editor'
+
+    # test delete (non existing)
+    non_existing_role = role_service.delete('invalid_id')
+    assert non_existing_role is None
+
+    # test find (after delete, correct keyword)
+    non_existing_result = role_service.find(keyword='updated', limit=10, offset=0)
+    assert non_existing_result.count == 0
+    assert len(non_existing_result.rows) == 0
+    

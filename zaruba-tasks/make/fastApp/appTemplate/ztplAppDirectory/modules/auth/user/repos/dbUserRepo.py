@@ -91,7 +91,7 @@ class DBUserRepo(UserRepo):
                         and_(DBUserEntity.phone_number == identity, DBUserEntity.phone_number != '', DBUserEntity.phone_number is not None)
                     )
                 ).first()
-            if not self._is_valid_password(password, db_user.hashed_password):
+            if not db_user or not self._is_valid_password(password, db_user.hashed_password):
                 return None
             user = self._from_db_result(db_user)
         finally:
