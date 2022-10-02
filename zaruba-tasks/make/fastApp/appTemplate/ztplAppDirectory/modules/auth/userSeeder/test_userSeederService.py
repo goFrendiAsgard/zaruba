@@ -1,5 +1,6 @@
 from typing import Optional
 from modules.auth.userSeeder.userSeederService import UserSeederService
+from modules.auth.user.userService import UserService
 from schemas.user import User, UserData, UserWithoutPassword, UserResult
 
 ################################################
@@ -47,8 +48,7 @@ mock_guest_user = User(
 )
 
 
-
-class MockUserService():
+class MockUserService(UserService):
     def __init__(self):
         self.find_username: Optional[str] = None
         self.insert_user_data: Optional[UserData] = None
@@ -93,7 +93,7 @@ def test_user_seeder_service_seed_existing_user():
     mock_user_service = MockUserService()
     user_seeder_service = UserSeederService(mock_user_service)
     user_seeder_service.seed(mock_existing_user_data)
-    # make sure all parameters are passed to repo
+    # make sure all parameters are passed to user service
     assert mock_user_service.find_username == mock_existing_user_data.username
     assert mock_user_service.insert_user_data is None # not inserting new user, because user already exists
     
@@ -102,7 +102,7 @@ def test_user_seeder_service_seed_non_existing_user():
     mock_user_service = MockUserService()
     user_seeder_service = UserSeederService(mock_user_service)
     user_seeder_service.seed(mock_new_user_data)
-    # make sure all parameters are passed to repo
+    # make sure all parameters are passed to user service
     assert mock_user_service.find_username == mock_new_user_data.username
     assert mock_user_service.insert_user_data == mock_new_user_data
     

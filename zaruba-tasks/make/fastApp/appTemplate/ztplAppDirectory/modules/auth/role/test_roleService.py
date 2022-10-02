@@ -101,6 +101,18 @@ def test_role_service_find_by_id():
     assert role == mock_role
 
 
+def test_role_service_find_by_name():
+    mock_mb = LocalMessageBus()
+    mock_rpc = LocalRPC()
+    mock_role_repo = MockRoleRepo()
+    role_service = RoleService(mock_mb, mock_rpc, mock_role_repo)
+    role = role_service.find_by_name('find_name')
+    # make sure all parameters are passed to repo
+    assert mock_role_repo.find_name == 'find_name'
+    # make sure role_service return the result correctly
+    assert role == mock_role
+
+
 def test_role_service_insert():
     mock_mb = LocalMessageBus()
     mock_rpc = LocalRPC()
