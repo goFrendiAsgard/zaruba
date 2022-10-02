@@ -40,6 +40,35 @@ source template.env
 ./start.sh
 ```
 
+# 🧪 How to test
+
+You can run `ztplAppDirectory` unit-test by invoking:
+
+```bash
+zaruba please testZtplAppDirectory
+```
+
+Alternatively, you can also invoke the following script:
+
+```bash
+cd ztplAppDirectory
+
+# create virtual environment if not exist
+if [ ! -d ./venv ]; then python -m venv ./venv; fi
+
+# activate virtual environment
+source venv/bin/activate
+
+# install pip packages
+pip install -r requirements.txt
+
+# load environments
+source template.env
+
+# run pytest
+pytest -rP -v --cov="$(pwd)" --cov-report html
+```
+
 # ☑️ Prerequisites
 
 - Python 3.9

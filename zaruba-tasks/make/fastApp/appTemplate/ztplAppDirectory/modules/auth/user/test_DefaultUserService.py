@@ -55,7 +55,6 @@ mock_user = User(
 class MockRoleRepo(RoleRepo):
 
     def __init__(self):
-        self.role_data: Optional[RoleData] = None
         self.find_ids: Optional[str] = []
         self.find_keyword: Optional[str] = None
         self.count_keyword: Optional[str] = None
@@ -105,7 +104,6 @@ class MockRoleRepo(RoleRepo):
 class MockUserRepo(UserRepo):
 
     def __init__(self):
-        self.user_data: Optional[UserData] = None
         self.find_id: Optional[str] = None
         self.find_username: Optional[str] = None
         self.find_identity: Optional[str] = None

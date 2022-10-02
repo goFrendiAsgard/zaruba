@@ -25,7 +25,6 @@ mock_role = Role(
 class MockRoleRepo(RoleRepo):
 
     def __init__(self):
-        self.role_data: Optional[RoleData] = None
         self.find_id: Optional[str] = None
         self.find_keyword: Optional[str] = None
         self.count_keyword: Optional[str] = None

@@ -21,7 +21,6 @@ mock_ztpl_app_crud_entity = ZtplAppCrudEntity(
 class MockZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
 
     def __init__(self):
-        self.ztplAppCrudEntity_data: Optional[ZtplAppCrudEntityData] = None
         self.find_id: Optional[str] = None
         self.find_keyword: Optional[str] = None
         self.count_keyword: Optional[str] = None
