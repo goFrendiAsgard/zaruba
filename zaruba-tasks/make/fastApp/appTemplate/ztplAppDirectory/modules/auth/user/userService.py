@@ -1,4 +1,5 @@
 from typing import Optional
+from helpers.transport import RPC, MessageBus
 from schemas.user import User, UserData, UserResult
 from modules.auth.user.repos.userRepo import UserRepo
 from modules.auth.role.roleService import RoleService
@@ -46,7 +47,9 @@ class UserService(abc.ABC):
 
 class DefaultUserService(UserService):
 
-    def __init__(self, user_repo: UserRepo, role_service: RoleService, guest_username: str, root_permission: str='root'):
+    def __init__(self, mb: MessageBus, rpc: RPC, user_repo: UserRepo, role_service: RoleService, guest_username: str, root_permission: str='root'):
+        self.mb = mb
+        self.rpc = rpc
         self.user_repo = user_repo
         self.role_service = role_service
         self.guest_username = guest_username
@@ -96,6 +99,8 @@ class DefaultUserService(UserService):
         role_ids = user.role_ids
         for role_id in role_ids:
             role = self.role_service.find_by_id(role_id)
+            if role is None:
+                continue
             if role.has_permission(permission):
                 return True 
         return False

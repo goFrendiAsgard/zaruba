@@ -1,10 +1,13 @@
 from typing import Optional
+from helpers.transport import RPC, MessageBus
 from schemas.role import Role, RoleData, RoleResult
 from modules.auth.role.repos.roleRepo import RoleRepo
 
 class RoleService():
 
-    def __init__(self, role_repo: RoleRepo):
+    def __init__(self, mb: MessageBus, rpc: RPC, role_repo: RoleRepo):
+        self.mb = mb
+        self.rpc = rpc
         self.role_repo = role_repo
 
     def find(self, keyword: str, limit: int, offset: int) -> RoleResult:

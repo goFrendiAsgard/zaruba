@@ -57,8 +57,8 @@ zaruba please startServer -t -w 500ms
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 3.663µs
-         Current Time: 21:01:53
+         Elapsed Time: 2.05µs
+         Current Time: 05:20:57
 💀 🏁 Running 🔗 updateProjectLinks runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/task-envs
 💀    🚀 🔗 updateProjectLinks   🎉🎉🎉
 💀    🚀 🔗 updateProjectLinks   Links updated
@@ -67,27 +67,27 @@ zaruba please startServer -t -w 500ms
 💀 🏁 Running 🍏 startServer readiness checker (Attempt 1 of infinite) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/task-envs
 💀    🔎 🍏 startServer          🔎 Waiting for port '3000'
 💀    🚀 🍏 startServer          Serving HTTP on 0.0.0.0 port 3000 (http://0.0.0.0:3000/) ...
+💀 🎉 Successfully running 🍏 startServer readiness checker (Attempt 1 of infinite)
 💀    🔎 🍏 startServer          🔎 Port '3000' is ready
 💀    🔎 🍏 startServer          🎉🎉🎉
-💀 🎉 Successfully running 🍏 startServer readiness checker (Attempt 1 of infinite)
-💀    🔎 🍏 startServer          📜 Task 'startServer' is ready
 💀 🔎 Job Running...
-         Elapsed Time: 10.122152676s
-         Current Time: 21:02:03
+         Elapsed Time: 11.0591277s
+         Current Time: 05:21:08
          Active Process:
-           * (PID=594) 🍏 startServer starter (Attempt 1 of 3)
+           * (PID=17804) 🍏 startServer starter (Attempt 1 of 3)
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
+💀    🔎 🍏 startServer          📜 Task 'startServer' is ready
 💀 🔥 Terminating
-💀 🔪 Kill 🍏 startServer starter (PID=594)
+💀 🔪 Kill 🍏 startServer starter (PID=17804)
 💀    🚀 🍏 startServer          
 💀    🚀 🍏 startServer          Keyboard interrupt received, exiting.
 💀    🚀 🍏 startServer          🎉🎉🎉
 💀    🚀 🍏 startServer          📜 Task 'startServer' is started
 💀 🎉 Successfully running 🍏 startServer starter (Attempt 1 of 3)
 💀 🔎 Job Ended...
-         Elapsed Time: 11.828361836s
-         Current Time: 21:02:05
+         Elapsed Time: 12.764707187s
+         Current Time: 05:21:09
 💀 🔥 🍏 startServer starter exited without any error message
 zaruba please startServer   -t -w 500ms
 ```````

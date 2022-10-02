@@ -29,6 +29,7 @@ def register_user_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
             raise HTTPException(status_code=500, detail='Internal Server Error')
         return UserResult.parse_obj(result)
 
+
     @app.get('/api/v1/users/{id}', response_model=User)
     def find_user_by_id(id: str, current_user: Optional[User] = Depends(auth_service.is_authorized('api:user:read'))) -> User:
         result = None
@@ -42,6 +43,7 @@ def register_user_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
         if result is None:
             raise HTTPException(status_code=404, detail='Not Found')
         return User.parse_obj(result)
+
 
     @app.post('/api/v1/users/', response_model=User)
     def insert_user(data: UserData, current_user: Optional[User] = Depends(auth_service.is_authorized('api:user:create'))) -> User:
@@ -57,6 +59,7 @@ def register_user_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
             raise HTTPException(status_code=404, detail='Not Found')
         return User.parse_obj(result)
 
+
     @app.put('/api/v1/users/{id}', response_model=User)
     def update_user(id: str, data: UserData, current_user: Optional[User] = Depends(auth_service.is_authorized('api:user:update'))) -> User:
         result = None
@@ -70,6 +73,7 @@ def register_user_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
         if result is None:
             raise HTTPException(status_code=404, detail='Not Found')
         return User.parse_obj(result)
+
 
     @app.delete('/api/v1/users/{id}')
     def delete_user(id: str, current_user: Optional[User] = Depends(auth_service.is_authorized('api:user:delete'))) -> User:

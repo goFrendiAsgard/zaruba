@@ -60,8 +60,8 @@ app = create_app(mb, rpc, page_template)
 if enable_auth_module:
     role_repo = DBRoleRepo(engine=engine, create_all=db_create_all)
     user_repo = DBUserRepo(engine=engine, create_all=db_create_all)
-    role_service = RoleService(role_repo)
-    user_service = DefaultUserService(user_repo, role_service, guest_username, root_permission=root_permission)
+    role_service = RoleService(mb, rpc, role_repo)
+    user_service = DefaultUserService(mb, rpc, user_repo, role_service, guest_username, root_permission=root_permission)
     if seed_root_user:
         user_seeder_service = UserSeederService(user_service)
         user_seeder_service.seed(UserData(

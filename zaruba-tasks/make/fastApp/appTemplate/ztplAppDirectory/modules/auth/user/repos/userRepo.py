@@ -6,11 +6,11 @@ import abc
 class UserRepo(abc.ABC):
 
     @abc.abstractmethod
-    def find_by_id(self, id: str) -> Optional[User]:
+    def find_by_id(self, id: str) -> Optional[UserWithoutPassword]:
         pass
 
     @abc.abstractmethod
-    def find_by_username(self, username: str) -> Optional[User]:
+    def find_by_username(self, username: str) -> Optional[UserWithoutPassword]:
         pass
 
     @abc.abstractmethod

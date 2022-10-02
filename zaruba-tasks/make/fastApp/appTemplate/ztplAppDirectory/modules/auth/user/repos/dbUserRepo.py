@@ -56,7 +56,7 @@ class DBUserRepo(UserRepo):
         user.role_ids = json.loads(db_result.json_role_ids)
         return user
 
-    def find_by_username(self, username: str) -> Optional[User]:
+    def find_by_username(self, username: str) -> Optional[UserWithoutPassword]:
         db = Session(self.engine)
         user: User
         try:
