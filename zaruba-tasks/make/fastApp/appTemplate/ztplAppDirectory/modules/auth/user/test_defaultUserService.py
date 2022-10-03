@@ -16,8 +16,13 @@ from sqlalchemy import create_engine
 def create_user_data():
     dummy_user_data = UserData(
         username='',
-        role_ids=[],
+        email='',
+        phone_number='',
         permissions=[],
+        role_ids=[],
+        active=True,
+        full_name='',
+        created_by=''
     )
     return dummy_user_data
 
@@ -26,6 +31,7 @@ def create_role_data():
     dummy_role_data = RoleData(
         name='',
         permissions=[],
+        created_by=''
     )
     return dummy_role_data
 
@@ -34,8 +40,8 @@ def create_role_data():
 # -- 🧪 Test
 ################################################
 
-def test_user_service():
-    engine = create_engine('sqlite://', echo=True)
+def test_user_service_crud():
+    engine = create_engine('sqlite://', echo=False)
     role_repo = DBRoleRepo(engine=engine, create_all=True)
     user_repo = DBUserRepo(engine=engine, create_all=True)
     mb = LocalMessageBus()
@@ -158,7 +164,7 @@ def test_user_service():
 
    
 def test_user_service_authorization():
-    engine = create_engine('sqlite://', echo=True)
+    engine = create_engine('sqlite://', echo=False)
     role_repo = DBRoleRepo(engine=engine, create_all=True)
     user_repo = DBUserRepo(engine=engine, create_all=True)
     mb = LocalMessageBus()

@@ -14,6 +14,7 @@ def create_role_data():
     dummy_role_data = RoleData(
         name='',
         permissions=[],
+        created_by=''
     )
     return dummy_role_data
 
@@ -22,8 +23,8 @@ def create_role_data():
 # -- 🧪 Test
 ################################################
 
-def test_role_service():
-    engine = create_engine('sqlite://', echo=True)
+def test_role_service_crud():
+    engine = create_engine('sqlite://', echo=False)
     role_repo = DBRoleRepo(engine=engine, create_all=True)
     mb = LocalMessageBus()
     rpc = LocalRPC()

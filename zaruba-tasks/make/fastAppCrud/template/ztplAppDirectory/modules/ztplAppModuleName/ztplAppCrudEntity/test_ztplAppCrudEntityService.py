@@ -12,6 +12,7 @@ from sqlalchemy import create_engine
 
 def create_ztpl_app_crud_entity_data():
     dummy_ztpl_app_crud_entity_data = ZtplAppCrudEntityData(
+        created_by=''
     )
     return dummy_ztpl_app_crud_entity_data
 
@@ -20,8 +21,8 @@ def create_ztpl_app_crud_entity_data():
 # -- 🧪 Test
 ################################################
 
-def test_ztpl_app_crud_entity_service():
-    engine = create_engine('sqlite://', echo=True)
+def test_ztpl_app_crud_entity_service_crud():
+    engine = create_engine('sqlite://', echo=False)
     ztpl_app_crud_entity_repo = DBZtplAppCrudEntityRepo(engine=engine, create_all=True)
     mb = LocalMessageBus()
     rpc = LocalRPC()

@@ -1,134 +1,154 @@
-from typing import Optional
-from modules.auth.user.userService import UserService
+from modules.auth.user.userService import DefaultUserService
+from modules.auth.role.roleService import RoleService
+from modules.auth.user.repos.dbUserRepo import DBUserRepo
+from modules.auth.role.repos.dbRoleRepo import DBRoleRepo
 from modules.auth.token.tokenService import JWTTokenService
-from schemas.user import User, UserData, UserWithoutPassword, UserResult
+from schemas.user import UserData, User
+from helpers.transport import LocalRPC, LocalMessageBus
+
+from sqlalchemy import create_engine
+
 
 ################################################
-# -- ⚙️ Mock data and objects
+# -- ⚙️ Helpers
 ################################################
 
-mock_non_existing_user = User(
-    id="mock_non_existing_user_id",
-    username='mock_non_existing_user',
-    email='',
-    phone_number='',
-    permissions=[],
-    role_ids=['mock_role_id'],
-    active=True,
-    full_name='',
-    created_by='mock_user_id'
-)
-
-mock_existing_user = User(
-    id="mock_existing_user_id",
-    username='mock_existing_user',
-    email='',
-    phone_number='',
-    permissions=[],
-    role_ids=['mock_role_id'],
-    active=True,
-    full_name='',
-    created_by='mock_user_id'
-)
-
-mock_guest_user = User(
-    id="mock_guest_user_id",
-    username="guest_username",
-    active=True
-)
+def create_user_data():
+    dummy_user_data = UserData(
+        username='',
+        email='',
+        password='',
+        phone_number='',
+        permissions=[],
+        role_ids=[],
+        active=True,
+        full_name='',
+        created_by=''
+    )
+    return dummy_user_data
 
 
-class MockUserService(UserService):
-    def __init__(self):
-        self.find_id: Optional[str] = None
-    
-    def get_guest(self):
-        return mock_guest_user
-    
-    def find(self, keyword: str, limit: int, offset: int) -> UserResult:
-        return UserResult(count=1, rows=[mock_existing_user])
-
-    def find_by_id(self, id: str) -> Optional[User]:
-        self.find_id = id
-        if id == mock_existing_user.id:
-            return mock_existing_user
-        return None
-
-    def find_by_username(self, username: str) -> Optional[UserWithoutPassword]:
-        return mock_existing_user
-
-    def find_by_identity_and_password(self, identity: str, password: str) -> Optional[User]:
-        return mock_existing_user
-
-    def insert(self, user_data: UserData) -> Optional[UserWithoutPassword]:
-        return mock_existing_user
-
-    def update(self, id: str, user_data: UserData) -> Optional[User]:
-        return mock_existing_user
-
-    def delete(self, id: str) -> Optional[User]:
-        return mock_existing_user
-
-    def is_authorized(self, user: User, permission: str) -> bool:
-        return True
+def create_user():
+    dummy_user = User(
+        username='',
+        email='',
+        password='',
+        phone_number='',
+        permissions=[],
+        role_ids=[],
+        active=True,
+        full_name='',
+        created_by='',
+        id=''
+    )
+    return dummy_user
 
 
 ################################################
 # -- 🧪 Test
 ################################################
 
-def test_jwt_token_service_get_user_by_token_empty():
-    mock_user_service = MockUserService()
-    token_service = JWTTokenService(mock_user_service, 'secret', 'HS256', 1800)
+def test_jwt_token_service_with_empty_token():
+    engine = create_engine('sqlite://', echo=False)
+    role_repo = DBRoleRepo(engine=engine, create_all=True)
+    user_repo = DBUserRepo(engine=engine, create_all=True)
+    mb = LocalMessageBus()
+    rpc = LocalRPC()
+    role_service = RoleService(mb, rpc, role_repo)
+    user_service = DefaultUserService(mb, rpc, user_repo, role_service, 'guest_username', 'root')
+    token_service = JWTTokenService(user_service, 'secret', 'HS256', 1800)
     user = token_service.get_user_by_token('')
     # make sure token service return correct value
     assert user is None
     
 
-def test_jwt_token_service_get_user_by_token_none():
-    mock_user_service = MockUserService()
-    token_service = JWTTokenService(mock_user_service, 'secret', 'HS256', 1800)
+def test_jwt_token_service_with_null_token():
+    engine = create_engine('sqlite://', echo=False)
+    role_repo = DBRoleRepo(engine=engine, create_all=True)
+    user_repo = DBUserRepo(engine=engine, create_all=True)
+    mb = LocalMessageBus()
+    rpc = LocalRPC()
+    role_service = RoleService(mb, rpc, role_repo)
+    user_service = DefaultUserService(mb, rpc, user_repo, role_service, 'guest_username', 'root')
+    token_service = JWTTokenService(user_service, 'secret', 'HS256', 1800)
     user = token_service.get_user_by_token(None)
     # make sure token service return correct value
     assert user is None
 
 
-def test_jwt_token_service_get_user_by_invalid_token():
-    mock_user_service = MockUserService()
-    token_service = JWTTokenService(mock_user_service, 'secret', 'HS256', 1800)
+def test_jwt_token_service_with_invalid_token():
+    engine = create_engine('sqlite://', echo=False)
+    role_repo = DBRoleRepo(engine=engine, create_all=True)
+    user_repo = DBUserRepo(engine=engine, create_all=True)
+    mb = LocalMessageBus()
+    rpc = LocalRPC()
+    role_service = RoleService(mb, rpc, role_repo)
+    user_service = DefaultUserService(mb, rpc, user_repo, role_service, 'guest_username', 'root')
+    token_service = JWTTokenService(user_service, 'secret', 'HS256', 1800)
     user = token_service.get_user_by_token('invalid token')
     # make sure token service return correct value
     assert user is None
 
 
-def test_jwt_token_service_get_user_by_token_with_existing_user():
-    mock_user_service = MockUserService()
-    token_service = JWTTokenService(mock_user_service, 'secret', 'HS256', 1800)
+def test_jwt_token_service_with_existing_user():
+    engine = create_engine('sqlite://', echo=False)
+    role_repo = DBRoleRepo(engine=engine, create_all=True)
+    user_repo = DBUserRepo(engine=engine, create_all=True)
+    mb = LocalMessageBus()
+    rpc = LocalRPC()
+    role_service = RoleService(mb, rpc, role_repo)
+    user_service = DefaultUserService(mb, rpc, user_repo, role_service, 'guest_username', 'root')
+    token_service = JWTTokenService(user_service, 'secret', 'HS256', 1800)
+    # Init existing user
+    root_user_data = create_user_data()
+    root_user_data.username = 'root'
+    root_user_data.email = 'root@innistrad.com'
+    root_user_data.phone_number = '+6213456781'
+    root_user_data.password = 'root'
+    root_user_data.permissions = ['root']
+    root_user = user_repo.insert(root_user_data)
     # Creating token
-    token = token_service.create_user_token(mock_existing_user)
+    token = token_service.create_user_token(root_user)
     # make sure token service return correct value
     assert token is not None
     assert token != ''
     # Get user
     user = token_service.get_user_by_token(token)
-    # make sure all parameters are passed to user service
-    assert mock_user_service.find_id == mock_existing_user.id
     # make sure token service return correct value
-    assert user == mock_existing_user
+    assert user == root_user
 
 
-def test_jwt_token_service_get_user_by_token_with_non_existing_user():
-    mock_user_service = MockUserService()
-    token_service = JWTTokenService(mock_user_service, 'secret', 'HS256', 1800)
+def test_jwt_token_service_with_non_existing_user():
+    engine = create_engine('sqlite://', echo=False)
+    role_repo = DBRoleRepo(engine=engine, create_all=True)
+    user_repo = DBUserRepo(engine=engine, create_all=True)
+    mb = LocalMessageBus()
+    rpc = LocalRPC()
+    role_service = RoleService(mb, rpc, role_repo)
+    user_service = DefaultUserService(mb, rpc, user_repo, role_service, 'guest_username', 'root')
+    token_service = JWTTokenService(user_service, 'secret', 'HS256', 1800)
+    # Init existing user
+    root_user_data = create_user_data()
+    root_user_data.username = 'root'
+    root_user_data.email = 'root@innistrad.com'
+    root_user_data.phone_number = '+6213456781'
+    root_user_data.password = 'root'
+    root_user_data.permissions = ['root']
+    root_user = user_repo.insert(root_user_data)
+    # Init non existing user
+    inexist_user = create_user()
+    inexist_user.id='inexist'
+    inexist_user.username = 'inexist'
+    inexist_user.email = 'inexist@innistrad.com'
+    inexist_user.phone_number = '+6213456784'
+    inexist_user.password = 'root'
     # Creating token
-    token = token_service.create_user_token(mock_non_existing_user)
+    token = token_service.create_user_token(inexist_user)
     # make sure token service return correct value
     assert token is not None
     assert token != ''
     # Get user
     user = token_service.get_user_by_token(token)
-    # make sure all parameters are passed to user service
-    assert mock_user_service.find_id == mock_non_existing_user.id
     # make sure token service return correct value
     assert user is None
 
