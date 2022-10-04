@@ -2,8 +2,9 @@ from typing import List, Optional
 from pydantic import BaseModel
 import datetime
 
+# Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
 class ZtplAppCrudEntityData(BaseModel):
-    created_at: Optional[datetime.datetime]
+    created_at: Optional[datetime.datetime] # Note: 💀 Don't delete this line, Zaruba use it for pattern matching
     created_by: Optional[str]
     updated_at: Optional[datetime.datetime]
     updated_by: Optional[str]

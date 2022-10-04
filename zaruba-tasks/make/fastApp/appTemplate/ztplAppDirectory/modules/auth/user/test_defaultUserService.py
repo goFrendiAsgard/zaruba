@@ -157,8 +157,8 @@ def test_user_service_crud():
     non_existing_user = user_service.delete('invalid_id')
     assert non_existing_user is None
 
-    # test find (after delete, correct keyword)
-    non_existing_result = user_service.find(keyword='updated', limit=10, offset=0)
+    # test find (after delete, no keyword)
+    non_existing_result = user_service.find(keyword='', limit=10, offset=0)
     assert non_existing_result.count == 0
     assert len(non_existing_result.rows) == 0
 

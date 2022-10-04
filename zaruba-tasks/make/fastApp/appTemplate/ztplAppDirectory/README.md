@@ -7,8 +7,22 @@ This application is created using [Zaruba](https://github.com/state-alchemists/z
 ```bash
 zaruba please initProject # or cd to your zaruba project
 zaruba please addFastApp appDirectory=ztplAppDirectory
+```
 
-# zaruba please start
+# 💀 Note
+
+Zaruba use pattern matching (aka: regex), so that it can add new route/modules/entities/fields to `ZtplAppDirectory`.
+
+To make sure the feature works as intended, please don't delete/edit any line __preceeded__ by this comment:
+
+```
+Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
+```
+
+or any line __containing__ this comment:
+
+```
+Note: 💀 Don't delete this line, Zaruba use it for pattern matching 
 ```
 
 # 🏁 How to start
@@ -69,11 +83,113 @@ source template.env
 pytest -rP -v --cov="$(pwd)" --cov-report html
 ```
 
+# 🧩 How to add a new module
+
+Module is a collection is code to handle specific business domain.
+
+To add a new module, you can invoke:
+
+```bash
+zaruba please addFastAppModule \
+    appDirectory=ztplAppDirectory \
+    appModuleName=yourModuleName
+# or:
+# zaruba please addFastAppModule -i
+```
+
+You can activate/deactivate a module by setting `ENABLE_YOUR_MODULE_NAME` to `1` or `0`
+
+# 📋 How to add a CRUD handler
+
+CRUD (Create Read Update Delete) is a common business logic.
+
+A single CRUD handler contains several:
+
+- API Route handlers
+- Frontend Pages
+- RPC handlers
+- Repository
+
+You can add a CRUD handler by invoking:
+
+```bash
+zaruba please addFastAppCrud \
+    appDirectory=ztplAppDirectory \
+    appModuleName=yourModuleName \
+    appCrudEntity=yourCrudEntity \
+    appCrudFields='["yourFirstField", "yourSecondField", "yourThirdField"]'
+# or:
+# zaruba please addFastAppCrud -i
+```
+
+Please note that Zaruba automatically add the following fields:
+
+- `id`
+- `created_at`
+- `created_by`
+- `updated_at`
+- `updated_by`
+
+So, you no longer have to specify those fields.
+
+# 📄 How to add a page
+
+You can add a new page by invoking:
+
+```bash
+zaruba please addFastAppPage \
+    appDirectory=ztplAppDirectory \
+    appModuleName=yourModuleName \
+    appHttpMethod=get \
+    appUrl=/your-end-point
+# or:
+# zaruba please addFastAppPage -i
+```
+
+# 🔗 How to add an API route handler
+
+You can add a new API route by invoking:
+
+```bash
+zaruba please addFastAppRouteHandler \
+    appDirectory=ztplAppDirectory \
+    appModuleName=yourModuleName \
+    appHttpMethod=get \
+    appUrl=/api/v1/your-end-point
+# or:
+# zaruba please addFastAppRouteHandler -i
+```
+
+# 🎫 How to add an event handler
+
+You can add an event handler by invoking:
+
+```bash
+zaruba please addFastAppEventHandler \
+    appDirectory=ztplAppDirectory \
+    appModuleName=yourModuleName \
+    appEventName=yourEventName
+# or:
+# zaruba please addFastAppEventHandler -i
+```
+
+# 🤙 How to add a RPC handler
+
+You can add a RPC handler by invoking:
+
+```bash
+zaruba please addFastAppRpcHandler \
+    appDirectory=ztplAppDirectory \
+    appModuleName=yourModuleName \
+    appRpcName=yourRPCFunctionName
+```
+
 # ☑️ Prerequisites
 
 - Python 3.9
 - Pip
 - Virtual env
+- (Optionally) [Zaruba](https://github.com/state-alchemists/zaruba)
 
 # 📖 Documentation
 

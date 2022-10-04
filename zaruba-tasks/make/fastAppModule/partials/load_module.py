@@ -3,6 +3,7 @@
 # -- 🧩 ZtplAppModuleName module
 ################################################
 enable_ztpl_app_module_name_module = os.getenv('APP_ENABLE_ZTPL_APP_MODULE_NAME_MODULE', '1') != '0'
+# Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
 if enable_ztpl_app_module_name_module:
     # API route
     if enable_route_handler and enable_api:
@@ -15,4 +16,5 @@ if enable_ztpl_app_module_name_module:
         register_ztpl_app_module_name_event_handler(mb, rpc)
     # serve RPC
     if enable_rpc_handler:
+        # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
         register_ztpl_app_module_name_rpc_handler(mb, rpc)

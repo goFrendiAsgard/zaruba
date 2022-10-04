@@ -11,6 +11,7 @@ from sqlalchemy import create_engine
 ################################################
 
 def create_ztpl_app_crud_entity_data():
+    # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
     dummy_ztpl_app_crud_entity_data = ZtplAppCrudEntityData(
         created_by=''
     )
@@ -100,8 +101,8 @@ def test_ztpl_app_crud_entity_service_crud():
     non_existing_ztpl_app_crud_entity = ztpl_app_crud_entity_service.delete('invalid_id')
     assert non_existing_ztpl_app_crud_entity is None
 
-    # test find (after delete, correct keyword)
-    non_existing_result = ztpl_app_crud_entity_service.find(keyword='updated', limit=10, offset=0)
+    # test find (after delete, no keyword)
+    non_existing_result = ztpl_app_crud_entity_service.find(keyword='', limit=10, offset=0)
     assert non_existing_result.count == 0
     assert len(non_existing_result.rows) == 0
     

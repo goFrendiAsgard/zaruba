@@ -3,11 +3,11 @@
 # Motivation and architecture
 <!--endTocHeader-->
 
-Building a system is like building a town. First, you start with some basic requirements. Over time, your requirements grow and so does your software.
+Building a system is like building a town. First, you start with some basic requirements. But, over time, your requirements grow and so does your system.
 
 A monolith architecture is your best option if you are getting started. Monolith is easy to maintain/develop. Even though it won't scale very well.
 
-You can think about microservices when you need to scale some features independently.
+You can start considering microservices when you need to scale some features independently.
 
 It is always better to __start with a monolith__ and __refactor to microservices__ later.
 
@@ -25,7 +25,7 @@ Let's see the following scenarios, and see what we can do in each phase:
 
 - __You need different technologies/programming languages for your services.__ Python is a good general-purpose programming language. But it is not your best choice when you need to take concurrency into account. In this case, you can write some of your services in other programming languages. Make sure the new service will handle all necessary events and RPC calls.
 
-`ZtplAppDirectory` is a microservices-ready monolith. It has `LocalMessageBus` and `LocalRPC` for inter-module communication. Later, when your modules turn into microservices, you can switch into `RMQMessageBus` or `RMQRPC`. You can achieve this by changing the configuration, without touching the code.
+Now let's dive into the architecture, so that you can get a better picture why `ztplAppDirectory` is probably a good solution to your use case.
 
 # Microservices vs Monolith
 

@@ -20,7 +20,7 @@ _LINES="$("${ZARUBA_BIN}" lines read "${_UI_COMPONENT_FILE_LOCATION}")"
 # FORM_INPUT
 
 _IS_PATTERN_FOUND=1
-_PATTERN="<!-- Put form input here -->"
+_PATTERN="<!-- Put form input here"
 _FORM_INPUT_INDEX="$("${ZARUBA_BIN}" lines getIndex "${_LINES}" "${_PATTERN}")"
 if [ "${_FORM_INPUT_INDEX}" = "-1" ]
 then
@@ -51,7 +51,7 @@ fi
 # COLUMN HEADER
 
 _IS_PATTERN_FOUND=1
-_PATTERN="<!-- Put column header here -->"
+_PATTERN="<!-- Put column header here"
 _COLUMN_HEADER_INDEX="$("${ZARUBA_BIN}" lines getIndex "${_LINES}" "${_PATTERN}")"
 if [ "${_COLUMN_HEADER_INDEX}" = "-1" ]
 then
@@ -81,7 +81,7 @@ fi
 # COLUMN VALUE
 
 _IS_PATTERN_FOUND=1
-_PATTERN="<!-- Put column value here -->"
+_PATTERN="<!-- Put column value here"
 _COLUMN_VALUE_INDEX="$("${ZARUBA_BIN}" lines getIndex "${_LINES}" "${_PATTERN}")"
 if [ "${_COLUMN_VALUE_INDEX}" = "-1" ]
 then
