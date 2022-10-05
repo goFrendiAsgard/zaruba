@@ -29,7 +29,7 @@ def init_test_ztpl_app_crud_entity_components() -> Tuple[ZtplAppCrudEntityServic
 
 def insert_ztpl_app_crud_entity_data(ztpl_app_crud_entity_repo: DBZtplAppCrudEntityRepo, index: Optional[int] = None) -> ZtplAppCrudEntity:
     ztpl_app_crud_entity_data = create_ztpl_app_crud_entity_data()
-    ztpl_app_crud_entity_data.ztplAppCrudFirstField = 'original' if index is None else 'original-{index}'.format(index=index)
+    ztpl_app_crud_entity_data.ztplAppCrudFirstField = 'ztplAppCrudEntity' if index is None else 'ztplAppCrudEntity-{index}'.format(index=index)
     ztpl_app_crud_entity_data.created_by = 'original_user'
     ztpl_app_crud_entity_data.updated_by = 'original_user'
     return ztpl_app_crud_entity_repo.insert(ztpl_app_crud_entity_data)
@@ -47,7 +47,7 @@ def test_ztpl_app_crud_entity_service_crud_find_by_id_existing():
     fetched_ztpl_app_crud_entity = ztpl_app_crud_entity_service.find_by_id(existing_ztpl_app_crud_entity.id)
     assert fetched_ztpl_app_crud_entity is not None
     assert fetched_ztpl_app_crud_entity.id == existing_ztpl_app_crud_entity.id
-    assert fetched_ztpl_app_crud_entity.ztplAppCrudFirstField == 'original'
+    assert fetched_ztpl_app_crud_entity.ztplAppCrudFirstField == 'ztplAppCrudEntity'
     assert fetched_ztpl_app_crud_entity.created_by == 'original_user'
     assert fetched_ztpl_app_crud_entity.updated_by == 'original_user'
 
@@ -66,12 +66,12 @@ def test_ztpl_app_crud_entity_service_crud_find_existing():
     # prepare repo
     existing_ztpl_app_crud_entity = insert_ztpl_app_crud_entity_data(ztpl_app_crud_entity_repo)
     # test find (existing)
-    fetched_ztpl_app_crud_entity_result = ztpl_app_crud_entity_service.find(keyword='original', limit=100, offset=0)
+    fetched_ztpl_app_crud_entity_result = ztpl_app_crud_entity_service.find(keyword='ztplAppCrudEntity', limit=100, offset=0)
     assert fetched_ztpl_app_crud_entity_result.count == 1
     fetched_ztpl_app_crud_entity = fetched_ztpl_app_crud_entity_result.rows[0]
     assert fetched_ztpl_app_crud_entity is not None
     assert fetched_ztpl_app_crud_entity.id == existing_ztpl_app_crud_entity.id
-    assert fetched_ztpl_app_crud_entity.ztplAppCrudFirstField == 'original'
+    assert fetched_ztpl_app_crud_entity.ztplAppCrudFirstField == 'ztplAppCrudEntity'
     assert fetched_ztpl_app_crud_entity.created_by == 'original_user'
     assert fetched_ztpl_app_crud_entity.updated_by == 'original_user'
 
@@ -91,15 +91,15 @@ def test_ztpl_app_crud_entity_service_crud_find_pagination():
     for index in range(7):
         insert_ztpl_app_crud_entity_data(ztpl_app_crud_entity_repo, index)
     # test find (page 1)
-    fetched_ztpl_app_crud_entity_result = ztpl_app_crud_entity_service.find(keyword='original', limit=3, offset=0)
+    fetched_ztpl_app_crud_entity_result = ztpl_app_crud_entity_service.find(keyword='ztplAppCrudEntity', limit=3, offset=0)
     assert len(fetched_ztpl_app_crud_entity_result.rows) == 3
     assert fetched_ztpl_app_crud_entity_result.count == 7
     # test find (page 2)
-    fetched_ztpl_app_crud_entity_result = ztpl_app_crud_entity_service.find(keyword='original', limit=3, offset=3)
+    fetched_ztpl_app_crud_entity_result = ztpl_app_crud_entity_service.find(keyword='ztplAppCrudEntity', limit=3, offset=3)
     assert len(fetched_ztpl_app_crud_entity_result.rows) == 3
     assert fetched_ztpl_app_crud_entity_result.count == 7
     # test find (page 3)
-    fetched_ztpl_app_crud_entity_result = ztpl_app_crud_entity_service.find(keyword='original', limit=3, offset=6)
+    fetched_ztpl_app_crud_entity_result = ztpl_app_crud_entity_service.find(keyword='ztplAppCrudEntity', limit=3, offset=6)
     assert len(fetched_ztpl_app_crud_entity_result.rows) == 1
     assert fetched_ztpl_app_crud_entity_result.count == 7
 
@@ -108,14 +108,14 @@ def test_ztpl_app_crud_entity_service_crud_insert():
     ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_components()
     # prepare insert
     inserted_ztpl_app_crud_entity_data = create_ztpl_app_crud_entity_data()
-    inserted_ztpl_app_crud_entity_data.ztplAppCrudFirstField = 'original'
+    inserted_ztpl_app_crud_entity_data.ztplAppCrudFirstField = 'ztplAppCrudEntity'
     inserted_ztpl_app_crud_entity_data.created_by = 'original_user'
     inserted_ztpl_app_crud_entity_data.updated_by = 'original_user'
     # test insert
     inserted_ztpl_app_crud_entity = ztpl_app_crud_entity_service.insert(inserted_ztpl_app_crud_entity_data)
     assert inserted_ztpl_app_crud_entity is not None
     assert inserted_ztpl_app_crud_entity.id != '' 
-    assert inserted_ztpl_app_crud_entity.ztplAppCrudFirstField == 'original'
+    assert inserted_ztpl_app_crud_entity.ztplAppCrudFirstField == 'ztplAppCrudEntity'
     assert inserted_ztpl_app_crud_entity.created_by == 'original_user'
     assert inserted_ztpl_app_crud_entity.updated_by == 'original_user'
     assert ztpl_app_crud_entity_repo.count(keyword='') == 1
@@ -159,7 +159,7 @@ def test_ztpl_app_crud_entity_service_crud_delete_existing():
     deleted_ztpl_app_crud_entity = ztpl_app_crud_entity_service.delete(existing_ztpl_app_crud_entity.id)
     assert deleted_ztpl_app_crud_entity is not None
     assert deleted_ztpl_app_crud_entity.id == existing_ztpl_app_crud_entity.id
-    assert deleted_ztpl_app_crud_entity.ztplAppCrudFirstField == 'original'
+    assert deleted_ztpl_app_crud_entity.ztplAppCrudFirstField == 'ztplAppCrudEntity'
     assert deleted_ztpl_app_crud_entity.created_by == 'original_user'
     assert deleted_ztpl_app_crud_entity.updated_by == 'original_user'
     assert ztpl_app_crud_entity_repo.count(keyword='') == 0

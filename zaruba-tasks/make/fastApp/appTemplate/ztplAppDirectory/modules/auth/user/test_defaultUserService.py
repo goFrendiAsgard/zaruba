@@ -50,7 +50,7 @@ def init_test_user_components() -> Tuple[DefaultUserService, RoleService, DBUser
 
 def insert_role_data(role_repo: DBRoleRepo, index: Optional[int] = None, permissions: List[str] = []) -> Role:
     role_data = create_role_data()
-    role_data.name = 'original' if index is None else 'original-{index}'.format(index=index)
+    role_data.name = 'role' if index is None else 'role-{index}'.format(index=index)
     role_data.permissions=permissions,
     role_data.created_by = 'original_user'
     role_data.updated_by = 'original_user'
@@ -59,7 +59,7 @@ def insert_role_data(role_repo: DBRoleRepo, index: Optional[int] = None, permiss
 
 def insert_user_data(user_repo: DBUserRepo, index: Optional[int] = None, permissions: List[str] = [], role_ids: List[str] = [], password: str = '', active: bool = True) -> User:
     user_data = create_user_data()
-    user_data.username = 'original' if index is None else 'original-{index}'.format(index=index)
+    user_data.username = 'user' if index is None else 'user-{index}'.format(index=index)
     user_data.email = '{username}@innistrad.com'.format(user_data.username),
     user_data.password = password,
     user_data.phone_number = '+628123456789{index}' if index is None else '+6281234567890'.format(index=index),
@@ -90,7 +90,7 @@ def test_user_service_crud():
 
     # prepare insert
     inserted_user_data = create_user_data()
-    inserted_user_data.username = 'original'
+    inserted_user_data.username = 'user'
     inserted_user_data.password = 'original_password'
     inserted_user_data.created_by = 'original_user'
     inserted_user_data.updated_by = 'original_user'
@@ -98,7 +98,7 @@ def test_user_service_crud():
     inserted_user = user_service.insert(inserted_user_data)
     assert inserted_user is not None
     assert inserted_user.id != '' 
-    assert inserted_user.username == 'original'
+    assert inserted_user.username == 'user'
     assert inserted_user.created_by == 'original_user'
     assert inserted_user.updated_by == 'original_user'
 
@@ -111,7 +111,7 @@ def test_user_service_crud():
     assert existing_user.updated_by == inserted_user.updated_by
 
     # test find by username (existing, after insert)
-    existing_user = user_service.find_by_username('original')
+    existing_user = user_service.find_by_username('user')
     assert existing_user is not None
     assert existing_user.id == inserted_user.id
     assert existing_user.username == inserted_user.username
@@ -119,7 +119,7 @@ def test_user_service_crud():
     assert existing_user.updated_by == inserted_user.updated_by
 
     # test find by identity and password (existing, after insert)
-    existing_user = user_service.find_by_identity_and_password('original', 'original_password')
+    existing_user = user_service.find_by_identity_and_password('user', 'original_password')
     assert existing_user is not None
     assert existing_user.id == inserted_user.id
     assert existing_user.username == inserted_user.username
@@ -135,7 +135,7 @@ def test_user_service_crud():
     assert non_existing_user is None
 
     # test find by identity and password (existing, invalid password)
-    non_existing_user = user_service.find_by_identity_and_password('original', 'invalid_password')
+    non_existing_user = user_service.find_by_identity_and_password('user', 'invalid_password')
     assert non_existing_user is None
 
     # test find by identity and password (non existing)
