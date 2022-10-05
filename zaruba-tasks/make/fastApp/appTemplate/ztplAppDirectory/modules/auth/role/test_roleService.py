@@ -10,7 +10,6 @@ from sqlalchemy import create_engine
 # -- ⚙️ Helpers
 ################################################
 
-
 def create_role_data():
     # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
     dummy_role_data = RoleData(
@@ -31,11 +30,11 @@ def init_test_role_components() -> Tuple[RoleService, DBRoleRepo, LocalMessageBu
 
 
 def insert_role_data(role_repo: DBRoleRepo, index: Optional[int] = None) -> Role:
-    existing_role_data = create_role_data()
-    existing_role_data.name = 'original' if index is None else 'original-{index}'.format(index=index)
-    existing_role_data.created_by = 'original_user'
-    existing_role_data.updated_by = 'original_user'
-    return role_repo.insert(existing_role_data)
+    role_data = create_role_data()
+    role_data.name = 'original' if index is None else 'original-{index}'.format(index=index)
+    role_data.created_by = 'original_user'
+    role_data.updated_by = 'original_user'
+    return role_repo.insert(role_data)
 
 
 ################################################

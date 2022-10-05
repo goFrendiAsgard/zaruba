@@ -28,11 +28,11 @@ def init_test_ztpl_app_crud_entity_components() -> Tuple[ZtplAppCrudEntityServic
 
 
 def insert_ztpl_app_crud_entity_data(ztpl_app_crud_entity_repo: DBZtplAppCrudEntityRepo, index: Optional[int] = None) -> ZtplAppCrudEntity:
-    existing_ztpl_app_crud_entity_data = create_ztpl_app_crud_entity_data()
-    existing_ztpl_app_crud_entity_data.ztplAppCrudFirstField = 'original' if index is None else 'original-{index}'.format(index=index)
-    existing_ztpl_app_crud_entity_data.created_by = 'original_user'
-    existing_ztpl_app_crud_entity_data.updated_by = 'original_user'
-    return ztpl_app_crud_entity_repo.insert(existing_ztpl_app_crud_entity_data)
+    ztpl_app_crud_entity_data = create_ztpl_app_crud_entity_data()
+    ztpl_app_crud_entity_data.ztplAppCrudFirstField = 'original' if index is None else 'original-{index}'.format(index=index)
+    ztpl_app_crud_entity_data.created_by = 'original_user'
+    ztpl_app_crud_entity_data.updated_by = 'original_user'
+    return ztpl_app_crud_entity_repo.insert(ztpl_app_crud_entity_data)
 
 
 ################################################
