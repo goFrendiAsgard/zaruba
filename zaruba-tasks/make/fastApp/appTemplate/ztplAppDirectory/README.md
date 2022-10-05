@@ -11,7 +11,7 @@ zaruba please addFastApp appDirectory=ztplAppDirectory
 
 # 💀 Note
 
-Zaruba use pattern matching (aka: regex), so that it can add new route/modules/entities/fields to `ZtplAppDirectory`.
+Zaruba uses pattern matching (aka regex) so that it can add new routes/modules/entities/fields to `ZtplAppDirectory`.
 
 To make sure the feature works as intended, please don't delete/edit any line __preceeded__ by this comment:
 
@@ -85,7 +85,7 @@ pytest -rP -v --cov="$(pwd)" --cov-report html
 
 # 🧩 How to add a new module
 
-Module is a collection is code to handle specific business domain.
+A module is a collection of code to handle a specific business domain.
 
 To add a new module, you can invoke:
 
@@ -101,7 +101,7 @@ You can activate/deactivate a module by setting `ENABLE_YOUR_MODULE_NAME` to `1`
 
 # 📋 How to add a CRUD handler
 
-CRUD (Create Read Update Delete) is a common business logic.
+CRUD (Create Read Update Delete) is common business logic.
 
 A single CRUD handler contains several:
 
@@ -122,7 +122,7 @@ zaruba please addFastAppCrud \
 # zaruba please addFastAppCrud -i
 ```
 
-Please note that Zaruba automatically add the following fields:
+Please note that Zaruba automatically adds the following fields:
 
 - `id`
 - `created_at`
@@ -173,9 +173,9 @@ zaruba please addFastAppEventHandler \
 # zaruba please addFastAppEventHandler -i
 ```
 
-# 🤙 How to add a RPC handler
+# 🤙 How to add an RPC handler
 
-You can add a RPC handler by invoking:
+You can add an RPC handler by invoking:
 
 ```bash
 zaruba please addFastAppRpcHandler \

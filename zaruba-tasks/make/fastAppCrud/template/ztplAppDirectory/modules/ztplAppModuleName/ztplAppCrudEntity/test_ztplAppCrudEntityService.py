@@ -1,7 +1,7 @@
-from typing import Optional, List
+from typing import Optional, Tuple
 from modules.ztplAppModuleName.ztplAppCrudEntity.ztplAppCrudEntityService import ZtplAppCrudEntityService
 from modules.ztplAppModuleName.ztplAppCrudEntity.repos.dbZtplAppCrudEntityRepo import DBZtplAppCrudEntityRepo
-from schemas.ztplAppCrudEntity import ZtplAppCrudEntityData, ZtplAppCrudEntityData
+from schemas.ztplAppCrudEntity import ZtplAppCrudEntity, ZtplAppCrudEntityData
 from helpers.transport import LocalRPC, LocalMessageBus
 
 from sqlalchemy import create_engine
@@ -18,17 +18,94 @@ def create_ztpl_app_crud_entity_data():
     return dummy_ztpl_app_crud_entity_data
 
 
-################################################
-# -- 🧪 Test
-################################################
-
-def test_ztpl_app_crud_entity_service_crud():
+def init_test_ztpl_app_crud_entity_components() -> Tuple[ZtplAppCrudEntityService, DBZtplAppCrudEntityRepo, LocalMessageBus, LocalRPC]:
     engine = create_engine('sqlite://', echo=False)
     ztpl_app_crud_entity_repo = DBZtplAppCrudEntityRepo(engine=engine, create_all=True)
     mb = LocalMessageBus()
     rpc = LocalRPC()
     ztpl_app_crud_entity_service = ZtplAppCrudEntityService(mb, rpc, ztpl_app_crud_entity_repo)
+    return ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, mb, rpc
 
+
+def insert_ztpl_app_crud_entity_data(ztpl_app_crud_entity_repo: DBZtplAppCrudEntityRepo, index: Optional[int] = None) -> ZtplAppCrudEntity:
+    existing_ztpl_app_crud_entity_data = create_ztpl_app_crud_entity_data()
+    existing_ztpl_app_crud_entity_data.ztplAppCrudFirstField = 'original' if index is None else 'original-{index}'.format(index=index)
+    existing_ztpl_app_crud_entity_data.created_by = 'original_user'
+    existing_ztpl_app_crud_entity_data.updated_by = 'original_user'
+    return ztpl_app_crud_entity_repo.insert(existing_ztpl_app_crud_entity_data)
+
+
+################################################
+# -- 🧪 Test
+################################################
+
+def test_ztpl_app_crud_entity_service_crud_find_by_id_existing():
+    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_components()
+    # prepare repo
+    existing_ztpl_app_crud_entity = insert_ztpl_app_crud_entity_data(ztpl_app_crud_entity_repo)
+    # test find by id (existing)
+    fetched_ztpl_app_crud_entity = ztpl_app_crud_entity_service.find_by_id(existing_ztpl_app_crud_entity.id)
+    assert fetched_ztpl_app_crud_entity is not None
+    assert fetched_ztpl_app_crud_entity.id == existing_ztpl_app_crud_entity.id
+    assert fetched_ztpl_app_crud_entity.ztplAppCrudFirstField == 'original'
+    assert fetched_ztpl_app_crud_entity.created_by == 'original_user'
+    assert fetched_ztpl_app_crud_entity.updated_by == 'original_user'
+
+
+def test_ztpl_app_crud_entity_service_crud_find_by_id_non_existing():
+    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_components()
+    # prepare repo
+    insert_ztpl_app_crud_entity_data(ztpl_app_crud_entity_repo)
+    # test find by id (non existing)
+    non_existing_ztpl_app_crud_entity = ztpl_app_crud_entity_service.find_by_id('invalid-id')
+    assert non_existing_ztpl_app_crud_entity is None
+
+
+def test_ztpl_app_crud_entity_service_crud_find_existing():
+    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_components()
+    # prepare repo
+    existing_ztpl_app_crud_entity = insert_ztpl_app_crud_entity_data(ztpl_app_crud_entity_repo)
+    # test find (existing)
+    fetched_ztpl_app_crud_entity_result = ztpl_app_crud_entity_service.find(keyword='original', limit=100, offset=0)
+    assert fetched_ztpl_app_crud_entity_result.count == 1
+    fetched_ztpl_app_crud_entity = fetched_ztpl_app_crud_entity_result.rows[0]
+    assert fetched_ztpl_app_crud_entity is not None
+    assert fetched_ztpl_app_crud_entity.id == existing_ztpl_app_crud_entity.id
+    assert fetched_ztpl_app_crud_entity.ztplAppCrudFirstField == 'original'
+    assert fetched_ztpl_app_crud_entity.created_by == 'original_user'
+    assert fetched_ztpl_app_crud_entity.updated_by == 'original_user'
+
+
+def test_ztpl_app_crud_entity_service_crud_find_non_existing():
+    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_components()
+    # prepare repo
+    insert_ztpl_app_crud_entity_data(ztpl_app_crud_entity_repo)
+    # test find (non existing)
+    non_existing_ztpl_app_crud_entity_result = ztpl_app_crud_entity_service.find(keyword='invalid-keyword', limit=100, offset=0)
+    assert non_existing_ztpl_app_crud_entity_result.count == 0
+
+
+def test_ztpl_app_crud_entity_service_crud_find_pagination():
+    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_components()
+    # prepare repo
+    for index in range(7):
+        insert_ztpl_app_crud_entity_data(ztpl_app_crud_entity_repo, index)
+    # test find (page 1)
+    fetched_ztpl_app_crud_entity_result = ztpl_app_crud_entity_service.find(keyword='original', limit=3, offset=0)
+    assert len(fetched_ztpl_app_crud_entity_result.rows) == 3
+    assert fetched_ztpl_app_crud_entity_result.count == 7
+    # test find (page 2)
+    fetched_ztpl_app_crud_entity_result = ztpl_app_crud_entity_service.find(keyword='original', limit=3, offset=3)
+    assert len(fetched_ztpl_app_crud_entity_result.rows) == 3
+    assert fetched_ztpl_app_crud_entity_result.count == 7
+    # test find (page 3)
+    fetched_ztpl_app_crud_entity_result = ztpl_app_crud_entity_service.find(keyword='original', limit=3, offset=6)
+    assert len(fetched_ztpl_app_crud_entity_result.rows) == 1
+    assert fetched_ztpl_app_crud_entity_result.count == 7
+
+
+def test_ztpl_app_crud_entity_service_crud_insert():
+    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_components()
     # prepare insert
     inserted_ztpl_app_crud_entity_data = create_ztpl_app_crud_entity_data()
     inserted_ztpl_app_crud_entity_data.ztplAppCrudFirstField = 'original'
@@ -41,68 +118,58 @@ def test_ztpl_app_crud_entity_service_crud():
     assert inserted_ztpl_app_crud_entity.ztplAppCrudFirstField == 'original'
     assert inserted_ztpl_app_crud_entity.created_by == 'original_user'
     assert inserted_ztpl_app_crud_entity.updated_by == 'original_user'
+    assert ztpl_app_crud_entity_repo.count(keyword='') == 1
 
-    # test find by id (existing, after insert)
-    existing_ztpl_app_crud_entity = ztpl_app_crud_entity_service.find_by_id(inserted_ztpl_app_crud_entity.id)
-    assert existing_ztpl_app_crud_entity is not None
-    assert existing_ztpl_app_crud_entity.id == inserted_ztpl_app_crud_entity.id
-    assert existing_ztpl_app_crud_entity.ztplAppCrudFirstField == inserted_ztpl_app_crud_entity.ztplAppCrudFirstField
-    assert existing_ztpl_app_crud_entity.created_by == inserted_ztpl_app_crud_entity.created_by
-    assert existing_ztpl_app_crud_entity.updated_by == inserted_ztpl_app_crud_entity.updated_by
 
-    # test find by id (non existing)
-    non_existing_ztpl_app_crud_entity = ztpl_app_crud_entity_service.find_by_id('invalid_id')
-    assert non_existing_ztpl_app_crud_entity is None
-
-    # prepare update (existing)
+def test_ztpl_app_crud_entity_service_crud_update_existing():
+    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_components()
+    # prepare repo
+    existing_ztpl_app_crud_entity = insert_ztpl_app_crud_entity_data(ztpl_app_crud_entity_repo)
+    # test update (existing)
     updated_ztpl_app_crud_entity_data = create_ztpl_app_crud_entity_data()
     updated_ztpl_app_crud_entity_data.ztplAppCrudFirstField = 'updated'
     updated_ztpl_app_crud_entity_data.updated_by = 'editor'
-    # test update (existing)
-    updated_ztpl_app_crud_entity = ztpl_app_crud_entity_service.update(inserted_ztpl_app_crud_entity.id, updated_ztpl_app_crud_entity_data)
+    updated_ztpl_app_crud_entity = ztpl_app_crud_entity_service.update(existing_ztpl_app_crud_entity.id, updated_ztpl_app_crud_entity_data)
     assert updated_ztpl_app_crud_entity is not None
-    assert updated_ztpl_app_crud_entity.id == inserted_ztpl_app_crud_entity.id
+    assert updated_ztpl_app_crud_entity.id == existing_ztpl_app_crud_entity.id
     assert updated_ztpl_app_crud_entity.ztplAppCrudFirstField == 'updated'
     assert updated_ztpl_app_crud_entity.created_by == 'original_user'
     assert updated_ztpl_app_crud_entity.updated_by == 'editor'
+    assert ztpl_app_crud_entity_repo.count(keyword='') == 1
 
+
+def test_ztpl_app_crud_entity_service_crud_update_non_existing():
+    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_components()
+    # prepare repo
+    insert_ztpl_app_crud_entity_data(ztpl_app_crud_entity_repo)
     # test update (non existing)
-    non_existing_ztpl_app_crud_entity = ztpl_app_crud_entity_service.update('invalid_id', updated_ztpl_app_crud_entity_data)
-    assert non_existing_ztpl_app_crud_entity is None
+    updated_ztpl_app_crud_entity_data = create_ztpl_app_crud_entity_data()
+    updated_ztpl_app_crud_entity_data.ztplAppCrudFirstField = 'updated'
+    updated_ztpl_app_crud_entity_data.updated_by = 'editor'
+    updated_ztpl_app_crud_entity = ztpl_app_crud_entity_service.update('invalid-id', updated_ztpl_app_crud_entity_data)
+    assert updated_ztpl_app_crud_entity == None
+    assert ztpl_app_crud_entity_repo.count(keyword='') == 1
 
-    # test find by id (existing, after insert)
-    existing_ztpl_app_crud_entity = ztpl_app_crud_entity_service.find_by_id(updated_ztpl_app_crud_entity.id)
-    assert existing_ztpl_app_crud_entity is not None
-    assert existing_ztpl_app_crud_entity.id == inserted_ztpl_app_crud_entity.id
-    assert existing_ztpl_app_crud_entity.ztplAppCrudFirstField == 'updated'
-    assert existing_ztpl_app_crud_entity.created_by == 'original_user'
-    assert existing_ztpl_app_crud_entity.updated_by == 'editor'
 
-    # test find (before delete, correct keyword)
-    existing_result = ztpl_app_crud_entity_service.find(keyword='updated', limit=10, offset=0)
-    assert existing_result.count == 1
-    assert len(existing_result.rows) == 1
-    assert existing_result.rows[0].id == inserted_ztpl_app_crud_entity.id
-
-    # test find (before delete, incorrect keyword)
-    non_existing_result = ztpl_app_crud_entity_service.find(keyword='incorrect', limit=10, offset=0)
-    assert non_existing_result.count == 0
-    assert len(non_existing_result.rows) == 0
-
-    # test delete existing
-    deleted_ztpl_app_crud_entity = ztpl_app_crud_entity_service.delete(inserted_ztpl_app_crud_entity.id)
+def test_ztpl_app_crud_entity_service_crud_delete_existing():
+    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_components()
+    # prepare repo
+    existing_ztpl_app_crud_entity = insert_ztpl_app_crud_entity_data(ztpl_app_crud_entity_repo)
+    # test find by id (existing)
+    deleted_ztpl_app_crud_entity = ztpl_app_crud_entity_service.delete(existing_ztpl_app_crud_entity.id)
     assert deleted_ztpl_app_crud_entity is not None
-    assert deleted_ztpl_app_crud_entity.id == inserted_ztpl_app_crud_entity.id
-    assert deleted_ztpl_app_crud_entity.ztplAppCrudFirstField == 'updated'
+    assert deleted_ztpl_app_crud_entity.id == existing_ztpl_app_crud_entity.id
+    assert deleted_ztpl_app_crud_entity.ztplAppCrudFirstField == 'original'
     assert deleted_ztpl_app_crud_entity.created_by == 'original_user'
-    assert deleted_ztpl_app_crud_entity.updated_by == 'editor'
+    assert deleted_ztpl_app_crud_entity.updated_by == 'original_user'
+    assert ztpl_app_crud_entity_repo.count(keyword='') == 0
 
-    # test delete (non existing)
-    non_existing_ztpl_app_crud_entity = ztpl_app_crud_entity_service.delete('invalid_id')
-    assert non_existing_ztpl_app_crud_entity is None
 
-    # test find (after delete, no keyword)
-    non_existing_result = ztpl_app_crud_entity_service.find(keyword='', limit=10, offset=0)
-    assert non_existing_result.count == 0
-    assert len(non_existing_result.rows) == 0
-    
+def test_ztpl_app_crud_entity_service_crud_delete_non_existing():
+    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_components()
+    # prepare repo
+    insert_ztpl_app_crud_entity_data(ztpl_app_crud_entity_repo)
+    # test find by id (non existing)
+    deleted_ztpl_app_crud_entity = ztpl_app_crud_entity_service.delete('invalid-id')
+    assert deleted_ztpl_app_crud_entity is None
+    assert ztpl_app_crud_entity_repo.count(keyword='') == 1
