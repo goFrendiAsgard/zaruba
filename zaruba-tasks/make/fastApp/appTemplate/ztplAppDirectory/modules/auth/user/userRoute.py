@@ -96,7 +96,7 @@ def register_user_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
 def register_user_ui_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service: MenuService, page_template: Jinja2Templates):
 
     @app.get('/auth/users', response_class=HTMLResponse)
-    async def user_interface(request: Request, context: MenuContext = Depends(menu_service.authenticate('auth:users'))):
+    async def user_interface(request: Request, context: MenuContext = Depends(menu_service.is_authorized('auth:users'))):
         return page_template.TemplateResponse('default_crud.html', context={
             'api_path': '/api/vi/users',
             'content_path': 'auth/crud/users.html',

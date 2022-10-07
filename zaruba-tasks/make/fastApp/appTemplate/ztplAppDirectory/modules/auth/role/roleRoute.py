@@ -97,7 +97,7 @@ def register_role_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
 def register_role_ui_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service: MenuService, page_template: Jinja2Templates):
 
     @app.get('/auth/roles', response_class=HTMLResponse)
-    async def user_interface(request: Request, context: MenuContext = Depends(menu_service.authenticate('auth:roles'))):
+    async def user_interface(request: Request, context: MenuContext = Depends(menu_service.is_authorized('auth:roles'))):
         return page_template.TemplateResponse('default_crud.html', context={
             'api_path': '/api/vi/roles',
             'content_path': 'auth/crud/roles.html',

@@ -1,6 +1,6 @@
 
 @app.get('ztplAppUrl', response_class=HTMLResponse)
-async def get_ztpl_app_url(request: Request, context: MenuContext = Depends(menu_service.authenticate('ztplAppModuleName:ztplAppUrl'))) -> HTMLResponse:
+async def get_ztpl_app_url(request: Request, context: MenuContext = Depends(menu_service.is_authorized('ztplAppModuleName:ztplAppUrl'))) -> HTMLResponse:
     '''
     Handle (get) ztplAppUrl
     '''

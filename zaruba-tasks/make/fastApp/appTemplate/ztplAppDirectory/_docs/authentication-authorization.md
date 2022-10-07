@@ -100,11 +100,11 @@ auth (Security)
 
 Be sure to register your page to `create_menu_service` whenever you add a new page.
 
-To authorize a page, you can inject `menu_service.authenticate('<menu-name>')`:
+To authorize a page, you can inject `menu_service.is_authorized('<menu-name>')`:
 
 ```python
 @app.get('/', response_class=HTMLResponse)
-async def get_(request: Request, context: MenuContext = Depends(menu_service.authenticate('library:/'))) -> HTMLResponse:
+async def get_(request: Request, context: MenuContext = Depends(menu_service.is_authorized('library:/'))) -> HTMLResponse:
     '''
     Handle (get) /
     '''
@@ -123,7 +123,7 @@ async def get_(request: Request, context: MenuContext = Depends(menu_service.aut
         }, status_code=500)
 ```
 
-`menu_service.authenticate` will return `MenuContext` that you can use to render jinja page_template.
+`menu_service.is_authorized` will return `MenuContext` that you can use to render jinja page_template.
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

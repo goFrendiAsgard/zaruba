@@ -73,7 +73,7 @@ def register_session_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, create_oa
 def register_session_ui_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service: MenuService, page_template: Jinja2Templates, create_access_token_url_path: str):
 
     @app.get('/account/login', response_class=HTMLResponse)
-    async def user_interface(request: Request, context: MenuContext = Depends(menu_service.authenticate('account:login'))):
+    async def user_interface(request: Request, context: MenuContext = Depends(menu_service.is_authorized('account:login'))):
         return page_template.TemplateResponse(
             'default_login.html', 
             context={
@@ -85,7 +85,7 @@ def register_session_ui_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_servi
         )
 
     @app.get('/account/logout', response_class=HTMLResponse)
-    async def user_interface(request: Request, context: MenuContext = Depends(menu_service.authenticate('account:logout'))):
+    async def user_interface(request: Request, context: MenuContext = Depends(menu_service.is_authorized('account:logout'))):
         return page_template.TemplateResponse(
             'default_logout.html', 
             context={

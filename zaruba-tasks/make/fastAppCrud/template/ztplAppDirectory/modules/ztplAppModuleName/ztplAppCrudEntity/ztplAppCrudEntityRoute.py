@@ -97,7 +97,7 @@ def register_ztpl_app_crud_entity_entity_api_route(app: FastAPI, mb: MessageBus,
 def register_ztpl_app_crud_entity_entity_ui_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service: MenuService, page_template: Jinja2Templates):
 
     @app.get('/ztpl-app-module-name/ztpl-app-crud-entities', response_class=HTMLResponse)
-    async def user_interface(request: Request, context: MenuContext = Depends(menu_service.authenticate('ztplAppModuleName:ztplAppCrudEntities'))):
+    async def user_interface(request: Request, context: MenuContext = Depends(menu_service.is_authorized('ztplAppModuleName:ztplAppCrudEntities'))):
         return page_template.TemplateResponse('default_crud.html', context={
             'api_path': '/api/vi/ztp_app_crud_entities',
             'content_path': 'ztplAppModuleName/crud/ztpl_app_crud_entities.html',

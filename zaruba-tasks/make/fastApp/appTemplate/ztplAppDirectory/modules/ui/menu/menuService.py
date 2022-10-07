@@ -1,4 +1,4 @@
-from typing import Any, Callable, List, Optional, Mapping
+from typing import Callable, List, Optional, Mapping
 from schemas.authType import AuthType
 from schemas.menu import Menu
 from schemas.menuContext import MenuContext
@@ -13,10 +13,10 @@ import copy
 
 class MenuService():
 
-    def __init__(self, rpc: RPC, auth_service: AuthService, root_menu_name: str = 'root', root_menu_title: str = '', root_menu_url: str = '/', permission_name: Optional[str] = None):
+    def __init__(self, rpc: RPC, auth_service: AuthService, root_menu_name: str = 'root', root_menu_title: str = '', root_menu_url: str = '/', root_menu_permission_name: Optional[str] = None):
         self.auth_service: AuthService = auth_service
         self.rpc: RPC = rpc
-        self.root_menu: Menu = Menu(name=root_menu_name, title=root_menu_title, url=root_menu_url, auth_type=AuthType.EVERYONE, permission_name=permission_name)
+        self.root_menu: Menu = Menu(name=root_menu_name, title=root_menu_title, url=root_menu_url, auth_type=AuthType.EVERYONE, permission_name=root_menu_permission_name)
         self.menu_map: Mapping[str, Menu] = {root_menu_name: self.root_menu}
         self.parent_map: Mapping[str, List[Menu]] = {root_menu_name: []}
 
@@ -29,7 +29,7 @@ class MenuService():
         self.menu_map[name] = menu
         self.parent_map[name] = [*self.parent_map[parent_menu.name], parent_menu.name]
 
-    def get_accessible_menu(self, menu_name: str, user: User) -> Optional[Menu]:
+    def get_accessible_menu(self, menu_name: str, user: Optional[User]) -> Optional[Menu]:
         if not self._is_menu_accessible(self.root_menu, user):
             return None
         parent_names = self.parent_map[menu_name]
@@ -40,7 +40,7 @@ class MenuService():
             return highlighted_menu
         return accessible_menu
 
-    def authenticate(self, menu_name: str) -> Callable[[Callable[[Request], Optional[User]]], MenuContext]:
+    def is_authorized(self, menu_name: str) -> Callable[[Callable[[Request], Optional[User]]], MenuContext]:
         if menu_name not in self.menu_map:
             raise Exception('Menu {} is not registered'.format(menu_name))
         menu = self.menu_map[menu_name]
