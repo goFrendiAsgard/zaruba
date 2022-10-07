@@ -83,7 +83,7 @@ class MockAuthService(AuthService):
         return verify_authorized
 
 
-class MockRpc(LocalRPC):
+class MockRPC(LocalRPC):
 
     def __init__(self):
         super().__init__()
@@ -104,7 +104,7 @@ def init_test_menu_service_components(user: Optional[User]) -> Tuple[MenuService
     return menu_service, auth_service, rpc
 
 
-def init_test_menu(menu_service: MenuService):
+def init_test_menu_data(menu_service: MenuService):
     menu_service.add_menu('everyone', 'Everyone', '/everyone', AuthType.EVERYONE)
     menu_service.add_menu('submenu-everyone', 'Submenu Everyone', '/everyone/everyone', AuthType.EVERYONE, parent_name = 'everyone')
     menu_service.add_menu('submenu-unauthenticated', 'Submenu Unauthenticated', '/everyone/unauthenticated', AuthType.UNAUTHENTICATED, parent_name = 'everyone')
@@ -120,10 +120,10 @@ def init_test_menu(menu_service: MenuService):
 ################################################
 
 @pytest.mark.asyncio
-async def test_menu_service_no_user():
+async def test_menu_service_no_user_get_accessible_menu():
     user = None
     menu_service, _, _ = init_test_menu_service_components(user)
-    init_test_menu(menu_service)
+    init_test_menu_data(menu_service)
 
     # test get accessible menu for authorized subbmenu
     accessible_menu = menu_service.get_accessible_menu('submenu-everyone', user)
@@ -143,15 +143,69 @@ async def test_menu_service_no_user():
     assert accessible_menu.submenus[0].submenus[1].name == 'submenu-unauthenticated'
     assert not accessible_menu.submenus[0].submenus[1].is_highlighted
 
-    # TODO: Depends should be mocked
+
+@pytest.mark.asyncio
+async def test_menu_service_no_user_authorize():
+    user = None
+    menu_service, _, _ = init_test_menu_service_components(user)
+    init_test_menu_data(menu_service)
 
     # test menu 'everyone'
-    # authorize = menu_service.is_authorized('everyone')
-    # menu_context = await authorize()
-    # assert menu_context.user == user
+    authorize = menu_service.is_authorized('everyone')
+    menu_context = await authorize(current_user = user)
+    assert menu_context.current_user == user
 
-    # # test menu 'submenu-everyone'
-    # authorize = menu_service.is_authorized('submenu-everyone')
-    # menu_context = await authorize()
-    # assert menu_context.user == user
+    # test menu 'unauthenticated'
+    authorize = menu_service.is_authorized('unauthenticated')
+    menu_context = await authorize(current_user = user)
+    assert menu_context.current_user == user
+ 
+    # test menu 'authenticated'
+    is_error = False
+    try:
+        authorize = menu_service.is_authorized('authenticated')
+        menu_context = await authorize(current_user = user)
+    except:
+        is_error = True
+    assert is_error
+     
+    # test menu 'authorized'
+    is_error = False
+    try:
+        authorize = menu_service.is_authorized('authorized')
+        menu_context = await authorize(current_user = user)
+    except:
+        is_error = True
+    assert is_error
+     
+    # test menu 'submenu-everyone'
+    authorize = menu_service.is_authorized('submenu-everyone')
+    menu_context = await authorize(current_user = user)
+    assert menu_context.current_user == user
+
+    # test menu 'submenu-unauthenticated'
+    authorize = menu_service.is_authorized('submenu-unauthenticated')
+    menu_context = await authorize(current_user = user)
+    assert menu_context.current_user == user
+     
+    # test menu 'submenu-authenticated'
+    is_error = False
+    try:
+        authorize = menu_service.is_authorized('submenu-authenticated')
+        menu_context = await authorize(current_user = user)
+    except:
+        is_error = True
+    assert is_error
+     
+    # test menu 'submenu-authorized'
+    is_error = False
+    try:
+        authorize = menu_service.is_authorized('submenu-authorized')
+        menu_context = await authorize(current_user = user)
+    except:
+        is_error = True
+    assert is_error
+     
+     
+      
      

@@ -18,7 +18,7 @@ def create_ztpl_app_crud_entity_data():
     return dummy_ztpl_app_crud_entity_data
 
 
-def init_test_ztpl_app_crud_entity_components() -> Tuple[ZtplAppCrudEntityService, DBZtplAppCrudEntityRepo, LocalMessageBus, LocalRPC]:
+def init_test_ztpl_app_crud_entity_service_components() -> Tuple[ZtplAppCrudEntityService, DBZtplAppCrudEntityRepo, LocalMessageBus, LocalRPC]:
     engine = create_engine('sqlite://', echo=False)
     ztpl_app_crud_entity_repo = DBZtplAppCrudEntityRepo(engine=engine, create_all=True)
     mb = LocalMessageBus()
@@ -40,7 +40,7 @@ def insert_ztpl_app_crud_entity_data(ztpl_app_crud_entity_repo: DBZtplAppCrudEnt
 ################################################
 
 def test_ztpl_app_crud_entity_service_crud_find_by_id_existing():
-    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_components()
+    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_service_components()
     # prepare repo
     existing_ztpl_app_crud_entity = insert_ztpl_app_crud_entity_data(ztpl_app_crud_entity_repo)
     # test find by id (existing)
@@ -53,7 +53,7 @@ def test_ztpl_app_crud_entity_service_crud_find_by_id_existing():
 
 
 def test_ztpl_app_crud_entity_service_crud_find_by_id_non_existing():
-    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_components()
+    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_service_components()
     # prepare repo
     insert_ztpl_app_crud_entity_data(ztpl_app_crud_entity_repo)
     # test find by id (non existing)
@@ -62,7 +62,7 @@ def test_ztpl_app_crud_entity_service_crud_find_by_id_non_existing():
 
 
 def test_ztpl_app_crud_entity_service_crud_find_existing():
-    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_components()
+    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_service_components()
     # prepare repo
     existing_ztpl_app_crud_entity = insert_ztpl_app_crud_entity_data(ztpl_app_crud_entity_repo)
     # test find (existing)
@@ -77,7 +77,7 @@ def test_ztpl_app_crud_entity_service_crud_find_existing():
 
 
 def test_ztpl_app_crud_entity_service_crud_find_non_existing():
-    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_components()
+    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_service_components()
     # prepare repo
     insert_ztpl_app_crud_entity_data(ztpl_app_crud_entity_repo)
     # test find (non existing)
@@ -86,7 +86,7 @@ def test_ztpl_app_crud_entity_service_crud_find_non_existing():
 
 
 def test_ztpl_app_crud_entity_service_crud_find_pagination():
-    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_components()
+    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_service_components()
     # prepare repo
     for index in range(7):
         insert_ztpl_app_crud_entity_data(ztpl_app_crud_entity_repo, index)
@@ -105,7 +105,7 @@ def test_ztpl_app_crud_entity_service_crud_find_pagination():
 
 
 def test_ztpl_app_crud_entity_service_crud_insert():
-    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_components()
+    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_service_components()
     # prepare insert
     inserted_ztpl_app_crud_entity_data = create_ztpl_app_crud_entity_data()
     inserted_ztpl_app_crud_entity_data.ztplAppCrudFirstField = 'ztplAppCrudEntity'
@@ -122,7 +122,7 @@ def test_ztpl_app_crud_entity_service_crud_insert():
 
 
 def test_ztpl_app_crud_entity_service_crud_update_existing():
-    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_components()
+    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_service_components()
     # prepare repo
     existing_ztpl_app_crud_entity = insert_ztpl_app_crud_entity_data(ztpl_app_crud_entity_repo)
     # test update (existing)
@@ -139,7 +139,7 @@ def test_ztpl_app_crud_entity_service_crud_update_existing():
 
 
 def test_ztpl_app_crud_entity_service_crud_update_non_existing():
-    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_components()
+    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_service_components()
     # prepare repo
     insert_ztpl_app_crud_entity_data(ztpl_app_crud_entity_repo)
     # test update (non existing)
@@ -152,7 +152,7 @@ def test_ztpl_app_crud_entity_service_crud_update_non_existing():
 
 
 def test_ztpl_app_crud_entity_service_crud_delete_existing():
-    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_components()
+    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_service_components()
     # prepare repo
     existing_ztpl_app_crud_entity = insert_ztpl_app_crud_entity_data(ztpl_app_crud_entity_repo)
     # test find by id (existing)
@@ -166,7 +166,7 @@ def test_ztpl_app_crud_entity_service_crud_delete_existing():
 
 
 def test_ztpl_app_crud_entity_service_crud_delete_non_existing():
-    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_components()
+    ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, _, _ = init_test_ztpl_app_crud_entity_service_components()
     # prepare repo
     insert_ztpl_app_crud_entity_data(ztpl_app_crud_entity_repo)
     # test find by id (non existing)

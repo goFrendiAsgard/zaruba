@@ -20,7 +20,7 @@ def create_role_data():
     return dummy_role_data
 
 
-def init_test_role_components() -> Tuple[RoleService, DBRoleRepo, LocalMessageBus, LocalRPC]:
+def init_test_role_service_components() -> Tuple[RoleService, DBRoleRepo, LocalMessageBus, LocalRPC]:
     engine = create_engine('sqlite://', echo=False)
     role_repo = DBRoleRepo(engine=engine, create_all=True)
     mb = LocalMessageBus()
@@ -29,7 +29,7 @@ def init_test_role_components() -> Tuple[RoleService, DBRoleRepo, LocalMessageBu
     return role_service, role_repo, mb, rpc
 
 
-def insert_role_data(role_repo: DBRoleRepo, index: Optional[int] = None) -> Role:
+def init_role_data(role_repo: DBRoleRepo, index: Optional[int] = None) -> Role:
     role_data = create_role_data()
     role_data.name = 'original' if index is None else 'original-{index}'.format(index=index)
     role_data.created_by = 'original_user'
@@ -42,9 +42,9 @@ def insert_role_data(role_repo: DBRoleRepo, index: Optional[int] = None) -> Role
 ################################################
 
 def test_role_service_crud_find_by_id_existing():
-    role_service, role_repo, _, _ = init_test_role_components()
+    role_service, role_repo, _, _ = init_test_role_service_components()
     # prepare repo
-    existing_role = insert_role_data(role_repo)
+    existing_role = init_role_data(role_repo)
     # test find by id (existing)
     fetched_role = role_service.find_by_id(existing_role.id)
     assert fetched_role is not None
@@ -55,18 +55,18 @@ def test_role_service_crud_find_by_id_existing():
 
 
 def test_role_service_crud_find_by_id_non_existing():
-    role_service, role_repo, _, _ = init_test_role_components()
+    role_service, role_repo, _, _ = init_test_role_service_components()
     # prepare repo
-    insert_role_data(role_repo)
+    init_role_data(role_repo)
     # test find by id (non existing)
     non_existing_role = role_service.find_by_id('invalid-id')
     assert non_existing_role is None
 
 
 def test_role_service_crud_find_by_name_existing():
-    role_service, role_repo, _, _ = init_test_role_components()
+    role_service, role_repo, _, _ = init_test_role_service_components()
     # prepare repo
-    existing_role = insert_role_data(role_repo)
+    existing_role = init_role_data(role_repo)
     # test find by id (existing)
     fetched_role = role_service.find_by_name('original')
     assert fetched_role is not None
@@ -77,18 +77,18 @@ def test_role_service_crud_find_by_name_existing():
 
 
 def test_role_service_crud_find_by_name_non_existing():
-    role_service, role_repo, _, _ = init_test_role_components()
+    role_service, role_repo, _, _ = init_test_role_service_components()
     # prepare repo
-    insert_role_data(role_repo)
+    init_role_data(role_repo)
     # test find by id (non existing)
     non_existing_role = role_service.find_by_name('invalid-id')
     assert non_existing_role is None
 
 
 def test_role_service_crud_find_existing():
-    role_service, role_repo, _, _ = init_test_role_components()
+    role_service, role_repo, _, _ = init_test_role_service_components()
     # prepare repo
-    existing_role = insert_role_data(role_repo)
+    existing_role = init_role_data(role_repo)
     # test find (existing)
     fetched_role_result = role_service.find(keyword='original', limit=100, offset=0)
     assert fetched_role_result.count == 1
@@ -101,19 +101,19 @@ def test_role_service_crud_find_existing():
 
 
 def test_role_service_crud_find_non_existing():
-    role_service, role_repo, _, _ = init_test_role_components()
+    role_service, role_repo, _, _ = init_test_role_service_components()
     # prepare repo
-    insert_role_data(role_repo)
+    init_role_data(role_repo)
     # test find (non existing)
     non_existing_role_result = role_service.find(keyword='invalid-keyword', limit=100, offset=0)
     assert non_existing_role_result.count == 0
 
 
 def test_role_service_crud_find_pagination():
-    role_service, role_repo, _, _ = init_test_role_components()
+    role_service, role_repo, _, _ = init_test_role_service_components()
     # prepare repo
     for index in range(7):
-        insert_role_data(role_repo, index)
+        init_role_data(role_repo, index)
     # test find (page 1)
     fetched_role_result = role_service.find(keyword='original', limit=3, offset=0)
     assert len(fetched_role_result.rows) == 3
@@ -129,7 +129,7 @@ def test_role_service_crud_find_pagination():
 
 
 def test_role_service_crud_insert():
-    role_service, role_repo, _, _ = init_test_role_components()
+    role_service, role_repo, _, _ = init_test_role_service_components()
     # prepare insert
     inserted_role_data = create_role_data()
     inserted_role_data.name = 'original'
@@ -146,9 +146,9 @@ def test_role_service_crud_insert():
 
 
 def test_role_service_crud_update_existing():
-    role_service, role_repo, _, _ = init_test_role_components()
+    role_service, role_repo, _, _ = init_test_role_service_components()
     # prepare repo
-    existing_role = insert_role_data(role_repo)
+    existing_role = init_role_data(role_repo)
     # test update (existing)
     updated_role_data = create_role_data()
     updated_role_data.name = 'updated'
@@ -163,9 +163,9 @@ def test_role_service_crud_update_existing():
 
 
 def test_role_service_crud_update_non_existing():
-    role_service, role_repo, _, _ = init_test_role_components()
+    role_service, role_repo, _, _ = init_test_role_service_components()
     # prepare repo
-    insert_role_data(role_repo)
+    init_role_data(role_repo)
     # test update (non existing)
     updated_role_data = create_role_data()
     updated_role_data.name = 'updated'
@@ -176,9 +176,9 @@ def test_role_service_crud_update_non_existing():
 
 
 def test_role_service_crud_delete_existing():
-    role_service, role_repo, _, _ = init_test_role_components()
+    role_service, role_repo, _, _ = init_test_role_service_components()
     # prepare repo
-    existing_role = insert_role_data(role_repo)
+    existing_role = init_role_data(role_repo)
     # test find by id (existing)
     deleted_role = role_service.delete(existing_role.id)
     assert deleted_role is not None
@@ -190,9 +190,9 @@ def test_role_service_crud_delete_existing():
 
 
 def test_role_service_crud_delete_non_existing():
-    role_service, role_repo, _, _ = init_test_role_components()
+    role_service, role_repo, _, _ = init_test_role_service_components()
     # prepare repo
-    insert_role_data(role_repo)
+    init_role_data(role_repo)
     # test find by id (non existing)
     deleted_role = role_service.delete('invalid-id')
     assert deleted_role is None

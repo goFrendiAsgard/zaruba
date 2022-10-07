@@ -37,7 +37,7 @@ def create_role_data():
     return dummy_role_data
 
 
-def init_test_user_components() -> Tuple[DefaultUserService, RoleService, DBUserRepo, DBRoleRepo, LocalMessageBus, LocalRPC]:
+def init_test_user_service_components() -> Tuple[DefaultUserService, RoleService, DBUserRepo, DBRoleRepo, LocalMessageBus, LocalRPC]:
     engine = create_engine('sqlite://', echo=False)
     role_repo = DBRoleRepo(engine=engine, create_all=True)
     user_repo = DBUserRepo(engine=engine, create_all=True)
@@ -48,16 +48,7 @@ def init_test_user_components() -> Tuple[DefaultUserService, RoleService, DBUser
     return user_service, role_service, user_repo, role_repo, mb, rpc
 
 
-def insert_role_data(role_repo: DBRoleRepo, index: Optional[int] = None, permissions: List[str] = []) -> Role:
-    role_data = create_role_data()
-    role_data.name = 'role' if index is None else 'role-{index}'.format(index=index)
-    role_data.permissions=permissions
-    role_data.created_by = 'original_user'
-    role_data.updated_by = 'original_user'
-    return role_repo.insert(role_data)
-
-
-def insert_user_data(user_repo: DBUserRepo, index: Optional[int] = None, permissions: List[str] = [], role_ids: List[str] = [], password: str = '', active: bool = True) -> User:
+def init_user_data(user_repo: DBUserRepo, index: Optional[int] = None, permissions: List[str] = [], role_ids: List[str] = [], password: str = '', active: bool = True) -> User:
     user_data = create_user_data()
     user_data.username = 'user' if index is None else 'user-{index}'.format(index=index)
     user_data.email = '{username}@innistrad.com'.format(username=user_data.username)
@@ -77,7 +68,7 @@ def insert_user_data(user_repo: DBUserRepo, index: Optional[int] = None, permiss
 ################################################
 
 def test_user_service_get_guest_user():
-    user_service, _, _, _, _, _ = init_test_user_components()
+    user_service, _, _, _, _, _ = init_test_user_service_components()
     # test get guest
     guest_user = user_service.get_guest()
     assert guest_user.id == 'guest'
@@ -87,9 +78,9 @@ def test_user_service_get_guest_user():
 
 
 def test_user_service_crud_find_by_id_existing():
-    user_service, _, user_repo, _, _, _ = init_test_user_components()
+    user_service, _, user_repo, _, _, _ = init_test_user_service_components()
     # prepare repo
-    existing_user = insert_user_data(user_repo)
+    existing_user = init_user_data(user_repo)
     # test find by id (existing)
     fetched_user = user_service.find_by_id(existing_user.id)
     assert fetched_user is not None
@@ -100,18 +91,18 @@ def test_user_service_crud_find_by_id_existing():
 
 
 def test_user_service_crud_find_by_id_non_existing():
-    user_service, _, user_repo, _, _, _ = init_test_user_components()
+    user_service, _, user_repo, _, _, _ = init_test_user_service_components()
     # prepare repo
-    insert_user_data(user_repo)
+    init_user_data(user_repo)
     # test find by id (non existing)
     non_existing_user = user_service.find_by_id('invalid-id')
     assert non_existing_user is None
 
 
 def test_user_service_crud_find_by_username_existing():
-    user_service, _, user_repo, _, _, _ = init_test_user_components()
+    user_service, _, user_repo, _, _, _ = init_test_user_service_components()
     # prepare repo
-    existing_user = insert_user_data(user_repo)
+    existing_user = init_user_data(user_repo)
     # test find by id (existing)
     fetched_user = user_service.find_by_username(existing_user.username)
     assert fetched_user is not None
@@ -122,18 +113,18 @@ def test_user_service_crud_find_by_username_existing():
 
 
 def test_user_service_crud_find_by_username_non_existing():
-    user_service, _, user_repo, _, _, _ = init_test_user_components()
+    user_service, _, user_repo, _, _, _ = init_test_user_service_components()
     # prepare repo
-    insert_user_data(user_repo)
+    init_user_data(user_repo)
     # test find by id (non existing)
     non_existing_user = user_service.find_by_username('invalid-user')
     assert non_existing_user is None
 
 
 def test_user_service_crud_find_by_username_and_password_existing():
-    user_service, _, user_repo, _, _, _ = init_test_user_components()
+    user_service, _, user_repo, _, _, _ = init_test_user_service_components()
     # prepare repo
-    existing_user = insert_user_data(user_repo, password='password')
+    existing_user = init_user_data(user_repo, password='password')
     # test find by id (existing)
     fetched_user = user_service.find_by_identity_and_password(existing_user.username, 'password')
     assert fetched_user is not None
@@ -144,9 +135,9 @@ def test_user_service_crud_find_by_username_and_password_existing():
 
 
 def test_user_service_crud_find_by_email_and_password_existing():
-    user_service, _, user_repo, _, _, _ = init_test_user_components()
+    user_service, _, user_repo, _, _, _ = init_test_user_service_components()
     # prepare repo
-    existing_user = insert_user_data(user_repo, password='password')
+    existing_user = init_user_data(user_repo, password='password')
     # test find by id (existing)
     fetched_user = user_service.find_by_identity_and_password(existing_user.email, 'password')
     assert fetched_user is not None
@@ -157,27 +148,27 @@ def test_user_service_crud_find_by_email_and_password_existing():
 
 
 def test_user_service_crud_find_by_identity_and_password_invalid_password():
-    user_service, _, user_repo, _, _, _ = init_test_user_components()
+    user_service, _, user_repo, _, _, _ = init_test_user_service_components()
     # prepare repo
-    existing_user = insert_user_data(user_repo, password='password')
+    existing_user = init_user_data(user_repo, password='password')
     # test find by id (non existing)
     non_existing_user = user_service.find_by_identity_and_password(existing_user.username, 'invalid-password')
     assert non_existing_user is None
 
 
 def test_user_service_crud_find_by_identity_and_password_non_existing():
-    user_service, _, user_repo, _, _, _ = init_test_user_components()
+    user_service, _, user_repo, _, _, _ = init_test_user_service_components()
     # prepare repo
-    insert_user_data(user_repo, password='password')
+    init_user_data(user_repo, password='password')
     # test find by id (non existing)
     non_existing_user = user_service.find_by_identity_and_password('invalid-user', 'invalid-password')
     assert non_existing_user is None
 
 
 def test_user_service_crud_find_existing():
-    user_service, _, user_repo, _, _, _ = init_test_user_components()
+    user_service, _, user_repo, _, _, _ = init_test_user_service_components()
     # prepare repo
-    existing_user = insert_user_data(user_repo, password='password')
+    existing_user = init_user_data(user_repo, password='password')
     # test find (existing)
     fetched_user_result = user_service.find(keyword='user', limit=100, offset=0)
     assert fetched_user_result.count == 1
@@ -190,19 +181,19 @@ def test_user_service_crud_find_existing():
 
 
 def test_user_service_crud_find_non_existing():
-    user_service, _, user_repo, _, _, _ = init_test_user_components()
+    user_service, _, user_repo, _, _, _ = init_test_user_service_components()
     # prepare repo
-    insert_user_data(user_repo)
+    init_user_data(user_repo)
     # test find (non existing)
     non_existing_user_result = user_service.find(keyword='invalid-keyword', limit=100, offset=0)
     assert non_existing_user_result.count == 0
 
 
 def test_user_service_crud_find_pagination():
-    user_service, _, user_repo, _, _, _ = init_test_user_components()
+    user_service, _, user_repo, _, _, _ = init_test_user_service_components()
     # prepare repo
     for index in range(7):
-        insert_user_data(user_repo, index)
+        init_user_data(user_repo, index)
     # test find (page 1)
     fetched_user_result = user_service.find(keyword='user', limit=3, offset=0)
     assert len(fetched_user_result.rows) == 3
@@ -218,7 +209,7 @@ def test_user_service_crud_find_pagination():
 
 
 def test_user_service_crud_insert():
-    user_service, _, user_repo, _, _, _ = init_test_user_components()
+    user_service, _, user_repo, _, _, _ = init_test_user_service_components()
     # prepare insert
     inserted_user_data = create_user_data()
     inserted_user_data.username = 'user'
@@ -235,9 +226,9 @@ def test_user_service_crud_insert():
 
 
 def test_user_service_crud_update_existing():
-    user_service, _, user_repo, _, _, _ = init_test_user_components()
+    user_service, _, user_repo, _, _, _ = init_test_user_service_components()
     # prepare repo
-    existing_user = insert_user_data(user_repo)
+    existing_user = init_user_data(user_repo)
     # test update (existing)
     updated_user_data = create_user_data()
     updated_user_data.username = 'updated'
@@ -252,9 +243,9 @@ def test_user_service_crud_update_existing():
 
 
 def test_user_service_crud_update_non_existing():
-    user_service, _, user_repo, _, _, _ = init_test_user_components()
+    user_service, _, user_repo, _, _, _ = init_test_user_service_components()
     # prepare repo
-    insert_user_data(user_repo)
+    init_user_data(user_repo)
     # test update (non existing)
     updated_user_data = create_user_data()
     updated_user_data.username = 'updated'
@@ -265,9 +256,9 @@ def test_user_service_crud_update_non_existing():
 
 
 def test_user_service_crud_delete_existing():
-    user_service, _, user_repo, _, _, _ = init_test_user_components()
+    user_service, _, user_repo, _, _, _ = init_test_user_service_components()
     # prepare repo
-    existing_user = insert_user_data(user_repo)
+    existing_user = init_user_data(user_repo)
     # test find by id (existing)
     deleted_user = user_service.delete(existing_user.id)
     assert deleted_user is not None
@@ -279,9 +270,9 @@ def test_user_service_crud_delete_existing():
 
 
 def test_user_service_crud_delete_non_existing():
-    user_service, _, user_repo, _, _, _ = init_test_user_components()
+    user_service, _, user_repo, _, _, _ = init_test_user_service_components()
     # prepare repo
-    insert_user_data(user_repo)
+    init_user_data(user_repo)
     # test find by id (non existing)
     deleted_user = user_service.delete('invalid-id')
     assert deleted_user is None
@@ -289,7 +280,7 @@ def test_user_service_crud_delete_non_existing():
 
 
 def test_user_service_authorization():
-    user_service, role_service, user_repo, role_repo, mb, rpc = init_test_user_components()
+    user_service, _, user_repo, role_repo, _, _ = init_test_user_service_components()
     
     authorized_role_data = create_role_data()
     authorized_role_data.name='authorized_role'
