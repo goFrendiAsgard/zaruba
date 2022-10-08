@@ -13,27 +13,27 @@ import copy
 
 class MenuService():
 
-    def __init__(self, rpc: RPC, auth_service: AuthService, root_menu_name: str = 'root', root_menu_title: str = '', root_menu_url: str = '/', root_menu_permission_name: Optional[str] = None):
+    def __init__(self, rpc: RPC, auth_service: AuthService, root_menu_name: str = 'root', root_menu_title: str = '', root_menu_url: str = '/'):
         self.auth_service: AuthService = auth_service
         self.rpc: RPC = rpc
-        self.root_menu: Menu = Menu(name=root_menu_name, title=root_menu_title, url=root_menu_url, auth_type=AuthType.EVERYONE, permission_name=root_menu_permission_name)
+        self.root_menu: Menu = Menu(name=root_menu_name, title=root_menu_title, url=root_menu_url, auth_type=AuthType.EVERYONE)
         self.menu_map: Mapping[str, Menu] = {root_menu_name: self.root_menu}
         self.parent_map: Mapping[str, List[Menu]] = {root_menu_name: []}
 
 
     def add_menu(self, name: str, title: str, url: str, auth_type: int, permission_name: Optional[str] = None, parent_name:Optional[str] = None):
+        if auth_type not in (AuthType.EVERYONE, AuthType.UNAUTHENTICATED, AuthType.AUTHENTICATED, AuthType.AUTHORIZED):
+            raise Exception ('Cannot adding menu {} because it has invalid auth_type {}'.format(name, auth_type))
         menu = Menu(name=name, title=title, url=url, auth_type=auth_type, permission_name=permission_name)
-        parent_menu = self.root_menu if parent_name is None else self.menu_map[parent_name]
+        parent_menu = self.root_menu if parent_name is None else self.menu_map.get(parent_name, None)
         if parent_menu is None:
-            raise Exception('Menu {} not found'.format(parent_name))
+            raise Exception('Cannot adding menu {} because the parent menu {} is not found'.format(name, parent_name))
         parent_menu.add_submenu(menu)
         self.menu_map[name] = menu
         self.parent_map[name] = [*self.parent_map[parent_menu.name], parent_menu.name]
 
 
     def get_accessible_menu(self, menu_name: str, user: Optional[User]) -> Optional[Menu]:
-        if not self._is_menu_accessible(self.root_menu, user):
-            return None
         parent_names = self.parent_map[menu_name]
         accessible_menu = self._get_accessible_menu(self.root_menu, user)
         if menu_name in self.parent_map:
