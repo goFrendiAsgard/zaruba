@@ -6,6 +6,7 @@ from starlette.requests import Request
 from schemas.user import User
 from modules.auth.auth.authService import AuthService
 
+import sys
 import traceback
 
 
@@ -80,7 +81,7 @@ class TokenOAuth2AuthService(AuthService):
             user_data = self.rpc.call('get_user_by_token', token)
             return None if user_data is None else User.parse_obj(user_data)
         except:
-            print(traceback.format_exc)
+            print(traceback.format_exc(), file=sys.stderr)
             return None
 
 

@@ -1,3 +1,4 @@
+from typing import Tuple
 from modules.auth.user.userService import DefaultUserService
 from modules.auth.role.roleService import RoleService
 from modules.auth.user.repos.dbUserRepo import DBUserRepo
@@ -28,6 +29,16 @@ def create_user_data():
     return dummy_user_data
 
 
+def create_root_user_data():
+    root_user_data = create_user_data()
+    root_user_data.username = 'root'
+    root_user_data.email = 'root@innistrad.com'
+    root_user_data.phone_number = '+6213456781'
+    root_user_data.password = 'root'
+    root_user_data.permissions = ['root']
+    return root_user_data
+
+
 def create_user():
     dummy_user = User(
         username='',
@@ -44,11 +55,8 @@ def create_user():
     return dummy_user
 
 
-################################################
-# -- 🧪 Test
-################################################
 
-def test_jwt_token_service_with_empty_token():
+def init_test_jwt_token_service_components() -> Tuple[JWTTokenService, RoleService, DefaultUserService, DBRoleRepo, DBUserRepo, LocalMessageBus, LocalRPC]:
     engine = create_engine('sqlite://', echo=False)
     role_repo = DBRoleRepo(engine=engine, create_all=True)
     user_repo = DBUserRepo(engine=engine, create_all=True)
@@ -57,55 +65,38 @@ def test_jwt_token_service_with_empty_token():
     role_service = RoleService(mb, rpc, role_repo)
     user_service = DefaultUserService(mb, rpc, user_repo, role_service, 'guest_username', 'root')
     token_service = JWTTokenService(user_service, 'secret', 'HS256', 1800)
+    return token_service, role_service, user_service, role_repo, user_repo, mb, rpc
+
+
+################################################
+# -- 🧪 Test
+################################################
+
+def test_jwt_token_service_with_empty_token():
+    token_service, _, _, _, _, _, _ = init_test_jwt_token_service_components()
     user = token_service.get_user_by_token('')
     # make sure token service return correct value
     assert user is None
     
 
 def test_jwt_token_service_with_null_token():
-    engine = create_engine('sqlite://', echo=False)
-    role_repo = DBRoleRepo(engine=engine, create_all=True)
-    user_repo = DBUserRepo(engine=engine, create_all=True)
-    mb = LocalMessageBus()
-    rpc = LocalRPC()
-    role_service = RoleService(mb, rpc, role_repo)
-    user_service = DefaultUserService(mb, rpc, user_repo, role_service, 'guest_username', 'root')
-    token_service = JWTTokenService(user_service, 'secret', 'HS256', 1800)
+    token_service, _, _, _, _, _, _ = init_test_jwt_token_service_components()
     user = token_service.get_user_by_token(None)
     # make sure token service return correct value
     assert user is None
 
 
 def test_jwt_token_service_with_invalid_token():
-    engine = create_engine('sqlite://', echo=False)
-    role_repo = DBRoleRepo(engine=engine, create_all=True)
-    user_repo = DBUserRepo(engine=engine, create_all=True)
-    mb = LocalMessageBus()
-    rpc = LocalRPC()
-    role_service = RoleService(mb, rpc, role_repo)
-    user_service = DefaultUserService(mb, rpc, user_repo, role_service, 'guest_username', 'root')
-    token_service = JWTTokenService(user_service, 'secret', 'HS256', 1800)
+    token_service, _, _, _, _, _, _ = init_test_jwt_token_service_components()
     user = token_service.get_user_by_token('invalid token')
     # make sure token service return correct value
     assert user is None
 
 
 def test_jwt_token_service_with_existing_user():
-    engine = create_engine('sqlite://', echo=False)
-    role_repo = DBRoleRepo(engine=engine, create_all=True)
-    user_repo = DBUserRepo(engine=engine, create_all=True)
-    mb = LocalMessageBus()
-    rpc = LocalRPC()
-    role_service = RoleService(mb, rpc, role_repo)
-    user_service = DefaultUserService(mb, rpc, user_repo, role_service, 'guest_username', 'root')
-    token_service = JWTTokenService(user_service, 'secret', 'HS256', 1800)
+    token_service, _, _, _, user_repo, _, _ = init_test_jwt_token_service_components()
     # Init existing user
-    root_user_data = create_user_data()
-    root_user_data.username = 'root'
-    root_user_data.email = 'root@innistrad.com'
-    root_user_data.phone_number = '+6213456781'
-    root_user_data.password = 'root'
-    root_user_data.permissions = ['root']
+    root_user_data = create_root_user_data()
     root_user = user_repo.insert(root_user_data)
     # Creating token
     token = token_service.create_user_token(root_user)
@@ -119,22 +110,10 @@ def test_jwt_token_service_with_existing_user():
 
 
 def test_jwt_token_service_with_non_existing_user():
-    engine = create_engine('sqlite://', echo=False)
-    role_repo = DBRoleRepo(engine=engine, create_all=True)
-    user_repo = DBUserRepo(engine=engine, create_all=True)
-    mb = LocalMessageBus()
-    rpc = LocalRPC()
-    role_service = RoleService(mb, rpc, role_repo)
-    user_service = DefaultUserService(mb, rpc, user_repo, role_service, 'guest_username', 'root')
-    token_service = JWTTokenService(user_service, 'secret', 'HS256', 1800)
+    token_service, _, _, _, user_repo, _, _ = init_test_jwt_token_service_components()
     # Init existing user
-    root_user_data = create_user_data()
-    root_user_data.username = 'root'
-    root_user_data.email = 'root@innistrad.com'
-    root_user_data.phone_number = '+6213456781'
-    root_user_data.password = 'root'
-    root_user_data.permissions = ['root']
-    root_user = user_repo.insert(root_user_data)
+    root_user_data = create_root_user_data()
+    user_repo.insert(root_user_data)
     # Init non existing user
     inexist_user = create_user()
     inexist_user.id='inexist'
