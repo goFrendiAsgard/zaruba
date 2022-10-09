@@ -3,7 +3,7 @@
     const { loadModule } = window['vue3-sfc-loader'];
     Vue.createApp({
         components: {
-            crud: Vue.defineAsyncComponent(() => loadModule('/public/vue/ztplAppModuleName/crud/ztplAppCrudEntitiesCrud.vue', vueSfcLoaderOptions))
+            crud: Vue.defineAsyncComponent(() => loadModule('/public/vue/modules/ztplAppModuleName/crud/ztplAppCrudEntitiesCrud.vue', vueSfcLoaderOptions))
         },
         template: '<crud apiUrl="{{ backend_url }}/api/v1/ztplAppCrudEntities"></crud>',
     }).mount('#app');

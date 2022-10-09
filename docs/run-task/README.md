@@ -64,26 +64,28 @@ Search: █
   ▸ 🏁 No
     📝 Yes, from file
 ✔ 🏁 No
+    📝 Yes, from file
+    📝 Yes, manually
 💀 Auto terminate
 Search: █
 ? 💀 Do you want to terminate tasks once completed?: 
   ▸ 🏁 No
 ✔ 🏁 No
 💀 🔎 Job Starting...
-         Elapsed Time: 1.315µs
-         Current Time: 08:36:48
+         Elapsed Time: 1.407µs
+         Current Time: 13:05:25
 💀 🏁 Running 🍎 printHelloWorld runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
 💀    🚀 🍎 printHelloWorld      hello world
 💀 🎉 Successfully running 🍎 printHelloWorld runner (Attempt 1 of 3)
 💀 🔎 Job Running...
-         Elapsed Time: 1.410354ms
-         Current Time: 08:36:48
+         Elapsed Time: 1.615018ms
+         Current Time: 13:05:25
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 404.440015ms
-         Current Time: 08:36:48
+         Elapsed Time: 404.650024ms
+         Current Time: 13:05:25
 zaruba please printHelloWorld
 ```````
 </details>

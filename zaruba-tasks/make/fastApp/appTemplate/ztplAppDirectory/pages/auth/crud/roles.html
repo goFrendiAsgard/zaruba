@@ -3,7 +3,7 @@
     const { loadModule } = window['vue3-sfc-loader'];
     Vue.createApp({
         components: {
-            crud: Vue.defineAsyncComponent(() => loadModule('/public/vue/auth/crud/rolesCrud.vue', vueSfcLoaderOptions))
+            crud: Vue.defineAsyncComponent(() => loadModule('/public/vue/modules/auth/crud/rolesCrud.vue', vueSfcLoaderOptions))
         },
         template: '<crud apiUrl="{{ backend_url }}/api/v1/roles"></crud>',
     }).mount('#app');
