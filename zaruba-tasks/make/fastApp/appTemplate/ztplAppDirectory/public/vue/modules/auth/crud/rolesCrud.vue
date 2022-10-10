@@ -79,7 +79,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="form-input-permissions" class="col-form-label">Permission:</label>
-                        <input type="text" class="form-control" id="form-input-permissions" v-model="formData.permissions">
+                        <Json class="form-control" id="form-input-permissions" v-model="formData.permissions" />
                     </div>
                     <!-- CRUD form inputs -->
                     <!-- Put form input here -->
@@ -95,8 +95,13 @@
 </template>
 
 <script>
+    import Json from '../../../components/jsonInput.vue';
 
     export default {
+
+        components: {
+            Json,
+        },
 
         props : {
             apiUrl: String
@@ -175,18 +180,12 @@
             _formDataToRow(formData) {
                 let row = {};
                 Object.assign(row, formData);
-                if (formData.permissions) {
-                    row.permissions = JSON.parse(formData.permissions);
-                }
                 return row;
             },
 
             _rowToFormData(row) {
                 let formData = {};
                 Object.assign(formData, row);
-                if (row.permissions) {
-                    formData.permissions = JSON.stringify(row.permissions);
-                }
                 return formData;
             },
 

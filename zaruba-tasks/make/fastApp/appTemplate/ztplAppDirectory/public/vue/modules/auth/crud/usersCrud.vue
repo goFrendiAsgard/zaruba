@@ -99,18 +99,15 @@
                     </div>
                     <div class="mb-3">
                         <label for="form-input-roles" class="col-form-label">Roles:</label>
-                        <input type="text" class="form-control" id="form-input-roles" v-model="formData.role_ids">
+                        <Json class="form-control" id="form-input-roles" v-model="formData.role_ids" />
                     </div>
                     <div class="mb-3">
                         <label for="form-input-permissions" class="col-form-label">Permission:</label>
-                        <input type="text" class="form-control" id="form-input-permissions" v-model="formData.permissions">
+                        <Json class="form-control" id="form-input-permissions" v-model="formData.permissions" />
                     </div>
                     <div class="mb-3">
                         <label for="form-input-active" class="col-form-label">Active:</label>
-                        <select class="form-select" id="form-input-active" v-model="formData.active">
-                            <option value="true">true</option>
-                            <option value="false">false</option>
-                        </select>
+                        <Boolean class="form-select" id="form-input-active" v-model="formData.active" />
                     </div>
                     <!-- CRUD form inputs -->
                     <!-- Put form input here -->
@@ -125,7 +122,15 @@
 </template>
 
 <script>
+    import Json from '../../../components/jsonInput.vue';
+    import Boolean from '../../../components/booleanInput.vue';
+
     export default {
+
+        components: {
+            Json,
+            Boolean,
+        },
 
         props : {
             apiUrl: String
@@ -204,18 +209,8 @@
             _formDataToRow(formData) {
                 let row = {};
                 Object.assign(row, formData);
-                if (formData.permissions) {
-                    row.permissions = JSON.parse(formData.permissions);
-                }
-                if (formData.role_ids) {
-                    row.role_ids = JSON.parse(formData.role_ids);
-                }
-                row.active = formData.active == 'true';
                 if (!formData.password) {
                     delete row.password;
-                }
-                if (formData.permissions) {
-                    row.permissions = JSON.parse(formData.permissions);
                 }
                 return row;
             },
@@ -223,13 +218,6 @@
             _rowToFormData(row) {
                 let formData = {};
                 Object.assign(formData, row);
-                if (row.permissions) {
-                    formData.permissions = JSON.stringify(row.permissions);
-                }
-                if (row.role_ids) {
-                    formData.role_ids = JSON.stringify(row.role_ids);
-                }
-                formData.active = row.active? 'true': 'false';
                 return formData;
             },
 
