@@ -6,8 +6,8 @@ _TEST_FIELD_SCRIPT="$("${ZARUBA_BIN}" str replace "${_TEST_FIELD_SCRIPT_TEMPLATE
 
 #########################################################
 # Read existing test
-_TEST_LOCATION="${_ZRB_APP_DIRECTORY}/modules/${_ZRB_APP_MODULE_NAME}/${_ZRB_APP_CRUD_ENTITY}/test_${_ZRB_APP_CRUD_ENTITY}Service.py"
-_LINES="$("${ZARUBA_BIN}" lines read "${_TEST_LOCATION}")"
+_TEST_UTIL_LOCATION="${_ZRB_APP_DIRECTORY}/modules/${_ZRB_APP_MODULE_NAME}/${_ZRB_APP_CRUD_ENTITY}/test_util.py"
+_LINES="$("${ZARUBA_BIN}" lines read "${_TEST_UTIL_LOCATION}")"
 
 
 #########################################################
@@ -30,7 +30,7 @@ _LINES="$("${ZARUBA_BIN}" lines insertAfter "${_LINES}" "${_MOCK_ENTITY_DATA_IND
 #########################################################
 # Overwrite existing test
 
-chmod 755 "${_SCHEMA_LOCATION}"
-"${ZARUBA_BIN}" lines write "${_TEST_LOCATION}" "${_LINES}"
+chmod 755 "${_TEST_UTIL_LOCATION}"
+"${ZARUBA_BIN}" lines write "${_TEST_UTIL_LOCATION}" "${_LINES}"
 
 echo "Done updating test field"

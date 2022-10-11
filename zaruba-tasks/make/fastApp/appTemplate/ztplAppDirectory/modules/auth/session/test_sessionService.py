@@ -1,55 +1,14 @@
-from typing import Optional
 from modules.auth.session.sessionService import SessionService
 from modules.auth.user.userService import DefaultUserService
 from modules.auth.role.roleService import RoleService
 from modules.auth.user.repos.dbUserRepo import DBUserRepo
 from modules.auth.role.repos.dbRoleRepo import DBRoleRepo
 from modules.auth.token.tokenService import JWTTokenService
-from schemas.user import UserData, User
+from modules.auth.user.test_defaultUserService import create_user_data
 from helpers.transport import LocalRPC, LocalMessageBus
 
 from sqlalchemy import create_engine
 
-
-################################################
-# -- ⚙️ Helpers
-################################################
-
-def create_user_data():
-    dummy_user_data = UserData(
-        username='',
-        email='',
-        password='',
-        phone_number='',
-        permissions=[],
-        role_ids=[],
-        active=True,
-        full_name='',
-        created_by=''
-    )
-    return dummy_user_data
-
-
-def create_user():
-    dummy_user = User(
-        username='',
-        email='',
-        password='',
-        phone_number='',
-        permissions=[],
-        role_ids=[],
-        active=True,
-        full_name='',
-        created_by='',
-        id=''
-    )
-    return dummy_user
-
-
-
-################################################
-# -- 🧪 Test
-################################################
 
 def test_session_service_with_authenticated_user():
     engine = create_engine('sqlite://', echo=False)

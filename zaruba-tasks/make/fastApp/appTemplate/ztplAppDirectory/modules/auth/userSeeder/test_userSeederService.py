@@ -4,7 +4,7 @@ from modules.auth.role.roleService import RoleService
 from modules.auth.userSeeder.userSeederService import UserSeederService
 from modules.auth.user.repos.dbUserRepo import DBUserRepo
 from modules.auth.role.repos.dbRoleRepo import DBRoleRepo
-from schemas.user import User, UserData
+from modules.auth.user.test_defaultUserService import create_user_data
 from helpers.transport import LocalRPC, LocalMessageBus
 
 from sqlalchemy import create_engine
@@ -13,21 +13,6 @@ from sqlalchemy import create_engine
 ################################################
 # -- ⚙️ Helpers
 ################################################
-
-def create_user_data():
-    dummy_user_data = UserData(
-        username='',
-        email='',
-        password='',
-        phone_number='',
-        permissions=[],
-        role_ids=[],
-        active=True,
-        full_name='',
-        created_by=''
-    )
-    return dummy_user_data
-
 
 def init_test_user_seeder_service_components() -> Tuple[UserSeederService, RoleService, DefaultUserService, DBRoleRepo, DBUserRepo, LocalMessageBus, LocalRPC]:
     engine = create_engine('sqlite://', echo=False)

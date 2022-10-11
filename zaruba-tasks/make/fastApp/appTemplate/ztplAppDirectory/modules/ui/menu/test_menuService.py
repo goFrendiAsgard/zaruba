@@ -1,6 +1,7 @@
 from typing import Any, Callable, Optional, Tuple, List, Mapping
 from modules.ui.menu.menuService import MenuService
 from modules.auth.auth.authService import AuthService
+from modules.auth.user.test_util import create_user
 from helpers.transport.localRpc import LocalRPC
 from schemas.user import User
 from schemas.menu import Menu
@@ -13,36 +14,22 @@ import pytest
 ################################################
 # -- ⚙️ Helpers
 ################################################
-def create_user():
-    dummy_user = User(
-        username='',
-        email='',
-        password='',
-        phone_number='',
-        permissions=[],
-        role_ids=[],
-        active=True,
-        full_name='',
-        created_by='',
-        id=''
-    )
-    return dummy_user
 
-guest_user = create_user()
-guest_user.id = 'mock_guest_user_id'
-guest_user.username = 'guest_username'
-guest_user.created_by = 'mock_user_id'
+GUEST_USER = create_user()
+GUEST_USER.id = 'mock_guest_user_id'
+GUEST_USER.username = 'guest_username'
+GUEST_USER.created_by = 'mock_user_id'
 
-unauthorized_user = create_user()
-unauthorized_user.id = 'mock_unauthorized_user_id'
-unauthorized_user.username = 'unauthorized_username'
-unauthorized_user.created_by = 'mock_user_id'
+UNAUTHORIZED_USER = create_user()
+UNAUTHORIZED_USER.id = 'mock_unauthorized_user_id'
+UNAUTHORIZED_USER.username = 'unauthorized_username'
+UNAUTHORIZED_USER.created_by = 'mock_user_id'
 
-authorized_user = create_user()
-authorized_user.id = 'mock_authorized_user_id'
-authorized_user.username = 'authorized_username'
-authorized_user.created_by = 'mock_user_id'
-authorized_user.permissions = ['root']
+AUTHORIZED_USER = create_user()
+AUTHORIZED_USER.id = 'mock_authorized_user_id'
+AUTHORIZED_USER.username = 'authorized_username'
+AUTHORIZED_USER.created_by = 'mock_user_id'
+AUTHORIZED_USER.permissions = ['root']
 
 
 class MockAuthService(AuthService):
@@ -58,27 +45,27 @@ class MockAuthService(AuthService):
     def everyone(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         def verify_everyone(request: Optional[Request]) -> Optional[User]:
             if self.user is None:
-                return guest_user
+                return GUEST_USER
             return self.user
         return verify_everyone
 
     def is_authenticated(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         def verify_authenticated(request: Optional[Request]) -> Optional[User]:
-            if self.user == unauthorized_user or self.user == authorized_user:
+            if self.user == UNAUTHORIZED_USER or self.user == AUTHORIZED_USER:
                 return self.user
             return self._return_none_or_throw_error(throw_error)
         return verify_authenticated
 
     def is_unauthenticated(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         def verify_unauthenticated(request: Optional[Request]) -> Optional[User]:
-            if self.user is None or self.user == guest_user:
+            if self.user is None or self.user == GUEST_USER:
                 return self.user
             return self._return_none_or_throw_error(throw_error)
         return verify_unauthenticated
 
     def is_authorized(self, permission: str, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         def verify_authorized(request: Optional[Request]) -> Optional[User]:
-            if self.user == authorized_user:
+            if self.user == AUTHORIZED_USER:
                 return self.user
             return self._return_none_or_throw_error(throw_error)
         return verify_authorized
@@ -93,7 +80,7 @@ class MockRPC(LocalRPC):
         if rpc_name == 'is_user_authorized':
             user_data = args[0]
             user = User.parse_obj(user_data)
-            return user.id == authorized_user.id
+            return user.id == AUTHORIZED_USER.id
         return super().call(rpc_name, *args)
 
 
@@ -179,6 +166,7 @@ async def check_is_authorized(menu_service: MenuService, user: Optional[User], a
         except:
             is_error = True
         assert is_error
+
 
 ################################################
 # -- 🧪 Test
@@ -267,7 +255,7 @@ async def test_menu_service_no_user_get_accessible_unauthenticated_menu():
 
 @pytest.mark.asyncio
 async def test_menu_service_authenticated_user_get_accessible_authenticated_menu():
-    user = unauthorized_user
+    user = UNAUTHORIZED_USER
     menu_service, _, _ = init_test_menu_service_components(user)
     init_test_menu_data(menu_service)
     # test get accessible menu for authorized subbmenu
@@ -289,7 +277,7 @@ async def test_menu_service_authenticated_user_get_accessible_authenticated_menu
 
 @pytest.mark.asyncio
 async def test_menu_service_authorized_user_get_accessible_authorized_menu():
-    user = authorized_user
+    user = AUTHORIZED_USER
     menu_service, _, _ = init_test_menu_service_components(user)
     init_test_menu_data(menu_service)
     # test get accessible menu for authorized subbmenu
@@ -332,7 +320,7 @@ async def test_menu_service_no_user_authorize():
 
 @pytest.mark.asyncio
 async def test_menu_service_authenticated_user_authorize():
-    user = unauthorized_user
+    user = UNAUTHORIZED_USER
     menu_service, _, _ = init_test_menu_service_components(user)
     init_test_menu_data(menu_service)
     await check_is_authorized(menu_service, user, {
@@ -346,7 +334,7 @@ async def test_menu_service_authenticated_user_authorize():
 
 @pytest.mark.asyncio
 async def test_menu_service_authorized_user_authorize():
-    user = authorized_user
+    user = AUTHORIZED_USER
     menu_service, _, _ = init_test_menu_service_components(user)
     init_test_menu_data(menu_service)
     await check_is_authorized(menu_service, user, {

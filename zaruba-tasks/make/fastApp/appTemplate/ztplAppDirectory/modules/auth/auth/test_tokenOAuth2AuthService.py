@@ -1,8 +1,8 @@
 from typing import Any, Optional, Mapping, Tuple
 from modules.auth.auth.tokenOAuth2AuthService import TokenOAuth2AuthService
+from modules.auth.user.test_util import create_user
 from helpers.transport.localRpc import LocalRPC
 from schemas.user import User
-from starlette.requests import Request
 from fastapi.security import OAuth2, OAuth2PasswordBearer
 
 import pytest
@@ -11,52 +11,37 @@ import pytest
 # -- ⚙️ Helpers
 ################################################
 
-def create_user():
-    dummy_user = User(
-        username='',
-        email='',
-        password='',
-        phone_number='',
-        permissions=[],
-        role_ids=[],
-        active=True,
-        full_name='',
-        created_by='',
-        id=''
-    )
-    return dummy_user
+UNAUTHORIZED_ACTIVE_USER = create_user()
+UNAUTHORIZED_ACTIVE_USER.id = 'mock_unauthorized_active_user_id'
+UNAUTHORIZED_ACTIVE_USER.username = 'unauthorized_active_username'
+UNAUTHORIZED_ACTIVE_USER.created_by = 'mock_user_id'
+UNAUTHORIZED_ACTIVE_USER.active = True
 
-unauthorized_active_user = create_user()
-unauthorized_active_user.id = 'mock_unauthorized_active_user_id'
-unauthorized_active_user.username = 'unauthorized_active_username'
-unauthorized_active_user.created_by = 'mock_user_id'
-unauthorized_active_user.active = True
+AUTHORIZED_ACTIVE_USER = create_user()
+AUTHORIZED_ACTIVE_USER.id = 'mock_authorized_active_user_id'
+AUTHORIZED_ACTIVE_USER.username = 'authorized_active_username'
+AUTHORIZED_ACTIVE_USER.created_by = 'mock_user_id'
+AUTHORIZED_ACTIVE_USER.active = True
 
-authorized_active_user = create_user()
-authorized_active_user.id = 'mock_authorized_active_user_id'
-authorized_active_user.username = 'authorized_active_username'
-authorized_active_user.created_by = 'mock_user_id'
-authorized_active_user.active = True
+UNAUTHORIZED_INACTIVE_USER = create_user()
+UNAUTHORIZED_INACTIVE_USER.id = 'mock_unauthorized_inactive_user_id'
+UNAUTHORIZED_INACTIVE_USER.username = 'unauthorized_inactive_username'
+UNAUTHORIZED_INACTIVE_USER.created_by = 'mock_user_id'
+UNAUTHORIZED_INACTIVE_USER.active = False
 
-unauthorized_inactive_user = create_user()
-unauthorized_inactive_user.id = 'mock_unauthorized_inactive_user_id'
-unauthorized_inactive_user.username = 'unauthorized_inactive_username'
-unauthorized_inactive_user.created_by = 'mock_user_id'
-unauthorized_inactive_user.active = False
-
-authorized_inactive_user = create_user()
-authorized_inactive_user.id = 'mock_authorized_inactive_user_id'
-authorized_inactive_user.username = 'authorized_inactive_username'
-authorized_inactive_user.created_by = 'mock_user_id'
-authorized_inactive_user.active = False
+AUTHORIZED_INACTIVE_USER = create_user()
+AUTHORIZED_INACTIVE_USER.id = 'mock_authorized_inactive_user_id'
+AUTHORIZED_INACTIVE_USER.username = 'authorized_inactive_username'
+AUTHORIZED_INACTIVE_USER.created_by = 'mock_user_id'
+AUTHORIZED_INACTIVE_USER.active = False
 
 
 def get_user_by_token(token: str) -> Optional[User]:
     token_map: Mapping[str, Optional[User]] = {
-        'unauthorized_active': unauthorized_active_user,
-        'authorized_active': authorized_active_user,
-        'unauthorized_inactive': unauthorized_inactive_user,
-        'authorized_inactive': authorized_inactive_user,
+        'unauthorized_active': UNAUTHORIZED_ACTIVE_USER,
+        'authorized_active': AUTHORIZED_ACTIVE_USER,
+        'unauthorized_inactive': UNAUTHORIZED_INACTIVE_USER,
+        'authorized_inactive': AUTHORIZED_INACTIVE_USER,
     }
     if token in token_map:
         return token_map[token]
@@ -67,12 +52,12 @@ def get_user_by_token(token: str) -> Optional[User]:
 
 def is_user_authorized(user_data: Any) -> bool:
     user = User.parse_obj(user_data)
-    if user.id in [authorized_active_user.id, authorized_inactive_user]:
+    if user.id in [AUTHORIZED_ACTIVE_USER.id, AUTHORIZED_INACTIVE_USER]:
         return True
     return False
 
 
-class MockRPC(LocalRPC):
+class TokenOAuth2AuthMockRPC(LocalRPC):
 
     def __init__(self):
         super().__init__()
@@ -85,8 +70,8 @@ class MockRPC(LocalRPC):
         return super().call(rpc_name, *args)
 
 
-def init_test_oauth2_auth_service_components() -> Tuple[TokenOAuth2AuthService, MockRPC, OAuth2]:
-    rpc = MockRPC()
+def init_test_oauth2_auth_service_components() -> Tuple[TokenOAuth2AuthService, TokenOAuth2AuthMockRPC, OAuth2]:
+    rpc = TokenOAuth2AuthMockRPC()
     oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/', auto_error = False)
     auth_service = TokenOAuth2AuthService(rpc, oauth2_scheme)
     return auth_service, rpc, oauth2_scheme
@@ -107,10 +92,10 @@ async def test_token_oauth2_auth_service_authorize_everyone_with_throw_error():
     assert user is None
     # test access with unauthorized active user token 
     user = await authorize(bearer_token='unauthorized_active')
-    assert user == unauthorized_active_user
+    assert user == UNAUTHORIZED_ACTIVE_USER
     # test access with authorized active user token 
     user = await authorize(bearer_token='authorized_active')
-    assert user == authorized_active_user
+    assert user == AUTHORIZED_ACTIVE_USER
     # test access with unauthorized inactive user token 
     user = await authorize(bearer_token='unauthorized_inactive')
     assert user is None
@@ -134,10 +119,10 @@ async def test_token_oauth2_auth_service_authorize_everyone_without_throw_error(
     assert user is None
     # test access with unauthorized active user token 
     user = await authorize(bearer_token='unauthorized_active')
-    assert user == unauthorized_active_user
+    assert user == UNAUTHORIZED_ACTIVE_USER
     # test access with authorized active user token 
     user = await authorize(bearer_token='authorized_active')
-    assert user == authorized_active_user
+    assert user == AUTHORIZED_ACTIVE_USER
     # test access with unauthorized inactive user token 
     user = await authorize(bearer_token='unauthorized_inactive')
     assert user is None
@@ -231,10 +216,10 @@ async def test_token_oauth2_auth_service_authorize_authenticated_with_throw_erro
     assert is_error
     # test access with unauthorized active user token 
     user = await authorize(bearer_token='unauthorized_active')
-    assert user == unauthorized_active_user
+    assert user == UNAUTHORIZED_ACTIVE_USER
     # test access with authorized active user token 
     user = await authorize(bearer_token='authorized_active')
-    assert user == authorized_active_user
+    assert user == AUTHORIZED_ACTIVE_USER
     # test access with unauthorized inactive user token 
     is_error = False
     try:
@@ -270,10 +255,10 @@ async def test_token_oauth2_auth_service_authorize_authenticated_without_throw_e
     assert user is None
     # test access with unauthorized active user token 
     user = await authorize(bearer_token='unauthorized_active')
-    assert user == unauthorized_active_user
+    assert user == UNAUTHORIZED_ACTIVE_USER
     # test access with authorized active user token 
     user = await authorize(bearer_token='authorized_active')
-    assert user == authorized_active_user
+    assert user == AUTHORIZED_ACTIVE_USER
     # test access with unauthorized inactive user token 
     user = await authorize(bearer_token='unauthorized_inactive')
     assert user is None
@@ -313,7 +298,7 @@ async def test_token_oauth2_auth_service_authorize_authorized_with_throw_error()
     assert is_error
     # test access with authorized active user token 
     user = await authorize(bearer_token='authorized_active')
-    assert user == authorized_active_user
+    assert user == AUTHORIZED_ACTIVE_USER
     # test access with unauthorized inactive user token 
     is_error = False
     try:
@@ -352,7 +337,7 @@ async def test_token_oauth2_auth_service_authorize_authorized_without_throw_erro
     assert user == None
     # test access with authorized active user token 
     user = await authorize(bearer_token='authorized_active')
-    assert user == authorized_active_user
+    assert user == AUTHORIZED_ACTIVE_USER
     # test access with unauthorized inactive user token 
     user = await authorize(bearer_token='unauthorized_inactive')
     assert user is None
