@@ -14,6 +14,14 @@ from sqlalchemy import create_engine
 # -- ⚙️ Helpers
 ################################################
 
+ROOT_USER_DATA = create_user_data()
+ROOT_USER_DATA.username = 'root'
+ROOT_USER_DATA.email = 'root@innistrad.com'
+ROOT_USER_DATA.phone_number = '+6213456781'
+ROOT_USER_DATA.password = 'root'
+ROOT_USER_DATA.permissions = ['root']
+
+
 def init_test_user_seeder_service_components() -> Tuple[UserSeederService, RoleService, DefaultUserService, DBRoleRepo, DBUserRepo, LocalMessageBus, LocalRPC]:
     engine = create_engine('sqlite://', echo=False)
     role_repo = DBRoleRepo(engine=engine, create_all=True)
@@ -33,27 +41,14 @@ def init_test_user_seeder_service_components() -> Tuple[UserSeederService, RoleS
 def test_user_seeder_service_with_existing_user():
     user_seeder_service, _, user_service, _, user_repo, _, _ = init_test_user_seeder_service_components()
     # Init existing user
-    root_user_data = create_user_data()
-    root_user_data.username = 'root'
-    root_user_data.email = 'root@innistrad.com'
-    root_user_data.phone_number = '+6213456781'
-    root_user_data.password = 'root'
-    root_user_data.permissions = ['root']
-    user_repo.insert(root_user_data)
+    user_repo.insert(ROOT_USER_DATA)
     # This should yield no error
-    user_seeder_service.seed(root_user_data)
+    user_seeder_service.seed(ROOT_USER_DATA)
     assert user_service.find(keyword='', limit=10, offset=0).count == 1
 
 
 def test_user_seeder_service_with_non_existing_user():
     user_seeder_service, _, user_service, _, _, _, _ = init_test_user_seeder_service_components()
-    # Init existing user
-    root_user_data = create_user_data()
-    root_user_data.username = 'root'
-    root_user_data.email = 'root@innistrad.com'
-    root_user_data.phone_number = '+6213456781'
-    root_user_data.password = 'root'
-    root_user_data.permissions = ['root']
     # This should yield no error
-    user_seeder_service.seed(root_user_data)
+    user_seeder_service.seed(ROOT_USER_DATA)
     assert user_service.find(keyword='', limit=10, offset=0).count == 1
