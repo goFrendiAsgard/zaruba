@@ -55,3 +55,32 @@ def init_user_data(user_repo: DBUserRepo, index: Optional[int] = None, permissio
     user_data.updated_by = 'original_user'
     return user_repo.insert(user_data)
 
+
+GUEST_USER = create_user()
+GUEST_USER.id = 'mock_guest_user_id'
+GUEST_USER.username = 'guest_username'
+GUEST_USER.created_by = 'mock_user_id'
+
+UNAUTHORIZED_ACTIVE_USER = create_user()
+UNAUTHORIZED_ACTIVE_USER.id = 'mock_unauthorized_active_user_id'
+UNAUTHORIZED_ACTIVE_USER.username = 'unauthorized_active_username'
+UNAUTHORIZED_ACTIVE_USER.created_by = 'mock_user_id'
+UNAUTHORIZED_ACTIVE_USER.active = True
+
+AUTHORIZED_ACTIVE_USER = create_user()
+AUTHORIZED_ACTIVE_USER.id = 'mock_authorized_active_user_id'
+AUTHORIZED_ACTIVE_USER.username = 'authorized_active_username'
+AUTHORIZED_ACTIVE_USER.created_by = 'mock_user_id'
+AUTHORIZED_ACTIVE_USER.active = True
+
+UNAUTHORIZED_INACTIVE_USER = create_user()
+UNAUTHORIZED_INACTIVE_USER.id = 'mock_unauthorized_inactive_user_id'
+UNAUTHORIZED_INACTIVE_USER.username = 'unauthorized_inactive_username'
+UNAUTHORIZED_INACTIVE_USER.created_by = 'mock_user_id'
+UNAUTHORIZED_INACTIVE_USER.active = False
+
+AUTHORIZED_INACTIVE_USER = create_user()
+AUTHORIZED_INACTIVE_USER.id = 'mock_authorized_inactive_user_id'
+AUTHORIZED_INACTIVE_USER.username = 'authorized_inactive_username'
+AUTHORIZED_INACTIVE_USER.created_by = 'mock_user_id'
+AUTHORIZED_INACTIVE_USER.active = False

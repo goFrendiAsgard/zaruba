@@ -1,30 +1,13 @@
-from typing import Any, Callable, Optional, Tuple, List, Mapping
+from typing import Callable, Optional, Tuple, List, Mapping
 from modules.ui.menu.menuService import MenuService
 from modules.auth.auth.authService import AuthService
-from modules.auth.user.test_util import create_user
+from modules.auth.user.test_util import GUEST_USER, UNAUTHORIZED_ACTIVE_USER, AUTHORIZED_ACTIVE_USER
 from helpers.transport.localRpc import LocalRPC
-from schemas.user import User
+from schemas.user import User, UserData
 from schemas.menu import Menu
 from starlette.requests import Request
 from fastapi import HTTPException
 from schemas.authType import AuthType
-
-GUEST_USER = create_user()
-GUEST_USER.id = 'mock_guest_user_id'
-GUEST_USER.username = 'guest_username'
-GUEST_USER.created_by = 'mock_user_id'
-
-UNAUTHORIZED_USER = create_user()
-UNAUTHORIZED_USER.id = 'mock_unauthorized_user_id'
-UNAUTHORIZED_USER.username = 'unauthorized_username'
-UNAUTHORIZED_USER.created_by = 'mock_user_id'
-
-AUTHORIZED_USER = create_user()
-AUTHORIZED_USER.id = 'mock_authorized_user_id'
-AUTHORIZED_USER.username = 'authorized_username'
-AUTHORIZED_USER.created_by = 'mock_user_id'
-AUTHORIZED_USER.permissions = ['root']
-
 
 class MockAuthService(AuthService):
 
@@ -45,7 +28,7 @@ class MockAuthService(AuthService):
 
     def is_authenticated(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         def verify_authenticated(request: Optional[Request]) -> Optional[User]:
-            if self.user == UNAUTHORIZED_USER or self.user == AUTHORIZED_USER:
+            if self.user == UNAUTHORIZED_ACTIVE_USER or self.user == AUTHORIZED_ACTIVE_USER:
                 return self.user
             return self._return_none_or_throw_error(throw_error)
         return verify_authenticated
@@ -59,23 +42,18 @@ class MockAuthService(AuthService):
 
     def is_authorized(self, permission: str, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         def verify_authorized(request: Optional[Request]) -> Optional[User]:
-            if self.user == AUTHORIZED_USER:
+            if self.user == AUTHORIZED_ACTIVE_USER:
                 return self.user
             return self._return_none_or_throw_error(throw_error)
         return verify_authorized
 
 
-class MockRPC(LocalRPC):
+menu_mock_rpc = LocalRPC()
 
-    def __init__(self):
-        super().__init__()
-
-    def call(self, rpc_name: str, *args: Any) -> Any:
-        if rpc_name == 'is_user_authorized':
-            user_data = args[0]
-            user = User.parse_obj(user_data)
-            return user.id == AUTHORIZED_USER.id
-        return super().call(rpc_name, *args)
+@menu_mock_rpc.handle('is_user_authorized')
+def is_user_authorized(user_data: UserData, permission: str) -> bool:
+    user = User.parse_obj(user_data)
+    return user.id == AUTHORIZED_ACTIVE_USER.id
 
 
 class SingleMenuTestCase():
@@ -101,11 +79,26 @@ class MenuTestCase(SingleMenuTestCase):
             child.assert_menu(menu.submenus[child_index])
 
 
-def init_test_menu_service_components(user: Optional[User]) -> Tuple[MenuService, MockAuthService, MockRPC]:
-    rpc = MockRPC()
+async def check_is_authorized(menu_service: MenuService, user: Optional[User], accessibility_test_cases: Mapping[str, bool] = {}):
+    for menu_name, expectation in accessibility_test_cases.items():
+        if expectation:
+            authorize = menu_service.is_authorized(menu_name)
+            menu_context = await authorize(current_user = user)
+            assert menu_context.current_user == user
+            continue
+        is_error = False
+        try:
+            authorize = menu_service.is_authorized(menu_name)
+            menu_context = await authorize(current_user = user)
+        except:
+            is_error = True
+        assert is_error
+
+
+def init_test_menu_service_components(user: Optional[User]) -> Tuple[MenuService, MockAuthService]:
     auth_service = MockAuthService(user)
-    menu_service = MenuService(rpc, auth_service)
-    return menu_service, auth_service, rpc
+    menu_service = MenuService(menu_mock_rpc, auth_service)
+    return menu_service, auth_service
 
 
 def init_test_menu_data(menu_service: MenuService):
@@ -144,20 +137,3 @@ def init_test_menu_data(menu_service: MenuService):
             child_menu_url = '/{}/{}'.format(parent_key, child_key)
             child_menu_auth_type = auth_type_map[child_key]
             menu_service.add_menu(child_menu_name, title=child_menu_title, url=child_menu_url, auth_type=child_menu_auth_type, parent_name=parent_menu_name)
-
-
-async def check_is_authorized(menu_service: MenuService, user: Optional[User], accessibility_test_cases: Mapping[str, bool] = {}):
-    for menu_name, expectation in accessibility_test_cases.items():
-        if expectation:
-            authorize = menu_service.is_authorized(menu_name)
-            menu_context = await authorize(current_user = user)
-            assert menu_context.current_user == user
-            continue
-        is_error = False
-        try:
-            authorize = menu_service.is_authorized(menu_name)
-            menu_context = await authorize(current_user = user)
-        except:
-            is_error = True
-        assert is_error
-
