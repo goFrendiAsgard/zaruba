@@ -4,7 +4,7 @@
         {% include 'default-partials/meta.html' %}
         {% include 'default-partials/include-css.html' %}
         <link rel="icon" type="image/x-icon" href="{{ public_url_path}}/favicon/favicon.ico">
-        <title>{{ context.current_menu.title }}</title>
+        {%if context.current_menu %}<title>{{ context.current_menu.title }}</title>{% endif %}
     </head>
     <body>
         {% include 'default-partials/navigation.html' %}
@@ -13,8 +13,9 @@
         <script src="{{ public_url_path}}/js/vue-sfc-loader-options.js" crossorigin="anonymous"></script>
 
         <div class="container">
-            <h1>{{ context.current_menu.title }}</h1>
+            {%if context.current_menu %}<h1>{{ context.current_menu.title }}</h1>{% endif %}
             {% include content_path %}
+            {% include 'default-partials/footer.html' %}
         </div>
     </body>
 </html>

@@ -3,8 +3,8 @@
     <head>
         {% include 'default-partials/meta.html' %}
         {% include 'default-partials/include-css.html' %}
-        <link rel="icon" type="image/x-icon" href="{{ public_url_path}}/favicon/favicon.ico">
-        <title>{{ context.current_menu.title }}</title>
+        <link rel="icon" type="image/x-icon" href="{{ public_url_path }}/favicon/favicon.ico">
+        {%if context.current_menu %}<title>{{ context.current_menu.title }}</title>{% endif %}
     </head>
     <body>
         {% include 'default-partials/navigation.html' %}
@@ -12,6 +12,10 @@
 
         <div class="container">
             <h1>{{ status_code }} {{ detail }}</h1>
+            <div class="text-center">
+                <img src="{{ public_url_path }}/images/error.png" class="rounded" alt="error">
+            </div>
+            {% include 'default-partials/footer.html' %}
         </div>
     </body>
 </html>

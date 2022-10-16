@@ -4,14 +4,15 @@
         {% include 'default-partials/meta.html' %}
         {% include 'default-partials/include-css.html' %}
         <link rel="icon" type="image/x-icon" href="{{ public_url_path}}/favicon/favicon.ico">
-        <title>{{ context.current_menu.title }}</title>
+        {%if context.current_menu %}<title>{{ context.current_menu.title }}</title>{% endif %}
     </head>
     <body>
         {% include 'default-partials/navigation.html' %}
         {% include 'default-partials/include-js.html' %}
 
         <div id="app" class="container">
-            <h1>{{ context.current_menu.title }}</h1>
+            {% include 'default-partials/header.html' %}
+            {%if context.current_menu %}<h1>{{ context.current_menu.title }}</h1>{% endif %}
             <div class="mb-3">
                 <label for="login-username" class="form-label">Username/Email address</label>
                 <input type="email" class="form-control" id="login-username" placeholder="name@example.com" v-model="username">
@@ -23,6 +24,7 @@
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary mb-3" @click="login">Log in</button>
             </div>
+            {% include 'default-partials/footer.html' %}
         </div>
 
         <script>
