@@ -94,174 +94,48 @@
 
 </template>
 
-<script>
+<script setup>
     import Json from '../../../components/jsonInput.vue';
+    import {useCrud} from '../../../components/useCrud.vue';
+    import {defineProps} from 'vue';
 
-    export default {
+    const props = defineProps({
+        apiUrl: String,
+    });
 
-        components: {
-            Json,
-        },
-
-        props : {
-            apiUrl: String
-        },
-
-        data() {
-            return {
-                keyword: '',
-                limit: 100,
-                page: 1,
-                result: {
-                    count: 0,
-                    rows: [],
-                },
-                isFilterApplied: false,
-                formTitle: '',
-                formData: {},
-                rowId: '',
-                formMode: '',
-            }
-        },
-
-        methods: {
-
-            async _fetchResult() {
-                const response = await axios.get(this.apiUrl, {
-                    params: {
-                        keyword: this.keyword,
-                        limit: this.limit,
-                        offset: this.limit * (this.page-1)
-                    },
-                    ...appHelper.getConfigAuthHeader(),
-                });
-                if (response && response.status == 200 && response.data && typeof response.data.count == 'number' && response.data.rows) {
-                    this.result = response.data;
-                    return;
-                }
-                throw new Error(appHelper.getResponseErrorMessage(response, 'Cannot fetch result'));
-            },
-
-            async _getRow(id) {
-                const response =  await axios.get(`${this.apiUrl}/${id}`, appHelper.getConfigAuthHeader());
-                if (response && response.status == 200 && response.data) {
-                    return response.data
-                }
-                throw new Error(appHelper.getResponseErrorMessage(response, `Cannot get role ${id}`));
-            },
-
-            async _insertRow(row) {
-                const response = await axios.post(this.apiUrl, row, appHelper.getConfigAuthHeader());
-                if (response && response.status == 200 && response.data) {
-                    await this._fetchResult();
-                    return;
-                }
-                throw new Error(appHelper.getResponseErrorMessage(response, `Cannot create role ${id}`));
-            },
-
-            async _updateRow(id, row) {
-                const response = await axios.put(`${this.apiUrl}/${id}`, row, appHelper.getConfigAuthHeader());
-                if (response && response.status == 200 && response.data) {
-                    await this._fetchResult();
-                    return;
-                }
-                throw new Error(appHelper.getResponseErrorMessage(response, `Cannot update role ${id}`));
-            },
-
-            async _deleteRow(id) {
-                const response = await axios.delete(`${this.apiUrl}/${id}`, appHelper.getConfigAuthHeader());
-                if (response && response.status == 200 && response.data) {
-                    await this._fetchResult();
-                    return;
-                }
-                throw new Error(appHelper.getResponseErrorMessage(response, `Cannot delete role ${id}`));
-            },
-
-            _formDataToRow(formData) {
-                let row = {};
-                Object.assign(row, formData);
-                return row;
-            },
-
-            _rowToFormData(row) {
-                let formData = {};
-                Object.assign(formData, row);
-                return formData;
-            },
-
-            setFilterApplied(state) {
-                this.isFilterApplied = state;
-            },
-
-            resetFilterApplied() {
-                this.setFilterApplied(false);
-            },
-
-            async applyFilter() {
-                try {
-                    await this._fetchResult();
-                    this.setFilterApplied(true);
-                } catch (error) {
-                    appHelper.alertError(error);
-                }
-            },
-
-            async showInsertForm() {
-                this.formTitle = 'New Role';
-                this.formMode = 'insert';
-                this.formData = {};
-            },
-
-            async showUpdateForm(id) {
-                try {
-                    const row = await this._getRow(id);
-                    this.formTitle = `Edit Role ${id}`;
-                    this.formMode = 'update';
-                    this.rowId = id;
-                    this.formData = this._rowToFormData(row);
-                    return;
-                } catch (error) {
-                    appHelper.alertError(error);
-                }
-            },
-
-            async save() {
-                try {
-                    const form = bootstrap.Modal.getInstance(document.getElementById('form-crud'));
-                    const row = this._formDataToRow(this.formData);
-                    if (this.formMode == 'insert') {
-                        await this._insertRow(row);
-                        form.hide();
-                        return this._fetchResult();
-                    }
-                    if (this.formMode == 'update') {
-                        await this._updateRow(this.rowId, row);
-                        form.hide();
-                        return this._fetchResult();
-                    }
-                    throw new Error(`Invalid formMode: ${this.formMode}`);
-                } catch (error) {
-                    appHelper.alertError(error);
-                }
-            },
-
-            async confirmDelete(id) {
-                try {
-                    const confirmation = await appHelper.confirm(`Are you sure to delete role ${id}?`);
-                    if (!confirmation) {
-                        return;
-                    }
-                    await this._deleteRow(id);
-                } catch (error) {
-                    appHelper.alertError(error);
-                }
-            },
-
-        },
-
-        async beforeMount() {
-            await this.applyFilter();
-            setInterval(() => this.applyFilter(), 3 * 60 * 1000);
-        }
+    function formDataToRow(formData) {
+        const row = formData;
+        return row;
     }
+
+    function rowToFormData(row) {
+        const formData = row;
+        return formData;
+    }
+
+    const {
+        keyword,
+        limit,
+        page,
+        result,
+        applyFilter,
+        isFilterApplied,
+        resetFilterApplied,
+        formTitle,
+        formData,
+        showInsertForm,
+        showUpdateForm,
+        confirmDelete,
+        save,
+    } = useCrud({
+        formDataToRow,
+        rowToFormData,
+        entityName: 'role',
+        apiUrl: props.apiUrl,
+        formComponentId: 'form-crud',
+    });
+
+    applyFilter().then(() => {
+        setInterval(() => applyFilter(), 3 * 60 * 1000);
+    });
 </script>

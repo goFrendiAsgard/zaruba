@@ -1,22 +1,20 @@
 <template>
-    <textarea :value="JSON.stringify(modelValue)" @input="updateValue" />
+    <textarea :value="JSON.stringify(modelValue, null, 2)" @input="updateValue" />
 </template>
-<script>
-    export default {
-        props: {
-            modelValue: [],
-        },
+<script setup>
+    import {defineProps, defineEmits} from 'vue';
 
-        methods: {
-            updateValue(event) {
-                try{
-                    const newModelValue = JSON.parse(event.target.value);
-                    this.$emit('update:modelValue', newModelValue);
-                } catch(error) {
-                    // do nothing
-                }
-            }
+    defineProps({
+        modelValue: [],
+    });
+
+    const emit = defineEmits(['update:modelValue'])
+    function updateValue(event) {
+        try {
+            const newModelValue = JSON.parse(event.target.value);
+            emit('update:modelValue', newModelValue);
+        } catch(error) {
+            // do nothing
         }
-
     }
 </script>

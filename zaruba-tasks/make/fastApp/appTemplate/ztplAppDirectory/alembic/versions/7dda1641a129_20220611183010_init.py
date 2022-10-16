@@ -26,8 +26,8 @@ def upgrade() -> None:
         return None
     # Roles
     op.create_table('roles',
-        sa.Column('id', sa.String(length=36), nullable=False),
-        sa.Column('name', sa.String(length=20), nullable=True),
+        sa.Column('id', sa.String(length=36), primary_key=True, nullable=False),
+        sa.Column('name', sa.String(length=20), unique=True, nullable=True),
         sa.Column('json_permissions', sa.String(length=20), nullable=True),
         sa.Column('created_at', sa.DateTime(), nullable=True),
         sa.Column('created_by', sa.String(length=36), nullable=True),
@@ -40,10 +40,10 @@ def upgrade() -> None:
     op.create_index(op.f('ix_roles_name'), 'roles', ['name'], unique=False)
     # Users
     op.create_table('users',
-        sa.Column('id', sa.String(length=36), nullable=False),
-        sa.Column('username', sa.String(length=50), nullable=False),
-        sa.Column('email', sa.String(length=50), nullable=True),
-        sa.Column('phone_number', sa.String(length=20), nullable=True),
+        sa.Column('id', sa.String(length=36), primary_key=True, nullable=False),
+        sa.Column('username', sa.String(length=50), unique=True, nullable=False),
+        sa.Column('email', sa.String(length=50), unique=True, nullable=True),
+        sa.Column('phone_number', sa.String(length=20), unique=True, nullable=True),
         sa.Column('json_role_ids', sa.Text(), nullable=False),
         sa.Column('json_permissions', sa.Text(), nullable=False),
         sa.Column('active', sa.Boolean(), nullable=False),

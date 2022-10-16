@@ -4,8 +4,8 @@ import datetime, re
 
 class UserDataWithoutPassword(BaseModel):
     username: str = ''
-    email: str = ''
-    phone_number: str = ''
+    email: Optional[str]
+    phone_number: Optional[str]
     permissions: List[str] = []
     role_ids: List[str] = []
     active: bool = False

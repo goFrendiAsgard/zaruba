@@ -4,18 +4,17 @@
         <option value="false">false</option>
     </select>
 </template>
-<script>
-    export default {
-        props: {
-            modelValue: [],
-        },
+<script setup>
+    import {defineProps, defineEmits} from 'vue';
 
-        methods: {
-            updateValue(event) {
-                const newModelValue = event.target.value == 'true';
-                this.$emit('update:modelValue', newModelValue);
-            }
-        }
+    defineProps({
+        modelValue: Boolean,
+    });
 
+    const emit = defineEmits(['update:modelValue'])
+    function updateValue(event) {
+        console.log(event)
+        const newModelValue = event.target.value == 'true';
+        emit('update:modelValue', newModelValue);
     }
 </script>
