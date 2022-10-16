@@ -3,6 +3,7 @@ from helpers.transport import RPC, MessageBus
 from schemas.user import User, UserData, UserResult
 from modules.auth.user.repos.userRepo import UserRepo
 from modules.auth.role.roleService import RoleService
+from fastapi import HTTPException
 
 import abc
 import datetime
@@ -80,9 +81,11 @@ class DefaultUserService(UserService):
         return self.user_repo.find_by_identity_and_password(identity, password)
 
     def insert(self, user_data: UserData) -> Optional[User]:
+        user_data = self._validate_data(user_data)
         return self.user_repo.insert(user_data)
 
     def update(self, id: str, user_data: UserData) -> Optional[User]:
+        user_data = self._validate_data(user_data, id)
         return self.user_repo.update(id, user_data)
 
     def delete(self, id: str) -> Optional[User]:
@@ -104,3 +107,27 @@ class DefaultUserService(UserService):
             if role.has_permission(permission):
                 return True 
         return False
+
+    def _validate_data(self, user_data: UserData, id: Optional[str] = None) -> UserData:
+        if user_data.username is not None:
+            user = self.user_repo.find_by_username(user_data.username)
+            if user is not None and (id is None or user.id != id):
+                raise HTTPException(
+                    status_code=422, 
+                    detail='Username already registered: {}'.format(user_data.username)
+                )
+        if user_data.email is not None:
+            user = self.user_repo.find_by_email(user_data.email)
+            if user is not None and (id is None or user.id != id):
+                raise HTTPException(
+                    status_code=422,
+                    detail='Email already registered: {}'.format(user_data.email)
+                )
+        if user_data.phone_number is not None:
+            user = self.user_repo.find_by_phone_number(user_data.phone_number)
+            if user is not None and (id is None or user.id != id):
+                raise HTTPException(
+                    status_code=422,
+                    detail='Phone number already registered: {}'.format(user_data.phone_number)
+                )
+        return user_data

@@ -68,6 +68,30 @@ class DBUserRepo(UserRepo):
             db.close()
         return user
 
+    def find_by_email(self, email: str) -> Optional[UserWithoutPassword]:
+        db = Session(self.engine)
+        user: User
+        try:
+            db_user = db.query(DBUserEntity).filter(DBUserEntity.email == email).first()
+            if db_user is None:
+                return None
+            user = User.from_orm(db_user)
+        finally:
+            db.close()
+        return user
+
+    def find_by_phone_number(self, phone_number: str) -> Optional[UserWithoutPassword]:
+        db = Session(self.engine)
+        user: User
+        try:
+            db_user = db.query(DBUserEntity).filter(DBUserEntity.phone_number == phone_number).first()
+            if db_user is None:
+                return None
+            user = User.from_orm(db_user)
+        finally:
+            db.close()
+        return user
+
     def find_by_id(self, id: str) -> Optional[UserWithoutPassword]:
         db = Session(self.engine)
         user: UserWithoutPassword

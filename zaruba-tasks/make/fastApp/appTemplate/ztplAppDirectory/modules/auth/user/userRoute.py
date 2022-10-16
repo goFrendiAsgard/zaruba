@@ -24,6 +24,8 @@ def register_user_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
             if not current_user:
                 current_user = User.parse_obj(rpc.call('get_guest_user'))
             result = rpc.call('find_users', keyword, limit, offset)
+        except HTTPException as http_exception:
+            raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
@@ -37,6 +39,8 @@ def register_user_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
             if not current_user:
                 current_user = User.parse_obj(rpc.call('get_guest_user'))
             result = rpc.call('find_user_by_id', id)
+        except HTTPException as http_exception:
+            raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
@@ -52,6 +56,8 @@ def register_user_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
             if not current_user:
                 current_user = User.parse_obj(rpc.call('get_guest_user'))
             result = rpc.call('insert_user', data.dict(), current_user.dict())
+        except HTTPException as http_exception:
+            raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
@@ -67,6 +73,8 @@ def register_user_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
             if not current_user:
                 current_user = User.parse_obj(rpc.call('get_guest_user'))
             result = rpc.call('update_user', id, data.dict(), current_user.dict())
+        except HTTPException as http_exception:
+            raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
@@ -82,6 +90,8 @@ def register_user_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
             if not current_user:
                 current_user = User.parse_obj(rpc.call('get_guest_user'))
             result = rpc.call('delete_user', id, current_user.dict())
+        except HTTPException as http_exception:
+            raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='Internal Server Error')

@@ -14,6 +14,14 @@ class UserRepo(abc.ABC):
         pass
 
     @abc.abstractmethod
+    def find_by_email(self, username: str) -> Optional[UserWithoutPassword]:
+        pass
+
+    @abc.abstractmethod
+    def find_by_phone_number(self, username: str) -> Optional[UserWithoutPassword]:
+        pass
+
+    @abc.abstractmethod
     def find_by_identity_and_password(self, identity: str, password: str) -> Optional[UserWithoutPassword]:
         pass
 

@@ -25,6 +25,8 @@ def register_role_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
             if not current_user:
                 current_user = User.parse_obj(rpc.call('get_guest_user'))
             result = rpc.call('find_roles', keyword, limit, offset)
+        except HTTPException as http_exception:
+            raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
@@ -38,6 +40,8 @@ def register_role_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
             if not current_user:
                 current_user = User.parse_obj(rpc.call('get_guest_user'))
             result = rpc.call('find_role_by_id', id)
+        except HTTPException as http_exception:
+            raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
@@ -53,6 +57,8 @@ def register_role_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
             if not current_user:
                 current_user = User.parse_obj(rpc.call('get_guest_user'))
             result = rpc.call('insert_role', role_data.dict(), current_user.dict())
+        except HTTPException as http_exception:
+            raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
@@ -68,6 +74,8 @@ def register_role_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
             if not current_user:
                 current_user = User.parse_obj(rpc.call('get_guest_user'))
             result = rpc.call('update_role', id, role_data.dict(), current_user.dict())
+        except HTTPException as http_exception:
+            raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
@@ -83,6 +91,8 @@ def register_role_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
             if not current_user:
                 current_user = User.parse_obj(rpc.call('get_guest_user'))
             result = rpc.call('delete_role', id, current_user.dict())
+        except HTTPException as http_exception:
+            raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='Internal Server Error')

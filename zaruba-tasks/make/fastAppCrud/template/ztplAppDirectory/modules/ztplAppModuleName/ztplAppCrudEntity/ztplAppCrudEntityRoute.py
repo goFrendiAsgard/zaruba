@@ -25,6 +25,8 @@ def register_ztpl_app_crud_entity_entity_api_route(app: FastAPI, mb: MessageBus,
             if not current_user:
                 current_user = User.parse_obj(rpc.call('get_guest_user'))
             result = rpc.call('find_ztpl_app_crud_entity', keyword, limit, offset)
+        except HTTPException as http_exception:
+            raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
@@ -38,6 +40,8 @@ def register_ztpl_app_crud_entity_entity_api_route(app: FastAPI, mb: MessageBus,
             if not current_user:
                 current_user = User.parse_obj(rpc.call('get_guest_user'))
             ztpl_app_crud_entity = rpc.call('find_ztpl_app_crud_entity_by_id', id)
+        except HTTPException as http_exception:
+            raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
@@ -53,6 +57,8 @@ def register_ztpl_app_crud_entity_entity_api_route(app: FastAPI, mb: MessageBus,
             if not current_user:
                 current_user = User.parse_obj(rpc.call('get_guest_user'))
             ztpl_app_crud_entity = rpc.call('insert_ztpl_app_crud_entity', ztpl_app_crud_entity_data.dict(), current_user.dict())
+        except HTTPException as http_exception:
+            raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
@@ -68,6 +74,8 @@ def register_ztpl_app_crud_entity_entity_api_route(app: FastAPI, mb: MessageBus,
             if not current_user:
                 current_user = User.parse_obj(rpc.call('get_guest_user'))
             ztpl_app_crud_entity = rpc.call('update_ztpl_app_crud_entity', id, ztpl_app_crud_entity_data.dict(), current_user.dict())
+        except HTTPException as http_exception:
+            raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
@@ -83,6 +91,8 @@ def register_ztpl_app_crud_entity_entity_api_route(app: FastAPI, mb: MessageBus,
             if not current_user:
                 current_user = User.parse_obj(rpc.call('get_guest_user'))
             ztpl_app_crud_entity = rpc.call('delete_ztpl_app_crud_entity', id, current_user.dict())
+        except HTTPException as http_exception:
+            raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='Internal Server Error')

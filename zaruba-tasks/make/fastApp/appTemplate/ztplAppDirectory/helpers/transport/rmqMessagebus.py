@@ -83,6 +83,6 @@ class RMQMessageBus(RMQConnection, MessageBus):
                 body=body
             )
             self.remove_connection(connection)
-        except Exception as e:
+        except Exception as exception:
             self._error_count += 1
-            raise e
+            raise exception
