@@ -16,7 +16,7 @@ import sys
 class RMQRPCReply(BaseModel):
     result: Any
     error_message: Optional[str]
-    status_code: Optional[int]
+    error_status_code: Optional[int]
 
 class RMQRPC(RMQConnection, RPC):
 
@@ -71,7 +71,7 @@ class RMQRPC(RMQConnection, RPC):
                     reply.result = rpc_handler(*args)
                 except HTTPException as exception:
                     reply.error_message = exception.detail
-                    reply.status_code = exception.status_code
+                    reply.error_status_code = exception.status_code
                     print(traceback.format_exc(), file=sys.stderr) 
                 except Exception as exception:
                     reply.error_message = getattr(exception, 'message', repr(exception))
@@ -85,7 +85,7 @@ class RMQRPC(RMQConnection, RPC):
                     properties=pika.BasicProperties(correlation_id=props.correlation_id),
                     body=body
                 )
-                print({'action': 'send_rmq_rpc_reply', 'rpc_name': rpc_name, 'args': args, 'result': reply.result, 'error': reply.error_message, 'exchange': exchange, 'routing_key': queue, 'correlation_id': props.correlation_id})
+                print({'action': 'send_rmq_rpc_reply', 'rpc_name': rpc_name, 'args': args, 'result': reply.result, 'error': reply.error_message, 'error_status_code': reply.error_status_code, 'exchange': exchange, 'routing_key': queue, 'correlation_id': props.correlation_id})
             except Exception as exception:
                 self._error_count += 1
                 print(traceback.format_exc(), file=sys.stderr) 
@@ -144,8 +144,8 @@ class RMQRPCCaller():
         if self.reply is None:
             raise Exception('No reply')
         if self.reply.error_message:
-            if self.reply.status_code is not None:
-                raise HTTPException(status_code = self.reply.status_code, detail = self.reply.error_message)
+            if self.reply.error_status_code is not None:
+                raise HTTPException(status_code = self.reply.error_status_code, detail = self.reply.error_message)
             raise Exception(self.reply.error_message)
         return self.reply.result
 
@@ -166,9 +166,9 @@ class RMQRPCCaller():
                 try:
                     body = self.event_map.get_decoder(rpc_name)(body)
                     self.reply = RMQRPCReply.parse_obj(body)
-                    print({'action': 'get_rmq_rpc_reply', 'queue': reply_queue, 'correlation_id': self.corr_id, 'result': self.reply.result, 'error': self.reply.error_message})
+                    print({'action': 'get_rmq_rpc_reply', 'queue': reply_queue, 'correlation_id': self.corr_id, 'result': self.reply.result, 'error': self.reply.error_message, 'error_status_code': self.reply.error_status_code})
                 except Exception as exception:
-                    print({'action': 'get_rmq_rpc_reply', 'queue': reply_queue, 'correlation_id': self.corr_id, 'body': body, 'error': getattr(exception, 'message', repr(exception))})
+                    print({'action': 'get_rmq_rpc_reply', 'queue': reply_queue, 'correlation_id': self.corr_id, 'body': body, 'error': getattr(exception, 'message', repr(exception)), 'error_status_code': None})
                     print(traceback.format_exc(), file=sys.stderr) 
                 self.replied = True
             ch.basic_ack(delivery_tag=method.delivery_tag)
