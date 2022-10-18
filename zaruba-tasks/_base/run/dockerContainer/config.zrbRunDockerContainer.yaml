@@ -13,7 +13,8 @@ configs:
     shmSize: '100m'
     memory: '512m'
     cpus: '1'
-    gpus: 'all,capabilities=utility'
+    # gpus: 'all,capabilities=utility'
+    gpus: ''
     localhost: localhost
     hostDockerInternal: '{{ if .GetValue "hostDockerInternal" }}{{ .GetValue "hostDockerInternal" }}{{ else }}host.docker.internal{{ end }}'
     restartPolicy: no

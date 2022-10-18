@@ -320,10 +320,6 @@ Value:
 
 ### Configs.gpus
 
-Value:
-
-    all,capabilities=utility
-
 
 ### Configs.hostDockerInternal
 
