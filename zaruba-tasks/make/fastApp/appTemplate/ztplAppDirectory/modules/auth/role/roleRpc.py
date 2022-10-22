@@ -7,20 +7,20 @@ from modules.auth.role.roleService import RoleService
 def register_role_rpc(mb: MessageBus, rpc: RPC, role_service: RoleService):
 
     @rpc.handle('find_roles')
-    def find_roles(keyword: str, limit: int, offset: int, current_user_data: Mapping[str, Any]) -> Mapping[str, Any]:
-        current_user = User.parse_obj(current_user_data)
+    def find_roles(keyword: str, limit: int, offset: int, current_user_data: Optional[Mapping[str, Any]] = None) -> Mapping[str, Any]:
+        current_user = None if current_user_data is None else User.parse_obj(current_user_data)
         role_result = role_service.find(keyword, limit, offset, current_user)
         return role_result.dict()
 
     @rpc.handle('find_role_by_id')
-    def find_role_by_id(id: str, current_user_data: Mapping[str, Any]) -> Optional[Mapping[str, Any]]:
-        current_user = User.parse_obj(current_user_data)
+    def find_role_by_id(id: str, current_user_data: Optional[Mapping[str, Any]] = None) -> Optional[Mapping[str, Any]]:
+        current_user = None if current_user_data is None else User.parse_obj(current_user_data)
         role = role_service.find_by_id(id, current_user)
         return None if role is None else role.dict()
 
     @rpc.handle('find_role_by_name')
-    def find_role_by_name(name: str, current_user_data: Mapping[str, Any]) -> Optional[Mapping[str, Any]]:
-        current_user = User.parse_obj(current_user_data)
+    def find_role_by_name(name: str, current_user_data: Optional[Mapping[str, Any]] = None) -> Optional[Mapping[str, Any]]:
+        current_user = None if current_user_data is None else User.parse_obj(current_user_data)
         role = role_service.find_by_name(name, current_user)
         return None if role is None else role.dict()
 

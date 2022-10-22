@@ -11,7 +11,7 @@ import datetime
 class UserService(abc.ABC):
 
     @abc.abstractmethod
-    def get_guest_user(self) -> User:
+    def get_guest_user(self, current_user: Optional[User]) -> User:
         '''
         Guest user is only used to fill up `created_by` or `updated_by` anonymously.
         Guest user is not stored in the repository.
@@ -21,7 +21,7 @@ class UserService(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def get_system_user(self) -> User:
+    def get_system_user(self, current_user: Optional[User]) -> User:
         '''
         System user is only used to fill up `created_by` or `updated_by` anonymously.
         System user is not stored in the repository.
@@ -73,7 +73,7 @@ class DefaultUserService(UserService):
         self.root_permission = root_permission
 
 
-    def get_guest_user(self) -> User:
+    def get_guest_user(self, current_user: Optional[User] = None) -> User:
         return User(
             id = 'guest',
             username = 'guest', 
@@ -83,7 +83,7 @@ class DefaultUserService(UserService):
         )
 
 
-    def get_system_user(self) -> User:
+    def get_system_user(self, current_user: Optional[User] = None) -> User:
         return User(
             id = 'system',
             username = 'system', 
@@ -120,7 +120,7 @@ class DefaultUserService(UserService):
         if user is None:
             raise HTTPException(
                 status_code=404, 
-                detail='Identity or password does not matach: {}'.format(identity)
+                detail='Identity or password does not match: {}'.format(identity)
             )
         return user
 

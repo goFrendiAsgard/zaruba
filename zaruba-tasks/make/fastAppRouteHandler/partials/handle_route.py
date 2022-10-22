@@ -14,6 +14,8 @@ async def ztplAppHttpMethod_ztpl_app_url(current_user: Optional[User] = Depends(
         rpc.call('rpc_name', 'parameter1', 'parameter2')
     '''
     try:
+        if not current_user:
+            current_user = User.parse_obj(rpc.call('get_guest_user'))
         greetings = 'hello {}'.format(current_user.username)
         return HTMLResponse(content=greetings, status_code=200)
     except:

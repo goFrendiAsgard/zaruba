@@ -27,4 +27,4 @@ def register_ztpl_app_module_name_api_route(app: FastAPI, mb: MessageBus, rpc: R
 # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
 def register_ztpl_app_module_name_ui_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service: MenuService, page_template: Jinja2Templates):
 
-    print('Register ztplAppModuleName api route handler')
+    print('Register ztplAppModuleName UI route handler')

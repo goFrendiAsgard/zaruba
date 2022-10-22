@@ -9,12 +9,13 @@ import abc
 class TokenService(abc.ABC):
 
     @abc.abstractmethod
-    def create_access_token(self, user: User) -> str:
+    def create_access_token(self, user: User, current_user: Optional[User]) -> str:
         pass
 
     @abc.abstractmethod
-    def get_user_by_token(self, token: str) -> Optional[User]:
+    def get_user_by_token(self, token: str, current_user: Optional[User]) -> Optional[User]:
         pass
+
 
 class JWTTokenService(TokenService):
 
@@ -24,7 +25,8 @@ class JWTTokenService(TokenService):
         self.access_token_algorithm = access_token_algorithm
         self.access_token_expire = access_token_expire
 
-    def create_access_token(self, user: User) -> str: 
+
+    def create_access_token(self, user: User, current_user: Optional[User] = None) -> str: 
         access_token_expires = timedelta(seconds=self.access_token_expire)
         to_encode = {"sub": user.id}
         expire = datetime.now() + access_token_expires
@@ -32,12 +34,13 @@ class JWTTokenService(TokenService):
         encoded_jwt = jwt.encode(to_encode, self.access_token_secret_key, algorithm=self.access_token_algorithm)
         return encoded_jwt
 
-    def get_user_by_token(self, token: str) -> Optional[User]:
+
+    def get_user_by_token(self, token: str, current_user: Optional[User] = None) -> Optional[User]:
         if not token:
             return None
         try:
             payload = jwt.decode(token, self.access_token_secret_key, algorithms=[self.access_token_algorithm])
             user_id = payload.get("sub")
-            return self.user_service.find_by_id(user_id)
+            return self.user_service.find_by_id(user_id, current_user)
         except:
             return None
