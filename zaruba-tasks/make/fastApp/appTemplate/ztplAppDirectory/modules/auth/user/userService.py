@@ -69,8 +69,7 @@ class DefaultUserService(UserService):
         self.rpc = rpc
         self.user_repo = user_repo
         self.role_service = role_service
-        earlieast_date_string = '1970-01-01 00:00:00.000000 +00000'
-        self.earliest_date = datetime.datetime.strptime(earlieast_date_string, '%Y-%m-%d %H:%M:%S.%f %z')
+        self.earlieast_date = datetime.datetime(1970, 1, 1, 0, 0, 0, 0, datetime.timezone.utc)
         self.root_permission = root_permission
 
 
