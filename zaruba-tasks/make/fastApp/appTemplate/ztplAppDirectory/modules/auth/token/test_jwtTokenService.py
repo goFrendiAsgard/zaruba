@@ -30,7 +30,7 @@ def test_jwt_token_service_with_existing_user():
     # Init existing user
     root_user = user_repo.insert(ROOT_USER_DATA)
     # Creating token
-    token = token_service.create_user_token(root_user)
+    token = token_service.create_access_token(root_user)
     # make sure token service return correct value
     assert token is not None
     assert token != ''
@@ -52,7 +52,7 @@ def test_jwt_token_service_with_non_existing_user():
     inexist_user.phone_number = '+6213456784'
     inexist_user.password = 'root'
     # Creating token
-    token = token_service.create_user_token(inexist_user)
+    token = token_service.create_access_token(inexist_user)
     # make sure token service return correct value
     assert token is not None
     assert token != ''

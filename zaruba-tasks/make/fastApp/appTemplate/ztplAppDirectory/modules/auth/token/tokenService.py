@@ -9,7 +9,7 @@ import abc
 class TokenService(abc.ABC):
 
     @abc.abstractmethod
-    def create_user_token(self, user: User) -> str:
+    def create_access_token(self, user: User) -> str:
         pass
 
     @abc.abstractmethod
@@ -24,7 +24,7 @@ class JWTTokenService(TokenService):
         self.access_token_algorithm = access_token_algorithm
         self.access_token_expire = access_token_expire
 
-    def create_user_token(self, user: User) -> str: 
+    def create_access_token(self, user: User) -> str: 
         access_token_expires = timedelta(seconds=self.access_token_expire)
         to_encode = {"sub": user.id}
         expire = datetime.now() + access_token_expires

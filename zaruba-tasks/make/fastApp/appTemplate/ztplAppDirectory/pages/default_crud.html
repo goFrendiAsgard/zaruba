@@ -10,8 +10,6 @@
         {% include 'default-partials/navigation.html' %}
         {% include 'default-partials/include-js.html' %}
         <script src="https://cdn.jsdelivr.net/npm/vue3-sfc-loader@0.8.4/dist/vue3-sfc-loader.js" crossorigin="anonymous"></script>
-        <script src="{{ public_url_path}}/js/vue-sfc-loader-options.js" crossorigin="anonymous"></script>
-
         <div class="container">
             {%if context.current_menu %}<h1>{{ context.current_menu.title }}</h1>{% endif %}
             {% include content_path %}

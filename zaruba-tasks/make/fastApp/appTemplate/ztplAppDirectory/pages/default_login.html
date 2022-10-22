@@ -39,7 +39,7 @@
                 methods: {
                     async login() {
                         try {
-                            await appHelper.login('{{ backend_url }}{{ create_acess_token_path }}', this.username, this.password);
+                            await appHelper.login(this.username, this.password);
                             window.location = '/account/logout';
                         } catch (error) {
                             appHelper.alertError(error);

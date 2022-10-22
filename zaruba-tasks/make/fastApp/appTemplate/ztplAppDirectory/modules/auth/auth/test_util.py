@@ -15,7 +15,7 @@ def get_guest_user() -> User:
     return GUEST_USER
 
 
-@token_oauth2_auth_mock_rpc.handle('get_user_by_token')
+@token_oauth2_auth_mock_rpc.handle('get_user_by_access_token')
 def get_user_by_token(token: str) -> Optional[User]:
     token_map: Mapping[str, Optional[User]] = {
         'unauthorized_active': UNAUTHORIZED_ACTIVE_USER,

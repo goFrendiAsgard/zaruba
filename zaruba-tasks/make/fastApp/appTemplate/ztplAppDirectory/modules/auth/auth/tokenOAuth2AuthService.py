@@ -78,7 +78,7 @@ class TokenOAuth2AuthService(AuthService):
 
     def _get_user_by_token(self, token: str) -> Optional[User]:
         try:
-            user_data = self.rpc.call('get_user_by_token', token)
+            user_data = self.rpc.call('get_user_by_access_token', token)
             return None if user_data is None else User.parse_obj(user_data)
         except:
             print(traceback.format_exc(), file=sys.stderr)

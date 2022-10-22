@@ -8,7 +8,10 @@
     import {defineProps, defineEmits} from 'vue';
 
     defineProps({
-        modelValue: Boolean,
+        modelValue: {
+            type: Boolean,
+            default: true
+        },
     });
 
     const emit = defineEmits(['update:modelValue'])

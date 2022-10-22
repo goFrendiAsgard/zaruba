@@ -5,7 +5,9 @@
     import {defineProps, defineEmits} from 'vue';
 
     defineProps({
-        modelValue: [],
+        modelValue: {
+            type: [Object, Array, Boolean, String, Number],
+        },
     });
 
     const emit = defineEmits(['update:modelValue'])

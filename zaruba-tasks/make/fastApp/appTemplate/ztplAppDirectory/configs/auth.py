@@ -13,3 +13,5 @@ root_permission = os.getenv('APP_ROOT_PERMISSION', 'root')
 access_token_secret_key = os.getenv('APP_ACCESS_TOKEN_SECRET_KEY', '123')
 access_token_algorithm = os.getenv('APP_ACCESS_TOKEN_ALGORITHM', 'HS256')
 access_token_expire = float(os.getenv('APP_ACCESS_TOKEN_EXPIRE', '1800'))
+
+seed_root_user = os.getenv('APP_SEED_ROOT_USER', '1') != '0'

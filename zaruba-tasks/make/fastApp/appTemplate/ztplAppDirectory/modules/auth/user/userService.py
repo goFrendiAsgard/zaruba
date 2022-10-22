@@ -12,6 +12,12 @@ class UserService(abc.ABC):
 
     @abc.abstractmethod
     def get_guest(self) -> User:
+        '''
+        Guest user is only used to fill up `created_by` or `updated_by` anonymously.
+        Guest user is not stored in the repository.
+        You cannot and should not create user token for guest user.
+        You should not use guest user for authentication/authorization.
+        '''
         pass
 
     @abc.abstractmethod

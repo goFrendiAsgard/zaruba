@@ -59,7 +59,7 @@
         //////////////////////////////////////////////////////////////////
 
         async function getRow(id) {
-            const response =  await axios.get(`${configApiUrl}/${id}`, appHelper.getConfigAuthHeader());
+            const response =  await appHelper.axios.get(`${configApiUrl}/${id}`, appHelper.getConfigAuthHeader());
             if (response && response.status == 200 && response.data) {
                 return response.data;
             }
@@ -71,7 +71,7 @@
         }
 
         async function insertRow(row) {
-            const response = await axios.post(configApiUrl, row, appHelper.getConfigAuthHeader());
+            const response = await appHelper.axios.post(configApiUrl, row, appHelper.getConfigAuthHeader());
             if (response && response.status == 200 && response.data) {
                 await fetchResult();
                 return response.data;
@@ -83,7 +83,7 @@
         }
 
         async function updateRow(id, row) {
-            const response = await axios.put(`${configApiUrl}/${id}`, row, appHelper.getConfigAuthHeader());
+            const response = await appHelper.axios.put(`${configApiUrl}/${id}`, row, appHelper.getConfigAuthHeader());
             if (response && response.status == 200 && response.data) {
                 await fetchResult();
                 return response.data;
@@ -96,7 +96,7 @@
         }
 
         async function deleteRow(id) {
-            const response = await axios.delete(`${configApiUrl}/${id}`, appHelper.getConfigAuthHeader());
+            const response = await appHelper.axios.delete(`${configApiUrl}/${id}`, appHelper.getConfigAuthHeader());
             if (response && response.status == 200 && response.data) {
                 await fetchResult();
                 return response.data;
@@ -118,7 +118,7 @@
         const result = ref({count: 0, rows: []});
 
         async function fetchResult() {
-            const response = await axios.get(configApiUrl, {
+            const response = await appHelper.axios.get(configApiUrl, {
                 params: {
                     keyword: keyword.value,
                     limit: limit.value,

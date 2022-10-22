@@ -59,7 +59,7 @@ def create_app(mb: MessageBus, rpc: RPC, page_template: Jinja2Templates) -> Fast
 
     if enable_ui and enable_error_page:
 
-        # handle any exception with PageTemplateException type
+        # handle any PageTemplateException 
         @app.exception_handler(PageTemplateException)
         def handle_template_exception(request: Request, exception: PageTemplateException):
             menu_context = exception.menu_context
@@ -74,7 +74,7 @@ def create_app(mb: MessageBus, rpc: RPC, page_template: Jinja2Templates) -> Fast
                 status_code=exception.status_code
             )
 
-        # handle any exception with StarletteHTTPException type
+        # handle any StarletteHTTPException
         @app.exception_handler(StarletteHTTPException)
         def handle_template_exception(request: Request, exception: StarletteHTTPException):
             url = request.url.path

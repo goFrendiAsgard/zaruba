@@ -4,6 +4,12 @@
 <script src="{{ public_url_path }}/js/app.js"></script>
 <script>
     axios.defaults.validateStatus = (status) => true;
-    const appHelper = new AppHelper();
-    appHelper.renewToken('{{ backend_url }}{{ renew_access_token_url_path }}', '{{ renew_access_token_interval }}');
+    const appHelper = new AppHelper({
+        axios,
+        createAccessTokenUrl: '{{ backend_url }}{{ create_acess_token_path }}',
+        renewAccessTokenUrl: '{{ backend_url }}{{ renew_access_token_url_path }}',
+        renewAccessTokenInterval: '{{ renew_access_token_interval }}',
+        accessTokenCookieKey: 'app_access_token',
+    });
+    appHelper.renewAccessToken();
 </script>
