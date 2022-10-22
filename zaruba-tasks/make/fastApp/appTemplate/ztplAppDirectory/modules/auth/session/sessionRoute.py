@@ -73,7 +73,7 @@ def register_session_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_serv
             if not current_user:
                 current_user = User.parse_obj(rpc.call('get_guest_user'))
             old_access_token = data.access_token
-            new_access_token = rpc.call('renew_access_token', old_access_token, current_user)
+            new_access_token = rpc.call('renew_access_token', old_access_token, current_user.dict())
             return RenewAccessTokenResponse(access_token = new_access_token, token_type = 'bearer')
         except HTTPException as http_exception:
             raise http_exception
