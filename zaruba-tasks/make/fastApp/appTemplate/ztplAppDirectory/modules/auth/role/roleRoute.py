@@ -23,8 +23,8 @@ def register_role_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
         result = {}
         try:
             if not current_user:
-                current_user = User.parse_obj(rpc.call('get_guest_user'))
-            result = rpc.call('find_roles', keyword, limit, offset)
+                current_user = User.parse_obj(rpc.call('get_guest_user', current_user.dict()))
+            result = rpc.call('find_roles', keyword, limit, offset, current_user.dict())
         except HTTPException as http_exception:
             raise http_exception
         except:
@@ -38,15 +38,13 @@ def register_role_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
         result = None
         try:
             if not current_user:
-                current_user = User.parse_obj(rpc.call('get_guest_user'))
-            result = rpc.call('find_role_by_id', id)
+                current_user = User.parse_obj(rpc.call('get_guest_user', current_user.dict()))
+            result = rpc.call('find_role_by_id', id, current_user.dict())
         except HTTPException as http_exception:
             raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
-        if result is None:
-            raise HTTPException(status_code=404, detail='Not Found')
         return Role.parse_obj(result)
 
 
@@ -62,8 +60,6 @@ def register_role_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
         except:
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
-        if result is None:
-            raise HTTPException(status_code=404, detail='Not Found')
         return Role.parse_obj(result)
 
 
@@ -79,8 +75,6 @@ def register_role_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
         except:
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
-        if result is None:
-            raise HTTPException(status_code=404, detail='Not Found')
         return Role.parse_obj(result)
 
 

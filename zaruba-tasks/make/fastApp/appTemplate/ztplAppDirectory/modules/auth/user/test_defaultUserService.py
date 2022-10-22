@@ -1,15 +1,26 @@
 from modules.auth.role.test_roleService import create_role_data
-from modules.auth.user.test_util import create_user_data, init_test_default_user_service_components, init_user_data
+from modules.auth.user.test_util import create_user_data, init_test_default_user_service_components, init_user_data, AUTHORIZED_ACTIVE_USER
 
 
 def test_user_service_get_guest_user():
     user_service, _, _, _, _, _ = init_test_default_user_service_components()
-    # test get guest
-    guest_user = user_service.get_guest()
+    # test get guest user
+    guest_user = user_service.get_guest_user()
     assert guest_user.id == 'guest'
-    assert guest_user.username == 'guest_username'
+    assert guest_user.username == 'guest'
     assert len(guest_user.permissions) == 0
     assert len(guest_user.role_ids) == 0
+
+
+def test_user_service_get_system_user():
+    user_service, _, _, _, _, _ = init_test_default_user_service_components()
+    # test get system user
+    system_user = user_service.get_system_user()
+    assert system_user.id == 'system'
+    assert system_user.username == 'system'
+    assert len(system_user.permissions) == 1
+    assert system_user.permissions[0] == 'root'
+    assert len(system_user.role_ids) == 0
 
 
 def test_user_service_crud_find_by_id_existing():
@@ -17,7 +28,7 @@ def test_user_service_crud_find_by_id_existing():
     # prepare repo
     existing_user = init_user_data(user_repo)
     # test find by id (existing)
-    fetched_user = user_service.find_by_id(existing_user.id)
+    fetched_user = user_service.find_by_id(existing_user.id, AUTHORIZED_ACTIVE_USER)
     assert fetched_user is not None
     assert fetched_user.id == existing_user.id
     assert fetched_user.username == 'user'
@@ -30,8 +41,12 @@ def test_user_service_crud_find_by_id_non_existing():
     # prepare repo
     init_user_data(user_repo)
     # test find by id (non existing)
-    non_existing_user = user_service.find_by_id('invalid-id')
-    assert non_existing_user is None
+    is_error = False
+    try:
+        user_service.find_by_id('invalid-id', AUTHORIZED_ACTIVE_USER)
+    except:
+        is_error = True
+    assert is_error
 
 
 def test_user_service_crud_find_by_username_existing():
@@ -39,7 +54,7 @@ def test_user_service_crud_find_by_username_existing():
     # prepare repo
     existing_user = init_user_data(user_repo)
     # test find by id (existing)
-    fetched_user = user_service.find_by_username(existing_user.username)
+    fetched_user = user_service.find_by_username(existing_user.username, AUTHORIZED_ACTIVE_USER)
     assert fetched_user is not None
     assert fetched_user.id == existing_user.id
     assert fetched_user.username == 'user'
@@ -52,8 +67,12 @@ def test_user_service_crud_find_by_username_non_existing():
     # prepare repo
     init_user_data(user_repo)
     # test find by id (non existing)
-    non_existing_user = user_service.find_by_username('invalid-user')
-    assert non_existing_user is None
+    is_error = False
+    try:
+        user_service.find_by_username('invalid-user', AUTHORIZED_ACTIVE_USER)
+    except:
+        is_error = True
+    assert is_error
 
 
 def test_user_service_crud_find_by_username_and_password_existing():
@@ -61,7 +80,7 @@ def test_user_service_crud_find_by_username_and_password_existing():
     # prepare repo
     existing_user = init_user_data(user_repo, password='password')
     # test find by id (existing)
-    fetched_user = user_service.find_by_identity_and_password(existing_user.username, 'password')
+    fetched_user = user_service.find_by_identity_and_password(existing_user.username, 'password', AUTHORIZED_ACTIVE_USER)
     assert fetched_user is not None
     assert fetched_user.id == existing_user.id
     assert fetched_user.username == 'user'
@@ -74,7 +93,7 @@ def test_user_service_crud_find_by_email_and_password_existing():
     # prepare repo
     existing_user = init_user_data(user_repo, password='password')
     # test find by id (existing)
-    fetched_user = user_service.find_by_identity_and_password(existing_user.email, 'password')
+    fetched_user = user_service.find_by_identity_and_password(existing_user.email, 'password', AUTHORIZED_ACTIVE_USER)
     assert fetched_user is not None
     assert fetched_user.id == existing_user.id
     assert fetched_user.username == 'user'
@@ -87,8 +106,12 @@ def test_user_service_crud_find_by_identity_and_password_invalid_password():
     # prepare repo
     existing_user = init_user_data(user_repo, password='password')
     # test find by id (non existing)
-    non_existing_user = user_service.find_by_identity_and_password(existing_user.username, 'invalid-password')
-    assert non_existing_user is None
+    is_error = False
+    try:
+        user_service.find_by_identity_and_password(existing_user.username, 'invalid-password', AUTHORIZED_ACTIVE_USER)
+    except:
+        is_error = True
+    assert is_error
 
 
 def test_user_service_crud_find_by_identity_and_password_non_existing():
@@ -96,8 +119,12 @@ def test_user_service_crud_find_by_identity_and_password_non_existing():
     # prepare repo
     init_user_data(user_repo, password='password')
     # test find by id (non existing)
-    non_existing_user = user_service.find_by_identity_and_password('invalid-user', 'invalid-password')
-    assert non_existing_user is None
+    is_error = False
+    try:
+        user_service.find_by_identity_and_password('invalid-user', 'invalid-password', AUTHORIZED_ACTIVE_USER)
+    except:
+        is_error = True
+    assert is_error
 
 
 def test_user_service_crud_find_existing():
@@ -105,7 +132,7 @@ def test_user_service_crud_find_existing():
     # prepare repo
     existing_user = init_user_data(user_repo, password='password')
     # test find (existing)
-    fetched_user_result = user_service.find(keyword='user', limit=100, offset=0)
+    fetched_user_result = user_service.find(keyword='user', limit=100, offset=0, current_user=AUTHORIZED_ACTIVE_USER)
     assert fetched_user_result.count == 1
     fetched_user = fetched_user_result.rows[0]
     assert fetched_user is not None
@@ -120,7 +147,7 @@ def test_user_service_crud_find_non_existing():
     # prepare repo
     init_user_data(user_repo)
     # test find (non existing)
-    non_existing_user_result = user_service.find(keyword='invalid-keyword', limit=100, offset=0)
+    non_existing_user_result = user_service.find(keyword='invalid-keyword', limit=100, offset=0, current_user=AUTHORIZED_ACTIVE_USER)
     assert non_existing_user_result.count == 0
 
 
@@ -130,15 +157,15 @@ def test_user_service_crud_find_pagination():
     for index in range(7):
         init_user_data(user_repo, index)
     # test find (page 1)
-    fetched_user_result = user_service.find(keyword='user', limit=3, offset=0)
+    fetched_user_result = user_service.find(keyword='user', limit=3, offset=0, current_user=AUTHORIZED_ACTIVE_USER)
     assert len(fetched_user_result.rows) == 3
     assert fetched_user_result.count == 7
     # test find (page 2)
-    fetched_user_result = user_service.find(keyword='user', limit=3, offset=3)
+    fetched_user_result = user_service.find(keyword='user', limit=3, offset=3, current_user=AUTHORIZED_ACTIVE_USER)
     assert len(fetched_user_result.rows) == 3
     assert fetched_user_result.count == 7
     # test find (page 3)
-    fetched_user_result = user_service.find(keyword='user', limit=3, offset=6)
+    fetched_user_result = user_service.find(keyword='user', limit=3, offset=6, current_user=AUTHORIZED_ACTIVE_USER)
     assert len(fetched_user_result.rows) == 1
     assert fetched_user_result.count == 7
 
@@ -148,15 +175,13 @@ def test_user_service_crud_insert():
     # prepare insert
     inserted_user_data = create_user_data()
     inserted_user_data.username = 'user'
-    inserted_user_data.created_by = 'original_user'
-    inserted_user_data.updated_by = 'original_user'
     # test insert
-    inserted_user = user_service.insert(inserted_user_data)
+    inserted_user = user_service.insert(inserted_user_data, AUTHORIZED_ACTIVE_USER)
     assert inserted_user is not None
     assert inserted_user.id != '' 
     assert inserted_user.username == 'user'
-    assert inserted_user.created_by == 'original_user'
-    assert inserted_user.updated_by == 'original_user'
+    assert inserted_user.created_by == AUTHORIZED_ACTIVE_USER.id
+    assert inserted_user.updated_by == AUTHORIZED_ACTIVE_USER.id
     assert user_repo.count(keyword='') == 1
 
 
@@ -167,13 +192,12 @@ def test_user_service_crud_update_existing():
     # test update (existing)
     updated_user_data = create_user_data()
     updated_user_data.username = 'updated'
-    updated_user_data.updated_by = 'editor'
-    updated_user = user_service.update(existing_user.id, updated_user_data)
+    updated_user = user_service.update(existing_user.id, updated_user_data, AUTHORIZED_ACTIVE_USER)
     assert updated_user is not None
     assert updated_user.id == existing_user.id
     assert updated_user.username == 'updated'
     assert updated_user.created_by == 'original_user'
-    assert updated_user.updated_by == 'editor'
+    assert updated_user.updated_by == AUTHORIZED_ACTIVE_USER.id
     assert user_repo.count(keyword='') == 1
 
 
@@ -185,8 +209,12 @@ def test_user_service_crud_update_non_existing():
     updated_user_data = create_user_data()
     updated_user_data.username = 'updated'
     updated_user_data.updated_by = 'editor'
-    updated_user = user_service.update('invalid-id', updated_user_data)
-    assert updated_user == None
+    is_error = False
+    try:
+        user_service.update('invalid-id', updated_user_data, AUTHORIZED_ACTIVE_USER)
+    except:
+        is_error = True
+    assert is_error
     assert user_repo.count(keyword='') == 1
 
 
@@ -195,7 +223,7 @@ def test_user_service_crud_delete_existing():
     # prepare repo
     existing_user = init_user_data(user_repo)
     # test find by id (existing)
-    deleted_user = user_service.delete(existing_user.id)
+    deleted_user = user_service.delete(existing_user.id, AUTHORIZED_ACTIVE_USER)
     assert deleted_user is not None
     assert deleted_user.id == existing_user.id
     assert deleted_user.username == 'user'
@@ -209,8 +237,12 @@ def test_user_service_crud_delete_non_existing():
     # prepare repo
     init_user_data(user_repo)
     # test find by id (non existing)
-    deleted_user = user_service.delete('invalid-id')
-    assert deleted_user is None
+    is_error = False
+    try:
+        user_service.delete('invalid-id', AUTHORIZED_ACTIVE_USER)
+    except:
+        is_error = True
+    assert is_error
     assert user_repo.count(keyword='') == 1
 
 

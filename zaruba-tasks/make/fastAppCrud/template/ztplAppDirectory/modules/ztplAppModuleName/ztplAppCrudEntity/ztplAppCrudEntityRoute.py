@@ -24,7 +24,7 @@ def register_ztpl_app_crud_entity_entity_api_route(app: FastAPI, mb: MessageBus,
         try:
             if not current_user:
                 current_user = User.parse_obj(rpc.call('get_guest_user'))
-            result = rpc.call('find_ztpl_app_crud_entity', keyword, limit, offset)
+            result = rpc.call('find_ztpl_app_crud_entity', keyword, limit, offset, current_user.dict())
         except HTTPException as http_exception:
             raise http_exception
         except:
@@ -39,14 +39,12 @@ def register_ztpl_app_crud_entity_entity_api_route(app: FastAPI, mb: MessageBus,
         try:
             if not current_user:
                 current_user = User.parse_obj(rpc.call('get_guest_user'))
-            ztpl_app_crud_entity = rpc.call('find_ztpl_app_crud_entity_by_id', id)
+            ztpl_app_crud_entity = rpc.call('find_ztpl_app_crud_entity_by_id', id, current_user.dict())
         except HTTPException as http_exception:
             raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
-        if ztpl_app_crud_entity is None:
-            raise HTTPException(status_code=404, detail='Not Found')
         return ZtplAppCrudEntity.parse_obj(ztpl_app_crud_entity)
 
 
@@ -62,8 +60,6 @@ def register_ztpl_app_crud_entity_entity_api_route(app: FastAPI, mb: MessageBus,
         except:
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
-        if ztpl_app_crud_entity is None:
-            raise HTTPException(status_code=404, detail='Not Found')
         return ZtplAppCrudEntity.parse_obj(ztpl_app_crud_entity)
 
 
@@ -79,8 +75,6 @@ def register_ztpl_app_crud_entity_entity_api_route(app: FastAPI, mb: MessageBus,
         except:
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
-        if ztpl_app_crud_entity is None:
-            raise HTTPException(status_code=404, detail='Not Found')
         return ZtplAppCrudEntity.parse_obj(ztpl_app_crud_entity)
 
 
@@ -96,8 +90,6 @@ def register_ztpl_app_crud_entity_entity_api_route(app: FastAPI, mb: MessageBus,
         except:
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
-        if ztpl_app_crud_entity is None:
-            raise HTTPException(status_code=404, detail='Not Found')
         return ZtplAppCrudEntity.parse_obj(ztpl_app_crud_entity)
 
 

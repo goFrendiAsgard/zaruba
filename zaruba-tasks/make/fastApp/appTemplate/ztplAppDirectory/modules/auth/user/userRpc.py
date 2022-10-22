@@ -8,48 +8,54 @@ def register_user_rpc(mb: MessageBus, rpc: RPC, user_service: UserService):
 
     @rpc.handle('get_guest_user')
     def get_guest_user() -> Mapping[str, Any]:
-        return user_service.get_guest().dict()
+        return user_service.get_guest_user().dict()
+
+    @rpc.handle('get_system_user')
+    def get_system_user() -> Mapping[str, Any]:
+        return user_service.get_system_user().dict()
 
     @rpc.handle('find_users')
-    def find_users(keyword: str, limit: int, offset: int) -> Mapping[str, Any]:
-        user_result = user_service.find(keyword, limit, offset)
+    def find_users(keyword: str, limit: int, offset: int, current_user_data: Mapping[str, Any]) -> Mapping[str, Any]:
+        current_user = User.parse_obj(current_user_data)
+        user_result = user_service.find(keyword, limit, offset, current_user)
         return user_result.dict()
 
     @rpc.handle('find_user_by_id')
-    def find_user_by_id(id: str) -> Optional[Mapping[str, Any]]:
-        user = user_service.find_by_id(id)
+    def find_user_by_id(id: str, current_user_data: Mapping[str, Any]) -> Optional[Mapping[str, Any]]:
+        current_user = User.parse_obj(current_user_data)
+        user = user_service.find_by_id(id, current_user)
         return None if user is None else user.dict()
 
     @rpc.handle('find_user_by_username')
-    def find_user_by_username(id: str, username: str) -> Optional[Mapping[str, Any]]:
-        user = user_service.find_by_username(username)
+    def find_user_by_username(id: str, username: str, current_user_data: Mapping[str, Any]) -> Optional[Mapping[str, Any]]:
+        current_user = User.parse_obj(current_user_data)
+        user = user_service.find_by_username(username, current_user)
         return None if user is None else user.dict()
 
     @rpc.handle('find_user_by_identity_and_password')
-    def find_user_by_identity_and_password(id: str, identity: str, password: str) -> Optional[Mapping[str, Any]]:
-        user = user_service.find_by_identity_and_password(identity, password)
+    def find_user_by_identity_and_password(id: str, identity: str, password: str, current_user_data: Mapping[str, Any]) -> Optional[Mapping[str, Any]]:
+        current_user = User.parse_obj(current_user_data)
+        user = user_service.find_by_identity_and_password(identity, password, current_user)
         return None if user is None else user.dict()
 
     @rpc.handle('insert_user')
     def insert_user(data: Mapping[str, Any], current_user_data: Mapping[str, Any]) -> Optional[Mapping[str, Any]]:
         current_user = User.parse_obj(current_user_data)
         user = UserData.parse_obj(data)
-        user.created_by = current_user.id
-        user.updated_by = current_user.id
-        new_user = user_service.insert(user)
+        new_user = user_service.insert(user, current_user)
         return None if new_user is None else new_user.dict()
 
     @rpc.handle('update_user')
     def update_user(id: str, data: Mapping[str, Any], current_user_data: Mapping[str, Any]) -> Optional[Mapping[str, Any]]:
         current_user = User.parse_obj(current_user_data)
         user = UserData.parse_obj(data)
-        user.updated_by = current_user.id
-        updated_user = user_service.update(id, user)
+        updated_user = user_service.update(id, user, current_user)
         return None if updated_user is None else updated_user.dict()
 
     @rpc.handle('delete_user')
     def delete_user(id: str, current_user_data: Mapping[str, Any]) -> Optional[Mapping[str, Any]]:
-        user = user_service.delete(id)
+        current_user = User.parse_obj(current_user_data)
+        user = user_service.delete(id, current_user)
         return None if user is None else user.dict()
 
     @rpc.handle('is_user_authorized')

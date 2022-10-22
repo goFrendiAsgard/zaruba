@@ -17,7 +17,7 @@ def test_session_service_with_authenticated_user():
     mb = LocalMessageBus()
     rpc = LocalRPC()
     role_service = RoleService(mb, rpc, role_repo)
-    user_service = DefaultUserService(mb, rpc, user_repo, role_service, 'guest_username', 'root')
+    user_service = DefaultUserService(mb, rpc, user_repo, role_service, 'root')
     token_service = JWTTokenService(user_service, 'secret', 'HS256', 1800)
     session_service = SessionService(user_service, token_service)
     # Init existing user
@@ -45,7 +45,7 @@ def test_session_service_create_access_token_for_unauthenticated_user():
     mb = LocalMessageBus()
     rpc = LocalRPC()
     role_service = RoleService(mb, rpc, role_repo)
-    user_service = DefaultUserService(mb, rpc, user_repo, role_service, 'guest_username', 'root')
+    user_service = DefaultUserService(mb, rpc, user_repo, role_service, 'root')
     token_service = JWTTokenService(user_service, 'secret', 'HS256', 1800)
     session_service = SessionService(user_service, token_service)
     is_error_happened = False

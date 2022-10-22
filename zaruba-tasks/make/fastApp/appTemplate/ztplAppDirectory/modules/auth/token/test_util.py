@@ -25,7 +25,7 @@ def init_test_jwt_token_service_components() -> Tuple[JWTTokenService, RoleServi
     mb = LocalMessageBus()
     rpc = LocalRPC()
     role_service = RoleService(mb, rpc, role_repo)
-    user_service = DefaultUserService(mb, rpc, user_repo, role_service, 'guest_username', 'root')
+    user_service = DefaultUserService(mb, rpc, user_repo, role_service, 'root')
     token_service = JWTTokenService(user_service, 'secret', 'HS256', 1800)
     return token_service, role_service, user_service, role_repo, user_repo, mb, rpc
 

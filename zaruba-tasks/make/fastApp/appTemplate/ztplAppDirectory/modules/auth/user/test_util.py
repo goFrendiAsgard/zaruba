@@ -37,7 +37,7 @@ def init_test_default_user_service_components() -> Tuple[DefaultUserService, Rol
     mb = LocalMessageBus()
     rpc = LocalRPC()
     role_service = RoleService(mb, rpc, role_repo)
-    user_service = DefaultUserService(mb, rpc, user_repo, role_service, 'guest_username', 'root')
+    user_service = DefaultUserService(mb, rpc, user_repo, role_service, 'root')
     return user_service, role_service, user_repo, role_repo, mb, rpc
 
 

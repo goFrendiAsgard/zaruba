@@ -1,6 +1,5 @@
 from fastapi.templating import Jinja2Templates
 from configs.dir import page_dir
-from configs.auth import guest_username
 from configs.ui import site_name, tagline, footer, renew_access_token_interval
 from configs.url import backend_url, public_url_path, renew_access_token_url_path
 
@@ -11,7 +10,6 @@ def escape_template(string: str) -> str:
 
 def create_page_template() -> Jinja2Templates:
     templates = Jinja2Templates(directory=page_dir)
-    templates.env.globals['guest_username'] = guest_username
     templates.env.globals['site_name'] = site_name
     templates.env.globals['tagline'] = tagline
     templates.env.globals['footer'] = footer

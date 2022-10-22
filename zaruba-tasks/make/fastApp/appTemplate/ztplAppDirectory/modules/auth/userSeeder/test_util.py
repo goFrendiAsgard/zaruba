@@ -25,7 +25,7 @@ def init_test_user_seeder_service_components() -> Tuple[UserSeederService, RoleS
     mb = LocalMessageBus()
     rpc = LocalRPC()
     role_service = RoleService(mb, rpc, role_repo)
-    user_service = DefaultUserService(mb, rpc, user_repo, role_service, 'guest_username', 'root')
+    user_service = DefaultUserService(mb, rpc, user_repo, role_service, 'root')
     user_seeder_service = UserSeederService(user_service)
     return user_seeder_service, role_service, user_service, role_repo, user_repo, mb, rpc
 

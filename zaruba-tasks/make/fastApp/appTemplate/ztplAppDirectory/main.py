@@ -19,7 +19,7 @@ from configs import (
     # url
     create_access_token_url_path, create_oauth_access_token_url_path, renew_access_token_url_path,
     # auth
-    guest_username, root_initial_email, root_initial_fullname, root_initial_password, 
+    root_initial_email, root_initial_fullname, root_initial_password, 
     root_initial_phone_number, root_username, root_permission, access_token_algorithm,
     access_token_expire, access_token_secret_key
 )
@@ -61,7 +61,7 @@ if enable_auth_module:
     role_repo = DBRoleRepo(engine=engine, create_all=db_create_all)
     user_repo = DBUserRepo(engine=engine, create_all=db_create_all)
     role_service = RoleService(mb, rpc, role_repo)
-    user_service = DefaultUserService(mb, rpc, user_repo, role_service, guest_username, root_permission=root_permission)
+    user_service = DefaultUserService(mb, rpc, user_repo, role_service, root_permission=root_permission)
     if seed_root_user:
         user_seeder_service = UserSeederService(user_service)
         user_seeder_service.seed(UserData(

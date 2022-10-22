@@ -23,7 +23,7 @@ def register_user_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
         try:
             if not current_user:
                 current_user = User.parse_obj(rpc.call('get_guest_user'))
-            result = rpc.call('find_users', keyword, limit, offset)
+            result = rpc.call('find_users', keyword, limit, offset, current_user.dict())
         except HTTPException as http_exception:
             raise http_exception
         except:
@@ -38,14 +38,12 @@ def register_user_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
         try:
             if not current_user:
                 current_user = User.parse_obj(rpc.call('get_guest_user'))
-            result = rpc.call('find_user_by_id', id)
+            result = rpc.call('find_user_by_id', id, current_user.dict())
         except HTTPException as http_exception:
             raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
-        if result is None:
-            raise HTTPException(status_code=404, detail='Not Found')
         return User.parse_obj(result)
 
 
@@ -61,8 +59,6 @@ def register_user_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
         except:
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
-        if result is None:
-            raise HTTPException(status_code=404, detail='Not Found')
         return User.parse_obj(result)
 
 
@@ -78,8 +74,6 @@ def register_user_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
         except:
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
-        if result is None:
-            raise HTTPException(status_code=404, detail='Not Found')
         return User.parse_obj(result)
 
 
@@ -95,8 +89,6 @@ def register_user_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
         except:
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
-        if result is None:
-            raise HTTPException(status_code=404, detail='Not Found')
         return User.parse_obj(result)
 
 

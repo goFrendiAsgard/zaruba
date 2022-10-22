@@ -1,8 +1,5 @@
 import os
 
-guest_username = os.getenv('APP_GUEST_USERNAME', 'guest')
-
-
 root_username = os.getenv('APP_ROOT_INITIAL_USERNAME', 'root')
 root_initial_email = os.getenv('APP_ROOT_INITIAL_EMAIL', 'root@innistrad.com')
 root_initial_phone_number = os.getenv('APP_ROOT_INITIAL_PHONE_NUMBER', '+621234567890')
