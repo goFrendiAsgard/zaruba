@@ -7,4 +7,4 @@ import sys
 # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
 def register_ztpl_app_module_name_rpc_handler(mb: MessageBus, rpc: RPC):
 
-    print('Register ztplAppModuleName RPC handler')
+    print('Register ztplAppModuleName RPC handler', file=sys.stderr)

@@ -56,5 +56,5 @@ class RMQConnection():
         if self._is_shutdown:
             return
         self._is_shutdown = True
-        print('closing RMQ connections')
+        print('closing RMQ connections', file=sys.stderr)
         self._stop_connections()

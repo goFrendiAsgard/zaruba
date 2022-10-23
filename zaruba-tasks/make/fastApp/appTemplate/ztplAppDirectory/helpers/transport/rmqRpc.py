@@ -65,7 +65,7 @@ class RMQRPC(RMQConnection, RPC):
         def on_rpc_request(ch, method, props, body):
             try:
                 args: List[Any] = self._event_map.get_decoder(rpc_name)(body)
-                print({'action': 'handle_rmq_rpc', 'rpc_name': rpc_name, 'args': args, 'exchange': exchange, 'routing_key': queue, 'correlation_id': props.correlation_id})
+                print({'action': 'handle_rmq_rpc', 'rpc_name': rpc_name, 'args': args, 'exchange': exchange, 'routing_key': queue, 'correlation_id': props.correlation_id}, file=sys.stderr)
                 reply = RMQRPCReply()
                 try:
                     reply.result = rpc_handler(*args)
@@ -85,7 +85,7 @@ class RMQRPC(RMQConnection, RPC):
                     properties=pika.BasicProperties(correlation_id=props.correlation_id),
                     body=body
                 )
-                print({'action': 'send_rmq_rpc_reply', 'rpc_name': rpc_name, 'args': args, 'result': reply.result, 'error': reply.error_message, 'error_status_code': reply.error_status_code, 'exchange': exchange, 'routing_key': queue, 'correlation_id': props.correlation_id})
+                print({'action': 'send_rmq_rpc_reply', 'rpc_name': rpc_name, 'args': args, 'result': reply.result, 'error': reply.error_message, 'error_status_code': reply.error_status_code, 'exchange': exchange, 'routing_key': queue, 'correlation_id': props.correlation_id}, file=sys.stderr)
             except Exception as exception:
                 self._error_count += 1
                 print(traceback.format_exc(), file=sys.stderr) 
@@ -98,9 +98,10 @@ class RMQRPC(RMQConnection, RPC):
         try:
             caller = RMQRPCCaller(self)
             return caller.call(rpc_name, *args)
-        except Exception as e:
+        except Exception as exception:
+            print('Error while calling RPC {rpc_name} with arguments: {args}'.format(rpc_name=rpc_name, args=args), file=sys.stderr)
             self._error_count += 1
-            raise e
+            raise exception
 
 
 class RMQRPCCaller():
@@ -125,7 +126,7 @@ class RMQRPCCaller():
         routing_key = self.event_map.get_queue_name(rpc_name)
         body = self.event_map.get_encoder(rpc_name)(args)
         self.ch.exchange_declare(exchange=exchange, exchange_type='fanout', durable=True)
-        print({'action': 'call_rmq_rpc', 'rpc_name': rpc_name, 'args': args, 'exchange': exchange, 'routing_key': routing_key, 'correlation_id': self.corr_id, 'body': body})
+        print({'action': 'call_rmq_rpc', 'rpc_name': rpc_name, 'args': args, 'exchange': exchange, 'routing_key': routing_key, 'correlation_id': self.corr_id, 'body': body}, file=sys.stderr)
         self.ch.basic_publish(
             exchange=exchange,
             routing_key=routing_key,
@@ -166,9 +167,9 @@ class RMQRPCCaller():
                 try:
                     body = self.event_map.get_decoder(rpc_name)(body)
                     self.reply = RMQRPCReply.parse_obj(body)
-                    print({'action': 'get_rmq_rpc_reply', 'queue': reply_queue, 'correlation_id': self.corr_id, 'result': self.reply.result, 'error': self.reply.error_message, 'error_status_code': self.reply.error_status_code})
+                    print({'action': 'get_rmq_rpc_reply', 'queue': reply_queue, 'correlation_id': self.corr_id, 'result': self.reply.result, 'error': self.reply.error_message, 'error_status_code': self.reply.error_status_code}, file=sys.stderr)
                 except Exception as exception:
-                    print({'action': 'get_rmq_rpc_reply', 'queue': reply_queue, 'correlation_id': self.corr_id, 'body': body, 'error': getattr(exception, 'message', repr(exception)), 'error_status_code': None})
+                    print({'action': 'get_rmq_rpc_reply', 'queue': reply_queue, 'correlation_id': self.corr_id, 'body': body, 'error': getattr(exception, 'message', repr(exception)), 'error_status_code': None}, file=sys.stderr)
                     print(traceback.format_exc(), file=sys.stderr) 
                 self.replied = True
             ch.basic_ack(delivery_tag=method.delivery_tag)

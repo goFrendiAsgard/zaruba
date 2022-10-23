@@ -90,8 +90,6 @@ def register_role_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
         except:
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
-        if result is None:
-            raise HTTPException(status_code=404, detail='Not Found')
         return Role.parse_obj(result)
 
 

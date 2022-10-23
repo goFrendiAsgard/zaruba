@@ -10,7 +10,7 @@ def create_kafka_topic(topic, config: Mapping[str, Any]):
     trial = 3
     while topic_metadata.topics.get(topic) is None and trial > 0:
         try:
-            print({'action': 'create_kafka_topic', 'topic': topic})
+            print({'action': 'create_kafka_topic', 'topic': topic}, file=sys.stderr)
             fs = kafka_admin.create_topics([NewTopic(topic, 1, 1)], request_timeout=15.0, validate_only=False)
             for _topic, f in fs.items():
                 f.result()

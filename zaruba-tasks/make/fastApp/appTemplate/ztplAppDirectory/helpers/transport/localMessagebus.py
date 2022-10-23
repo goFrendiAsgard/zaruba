@@ -1,6 +1,8 @@
 from typing import Any, Callable, Mapping
 from helpers.transport.messagebus import MessageBus
 
+import sys
+
 class LocalMessageBus(MessageBus):
 
     def __init__(self):
@@ -25,9 +27,10 @@ class LocalMessageBus(MessageBus):
         if event_name not in self._event_handler:
             self._error_count += 1
             raise Exception('Event handler for "{}" is not found'.format(event_name))
-        print({'action': 'publish_local_event', 'event_name': event_name, 'message': message})
+        print({'action': 'publish_local_event', 'event_name': event_name, 'message': message}, file=sys.stderr)
         try:
-            print({'action': 'handle_local_event', 'event_name': event_name, 'message': message})
+            print({'action': 'handle_local_event', 'event_name': event_name, 'message': message}, file=sys.stderr)
             self._event_handler[event_name](message)
-        except Exception as e:
-            raise e
+        except Exception as exception:
+            print('Error while publishing event {event_name} with messages: {message}'.format(event_name=event_name, message=message), file=sys.stderr)
+            raise exception

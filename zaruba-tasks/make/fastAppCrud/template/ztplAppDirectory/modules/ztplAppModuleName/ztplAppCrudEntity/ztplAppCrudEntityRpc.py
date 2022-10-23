@@ -5,6 +5,8 @@ from schemas.user import User
 from modules.ztplAppModuleName.ztplAppCrudEntity.repos.ztplAppCrudEntityRepo import ZtplAppCrudEntityRepo
 from modules.ztplAppModuleName.ztplAppCrudEntity.ztplAppCrudEntityService import ZtplAppCrudEntityService
 
+import sys
+
 def register_ztpl_app_crud_entity_entity_rpc(mb: MessageBus, rpc: RPC, ztpl_app_crud_entity_repo: ZtplAppCrudEntityRepo):
 
     ztpl_app_crud_entity_service = ZtplAppCrudEntityService(mb, rpc, ztpl_app_crud_entity_repo)
@@ -47,4 +49,4 @@ def register_ztpl_app_crud_entity_entity_rpc(mb: MessageBus, rpc: RPC, ztpl_app_
         return None if ztpl_app_crud_entity is None else ztpl_app_crud_entity.dict()
 
 
-    print('Handle RPC for ztplAppModuleName.ZtplAppCrudEntity')
+    print('Handle RPC for ztplAppModuleName.ZtplAppCrudEntity', file=sys.stderr)

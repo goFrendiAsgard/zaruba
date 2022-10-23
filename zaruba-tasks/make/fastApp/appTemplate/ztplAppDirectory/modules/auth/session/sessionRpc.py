@@ -3,6 +3,8 @@ from helpers.transport import RPC, MessageBus
 from modules.auth.session.sessionService import SessionService
 from schemas.user import User
 
+import sys
+
 def register_session_rpc(mb: MessageBus, rpc: RPC, session_service: SessionService):
 
     @rpc.handle('create_access_token')
@@ -24,4 +26,4 @@ def register_session_rpc(mb: MessageBus, rpc: RPC, session_service: SessionServi
         return None if user is None else user.dict()
 
 
-    print('Handle RPC for auth.Session')
+    print('Handle RPC for auth.Session', file=sys.stderr)

@@ -4,6 +4,8 @@ from schemas.user import UserData
 from schemas.user import User
 from modules.auth.user.userService import UserService
 
+import sys
+
 def register_user_rpc(mb: MessageBus, rpc: RPC, user_service: UserService):
 
     @rpc.handle('get_guest_user')
@@ -65,4 +67,4 @@ def register_user_rpc(mb: MessageBus, rpc: RPC, user_service: UserService):
         user = User.parse_obj(user_data)
         return user_service.is_authorized(user, permission)
 
-    print('Handle RPC for auth.User')
+    print('Handle RPC for auth.User', file=sys.stderr)

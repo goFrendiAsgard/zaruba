@@ -15,6 +15,7 @@ from configs.featureFlag import enable_error_page, enable_ui
 from configs.url import public_url_path 
 
 import re
+import sys
 
 def create_app(mb: MessageBus, rpc: RPC, page_template: Jinja2Templates) -> FastAPI:
     app = FastAPI(title=site_name)
@@ -49,12 +50,12 @@ def create_app(mb: MessageBus, rpc: RPC, page_template: Jinja2Templates) -> Fast
     def on_shutdown():
         mb.shutdown()
         rpc.shutdown()
-    print('Register app shutdown handler')
+    print('Register app shutdown handler', file=sys.stderr)
 
     if public_dir != '':
         # 📢 serve public static directory (js, css, html, images, etc)
         app.mount(public_url_path, StaticFiles(directory=public_dir), name='static-resources')
-        print('Register static directory route')
+        print('Register static directory route', file=sys.stderr)
 
 
     if enable_ui and enable_error_page:

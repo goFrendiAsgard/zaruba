@@ -48,7 +48,7 @@ class KafkaAvroMessageBus(MessageBus):
             return
         self._is_shutdown = True
         for event_name, consumer in self._consumers.items():
-            print('stop listening to {event_name}'.format(event_name=event_name))
+            print('stop listening to {event_name}'.format(event_name=event_name), file=sys.stderr)
             consumer.close()
 
     def handle(self, event_name: str) -> Callable[..., Any]:
@@ -76,7 +76,7 @@ class KafkaAvroMessageBus(MessageBus):
     def _handle(self, consumer: AvroConsumer, consumer_args, event_name: str, topic: str, group_id: str, event_handler: Callable[[Any], Any]):
         for _ in range(3):
             try:
-                print({'action': 'subscribe_kafka_avro_topic', 'topic': topic})
+                print({'action': 'subscribe_kafka_avro_topic', 'topic': topic}, file=sys.stderr)
                 consumer.subscribe([topic])
                 break
             except:
@@ -89,10 +89,10 @@ class KafkaAvroMessageBus(MessageBus):
                 if serialized_message is None:
                     continue
                 if serialized_message.error():
-                    print("AvroConsumer error: {}".format(serialized_message.error()))
+                    print("AvroConsumer error: {}".format(serialized_message.error()), file=sys.stderr)
                     continue
                 if serialized_message.value():
-                    print({'action': 'handle_kafka_avro_event', 'event_name': event_name, 'value': serialized_message.value(), 'key': serialized_message.key(), 'topic': serialized_message.topic(), 'partition': serialized_message.partition(), 'offset': serialized_message.offset(), 'group_id': group_id})
+                    print({'action': 'handle_kafka_avro_event', 'event_name': event_name, 'value': serialized_message.value(), 'key': serialized_message.key(), 'topic': serialized_message.topic(), 'partition': serialized_message.partition(), 'offset': serialized_message.offset(), 'group_id': group_id}, file=sys.stderr)
                     message = self._event_map.get_decoder(event_name)(serialized_message.value())
                     event_handler(message)
             except:
@@ -100,7 +100,7 @@ class KafkaAvroMessageBus(MessageBus):
                 print(traceback.format_exc(), file=sys.stderr)
                 consumer = AvroConsumer(consumer_args)
                 self._consumers[event_name] = consumer
-                print({'action': 're_subscribe_kafka_avro_topic', 'topic': topic})
+                print({'action': 're_subscribe_kafka_avro_topic', 'topic': topic}, file=sys.stderr)
                 consumer.subscribe([topic])
 
     def publish(self, event_name: str, message: Any) -> Any:
@@ -112,12 +112,13 @@ class KafkaAvroMessageBus(MessageBus):
             producer = AvroProducer(self._kafka_avro_connection_parameters, default_key_schema=key_schema, default_value_schema=value_schema)
             key_maker = self._event_map.get_key_maker(event_name)
             key = key_maker(message)
-            print({'action': 'publish_kafka_avro_event', 'event_name': event_name, 'key': key, 'message': message, 'topic': topic, 'serialized': serialized_message})
+            print({'action': 'publish_kafka_avro_event', 'event_name': event_name, 'key': key, 'message': message, 'topic': topic, 'serialized': serialized_message}, file=sys.stderr)
             producer.produce(topic=topic, key=key, value=serialized_message, callback=_produce_callback)
             producer.flush()
-        except Exception as e:
+        except Exception as exception:
+            print('Error while publishing event {event_name} with messages: {message}'.format(event_name=event_name, message=message), file=sys.stderr)
             self._error_count += 1
-            raise e
+            raise exception
 
     def _create_kafka_topic(self, topic: str):
         create_kafka_topic(topic, {
@@ -130,6 +131,6 @@ class KafkaAvroMessageBus(MessageBus):
 
 def _produce_callback(err, msg):
     if err is not None:
-        print("Failed to deliver message: %s: %s" % (str(msg), str(err)))
+        print("Failed to deliver message: %s: %s" % (str(msg), str(err)), file=sys.stderr)
     else:
-        print("Message produced: %s" % (str(msg)))
+        print("Message produced: %s" % (str(msg)), file=sys.stderr)

@@ -10,6 +10,8 @@ from modules.ui import MenuService
 from helpers.transport import MessageBus, RPC
 from schemas.menuContext import MenuContext
 
+import sys
+
 ################################################
 # -- ⚙️ API
 ################################################
@@ -19,7 +21,7 @@ def register_auth_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
     register_user_api_route(app, mb, rpc, auth_service)
     register_session_api_route(app, mb, rpc, auth_service, create_oauth_access_token_url_path, create_access_token_url_path, renew_access_token_url_path)
 
-    print('Register auth api route handler')
+    print('Register auth api route handler', file=sys.stderr)
 
 
 ################################################
@@ -31,4 +33,4 @@ def register_auth_ui_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service:
     register_user_ui_route(app, mb, rpc, menu_service, page_template)
     register_session_ui_route(app, mb, rpc, menu_service, page_template, create_access_token_url_path)
 
-    print('Register auth UI route handler')
+    print('Register auth UI route handler', file=sys.stderr)

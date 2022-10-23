@@ -4,6 +4,8 @@ from schemas.role import RoleData
 from schemas.user import User
 from modules.auth.role.roleService import RoleService
 
+import sys
+
 def register_role_rpc(mb: MessageBus, rpc: RPC, role_service: RoleService):
 
     @rpc.handle('find_roles')
@@ -47,4 +49,4 @@ def register_role_rpc(mb: MessageBus, rpc: RPC, role_service: RoleService):
         role = role_service.delete(id, current_user)
         return None if role is None else role.dict()
 
-    print('Handle RPC for auth.Role')
+    print('Handle RPC for auth.Role', file=sys.stderr)

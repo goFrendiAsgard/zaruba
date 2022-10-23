@@ -58,7 +58,7 @@ class RMQMessageBus(RMQConnection, MessageBus):
         def on_event(ch, method, props, body):
             try:
                 message = self._event_map.get_decoder(event_name)(body)
-                print({'action': 'handle_rmq_event', 'event_name': event_name, 'message': message, 'exchange': exchange, 'routing_key': queue})
+                print({'action': 'handle_rmq_event', 'event_name': event_name, 'message': message, 'exchange': exchange, 'routing_key': queue}, file=sys.stderr)
                 event_handler(message)
             except Exception as e:
                 self._error_count += 1
@@ -76,7 +76,7 @@ class RMQMessageBus(RMQConnection, MessageBus):
             body = self._event_map.get_encoder(event_name)(message)
             ch = connection.channel()
             ch.exchange_declare(exchange=exchange, exchange_type='fanout', durable=True)
-            print({'action': 'publish_rmq_event', 'event_name': event_name, 'message': message, 'exchange': exchange, 'routing_key': routing_key, 'body': body})
+            print({'action': 'publish_rmq_event', 'event_name': event_name, 'message': message, 'exchange': exchange, 'routing_key': routing_key, 'body': body}, file=sys.stderr)
             ch.basic_publish(
                 exchange=exchange,
                 routing_key=routing_key,
@@ -84,5 +84,6 @@ class RMQMessageBus(RMQConnection, MessageBus):
             )
             self.remove_connection(connection)
         except Exception as exception:
+            print('Error while publishing event {event_name} with messages: {message}'.format(event_name=event_name, message=message), file=sys.stderr)
             self._error_count += 1
             raise exception
