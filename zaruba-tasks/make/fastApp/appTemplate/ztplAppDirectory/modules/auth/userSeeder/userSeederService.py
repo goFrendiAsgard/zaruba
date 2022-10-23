@@ -11,9 +11,9 @@ class UserSeederService():
 
     def seed(self, user_data: UserData, current_user: Optional[User] = None):
         try:
+            if current_user is None:
+                current_user = self.user_service.get_system_user()
             self.user_service.find_by_username(user_data.username, current_user)
         except HTTPException as error:
             if error.status_code == 404:
-                if current_user is None:
-                    current_user = self.user_service.get_system_user()
                 self.user_service.insert(user_data, current_user)

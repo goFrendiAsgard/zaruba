@@ -60,7 +60,7 @@ app = create_app(mb, rpc, page_template)
 if enable_route_handler:
     # Session api route is special.
     #  Event if auth module is disabled, session api route is needed by FastAPI /docs
-    register_auth_session_api_route(app, mb, rpc, auth_service, create_access_token_url_path, create_access_token_url_path, renew_access_token_url_path)
+    register_auth_session_api_route(app, mb, rpc, auth_service, create_oauth_access_token_url_path, create_access_token_url_path, renew_access_token_url_path)
 if enable_auth_module:
     role_repo = DBRoleRepo(engine=engine, create_all=db_create_all)
     user_repo = DBUserRepo(engine=engine, create_all=db_create_all)
