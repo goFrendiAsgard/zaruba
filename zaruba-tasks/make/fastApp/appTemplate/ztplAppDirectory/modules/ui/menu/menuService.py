@@ -5,7 +5,7 @@ from schemas.menuContext import MenuContext
 from schemas.user import User
 from fastapi import Depends, status
 from starlette.requests import Request
-from modules.auth.auth.authService import AuthService
+from modules.auth.security.authService import AuthService
 from helpers.transport import RPC
 from modules.ui.page.pageTemplateException import PageTemplateException
 

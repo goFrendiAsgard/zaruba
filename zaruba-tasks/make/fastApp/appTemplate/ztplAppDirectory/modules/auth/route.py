@@ -5,7 +5,7 @@ from typing import Mapping, List, Any, Optional
 from fastapi import Depends, FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from modules.auth.auth.authService import AuthService
+from modules.auth.security.authService import AuthService
 from modules.ui import MenuService
 from helpers.transport import MessageBus, RPC
 from schemas.menuContext import MenuContext
@@ -15,11 +15,10 @@ import sys
 ################################################
 # -- ⚙️ API
 ################################################
-def register_auth_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, create_oauth_access_token_url_path, create_access_token_url_path: str, renew_access_token_url_path: str):
+def register_auth_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService):
 
     register_role_api_route(app, mb, rpc, auth_service)
     register_user_api_route(app, mb, rpc, auth_service)
-    register_session_api_route(app, mb, rpc, auth_service, create_oauth_access_token_url_path, create_access_token_url_path, renew_access_token_url_path)
 
     print('Register auth api route handler', file=sys.stderr)
 

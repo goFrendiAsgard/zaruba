@@ -2,7 +2,7 @@ from typing import Any, List, Mapping, Optional
 from helpers.transport import MessageBus, RPC
 from fastapi import Depends, FastAPI, Request, HTTPException
 from fastapi.security import OAuth2
-from modules.auth.auth.authService import AuthService
+from modules.auth.security.authService import AuthService
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from modules.ui import MenuService

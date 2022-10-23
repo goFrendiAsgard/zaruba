@@ -55,6 +55,7 @@ class RMQRPC(RMQConnection, RPC):
                         ch.basic_consume(queue=queue, on_message_callback=on_rpc_request, auto_ack=auto_ack)
                         ch.start_consuming()
                     except:
+                        print('Error while consuming queue {queue}'.format(queue=queue), file=sys.stderr)
                         self.remove_connection(connection)
                         self._error_count += 1
             thread = threading.Thread(target=consume)
@@ -72,10 +73,12 @@ class RMQRPC(RMQConnection, RPC):
                 except HTTPException as exception:
                     reply.error_message = exception.detail
                     reply.error_status_code = exception.status_code
+                    print('Error while handling rpc {rpc_name} with arguments {args}'.format(rpc_name=rpc_name, args=args), file=sys.stderr)
                     print(traceback.format_exc(), file=sys.stderr) 
                 except Exception as exception:
                     reply.error_message = getattr(exception, 'message', repr(exception))
                     self._error_count += 1
+                    print('Error while handling rpc {rpc_name} with arguments {args}'.format(rpc_name=rpc_name, args=args), file=sys.stderr)
                     print(traceback.format_exc(), file=sys.stderr) 
                 body: Any = self._event_map.get_encoder(rpc_name)(reply.dict())
                 # send reply
@@ -87,6 +90,7 @@ class RMQRPC(RMQConnection, RPC):
                 )
                 print({'action': 'send_rmq_rpc_reply', 'rpc_name': rpc_name, 'args': args, 'result': reply.result, 'error': reply.error_message, 'error_status_code': reply.error_status_code, 'exchange': exchange, 'routing_key': queue, 'correlation_id': props.correlation_id}, file=sys.stderr)
             except Exception as exception:
+                print('Error while handling rpc {rpc_name}'.format(rpc_name=rpc_name), file=sys.stderr)
                 self._error_count += 1
                 print(traceback.format_exc(), file=sys.stderr) 
             finally:
@@ -169,8 +173,9 @@ class RMQRPCCaller():
                     self.reply = RMQRPCReply.parse_obj(body)
                     print({'action': 'get_rmq_rpc_reply', 'queue': reply_queue, 'correlation_id': self.corr_id, 'result': self.reply.result, 'error': self.reply.error_message, 'error_status_code': self.reply.error_status_code}, file=sys.stderr)
                 except Exception as exception:
-                    print({'action': 'get_rmq_rpc_reply', 'queue': reply_queue, 'correlation_id': self.corr_id, 'body': body, 'error': getattr(exception, 'message', repr(exception)), 'error_status_code': None}, file=sys.stderr)
+                    print('Error while getting RPC reply {rpc_name}'.format(rpc_name=rpc_name), file=sys.stderr)
                     print(traceback.format_exc(), file=sys.stderr) 
+                    print({'action': 'get_rmq_rpc_reply', 'queue': reply_queue, 'correlation_id': self.corr_id, 'body': body, 'error': getattr(exception, 'message', repr(exception)), 'error_status_code': None}, file=sys.stderr)
                 self.replied = True
             ch.basic_ack(delivery_tag=method.delivery_tag)
         return on_rpc_response

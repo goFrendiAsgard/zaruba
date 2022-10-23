@@ -1,6 +1,6 @@
 from os import access
 from typing import Any, List, Mapping, Optional
-from modules.auth.auth.authService import AuthService
+from modules.auth.security.authService import AuthService
 from helpers.transport import MessageBus, RPC
 from fastapi import Depends, FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse

@@ -1,5 +1,5 @@
 from starlette.requests import Request
-from modules.auth.auth.test_util import GUEST_USER, init_test_no_auth_service_components
+from modules.auth.security.test_util import GUEST_USER, init_test_no_auth_service_components
 
 
 def test_no_auth_service_authorize_everyone_with_throw_error():

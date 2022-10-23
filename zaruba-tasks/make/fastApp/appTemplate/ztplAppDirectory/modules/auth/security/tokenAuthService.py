@@ -4,13 +4,13 @@ from fastapi import Depends, Cookie, HTTPException, status
 from helpers.transport import RPC
 from starlette.requests import Request
 from schemas.user import User
-from modules.auth.auth.authService import AuthService
+from modules.auth.security.authService import AuthService
 
 import sys
 import traceback
 
 
-class TokenOAuth2AuthService(AuthService):
+class TokenAuthService(AuthService):
 
     def __init__(self, rpc: RPC, oauth2_scheme: OAuth2):
         self.rpc = rpc
@@ -81,6 +81,7 @@ class TokenOAuth2AuthService(AuthService):
             user_data = self.rpc.call('get_user_by_access_token', token)
             return None if user_data is None else User.parse_obj(user_data)
         except:
+            print('Error while fetching user with token {token}'.format(token=token), file=sys.stderr)
             print(traceback.format_exc(), file=sys.stderr)
             return None
 

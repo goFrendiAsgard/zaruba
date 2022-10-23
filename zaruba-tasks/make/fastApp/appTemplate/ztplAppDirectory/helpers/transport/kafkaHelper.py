@@ -17,6 +17,7 @@ def create_kafka_topic(topic, config: Mapping[str, Any]):
             topic_metadata = kafka_admin.list_topics()
             trial -=1
         except:
+            print('Error while creating topic {topic}'.format(topic=topic), file=sys.stderr)
             print(traceback.format_exc(), file=sys.stderr)
     if topic_metadata.topics.get(topic) is None and trial > 0:
         raise Exception('Cannot create topic: {}'.format(topic))

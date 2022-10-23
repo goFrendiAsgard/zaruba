@@ -23,13 +23,13 @@ User's role and permissions are stored as JSON array.
 
 # Authorize API end point
 
-To authorize API end point, you can use any implementation of `AuthService` interface. You can define your own implementation of `AuthService`. But, for start, `ZtplAppDirectory` already has `TokenOAuth2AuthService` and `NoAuthService`.
+To authorize API end point, you can use any implementation of `AuthService` interface. You can define your own implementation of `AuthService`. But, for start, `ZtplAppDirectory` already has `TokenAuthService` and `NoAuthService`.
 
-By default, `ZtplAppDirectory` use `TokenOAuth2AuthService`. You can find the corresponding definition at `main.py`:
+By default, `ZtplAppDirectory` use `TokenAuthService`. You can find the corresponding definition at `main.py`:
 
 ```python
 # location: main.py
-auth_service = TokenOAuth2AuthService(rpc, oauth2_scheme)
+auth_service = TokenAuthService(rpc, oauth2_scheme)
 ```
 
 `AuthService` has many way to define authorization of API endpoints:

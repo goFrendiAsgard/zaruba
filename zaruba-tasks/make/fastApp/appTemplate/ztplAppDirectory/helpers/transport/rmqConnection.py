@@ -22,35 +22,21 @@ class RMQConnection():
         self._is_failing = False
         self._connections: List[BlockingConnection] = []
 
+
     def is_failing(self) -> bool:
         return self._is_failing
+
 
     def create_connection(self) -> BlockingConnection:
         connection: BlockingConnection = pika.BlockingConnection(self._connection_parameters)
         self._connections.append(connection)
         return connection
 
+
     def remove_connection(self, connection: BlockingConnection):
-        if connection is None:
-            return
-        try:
-            if not connection.is_closed:
-                connection.close()
-        except:
-            print('cannot close connection', file=sys.stderr)
+        self._close_connection(connection)
         self._connections.remove(connection)
 
-    def _stop_connections(self):
-        for connection in self._connections:
-            try:
-                if connection.is_closed:
-                    continue
-                # connection.process_data_events()
-                if not connection.is_closed:
-                    connection.close()
-            except:
-                print('find problem while closing connection', file=sys.stderr)
-                print(traceback.format_exc(), file=sys.stderr) 
 
     def shutdown(self):
         if self._is_shutdown:
@@ -58,3 +44,18 @@ class RMQConnection():
         self._is_shutdown = True
         print('closing RMQ connections', file=sys.stderr)
         self._stop_connections()
+
+
+    def _stop_connections(self):
+        for connection in self._connections:
+            self._close_connection(connection)
+
+
+    def _close_connection(self, connection: BlockingConnection):
+        try:
+            if connection is None or connection.is_closed:
+                return
+            connection.close()
+        except:
+            print('Error while closing connection', file=sys.stderr)
+            print(traceback.format_exc(), file=sys.stderr) 

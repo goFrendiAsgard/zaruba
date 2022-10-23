@@ -1,6 +1,6 @@
 from typing import Any, Tuple, Optional, Mapping
-from modules.auth.auth.noAuthService import NoAuthService
-from modules.auth.auth.tokenOAuth2AuthService import TokenOAuth2AuthService
+from modules.auth.security.noAuthService import NoAuthService
+from modules.auth.security.tokenAuthService import TokenAuthService
 from modules.auth.user.test_util import GUEST_USER, UNAUTHORIZED_ACTIVE_USER, AUTHORIZED_ACTIVE_USER, UNAUTHORIZED_INACTIVE_USER, AUTHORIZED_INACTIVE_USER
 from helpers.transport.localRpc import LocalRPC
 from schemas.user import User
@@ -43,7 +43,7 @@ def init_test_no_auth_service_components() -> NoAuthService:
     return auth_service
 
 
-def init_test_oauth2_auth_service_components() -> Tuple[TokenOAuth2AuthService, OAuth2]:
+def init_test_oauth2_auth_service_components() -> Tuple[TokenAuthService, OAuth2]:
     oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/', auto_error = False)
-    auth_service = TokenOAuth2AuthService(token_oauth2_auth_mock_rpc, oauth2_scheme)
+    auth_service = TokenAuthService(token_oauth2_auth_mock_rpc, oauth2_scheme)
     return auth_service, oauth2_scheme

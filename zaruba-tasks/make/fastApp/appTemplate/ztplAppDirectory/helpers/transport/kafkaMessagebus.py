@@ -68,6 +68,7 @@ class KafkaMessageBus(MessageBus):
                 thread = threading.Thread(target=self._handle, args=[consumer, consumer_args, event_name, topic, group_id, event_handler], daemon = True)
                 thread.start()
             except:
+                print('Error while registering event {event_name}'.format(event_name=event_name), file=sys.stderr)
                 print(traceback.format_exc(), file=sys.stderr) 
                 self._is_failing = True
                 self.shutdown()
@@ -80,6 +81,7 @@ class KafkaMessageBus(MessageBus):
                 consumer.subscribe([topic])
                 break
             except:
+                print('Error while subscribing to {topic}'.format(topic=topic), file=sys.stderr)
                 print(traceback.format_exc(), file=sys.stderr)
                 consumer = Consumer(consumer_args)
                 self._consumers[event_name] = consumer
@@ -96,6 +98,7 @@ class KafkaMessageBus(MessageBus):
                     message = self._event_map.get_decoder(event_name)(serialized_message.value())
                     event_handler(message)
             except:
+                print('Error while handling event {event_name}'.format(event_name=event_name), file=sys.stderr)
                 self._error_count += 1
                 print(traceback.format_exc(), file=sys.stderr)
                 consumer = Consumer(consumer_args)

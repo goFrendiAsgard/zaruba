@@ -5,6 +5,7 @@ from schemas.user import User
 from modules.auth.user.userService import UserService
 
 import abc
+import sys
 
 class TokenService(abc.ABC):
 
@@ -43,4 +44,5 @@ class JWTTokenService(TokenService):
             user_id = payload.get("sub")
             return self.user_service.find_by_id(user_id, current_user)
         except:
+            print('Error while getting user by token {token}'.format(token=token), file=sys.stderr)
             return None

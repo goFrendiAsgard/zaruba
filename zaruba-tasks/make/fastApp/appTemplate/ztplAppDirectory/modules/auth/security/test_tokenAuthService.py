@@ -1,4 +1,4 @@
-from modules.auth.auth.test_util import UNAUTHORIZED_ACTIVE_USER, AUTHORIZED_ACTIVE_USER, init_test_oauth2_auth_service_components
+from modules.auth.security.test_util import UNAUTHORIZED_ACTIVE_USER, AUTHORIZED_ACTIVE_USER, init_test_oauth2_auth_service_components
 
 import pytest
 

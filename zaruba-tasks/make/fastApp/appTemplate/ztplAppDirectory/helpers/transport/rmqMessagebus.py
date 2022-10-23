@@ -48,6 +48,7 @@ class RMQMessageBus(RMQConnection, MessageBus):
                         ch.basic_consume(queue=queue, on_message_callback=on_event, auto_ack=auto_ack)
                         ch.start_consuming()
                     except:
+                        print('Error while consuming queue {queue}'.format(queue=queue), file=sys.stderr)
                         self.remove_connection(connection)
                         self._error_count += 1
             thread = threading.Thread(target=consume)
@@ -60,7 +61,8 @@ class RMQMessageBus(RMQConnection, MessageBus):
                 message = self._event_map.get_decoder(event_name)(body)
                 print({'action': 'handle_rmq_event', 'event_name': event_name, 'message': message, 'exchange': exchange, 'routing_key': queue}, file=sys.stderr)
                 event_handler(message)
-            except Exception as e:
+            except Exception as exception:
+                print('Error while handling event {event_name}'.format(event_name=event_name), file=sys.stderr)
                 self._error_count += 1
                 print(traceback.format_exc(), file=sys.stderr) 
             finally:
