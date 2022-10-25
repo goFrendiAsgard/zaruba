@@ -5,7 +5,7 @@ async def ztplAppHttpMethod_ztpl_app_url(current_user: Optional[User] = Depends(
     Handle (ztplAppHttpMethod) ztplAppUrl
     To enforce authorization, you can use any of these dependencies as parameter:
         - auth_service.anyone()
-        - auth_service.is_not_user()
+        - auth_service.is_visitor()
         - auth_service.is_user()
         - auth_service.has_permission('permission')
     To publish an event, you can use:

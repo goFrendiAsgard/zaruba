@@ -60,7 +60,7 @@ async def test_token_oauth2_auth_service_authorize_everyone_without_throw_error(
 @pytest.mark.asyncio
 async def test_token_oauth2_auth_service_authorize_unauthenticated_with_throw_error():
     auth_service, _ = init_test_oauth2_auth_service_components()
-    authorize = auth_service.is_not_user(throw_error = True)
+    authorize = auth_service.is_visitor(throw_error = True)
     # test access without token
     user = await authorize(bearer_token=None, app_access_token=None)
     assert user is None
@@ -95,7 +95,7 @@ async def test_token_oauth2_auth_service_authorize_unauthenticated_with_throw_er
 @pytest.mark.asyncio
 async def test_token_oauth2_auth_service_authorize_unauthenticated_without_throw_error():
     auth_service, _ = init_test_oauth2_auth_service_components()
-    authorize = auth_service.is_not_user(throw_error = False)
+    authorize = auth_service.is_visitor(throw_error = False)
     # test access without token
     user = await authorize(bearer_token=None, app_access_token=None)
     assert user is None

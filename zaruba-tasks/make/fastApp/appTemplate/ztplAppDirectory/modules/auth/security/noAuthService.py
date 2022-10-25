@@ -12,14 +12,31 @@ class NoAuthService(AuthService):
     def __init__(self, rpc: RPC):
         self.rpc = rpc
 
-    def _allow_everyone_as_guest(self, request: Request) -> Optional[User]:
-        guest_user_data = self.rpc.call('get_guest_user')
-        return User.parse_obj(guest_user_data)
 
     def anyone(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
-        return self._allow_everyone_as_guest
+        return self._allow(throw_error)
 
-    def is_not_user(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
+
+    def is_visitor(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
+        return self._restrict(throw_error)
+
+
+    def is_user(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
+        return self._restrict(throw_error)
+
+
+    def has_permission(self, permission: str, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
+        return self._allow(throw_error)
+
+    
+    def _allow(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
+        def allow(request: Request) -> Optional[User]:
+            guest_user_data = self.rpc.call('get_guest_user')
+            return User.parse_obj(guest_user_data)
+        return allow
+
+
+    def _restrict(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         def restrict(request: Request) -> Optional[User]:
             if throw_error:
                 raise HTTPException(
@@ -28,10 +45,4 @@ class NoAuthService(AuthService):
                 )
             return None
         return restrict
-
-    def is_user(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
-        return self._allow_everyone_as_guest
-
-    def has_permission(self, permission: str, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
-        return self._allow_everyone_as_guest
 

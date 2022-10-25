@@ -33,7 +33,7 @@ class MockAuthService(AuthService):
             return self._return_none_or_throw_error(throw_error)
         return verify_authenticated
 
-    def is_not_user(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
+    def is_visitor(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         def verify_unauthenticated(request: Optional[Request]) -> Optional[User]:
             if self.current_user is None or self.current_user == GUEST_USER:
                 return self.current_user
@@ -106,12 +106,12 @@ def init_test_menu_data(menu_service: MenuService):
     This will generate all possible combination of two level menu:
         - everyone (AuthType.ANYONE)
             - everyone-everyone (AuthType.ANYONE)
-            - everyone-unauthenticated (AuthType.NON_USER)
+            - everyone-unauthenticated (AuthType.VISITOR)
             - everyone-authenticated (AuthType.USER)
             - everyone-authorized (AuthType.HAS_PERMISSION)
-        - unauthenticated (AuthType.NON_USER)
+        - unauthenticated (AuthType.VISITOR)
             - unauthenticated-everyone (AuthType.ANYONE)
-            - unauthenticated-unauthenticated (AuthType.NON_USER)
+            - unauthenticated-unauthenticated (AuthType.VISITOR)
             - unauthenticated-authenticated (AuthType.USER)
             - unauthenticated-authorized (AuthType.HAS_PERMISSION)
         ...
@@ -121,7 +121,7 @@ def init_test_menu_data(menu_service: MenuService):
     '''
     auth_type_map = {
         'everyone': AuthType.ANYONE,
-        'unauthenticated': AuthType.NON_USER,
+        'unauthenticated': AuthType.VISITOR,
         'authenticated': AuthType.USER,
         'authorized': AuthType.HAS_PERMISSION,
     }

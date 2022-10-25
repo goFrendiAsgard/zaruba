@@ -26,7 +26,7 @@ class TokenAuthService(AuthService):
         return verify_everyone 
 
 
-    def is_not_user(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
+    def is_visitor(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         async def verify_is_unauthenticated(bearer_token = Depends(self.oauth2_scheme), app_access_token=Cookie(default=None)) -> Optional[User]:
             current_user = self._get_user(bearer_token, app_access_token, throw_error=False)
             if not current_user or not current_user.active:

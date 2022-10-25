@@ -22,7 +22,7 @@ class MenuService():
 
 
     def add_menu(self, name: str, title: str, url: str, auth_type: int, permission_name: Optional[str] = None, parent_name:Optional[str] = None):
-        if auth_type not in (AuthType.ANYONE, AuthType.NON_USER, AuthType.USER, AuthType.HAS_PERMISSION):
+        if auth_type not in (AuthType.ANYONE, AuthType.VISITOR, AuthType.USER, AuthType.HAS_PERMISSION):
             raise Exception ('Cannot adding menu {} because it has invalid auth_type {}'.format(name, auth_type))
         menu = Menu(name=name, title=title, url=url, auth_type=auth_type, permission_name=permission_name)
         parent_menu = self.root_menu if parent_name is None else self.menu_map.get(parent_name, None)
@@ -56,8 +56,8 @@ class MenuService():
     def _get_menu_authorizer(self, menu: Menu) -> Callable[[Request], Optional[User]]:
         if menu.auth_type == AuthType.ANYONE:
             return self.auth_service.anyone(throw_error=False)
-        if menu.auth_type == AuthType.NON_USER:
-            return self.auth_service.is_not_user(throw_error=False)
+        if menu.auth_type == AuthType.VISITOR:
+            return self.auth_service.is_visitor(throw_error=False)
         if menu.auth_type == AuthType.USER:
             return self.auth_service.is_user(throw_error=False)
         if menu.auth_type == AuthType.HAS_PERMISSION:
@@ -103,7 +103,7 @@ class MenuService():
             return False
         if menu.auth_type == AuthType.ANYONE:
             return True
-        if menu.auth_type == AuthType.NON_USER and user is None:
+        if menu.auth_type == AuthType.VISITOR and user is None:
             return True
         if menu.auth_type == AuthType.USER and user is not None:
             return True

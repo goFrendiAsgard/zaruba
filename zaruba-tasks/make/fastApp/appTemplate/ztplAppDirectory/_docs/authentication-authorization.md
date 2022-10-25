@@ -36,7 +36,7 @@ auth_service = TokenAuthService(rpc, oauth2_scheme)
 
 - `auth_service.anyone(throw_error: bool = True)`. Everyone can access the API.
 - `auth_service.is_user(throw_error: bool = True)`. Only authenticated users (user that has already login) can access the API.
-- `auth_service.is_not_user(throw_error: bool = True)`. Only is_unauthenticated users (user that has not been login) can access the API.
+- `auth_service.is_visitor(throw_error: bool = True)`. Only is_unauthenticated users (user that has not been login) can access the API.
 - `auth_service.has_permission(permission: str, throw_error: bool = True)`. Only authorized users (user that has already login and has permission) can access the page.
 
 Those methods will:
@@ -79,7 +79,7 @@ Inside `create_menu_service` function you can see how the menu is being aranged:
 def create_menu_service(rpc: RPC, auth_service: AuthService) -> MenuService:
     menu_service = MenuService(rpc, auth_service)
     menu_service.add_menu(name='account', title='Account', url='#', auth_type=AuthType.ANYONE)
-    menu_service.add_menu(name='account/login', title='Log in', url='/account/login', auth_type=AuthType.NON_USER, parent_name='account')
+    menu_service.add_menu(name='account/login', title='Log in', url='/account/login', auth_type=AuthType.VISITOR, parent_name='account')
     menu_service.add_menu(name='account/logout', title='Log out', url='/account/logout', auth_type=AuthType.USER, parent_name='account')
     menu_service.add_menu(name='auth', title='Security', url='#', auth_type=AuthType.ANYONE)
     menu_service.add_menu(name='auth/roles', title='Roles', url='/auth/roles', auth_type=AuthType.HAS_PERMISSION, permission_name='ui:auth:role', parent_name='auth')
