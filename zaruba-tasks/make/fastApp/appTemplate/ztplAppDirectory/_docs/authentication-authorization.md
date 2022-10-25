@@ -34,10 +34,10 @@ auth_service = TokenAuthService(rpc, oauth2_scheme)
 
 `AuthService` has many way to define authorization of API endpoints:
 
-- `auth_service.everyone(throw_error: bool = True)`. Everyone can access the API.
-- `auth_service.is_authenticated(throw_error: bool = True)`. Only authenticated users (user that has already login) can access the API.
-- `auth_service.is_unauthenticated(throw_error: bool = True)`. Only is_unauthenticated users (user that has not been login) can access the API.
-- `auth_service.is_authorized(permission: str, throw_error: bool = True)`. Only authorized users (user that has already login and has permission) can access the page.
+- `auth_service.anyone(throw_error: bool = True)`. Everyone can access the API.
+- `auth_service.is_user(throw_error: bool = True)`. Only authenticated users (user that has already login) can access the API.
+- `auth_service.is_not_user(throw_error: bool = True)`. Only is_unauthenticated users (user that has not been login) can access the API.
+- `auth_service.has_permission(permission: str, throw_error: bool = True)`. Only authorized users (user that has already login and has permission) can access the page.
 
 Those methods will:
 - return current user if the authorization success 
@@ -51,7 +51,7 @@ Let's see the following example:
 # - <module>/route.py
 # - <module>/<entity>/<entity>Route.py
 @app.get('/api/v1/books/', response_model=BookResult)
-def find_books(keyword: str='', limit: int=100, offset: int=0, current_user: Optional[User] = Depends(auth_service.is_authorized('api:book:read'))) -> BookResult:
+def find_books(keyword: str='', limit: int=100, offset: int=0, current_user: Optional[User] = Depends(auth_service.has_permission('api:book:read'))) -> BookResult:
     result = {}
     try:
         result = rpc.call('find_book', keyword, limit, offset)
@@ -61,7 +61,7 @@ def find_books(keyword: str='', limit: int=100, offset: int=0, current_user: Opt
     return BookResult.parse_obj(result)
 ```
 
-In this case, you want `GET /api/vi/books` to be accessible by any user that has `api:book:read` permission. Thus, you define the dependency as handler parameter: `current_user: Optional[User] = Depends(auth_service.is_authorized('api:book:read'))`
+In this case, you want `GET /api/vi/books` to be accessible by any user that has `api:book:read` permission. Thus, you define the dependency as handler parameter: `current_user: Optional[User] = Depends(auth_service.has_permission('api:book:read'))`
 
 # Authorize page
 
@@ -78,12 +78,12 @@ Inside `create_menu_service` function you can see how the menu is being aranged:
 # location: configs/menuServiceFactory.py
 def create_menu_service(rpc: RPC, auth_service: AuthService) -> MenuService:
     menu_service = MenuService(rpc, auth_service)
-    menu_service.add_menu(name='account', title='Account', url='#', auth_type=AuthType.EVERYONE)
-    menu_service.add_menu(name='account/login', title='Log in', url='/account/login', auth_type=AuthType.UNAUTHENTICATED, parent_name='account')
-    menu_service.add_menu(name='account/logout', title='Log out', url='/account/logout', auth_type=AuthType.AUTHENTICATED, parent_name='account')
-    menu_service.add_menu(name='auth', title='Security', url='#', auth_type=AuthType.EVERYONE)
-    menu_service.add_menu(name='auth/roles', title='Roles', url='/auth/roles', auth_type=AuthType.AUTHORIZED, permission_name='ui:auth:role', parent_name='auth')
-    menu_service.add_menu(name='auth/users', title='Users', url='/auth/users', auth_type=AuthType.AUTHORIZED, permission_name='ui:auth:user', parent_name='auth')
+    menu_service.add_menu(name='account', title='Account', url='#', auth_type=AuthType.ANYONE)
+    menu_service.add_menu(name='account/login', title='Log in', url='/account/login', auth_type=AuthType.NON_USER, parent_name='account')
+    menu_service.add_menu(name='account/logout', title='Log out', url='/account/logout', auth_type=AuthType.USER, parent_name='account')
+    menu_service.add_menu(name='auth', title='Security', url='#', auth_type=AuthType.ANYONE)
+    menu_service.add_menu(name='auth/roles', title='Roles', url='/auth/roles', auth_type=AuthType.HAS_PERMISSION, permission_name='ui:auth:role', parent_name='auth')
+    menu_service.add_menu(name='auth/users', title='Users', url='/auth/users', auth_type=AuthType.HAS_PERMISSION, permission_name='ui:auth:user', parent_name='auth')
     return menu_service
 ```
 
@@ -100,11 +100,11 @@ auth (Security)
 
 Be sure to register your page to `create_menu_service` whenever you add a new page.
 
-To authorize a page, you can inject `menu_service.is_authorized('<menu-name>')`:
+To authorize a page, you can inject `menu_service.has_access('<menu-name>')`:
 
 ```python
 @app.get('/', response_class=HTMLResponse)
-async def get_(request: Request, context: MenuContext = Depends(menu_service.is_authorized('library:/'))) -> HTMLResponse:
+async def get_(request: Request, context: MenuContext = Depends(menu_service.has_access('library:/'))) -> HTMLResponse:
     '''
     Handle (get) /
     '''
@@ -123,7 +123,7 @@ async def get_(request: Request, context: MenuContext = Depends(menu_service.is_
         }, status_code=500)
 ```
 
-`menu_service.is_authorized` will return `MenuContext` that you can use to render jinja page_template.
+`menu_service.has_access` will return `MenuContext` that you can use to render jinja page_template.
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

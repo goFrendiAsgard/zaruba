@@ -17,7 +17,7 @@ class TokenAuthService(AuthService):
         self.oauth2_scheme = oauth2_scheme
 
 
-    def everyone(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
+    def anyone(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         async def verify_everyone(bearer_token = Depends(self.oauth2_scheme), app_access_token=Cookie(default=None)) -> Optional[User]:
             current_user = self._get_user(bearer_token, app_access_token, throw_error=False)
             if not current_user or not current_user.active:
@@ -26,7 +26,7 @@ class TokenAuthService(AuthService):
         return verify_everyone 
 
 
-    def is_unauthenticated(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
+    def is_not_user(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         async def verify_is_unauthenticated(bearer_token = Depends(self.oauth2_scheme), app_access_token=Cookie(default=None)) -> Optional[User]:
             current_user = self._get_user(bearer_token, app_access_token, throw_error=False)
             if not current_user or not current_user.active:
@@ -35,13 +35,13 @@ class TokenAuthService(AuthService):
         return verify_is_unauthenticated
 
 
-    def is_authenticated(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
+    def is_user(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         async def verify_is_authenticated(bearer_token = Depends(self.oauth2_scheme), app_access_token=Cookie(default=None)) -> Optional[User]:
             return self._get_authenticated_user(bearer_token, app_access_token, throw_error)
         return verify_is_authenticated
 
 
-    def is_authorized(self, permission: str, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
+    def has_permission(self, permission: str, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         async def verify_is_authorized(bearer_token = Depends(self.oauth2_scheme), app_access_token=Cookie(default=None)) -> Optional[User]:
             authenticated_user = self._get_authenticated_user(bearer_token, app_access_token, throw_error)
             if not authenticated_user or not authenticated_user.active:

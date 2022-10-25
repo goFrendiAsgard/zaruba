@@ -6,7 +6,7 @@ import pytest
 @pytest.mark.asyncio
 async def test_token_oauth2_auth_service_authorize_everyone_with_throw_error():
     auth_service, _ = init_test_oauth2_auth_service_components()
-    authorize = auth_service.everyone(throw_error = True)
+    authorize = auth_service.anyone(throw_error = True)
     # test access without token
     user = await authorize(bearer_token=None, app_access_token=None)
     assert user is None
@@ -33,7 +33,7 @@ async def test_token_oauth2_auth_service_authorize_everyone_with_throw_error():
 @pytest.mark.asyncio
 async def test_token_oauth2_auth_service_authorize_everyone_without_throw_error():
     auth_service, _ = init_test_oauth2_auth_service_components()
-    authorize = auth_service.everyone(throw_error = False)
+    authorize = auth_service.anyone(throw_error = False)
     # test access without token
     user = await authorize(bearer_token=None, app_access_token=None)
     assert user is None
@@ -60,7 +60,7 @@ async def test_token_oauth2_auth_service_authorize_everyone_without_throw_error(
 @pytest.mark.asyncio
 async def test_token_oauth2_auth_service_authorize_unauthenticated_with_throw_error():
     auth_service, _ = init_test_oauth2_auth_service_components()
-    authorize = auth_service.is_unauthenticated(throw_error = True)
+    authorize = auth_service.is_not_user(throw_error = True)
     # test access without token
     user = await authorize(bearer_token=None, app_access_token=None)
     assert user is None
@@ -95,7 +95,7 @@ async def test_token_oauth2_auth_service_authorize_unauthenticated_with_throw_er
 @pytest.mark.asyncio
 async def test_token_oauth2_auth_service_authorize_unauthenticated_without_throw_error():
     auth_service, _ = init_test_oauth2_auth_service_components()
-    authorize = auth_service.is_unauthenticated(throw_error = False)
+    authorize = auth_service.is_not_user(throw_error = False)
     # test access without token
     user = await authorize(bearer_token=None, app_access_token=None)
     assert user is None
@@ -122,7 +122,7 @@ async def test_token_oauth2_auth_service_authorize_unauthenticated_without_throw
 @pytest.mark.asyncio
 async def test_token_oauth2_auth_service_authorize_authenticated_with_throw_error():
     auth_service, _ = init_test_oauth2_auth_service_components()
-    authorize = auth_service.is_authenticated(throw_error = True)
+    authorize = auth_service.is_user(throw_error = True)
     # test access without token
     is_error = False
     try:
@@ -169,7 +169,7 @@ async def test_token_oauth2_auth_service_authorize_authenticated_with_throw_erro
 @pytest.mark.asyncio
 async def test_token_oauth2_auth_service_authorize_authenticated_without_throw_error():
     auth_service, _ = init_test_oauth2_auth_service_components()
-    authorize = auth_service.is_authenticated(throw_error = False)
+    authorize = auth_service.is_user(throw_error = False)
     # test access without token
     user = await authorize(bearer_token=None, app_access_token=None)
     assert user is None
@@ -197,7 +197,7 @@ async def test_token_oauth2_auth_service_authorize_authenticated_without_throw_e
 @pytest.mark.asyncio
 async def test_token_oauth2_auth_service_authorize_authorized_with_throw_error():
     auth_service, _ = init_test_oauth2_auth_service_components()
-    authorize = auth_service.is_authorized('random_permission', throw_error = True)
+    authorize = auth_service.has_permission('random_permission', throw_error = True)
     # test access without token
     is_error = False
     try:
@@ -248,7 +248,7 @@ async def test_token_oauth2_auth_service_authorize_authorized_with_throw_error()
 @pytest.mark.asyncio
 async def test_token_oauth2_auth_service_authorize_authorized_without_throw_error():
     auth_service, _ = init_test_oauth2_auth_service_components()
-    authorize = auth_service.is_authorized('random_permission', throw_error = False)
+    authorize = auth_service.has_permission('random_permission', throw_error = False)
     # test access without token
     user = await authorize(bearer_token=None, app_access_token=None)
     assert user is None

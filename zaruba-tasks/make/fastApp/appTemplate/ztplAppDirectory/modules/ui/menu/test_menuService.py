@@ -1,5 +1,5 @@
 from schemas.authType import AuthType
-from modules.ui.menu.test_util import UNAUTHORIZED_ACTIVE_USER, AUTHORIZED_ACTIVE_USER, MenuTestCase, init_test_menu_service_components, init_test_menu_data, check_is_authorized
+from modules.ui.menu.test_util import UNAUTHORIZED_ACTIVE_USER, AUTHORIZED_ACTIVE_USER, MenuTestCase, init_test_menu_service_components, init_test_menu_data, check_has_access
 
 import pytest
 
@@ -22,7 +22,7 @@ def test_menu_service_add_menu_with_non_existing_parent():
     init_test_menu_data(menu_service)
     is_error = False
     try:
-        menu_service.add_menu(name='test', title='test', url='/test', auth_type= AuthType.EVERYONE, parent_name='invalid')
+        menu_service.add_menu(name='test', title='test', url='/test', auth_type= AuthType.ANYONE, parent_name='invalid')
     except:
         is_error = True
     assert is_error
@@ -141,7 +141,7 @@ async def test_menu_service_no_user_authorize():
     user = None
     menu_service, _ = init_test_menu_service_components(user)
     init_test_menu_data(menu_service)
-    await check_is_authorized(menu_service, user, {
+    await check_has_access(menu_service, user, {
         'everyone' : True,
         'unauthenticated' : True,
         'authenticated' : False,
@@ -155,7 +155,7 @@ async def test_menu_service_authenticated_user_authorize():
     user = UNAUTHORIZED_ACTIVE_USER
     menu_service, _ = init_test_menu_service_components(user)
     init_test_menu_data(menu_service)
-    await check_is_authorized(menu_service, user, {
+    await check_has_access(menu_service, user, {
         'everyone' : True,
         'unauthenticated' : False,
         'authenticated' : True,
@@ -169,7 +169,7 @@ async def test_menu_service_authorized_user_authorize():
     user = AUTHORIZED_ACTIVE_USER
     menu_service, _ = init_test_menu_service_components(user)
     init_test_menu_data(menu_service)
-    await check_is_authorized(menu_service, user, {
+    await check_has_access(menu_service, user, {
         'everyone' : True,
         'unauthenticated' : False,
         'authenticated' : True,

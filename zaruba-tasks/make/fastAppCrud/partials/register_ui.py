@@ -1,1 +1,1 @@
-menu_service.add_menu(name='ztplAppModuleName:ztplAppCrudEntities', title='ZtplAppCrudEntities', url='/ztpl-app-module-name/ztpl-app-crud-entities', auth_type=AuthType.AUTHORIZED, permission_name='ui:ztplAppModuleName:ztplAppCrudEntity', parent_name='ztplAppModuleName')
+menu_service.add_menu(name='ztplAppModuleName:ztplAppCrudEntities', title='ZtplAppCrudEntities', url='/ztpl-app-module-name/ztpl-app-crud-entities', auth_type=AuthType.HAS_PERMISSION, permission_name='ui:ztplAppModuleName:ztplAppCrudEntity', parent_name='ztplAppModuleName')

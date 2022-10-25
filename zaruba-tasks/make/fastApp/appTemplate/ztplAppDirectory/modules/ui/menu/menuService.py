@@ -16,13 +16,13 @@ class MenuService():
     def __init__(self, rpc: RPC, auth_service: AuthService, root_menu_name: str = 'root', root_menu_title: str = '', root_menu_url: str = '/'):
         self.auth_service: AuthService = auth_service
         self.rpc: RPC = rpc
-        self.root_menu: Menu = Menu(name=root_menu_name, title=root_menu_title, url=root_menu_url, auth_type=AuthType.EVERYONE)
+        self.root_menu: Menu = Menu(name=root_menu_name, title=root_menu_title, url=root_menu_url, auth_type=AuthType.ANYONE)
         self.menu_map: Mapping[str, Menu] = {root_menu_name: self.root_menu}
         self.parent_map: Mapping[str, List[Menu]] = {root_menu_name: []}
 
 
     def add_menu(self, name: str, title: str, url: str, auth_type: int, permission_name: Optional[str] = None, parent_name:Optional[str] = None):
-        if auth_type not in (AuthType.EVERYONE, AuthType.UNAUTHENTICATED, AuthType.AUTHENTICATED, AuthType.AUTHORIZED):
+        if auth_type not in (AuthType.ANYONE, AuthType.NON_USER, AuthType.USER, AuthType.HAS_PERMISSION):
             raise Exception ('Cannot adding menu {} because it has invalid auth_type {}'.format(name, auth_type))
         menu = Menu(name=name, title=title, url=url, auth_type=auth_type, permission_name=permission_name)
         parent_menu = self.root_menu if parent_name is None else self.menu_map.get(parent_name, None)
@@ -43,7 +43,7 @@ class MenuService():
         return accessible_menu
 
 
-    def is_authorized(self, menu_name: str) -> Callable[[Callable[[Request], Optional[User]]], MenuContext]:
+    def has_access(self, menu_name: str) -> Callable[[Callable[[Request], Optional[User]]], MenuContext]:
         if menu_name not in self.menu_map:
             raise Exception('Menu {} is not registered'.format(menu_name))
         menu = self.menu_map[menu_name]
@@ -54,14 +54,14 @@ class MenuService():
 
 
     def _get_menu_authorizer(self, menu: Menu) -> Callable[[Request], Optional[User]]:
-        if menu.auth_type == AuthType.EVERYONE:
-            return self.auth_service.everyone(throw_error=False)
-        if menu.auth_type == AuthType.UNAUTHENTICATED:
-            return self.auth_service.is_unauthenticated(throw_error=False)
-        if menu.auth_type == AuthType.AUTHENTICATED:
-            return self.auth_service.is_authenticated(throw_error=False)
-        if menu.auth_type == AuthType.AUTHORIZED:
-            return self.auth_service.is_authorized(menu.permission_name, throw_error=False)
+        if menu.auth_type == AuthType.ANYONE:
+            return self.auth_service.anyone(throw_error=False)
+        if menu.auth_type == AuthType.NON_USER:
+            return self.auth_service.is_not_user(throw_error=False)
+        if menu.auth_type == AuthType.USER:
+            return self.auth_service.is_user(throw_error=False)
+        if menu.auth_type == AuthType.HAS_PERMISSION:
+            return self.auth_service.has_permission(menu.permission_name, throw_error=False)
         raise Exception('Menu {} has invalid auth_type: {}'.format(menu.name, menu.auth_type))
 
 
@@ -101,12 +101,12 @@ class MenuService():
     def _is_menu_accessible(self, menu: Optional[Menu], user: Optional[User]) -> bool:
         if menu is None:
             return False
-        if menu.auth_type == AuthType.EVERYONE:
+        if menu.auth_type == AuthType.ANYONE:
             return True
-        if menu.auth_type == AuthType.UNAUTHENTICATED and user is None:
+        if menu.auth_type == AuthType.NON_USER and user is None:
             return True
-        if menu.auth_type == AuthType.AUTHENTICATED and user is not None:
+        if menu.auth_type == AuthType.USER and user is not None:
             return True
-        if menu.auth_type == AuthType.AUTHORIZED and user is not None:
+        if menu.auth_type == AuthType.HAS_PERMISSION and user is not None:
             return self.rpc.call('is_user_authorized', user.dict(), menu.permission_name)
         return False

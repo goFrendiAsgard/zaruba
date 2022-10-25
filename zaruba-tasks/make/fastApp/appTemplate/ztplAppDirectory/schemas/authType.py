@@ -1,7 +1,7 @@
 from enum import IntEnum
 
 class AuthType(IntEnum):
-    EVERYONE = 0
-    UNAUTHENTICATED = 1
-    AUTHENTICATED = 2
-    AUTHORIZED = 3
+    ANYONE = 0
+    NON_USER = 1
+    USER = 2
+    HAS_PERMISSION = 3

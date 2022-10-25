@@ -7,17 +7,17 @@ import abc
 class AuthService(abc.ABC):
 
     @abc.abstractmethod
-    def everyone(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
+    def anyone(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         pass
 
     @abc.abstractmethod
-    def is_authenticated(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
+    def is_user(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         pass
 
     @abc.abstractmethod
-    def is_unauthenticated(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
+    def is_not_user(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         pass
 
     @abc.abstractmethod
-    def is_authorized(self, permission: str, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
+    def has_permission(self, permission: str, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         pass

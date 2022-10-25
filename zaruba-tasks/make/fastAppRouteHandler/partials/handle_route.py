@@ -1,13 +1,13 @@
 
 @app.ztplAppHttpMethod('ztplAppUrl', response_class=HTMLResponse)
-async def ztplAppHttpMethod_ztpl_app_url(current_user: Optional[User] = Depends(auth_service.everyone())) -> HTMLResponse:
+async def ztplAppHttpMethod_ztpl_app_url(current_user: Optional[User] = Depends(auth_service.anyone())) -> HTMLResponse:
     '''
     Handle (ztplAppHttpMethod) ztplAppUrl
     To enforce authorization, you can use any of these dependencies as parameter:
-        - auth_service.everyone()
-        - auth_service.is_unauthenticated()
-        - auth_service.is_authenticated()
-        - auth_service.is_authorized('permission')
+        - auth_service.anyone()
+        - auth_service.is_not_user()
+        - auth_service.is_user()
+        - auth_service.has_permission('permission')
     To publish an event, you can use:
         mb.publish('event_name', {'some': 'value'})
     To send RPC, you can use: 

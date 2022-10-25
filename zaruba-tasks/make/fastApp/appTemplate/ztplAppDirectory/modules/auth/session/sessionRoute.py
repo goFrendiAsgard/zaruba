@@ -36,7 +36,7 @@ class RenewAccessTokenResponse(BaseModel):
 def register_session_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService, create_oauth_access_token_url_path: str, create_access_token_url_path: str, renew_access_token_url_path: str):
 
     @app.post(create_oauth_access_token_url_path, response_model=CreateAccessTokenResponse)
-    async def create_oauth_access_token(form_data: OAuth2PasswordRequestForm = Depends(), current_user: Optional[User] = Depends(auth_service.everyone())):
+    async def create_oauth_access_token(form_data: OAuth2PasswordRequestForm = Depends(), current_user: Optional[User] = Depends(auth_service.anyone())):
         try:
             if not current_user:
                 current_user = User.parse_obj(rpc.call('get_guest_user'))
@@ -52,7 +52,7 @@ def register_session_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_serv
 
 
     @app.post(create_access_token_url_path, response_model=CreateAccessTokenResponse)
-    async def create_access_token(data: CreateAccessTokenRequest, current_user: Optional[User] = Depends(auth_service.everyone())):
+    async def create_access_token(data: CreateAccessTokenRequest, current_user: Optional[User] = Depends(auth_service.anyone())):
         try:
             if not current_user:
                 current_user = User.parse_obj(rpc.call('get_guest_user'))
@@ -68,7 +68,7 @@ def register_session_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_serv
 
 
     @app.post(renew_access_token_url_path, response_model=RenewAccessTokenResponse)
-    async def renew_access_token(data: RenewAccessTokenRequest, current_user: Optional[User] = Depends(auth_service.is_authenticated())):
+    async def renew_access_token(data: RenewAccessTokenRequest, current_user: Optional[User] = Depends(auth_service.is_user())):
         try:
             if not current_user:
                 current_user = User.parse_obj(rpc.call('get_guest_user'))
@@ -88,7 +88,7 @@ def register_session_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_serv
 def register_session_ui_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service: MenuService, page_template: Jinja2Templates, create_access_token_url_path: str):
 
     @app.get('/account/login', response_class=HTMLResponse)
-    async def user_interface(request: Request, context: MenuContext = Depends(menu_service.is_authorized('account:login'))):
+    async def user_interface(request: Request, context: MenuContext = Depends(menu_service.has_access('account:login'))):
         return page_template.TemplateResponse(
             'default_login.html', 
             context={
@@ -100,7 +100,7 @@ def register_session_ui_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_servi
         )
 
     @app.get('/account/logout', response_class=HTMLResponse)
-    async def user_interface(request: Request, context: MenuContext = Depends(menu_service.is_authorized('account:logout'))):
+    async def user_interface(request: Request, context: MenuContext = Depends(menu_service.has_access('account:logout'))):
         return page_template.TemplateResponse(
             'default_logout.html', 
             context={

@@ -16,22 +16,22 @@ class NoAuthService(AuthService):
         guest_user_data = self.rpc.call('get_guest_user')
         return User.parse_obj(guest_user_data)
 
-    def everyone(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
+    def anyone(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         return self._allow_everyone_as_guest
 
-    def is_unauthenticated(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
-        def unauthenticate_everyone(request: Request) -> Optional[User]:
+    def is_not_user(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
+        def restrict(request: Request) -> Optional[User]:
             if throw_error:
                 raise HTTPException(
                     status_code=status.HTTP_403_FORBIDDEN,
                     detail='Forbidden'
                 )
             return None
-        return unauthenticate_everyone
+        return restrict
 
-    def is_authenticated(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
+    def is_user(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         return self._allow_everyone_as_guest
 
-    def is_authorized(self, permission: str, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
+    def has_permission(self, permission: str, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         return self._allow_everyone_as_guest
 
