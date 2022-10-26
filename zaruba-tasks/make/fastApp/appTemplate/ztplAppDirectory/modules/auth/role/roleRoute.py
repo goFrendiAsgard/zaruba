@@ -2,10 +2,9 @@ from typing import Any, List, Mapping, Optional
 from helpers.transport import MessageBus, RPC
 from fastapi import Depends, FastAPI, Request, HTTPException
 from fastapi.security import OAuth2
-from modules.auth.security.authService import AuthService
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from modules.ui import MenuService
+from core import AuthService, MenuService
 from schemas.menuContext import MenuContext
 from schemas.role import Role, RoleData, RoleResult
 from schemas.user import User
@@ -20,6 +19,9 @@ def register_role_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
 
     @app.get('/api/v1/roles/', response_model=RoleResult)
     def find_roles(keyword: str='', limit: int=100, offset: int=0, current_user: Optional[User] = Depends(auth_service.has_permission('api:role:read'))) -> RoleResult:
+        '''
+        Serving API to find roles by keyword.
+        '''
         result = {}
         try:
             if not current_user:
@@ -35,6 +37,9 @@ def register_role_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
 
     @app.get('/api/v1/roles/{id}', response_model=Role)
     def find_role_by_id(id: str, current_user: Optional[User] = Depends(auth_service.has_permission('api:role:read'))) -> Role:
+        '''
+        Serving API to find role by id.
+        '''
         result = None
         try:
             if not current_user:
@@ -50,6 +55,9 @@ def register_role_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
 
     @app.post('/api/v1/roles/', response_model=Role)
     def insert_role(role_data: RoleData, current_user: Optional[User] = Depends(auth_service.has_permission('api:role:create'))) -> Role:
+        '''
+        Serving API to insert new role.
+        '''
         result = None
         try:
             if not current_user:
@@ -65,6 +73,9 @@ def register_role_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
 
     @app.put('/api/v1/roles/{id}', response_model=Role)
     def update_role(id: str, role_data: RoleData, current_user: Optional[User] = Depends(auth_service.has_permission('api:role:update'))) -> Role:
+        '''
+        Serving API to update role by id.
+        '''
         result = None
         try:
             if not current_user:
@@ -80,6 +91,9 @@ def register_role_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
 
     @app.delete('/api/v1/roles/{id}')
     def delete_role(id: str, current_user: Optional[User] = Depends(auth_service.has_permission('api:role:delete'))) -> Role:
+        '''
+        Serving API to delete role by id.
+        '''
         result = None
         try:
             if not current_user:
@@ -99,7 +113,10 @@ def register_role_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
 def register_role_ui_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service: MenuService, page_template: Jinja2Templates):
 
     @app.get('/auth/roles', response_class=HTMLResponse)
-    async def user_interface(request: Request, context: MenuContext = Depends(menu_service.has_access('auth:roles'))):
+    async def manage_role(request: Request, context: MenuContext = Depends(menu_service.has_access('auth:roles'))):
+        '''
+        Serving user interface to manage role.
+        '''
         return page_template.TemplateResponse('default_crud.html', context={
             'api_path': '/api/vi/roles',
             'content_path': 'auth/crud/roles.html',

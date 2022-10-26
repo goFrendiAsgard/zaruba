@@ -1,6 +1,6 @@
 from typing import Any, Tuple, Optional, Mapping
-from modules.auth.security.noAuthService import NoAuthService
-from modules.auth.security.tokenAuthService import TokenAuthService
+from core.security.noAuthService import NoAuthService
+from core.security.tokenAuthService import TokenAuthService
 from modules.auth.user.test_util import GUEST_USER, UNAUTHORIZED_ACTIVE_USER, AUTHORIZED_ACTIVE_USER, UNAUTHORIZED_INACTIVE_USER, AUTHORIZED_INACTIVE_USER
 from helpers.transport.localRpc import LocalRPC
 from schemas.user import User

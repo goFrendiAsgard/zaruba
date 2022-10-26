@@ -11,27 +11,27 @@ You can start considering microservices when you need to scale some features ind
 
 It is always better to __start with a monolith__ and __refactor to microservices__ later.
 
-Refactoring is not always easy. Sometimes it is even impossible. There are many stories of companies who failed to do so because their code was not modular/testable. Their growth is now hindered by their own technology.
+Refactoring is not always easy. There are many stories of companies who failed to do so because their code was not modular/testable. Their growth is now hindered by their technology.
 
-Some companies invest too much in Kubernetes or any other expensive technologies. They built a great microservices architecture, yet failed to maintain/develop it properly.
+Some companies invest too much in Kubernetes or other expensive technologies. They built a great microservices architecture, yet failed to maintain/develop it properly. Or even worse, they have great technology but not a great business. In the end, they have nothing left because they invest too much in something they don't need.
 
-So we need a middle ground. We need a monolith application that is ready to be deployed as microservices.
+So we need a middle ground. We need a monolith application that is ready to be deployed as microservices anytime.
 
 Let's see the following scenarios, and see what we can do in each phase:
 
-- __You are starting a business.__ Your IT team probably consists of a CTO and a couple of software engineers. In that case, you start with a monolith application. Make sure your monolith is modular so that you can split it into microservices later. If you have database repositories in your modules, be sure to use them in the same modules. This will make your modules decoupled from other modules.
+- __You are starting a business.__ Your IT team probably consists of a CTO and a couple of software engineers. In that case, you start with a monolith application. Make sure your monolith is modular so that you can split it into microservices later. If you have database repositories in your modules, be sure to only call them from the same modules. This will make your modules decoupled from other modules.
 
-- __Your software handles a lot of requests and has to be always available.__ Now you might consider using better hardware. Or you can split your monolith application into microservices. As your monolith application is modular, this process should not be very painful. You might also need to consider deploying your application into a Kubernetes cluster. Your services will be able to talk to each other using `Messagebus` or `RPC call`.
+- __Your software handles a lot of requests and has to be always available.__ Now you might consider using better hardware. Or you can split your application into microservices. As your application is modular, this process should not be very painful. You might also need to consider deploying your application into a Kubernetes cluster. Your services will be able to talk to each other using `Messagebus` or `RPC call`.
 
-- __You need different technologies/programming languages for your services.__ Python is a good general-purpose programming language. But it is not your best choice when you need to take concurrency into account. In this case, you can write some of your services in other programming languages. Make sure the new service will handle all necessary events and RPC calls.
+- __You need different technologies/programming languages for your services.__ Python is a good general-purpose programming language. But it is not your best choice when you need to take concurrency into account. In this case, you can write some of your services in other programming languages. Make sure the new service will handle all necessary `events` and `RPC calls`.
 
-Now let's dive into the architecture, so that you can get a better picture why `ztplAppDirectory` is probably a good solution to your use case.
+Now let's dive into the architecture; so that you can get a better picture of why `ztplAppDirectory` is probably a good solution to your use case.
 
 # Microservices vs Monolith
 
 In 2016, [DHH](https://twitter.com/dhh) wrote an article titled [Majestic Monolith](https://m.signalvnoise.com/the-majestic-monolith/).
 
-Since big tech companies use microservices architecture, people are curious about this. They start to adopt the architecture without understanding the drawbacks. In the article, DHH argued that not all companies need microservices architecture.
+Since big tech companies like Google or Netflix use microservices, people are getting curious about this. They start to adopt the architecture without understanding the drawbacks. In the article, DHH argued that not all companies need microservices architecture.
 
 Let's see how microservices and a monolith are different from each other.
 
@@ -41,7 +41,7 @@ Let's see how microservices and a monolith are different from each other.
 
 Microservices architecture is good because:
 
-- It is easy to scale up/down particular services.
+- It is easy to scale up/down only particular services.
 - Users can still access the system even though some services are down.
 - Services can be developed/deployed independently from each other.
 
@@ -65,20 +65,20 @@ Monolith architecture is bad because:
 - When it is down, the entire system is down.
 - When you need to scale up/down, everything is scaled up/down
 
-# Microservices-ready monolith
+# Microservices-ready monolith (aka: Modular Monolith)
 
 
-Many companies failed to refactor their monolith application into microservices. Other companies are investing too much in Kubernetes or other expensive technologies. They are paying too much for something they didn't need.
+Many companies failed to refactor their monolith application into microservices, thus failing to support their business growth.
 
-We can improve the situation by creating a modular monolith application. This modular monolith should be deployable as microservices later.
+Other companies are investing too much in Kubernetes or other expensive technologies. They are investing too much for something they didn't need. Technology become their cost center, and they have very few resources to grow their businesses.
 
-You can think of the application as a super-soldier with much training. Alone, this super-soldier is already capable of many things. This super soldier can shoot, fight, drive a helicopter, and even hack a satellite.
+We can improve the situation by creating a __modular monolith application__. At the very beginning of your business, you should start with a cheap monolith app. But later, you should be able to split your application into microservices.
+
+You can think of the __modular monolith application__ as a __super-soldier__ with much training and equipments. Alone, this super-soldier is already capable of many things. This super soldier can shoot, fight, drive a helicopter, and even hack a satellite.
 
 ![image of a single super soldier](images/super-soldier-monolith.jpg)
 
-But when you do a bigger mission, you cannot rely on a single super-soldier. A team consisting of multiple soldiers with different specializations will do better.
-
-So you deploy multiple super-soldiers and assign specific roles/equipment for each of them.
+But when you do a bigger mission, you cannot rely on a single super-soldier. A team consisting of multiple soldiers with less equipment and different specializations will do better.
 
 ![image of multiple super soldiers](images/super-soldier-microservices.jpg)
 
@@ -94,9 +94,9 @@ Microservices-ready monolith is good because:
 It is bad because:
 
 - Everyone is aware of any code changes (Code-level authorization is nearly impossible).
-- Without proper conventions, people tend to cross domain/module boundaries.
+- Without proper conventions, people tend to cross their domain/boundaries.
 
-> ⚠️ __Warning:__ Never cross domain boundary even if you can. Assume every module will live in different servers/pods and accessing different database server. Otherwise, your application will ends up as big spaghetti-code monolith that can't go anywhere.
+> ⚠️ __Warning:__ Never cross domain/boundaries even if you can. Assume __every module__ will __live in different servers/pods__ and __accessing different databases__. Otherwise, your application will ends up as big spaghetti-code monolith that can't go anywhere.
 
 # Example
 
@@ -109,7 +109,7 @@ Suppose you have two modules in `ZtplAppDirectory`:
 
 These module serves different domains.
 
-Someday you will need to scale them independently. But for now, let's start with a monolith:
+Let's start to deploy your application as a monolith:
 
 ![Monolith mode](images/fastApp-monolith.png)
 
@@ -121,7 +121,9 @@ All good, now you can run everything locally.
 
 ## Run as microservices
 
-Now you want to run `ZtplAppDirectory` as microservices. You don't need to modify the source code at all. Instead, you just need to deploy the application with different feature flags (configurations).
+Now you want to run `ZtplAppDirectory` as microservices.
+
+The good news is: You don't need to modify the source code at all. Instead, you just need to deploy the application with different feature flags (configurations).
 
 ![Microservices mode](images/fastApp-microservices.png)
 

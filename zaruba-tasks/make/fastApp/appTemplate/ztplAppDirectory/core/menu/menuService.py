@@ -3,11 +3,11 @@ from schemas.authType import AuthType
 from schemas.menu import Menu
 from schemas.menuContext import MenuContext
 from schemas.user import User
+from core.security.authService import AuthService
+from core.page.pageTemplateException import PageTemplateException
 from fastapi import Depends, status
 from starlette.requests import Request
-from modules.auth.security.authService import AuthService
 from helpers.transport import RPC
-from modules.ui.page.pageTemplateException import PageTemplateException
 
 import copy
 

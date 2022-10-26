@@ -1,6 +1,6 @@
 # Documentation
 
-`ZtplAppDirectory` is a microservice-ready monolith application.
+`ZtplAppDirectory` is a microservice-ready monolith application. It is built on top of [FastAPI](https://fastapi.tiangolo.com/), a modern, fast (high-performance), web framework for building APIs with Python 3.7+ based on standard Python type hints
 
 In this documentation, you will see `ZtplAppDirectory`'s [motivation and architecture](motivation-and-architecture/README.md) as well as how to manage and extend `ZtplAppDirectory`.
 

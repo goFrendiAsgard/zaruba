@@ -1,5 +1,5 @@
 from schemas.authType import AuthType
-from modules.ui.menu.test_util import UNAUTHORIZED_ACTIVE_USER, AUTHORIZED_ACTIVE_USER, MenuTestCase, init_test_menu_service_components, init_test_menu_data, check_has_access
+from core.menu.test_util import UNAUTHORIZED_ACTIVE_USER, AUTHORIZED_ACTIVE_USER, MenuTestCase, init_test_menu_service_components, init_test_menu_data, check_has_access
 
 import pytest
 

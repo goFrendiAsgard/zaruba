@@ -1,11 +1,10 @@
 from os import access
 from typing import Any, List, Mapping, Optional
-from modules.auth.security.authService import AuthService
 from helpers.transport import MessageBus, RPC
 from fastapi import Depends, FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from modules.ui import MenuService
+from core import AuthService, MenuService
 from schemas.menuContext import MenuContext
 from schemas.user import User, UserData, UserResult
 
@@ -19,6 +18,9 @@ def register_user_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
 
     @app.get('/api/v1/users/', response_model=UserResult)
     def find_user(keyword: str='', limit: int=100, offset: int=0, current_user: Optional[User] = Depends(auth_service.has_permission('api:user:read'))) -> UserResult:
+        '''
+        Serving API to find users by keyword.
+        '''
         result = {}
         try:
             if not current_user:
@@ -34,6 +36,9 @@ def register_user_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
 
     @app.get('/api/v1/users/{id}', response_model=User)
     def find_user_by_id(id: str, current_user: Optional[User] = Depends(auth_service.has_permission('api:user:read'))) -> User:
+        '''
+        Serving API to find user by id.
+        '''
         result = None
         try:
             if not current_user:
@@ -49,6 +54,9 @@ def register_user_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
 
     @app.post('/api/v1/users/', response_model=User)
     def insert_user(data: UserData, current_user: Optional[User] = Depends(auth_service.has_permission('api:user:create'))) -> User:
+        '''
+        Serving API to insert new user.
+        '''
         result = None
         try:
             if not current_user:
@@ -64,6 +72,9 @@ def register_user_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
 
     @app.put('/api/v1/users/{id}', response_model=User)
     def update_user(id: str, data: UserData, current_user: Optional[User] = Depends(auth_service.has_permission('api:user:update'))) -> User:
+        '''
+        Serving API to update user by id.
+        '''
         result = None
         try:
             if not current_user:
@@ -79,6 +90,9 @@ def register_user_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
 
     @app.delete('/api/v1/users/{id}')
     def delete_user(id: str, current_user: Optional[User] = Depends(auth_service.has_permission('api:user:delete'))) -> User:
+        '''
+        Serving API to delete user by id.
+        '''
         result = None
         try:
             if not current_user:
@@ -98,7 +112,10 @@ def register_user_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
 def register_user_ui_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service: MenuService, page_template: Jinja2Templates):
 
     @app.get('/auth/users', response_class=HTMLResponse)
-    async def user_interface(request: Request, context: MenuContext = Depends(menu_service.has_access('auth:users'))):
+    async def manage_user(request: Request, context: MenuContext = Depends(menu_service.has_access('auth:users'))):
+        '''
+        Serving user interface to manage user.
+        '''
         return page_template.TemplateResponse('default_crud.html', context={
             'api_path': '/api/vi/users',
             'content_path': 'auth/crud/users.html',

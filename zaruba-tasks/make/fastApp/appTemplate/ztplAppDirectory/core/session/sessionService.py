@@ -1,6 +1,6 @@
 from typing import Optional
 from modules.auth.user.userService import UserService
-from modules.auth.token.tokenService import TokenService
+from core.token.tokenService import TokenService
 from schemas.user import User
 
 class SessionService():

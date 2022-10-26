@@ -1,9 +1,9 @@
-from modules.auth.session.sessionService import SessionService
+from core.session.sessionService import SessionService
+from core.token.tokenService import JWTTokenService
 from modules.auth.user.userService import DefaultUserService
 from modules.auth.role.roleService import RoleService
 from modules.auth.user.repos.dbUserRepo import DBUserRepo
 from modules.auth.role.repos.dbRoleRepo import DBRoleRepo
-from modules.auth.token.tokenService import JWTTokenService
 from modules.auth.user.test_defaultUserService import create_user_data
 from helpers.transport import LocalRPC, LocalMessageBus
 

@@ -2,9 +2,9 @@ from typing import Callable, Optional
 from fastapi.security import OAuth2
 from fastapi import Depends, Cookie, HTTPException, status
 from helpers.transport import RPC
+from core.security.authService import AuthService
 from starlette.requests import Request
 from schemas.user import User
-from modules.auth.security.authService import AuthService
 
 
 class NoAuthService(AuthService):

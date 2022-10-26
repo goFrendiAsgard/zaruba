@@ -2,10 +2,9 @@ from typing import Any, List, Mapping, Optional
 from helpers.transport import MessageBus, RPC
 from fastapi import Depends, FastAPI, Request, HTTPException
 from fastapi.security import OAuth2
-from modules.auth import AuthService
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from modules.ui import MenuService
+from core import AuthService, MenuService
 from schemas.ztplAppCrudEntity import ZtplAppCrudEntity, ZtplAppCrudEntityData, ZtplAppCrudEntityResult
 from schemas.menuContext import MenuContext
 from schemas.user import User
@@ -19,7 +18,10 @@ import sys
 def register_ztpl_app_crud_entity_entity_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService):
 
     @app.get('/api/v1/ztpl_app_crud_entities/', response_model=ZtplAppCrudEntityResult)
-    def find_ztpl_app_crud_entities(keyword: str='', limit: int=100, offset: int=0, current_user: Optional[User] = Depends(auth_service.has_permission('api:ztpl_app_crud_entity:read'))) -> ZtplAppCrudEntityResult:
+    async def find_ztpl_app_crud_entities(keyword: str='', limit: int=100, offset: int=0, current_user: Optional[User] = Depends(auth_service.has_permission('api:ztpl_app_crud_entity:read'))) -> ZtplAppCrudEntityResult:
+        '''
+        Serving API to find ztpl_app_crud_entities by keyword.
+        '''
         result = {}
         try:
             if not current_user:
@@ -34,7 +36,10 @@ def register_ztpl_app_crud_entity_entity_api_route(app: FastAPI, mb: MessageBus,
 
 
     @app.get('/api/v1/ztpl_app_crud_entities/{id}', response_model=ZtplAppCrudEntity)
-    def find_ztpl_app_crud_entity_by_id(id: str, current_user: Optional[User] = Depends(auth_service.has_permission('api:ztpl_app_crud_entity:read'))) -> ZtplAppCrudEntity:
+    async def find_ztpl_app_crud_entity_by_id(id: str, current_user: Optional[User] = Depends(auth_service.has_permission('api:ztpl_app_crud_entity:read'))) -> ZtplAppCrudEntity:
+        '''
+        Serving API to find ztplAppCrudEntity by id.
+        '''
         ztpl_app_crud_entity = None
         try:
             if not current_user:
@@ -49,7 +54,10 @@ def register_ztpl_app_crud_entity_entity_api_route(app: FastAPI, mb: MessageBus,
 
 
     @app.post('/api/v1/ztpl_app_crud_entities/', response_model=ZtplAppCrudEntity)
-    def insert_ztpl_app_crud_entity(ztpl_app_crud_entity_data: ZtplAppCrudEntityData, current_user: Optional[User] = Depends(auth_service.has_permission('api:ztpl_app_crud_entity:create'))) -> ZtplAppCrudEntity:
+    async def insert_ztpl_app_crud_entity(ztpl_app_crud_entity_data: ZtplAppCrudEntityData, current_user: Optional[User] = Depends(auth_service.has_permission('api:ztpl_app_crud_entity:create'))) -> ZtplAppCrudEntity:
+        '''
+        Serving API to insert new ztplAppCrudEntity.
+        '''
         ztpl_app_crud_entity = None
         try:
             if not current_user:
@@ -64,7 +72,10 @@ def register_ztpl_app_crud_entity_entity_api_route(app: FastAPI, mb: MessageBus,
 
 
     @app.put('/api/v1/ztpl_app_crud_entities/{id}', response_model=ZtplAppCrudEntity)
-    def update_ztpl_app_crud_entity(id: str, ztpl_app_crud_entity_data: ZtplAppCrudEntityData, current_user: Optional[User] = Depends(auth_service.has_permission('api:ztpl_app_crud_entity:update'))) -> ZtplAppCrudEntity:
+    async def update_ztpl_app_crud_entity(id: str, ztpl_app_crud_entity_data: ZtplAppCrudEntityData, current_user: Optional[User] = Depends(auth_service.has_permission('api:ztpl_app_crud_entity:update'))) -> ZtplAppCrudEntity:
+        '''
+        Serving API to update ztplAppCrudEntity by id.
+        '''
         ztpl_app_crud_entity = None
         try:
             if not current_user:
@@ -79,7 +90,10 @@ def register_ztpl_app_crud_entity_entity_api_route(app: FastAPI, mb: MessageBus,
 
 
     @app.delete('/api/v1/ztpl_app_crud_entities/{id}')
-    def delete_ztpl_app_crud_entity(id: str, current_user: Optional[User] = Depends(auth_service.has_permission('api:ztpl_app_crud_entity:delete'))) -> ZtplAppCrudEntity:
+    async def delete_ztpl_app_crud_entity(id: str, current_user: Optional[User] = Depends(auth_service.has_permission('api:ztpl_app_crud_entity:delete'))) -> ZtplAppCrudEntity:
+        '''
+        Serving API to delete ztplAppCrudEntity by id.
+        '''
         ztpl_app_crud_entity = None
         try:
             if not current_user:
@@ -99,7 +113,10 @@ def register_ztpl_app_crud_entity_entity_api_route(app: FastAPI, mb: MessageBus,
 def register_ztpl_app_crud_entity_entity_ui_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service: MenuService, page_template: Jinja2Templates):
 
     @app.get('/ztpl-app-module-name/ztpl-app-crud-entities', response_class=HTMLResponse)
-    async def user_interface(request: Request, context: MenuContext = Depends(menu_service.has_access('ztplAppModuleName:ztplAppCrudEntities'))):
+    async def manage_ztpl_app_crud_entity(request: Request, context: MenuContext = Depends(menu_service.has_access('ztplAppModuleName:ztplAppCrudEntities'))):
+        '''
+        Serving user interface for managing ztplAppCrudEntity.
+        '''
         return page_template.TemplateResponse('default_crud.html', context={
             'api_path': '/api/vi/ztp_app_crud_entities',
             'content_path': 'ztplAppModuleName/crud/ztpl_app_crud_entities.html',

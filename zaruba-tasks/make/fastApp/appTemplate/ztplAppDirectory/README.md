@@ -1,8 +1,8 @@
 # ZtplAppDirectory
 
-`ZtplAppDirectory` is a microservice-ready monolith application.
+`ZtplAppDirectory` is a microservice-ready monolith application. It is built on top of [FastAPI](https://fastapi.tiangolo.com/), a modern, fast (high-performance), web framework for building APIs with Python 3.7+ based on standard Python type hints
 
-This application is created using [Zaruba](https://github.com/state-alchemists/zaruba). To create the application, you can invoke:
+This application is generated using [Zaruba](https://github.com/state-alchemists/zaruba). To create the application, you can invoke:
 
 ```bash
 zaruba please initProject # or cd to your zaruba project

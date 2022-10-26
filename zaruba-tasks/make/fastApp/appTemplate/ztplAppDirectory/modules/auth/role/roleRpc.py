@@ -14,17 +14,20 @@ def register_role_rpc(mb: MessageBus, rpc: RPC, role_service: RoleService):
         role_result = role_service.find(keyword, limit, offset, current_user)
         return role_result.dict()
 
+
     @rpc.handle('find_role_by_id')
     def find_role_by_id(id: str, current_user_data: Optional[Mapping[str, Any]] = None) -> Optional[Mapping[str, Any]]:
         current_user = None if current_user_data is None else User.parse_obj(current_user_data)
         role = role_service.find_by_id(id, current_user)
         return None if role is None else role.dict()
 
+
     @rpc.handle('find_role_by_name')
     def find_role_by_name(name: str, current_user_data: Optional[Mapping[str, Any]] = None) -> Optional[Mapping[str, Any]]:
         current_user = None if current_user_data is None else User.parse_obj(current_user_data)
         role = role_service.find_by_name(name, current_user)
         return None if role is None else role.dict()
+
 
     @rpc.handle('insert_role')
     def insert_role(role_data: Mapping[str, Any], current_user_data: Mapping[str, Any]) -> Optional[Mapping[str, Any]]:
@@ -35,6 +38,7 @@ def register_role_rpc(mb: MessageBus, rpc: RPC, role_service: RoleService):
         new_role = role_service.insert(role, current_user)
         return None if new_role is None else new_role.dict()
 
+
     @rpc.handle('update_role')
     def update_role(id: str, role_data: Mapping[str, Any], current_user_data: Mapping[str, Any]) -> Optional[Mapping[str, Any]]:
         current_user = User.parse_obj(current_user_data)
@@ -42,6 +46,7 @@ def register_role_rpc(mb: MessageBus, rpc: RPC, role_service: RoleService):
         role.updated_by = current_user.id
         updated_role = role_service.update(id, role, current_user)
         return None if updated_role is None else updated_role.dict()
+
 
     @rpc.handle('delete_role')
     def delete_role(id: str, current_user_data: Mapping[str, Any]) -> Optional[Mapping[str, Any]]:

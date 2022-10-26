@@ -56,6 +56,10 @@ There are several important files in this directory:
 
 Any values from the configuration should be imported into `main.py` instead of being imported directly in the module.
 
+# core directory
+
+Containing core components/services.
+
 # helpers directory
 
 Containing some functions/factories that will be used in your application.
@@ -64,7 +68,7 @@ Unlike configs, helpers should be stateless and has less dependencies. Usually c
 
 # modules directory
 
-Containing modules, including `auth`, `ui`, and custom ones.
+Containing modules, including `auth` and any other custom modules.
 
 # pages directory
 

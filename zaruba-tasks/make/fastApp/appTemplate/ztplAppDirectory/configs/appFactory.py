@@ -5,7 +5,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from modules.ui import PageTemplateException
+from core import PageTemplateException
 from helpers.transport import MessageBus, RPC
 from configs.cors import cors_allow_credentials, cors_allow_headers, cors_allow_methods, cors_allow_origin_regex, cors_allow_origins, cors_expose_headers, cors_max_age
 from configs.dir import public_dir

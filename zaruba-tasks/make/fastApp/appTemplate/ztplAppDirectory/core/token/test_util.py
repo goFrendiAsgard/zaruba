@@ -3,7 +3,7 @@ from modules.auth.user.userService import DefaultUserService
 from modules.auth.role.roleService import RoleService
 from modules.auth.user.repos.dbUserRepo import DBUserRepo
 from modules.auth.role.repos.dbRoleRepo import DBRoleRepo
-from modules.auth.token.tokenService import JWTTokenService
+from core.token.tokenService import JWTTokenService
 from modules.auth.user.test_util import create_user_data
 from helpers.transport import LocalRPC, LocalMessageBus
 

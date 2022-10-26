@@ -1,9 +1,13 @@
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy import create_engine
 from schemas.user import UserData
+from core import (
+    register_session_api_route, register_session_ui_route, register_session_rpc,
+    SessionService, TokenAuthService, JWTTokenService,
+)
 from modules.auth import (
-    register_auth_api_route, register_auth_session_api_route, register_auth_ui_route, register_auth_event_handler, register_auth_rpc_handler,
-    SessionService, TokenAuthService, JWTTokenService, DefaultUserService, UserSeederService, RoleService,
+    register_auth_api_route, register_auth_ui_route, register_auth_event_handler, register_auth_rpc_handler,
+    DefaultUserService, UserSeederService, RoleService,
     DBRoleRepo, DBUserRepo
 )
 from configs import (
@@ -53,14 +57,13 @@ page_template = create_page_template()
 # -- ⚛️ FastAPI initialization
 ################################################
 app = create_app(mb, rpc, page_template)
+if enable_route_handler:
+    register_session_api_route(app, mb, rpc, auth_service, create_oauth_access_token_url_path, create_access_token_url_path, renew_access_token_url_path)
+
 
 ################################################
 # -- 🔒 Auth module
 ################################################
-if enable_route_handler:
-    # Session api route is special.
-    #  Event if auth module is disabled, session api route is needed by FastAPI /docs
-    register_auth_session_api_route(app, mb, rpc, auth_service, create_oauth_access_token_url_path, create_access_token_url_path, renew_access_token_url_path)
 if enable_auth_module:
     role_repo = DBRoleRepo(engine=engine, create_all=db_create_all)
     user_repo = DBUserRepo(engine=engine, create_all=db_create_all)
@@ -90,9 +93,11 @@ if enable_auth_module:
     # UI route
     if enable_route_handler and enable_ui:
         register_auth_ui_route(app, mb, rpc, menu_service, page_template, create_access_token_url_path)
+        register_session_ui_route(app, mb, rpc, menu_service, page_template, create_access_token_url_path)
     # handle event
     if enable_event_handler:
         register_auth_event_handler(mb, rpc)
     # serve RPC
     if enable_rpc_handler:
-        register_auth_rpc_handler(mb, rpc, role_service, user_service, session_service)
+        register_auth_rpc_handler(mb, rpc, role_service, user_service)
+        register_session_rpc(mb, rpc, session_service)

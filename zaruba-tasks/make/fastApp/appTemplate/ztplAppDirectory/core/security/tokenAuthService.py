@@ -4,7 +4,7 @@ from fastapi import Depends, Cookie, HTTPException, status
 from helpers.transport import RPC
 from starlette.requests import Request
 from schemas.user import User
-from modules.auth.security.authService import AuthService
+from core.security.authService import AuthService
 
 import sys
 import traceback

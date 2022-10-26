@@ -4,8 +4,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from schemas.menuContext import MenuContext
 from schemas.user import User
-from modules.auth import AuthService
-from modules.ui import MenuService
+from core import AuthService, MenuService
 from helpers.transport import MessageBus, RPC
 
 import traceback

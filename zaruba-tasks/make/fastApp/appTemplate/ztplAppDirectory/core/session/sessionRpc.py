@@ -1,6 +1,6 @@
 from typing import Any, Optional, Mapping
 from helpers.transport import RPC, MessageBus
-from modules.auth.session.sessionService import SessionService
+from core.session.sessionService import SessionService
 from schemas.user import User
 
 import sys

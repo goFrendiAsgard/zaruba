@@ -1,6 +1,6 @@
 from typing import Callable, Optional, Tuple, List, Mapping
-from modules.ui.menu.menuService import MenuService
-from modules.auth.security.authService import AuthService
+from core.menu.menuService import MenuService
+from core.security.authService import AuthService
 from modules.auth.user.test_util import GUEST_USER, UNAUTHORIZED_ACTIVE_USER, AUTHORIZED_ACTIVE_USER
 from helpers.transport.localRpc import LocalRPC
 from schemas.user import User, UserData

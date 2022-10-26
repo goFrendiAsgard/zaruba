@@ -2,14 +2,14 @@ from typing import Any, List, Mapping, Optional
 from helpers.transport import MessageBus, RPC
 from fastapi import Depends, FastAPI, Request, HTTPException
 from fastapi.security import OAuth2
-from modules.auth.security.authService import AuthService
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.security import OAuth2PasswordRequestForm
 from pydantic import BaseModel
 from schemas.menuContext import MenuContext
 from schemas.user import User
-from modules.ui import MenuService
+from core.security.authService import AuthService
+from core.menu.menuService import MenuService
 
 import traceback
 import sys
@@ -37,6 +37,10 @@ def register_session_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_serv
 
     @app.post(create_oauth_access_token_url_path, response_model=CreateAccessTokenResponse)
     async def create_oauth_access_token(form_data: OAuth2PasswordRequestForm = Depends(), current_user: Optional[User] = Depends(auth_service.anyone())):
+        '''
+        Serving API to create new access token.
+        Preferable if client use OAuth2 mechanism.
+        '''
         try:
             if not current_user:
                 current_user = User.parse_obj(rpc.call('get_guest_user'))
@@ -53,6 +57,10 @@ def register_session_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_serv
 
     @app.post(create_access_token_url_path, response_model=CreateAccessTokenResponse)
     async def create_access_token(data: CreateAccessTokenRequest, current_user: Optional[User] = Depends(auth_service.anyone())):
+        '''
+        Serving API to create new access token.
+        Preferable if client if client user AJAX or similar mechanism. 
+        '''
         try:
             if not current_user:
                 current_user = User.parse_obj(rpc.call('get_guest_user'))
@@ -69,6 +77,9 @@ def register_session_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_serv
 
     @app.post(renew_access_token_url_path, response_model=RenewAccessTokenResponse)
     async def renew_access_token(data: RenewAccessTokenRequest, current_user: Optional[User] = Depends(auth_service.is_user())):
+        '''
+        Serving API to renew access token.
+        '''
         try:
             if not current_user:
                 current_user = User.parse_obj(rpc.call('get_guest_user'))
@@ -88,7 +99,10 @@ def register_session_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_serv
 def register_session_ui_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service: MenuService, page_template: Jinja2Templates, create_access_token_url_path: str):
 
     @app.get('/account/login', response_class=HTMLResponse)
-    async def user_interface(request: Request, context: MenuContext = Depends(menu_service.has_access('account:login'))):
+    async def login(request: Request, context: MenuContext = Depends(menu_service.has_access('account:login'))):
+        '''
+        Serving user interface for login.
+        '''
         return page_template.TemplateResponse(
             'default_login.html', 
             context={
@@ -100,7 +114,10 @@ def register_session_ui_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_servi
         )
 
     @app.get('/account/logout', response_class=HTMLResponse)
-    async def user_interface(request: Request, context: MenuContext = Depends(menu_service.has_access('account:logout'))):
+    async def logout(request: Request, context: MenuContext = Depends(menu_service.has_access('account:logout'))):
+        '''
+        Serving user interface for logout.
+        '''
         return page_template.TemplateResponse(
             'default_logout.html', 
             context={
