@@ -10,6 +10,7 @@ In this documentation, you will see `ZtplAppDirectory`'s [motivation and archite
     * [Feature flags](motivation-and-architecture/feature-flags.md)
     * [Interface and layers](motivation-and-architecture/interface-and-layers.md)
     * [Connecting components](motivation-and-architecture/connecting-components.md)
+* [Conventions](conventions.md)
 * [Creating new module](creating-new-module/README.md)
     * [Creating CRUD feature](creating-new-module/creating-c-r-u-d-feature.md)
     * [Adding CRUD field](creating-new-module/adding-c-r-u-d-field.md)

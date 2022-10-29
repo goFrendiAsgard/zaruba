@@ -2,14 +2,14 @@
 
 `ZtplAppDirectory` is a microservice-ready monolith application. It is built on top of [FastAPI](https://fastapi.tiangolo.com/), a modern, fast (high-performance), web framework for building APIs with Python 3.7+ based on standard Python type hints
 
-This application is generated using [Zaruba](https://github.com/state-alchemists/zaruba). To create the application, you can invoke:
+`ZtplAppDirectory` was generated with the following command using [Zaruba](https://github.com/state-alchemists/zaruba):
 
 ```bash
 zaruba please initProject # or cd to your zaruba project
 zaruba please addFastApp appDirectory=ztplAppDirectory
 ```
 
-# 💀 Note
+## 💀 Note
 
 Zaruba uses pattern matching (aka regex) so that it can add new routes/modules/entities/fields to `ZtplAppDirectory`.
 
@@ -189,7 +189,7 @@ zaruba please addFastAppRpcHandler \
 - Python 3.9
 - Pip
 - Virtual env
-- (Optionally) [Zaruba](https://github.com/state-alchemists/zaruba)
+- (Optional) [Zaruba](https://github.com/state-alchemists/zaruba)
 
 # 📖 Documentation
 

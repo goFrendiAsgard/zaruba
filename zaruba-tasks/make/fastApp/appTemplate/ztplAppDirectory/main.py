@@ -58,7 +58,10 @@ page_template = create_page_template()
 ################################################
 app = create_app(mb, rpc, page_template)
 if enable_route_handler:
-    register_session_api_route(app, mb, rpc, auth_service, create_oauth_access_token_url_path, create_access_token_url_path, renew_access_token_url_path)
+    register_session_api_route(
+        app, mb, rpc, auth_service,
+        create_oauth_access_token_url_path, create_access_token_url_path, renew_access_token_url_path
+    )
 
 
 ################################################

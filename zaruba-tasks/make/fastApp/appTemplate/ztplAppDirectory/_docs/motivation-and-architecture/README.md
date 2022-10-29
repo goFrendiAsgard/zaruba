@@ -3,19 +3,23 @@
 # Motivation and architecture
 <!--endTocHeader-->
 
-Building a system is like building a town. First, you start with some basic requirements. But, over time, your requirements grow and so does your system.
+Building software is like building a city. You __cannot plan everything right from the start__.
 
-A monolith architecture is your best option if you are getting started. Monolith is easy to maintain/develop. Even though it won't scale very well.
+When you build software, you usually __start with some basic requirements__. But, over time, your requirements grow and so does your software.
+
+If you are getting started with a project, monolith architecture is your safe bet. Monolith is easy to maintain/develop. Even though it won't scale very well.
 
 You can start considering microservices when you need to scale some features independently.
 
-It is always better to __start with a monolith__ and __refactor to microservices__ later.
+It is usually better to __start with a monolith__ and __migrate to microservices__ later.
 
-Refactoring is not always easy. There are many stories of companies who failed to do so because their code was not modular/testable. Their growth is now hindered by their technology.
+Migration to microservices is not always easy. There are many stories of companies who failed to do so because their code was __not modular/testable__. Their growth is now hindered by their technology.
 
-Some companies invest too much in Kubernetes or other expensive technologies. They built a great microservices architecture, yet failed to maintain/develop it properly. Or even worse, they have great technology but not a great business. In the end, they have nothing left because they invest too much in something they don't need.
+Some companies __invest too much__ in Kubernetes or other expensive technologies. They built a great microservices architecture, yet failed to maintain/develop it properly. Or even worse, they have great technology but not a great business. In the end, their technologies become their liability.
 
-So we need a middle ground. We need a monolith application that is ready to be deployed as microservices anytime.
+So we need a middle ground. We need a __monolith application__ that is ready to be __deployed as microservices anytime__.
+
+We design `ZtplAppDirectory` with this consideration. With `ZtplAppDirectory` you will have a straightforward development experience like building a simple monolith. But at the end, you know that `ZtplAppDirectory` is always ready for microservices.
 
 Let's see the following scenarios, and see what we can do in each phase:
 
