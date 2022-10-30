@@ -62,7 +62,8 @@ class MenuService():
         return MenuContext(
             current_menu = current_menu,
             current_user = current_user,
-            accessible_menu = accessible_menu
+            accessible_menu = accessible_menu,
+            guest_user = self.auth_service.get_guest_user()
         )
 
 

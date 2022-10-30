@@ -2,30 +2,39 @@
   <div class="container-fluid">
     <a class="navbar-brand" href="#">{{ site_name }}</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        {% if context.accessible_menu %}
-            {% for menu in context.accessible_menu.submenus %}
-                {% if menu.submenus | length == 0 and not menu.url.startswith('#') %}
-                    <li class="nav-item">
-                        <a class="nav-link {{ 'active' if menu.is_highlighted }}" aria-current="page" href="{{ menu.url }}">{{ menu.title }}</a>
-                    </li>
-                {% elif menu.submenus | length > 0 %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle {{ 'active' if menu.is_highlighted }}" id="navbarDropdown{{ loop.index }}" href="{{ menu.url }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            {{ menu.title }}
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown{{ loop.index }}">
-                            {% for submenu in menu.submenus %}
-                                <li><a class="dropdown-item {{ 'active' if submenu.is_highlighted }}" href="{{ submenu.url }}">{{ submenu.title }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                {% endif %}
-            {% endfor %}
-        {% endif %}
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            {% if context.accessible_menu %}
+                {% for menu in context.accessible_menu.submenus %}
+                    {% if menu.submenus | length == 0 and not menu.url.startswith('#') %}
+                        <li class="nav-item">
+                            <a class="nav-link {{ 'active' if menu.is_highlighted }}" aria-current="page" href="{{ menu.url }}">{{ menu.title }}</a>
+                        </li>
+                    {% elif menu.submenus | length > 0 %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle {{ 'active' if menu.is_highlighted }}" id="navbarDropdown{{ loop.index }}" href="{{ menu.url }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ menu.title }}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown{{ loop.index }}">
+                                {% for submenu in menu.submenus %}
+                                    <li><a class="dropdown-item {{ 'active' if submenu.is_highlighted }}" href="{{ submenu.url }}">{{ submenu.title }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </ul>
+        <div class="d-flex">
+            <i class="bi bi-person"></i>
+            {% if context.current_user %}
+                {{ context.current_user.username }}
+            {% else %}
+                {{ context.guest_user.username }}
+            {% endif %}
+        </form>
     </div>
   </div>
 </nav>
