@@ -56,11 +56,6 @@ def init_user_data(user_repo: DBUserRepo, index: Optional[int] = None, permissio
     return user_repo.insert(user_data)
 
 
-GUEST_USER = create_user()
-GUEST_USER.id = 'mock_guest_user_id'
-GUEST_USER.username = 'guest_username'
-GUEST_USER.created_by = 'mock_user_id'
-
 UNAUTHORIZED_ACTIVE_USER = create_user()
 UNAUTHORIZED_ACTIVE_USER.id = 'mock_unauthorized_active_user_id'
 UNAUTHORIZED_ACTIVE_USER.username = 'unauthorized_active_username'

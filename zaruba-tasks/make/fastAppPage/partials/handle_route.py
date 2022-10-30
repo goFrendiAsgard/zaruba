@@ -8,7 +8,7 @@ async def get_ztpl_app_url(request: Request, context: MenuContext = Depends(menu
         return page_template.TemplateResponse('default_page.html', context={
             'request': request,
             'context': context,
-            'content_path': 'ztplAppModuleName/ztpl_app_url.html'
+            'content_path': 'modules/ztplAppModuleName/ztpl_app_url.html'
         }, status_code=200)
     except:
         print(traceback.format_exc(), file=sys.stderr) 

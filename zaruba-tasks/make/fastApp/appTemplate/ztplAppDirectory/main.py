@@ -6,6 +6,10 @@ from core import (
     DefaultAuthRule, DefaultUserFetcher,
     AuthService, SessionService, JWTTokenService,
 )
+from modules.log.activity.repos.dbActivityRepo import DBActivityRepo
+from modules.log import (
+    register_log_api_route, register_log_ui_route, register_log_event_handler, register_log_rpc_handler
+)
 from modules.auth import (
     register_auth_api_route, register_auth_ui_route, register_auth_event_handler, register_auth_rpc_handler,
     DefaultUserService, UserSeederService, RoleService,
@@ -107,3 +111,25 @@ if enable_auth_module:
     if enable_rpc_handler:
         register_auth_rpc_handler(mb, rpc, role_service, user_service)
         register_session_rpc(mb, rpc, session_service)
+
+
+################################################
+# -- 🧩 Log module
+################################################
+enable_log_module = os.getenv('APP_ENABLE_LOG_MODULE', '1') != '0'
+# Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
+if enable_log_module:
+    activity_repo = DBActivityRepo(engine=engine, create_all=db_create_all)
+    # API route
+    if enable_route_handler and enable_api:
+        register_log_api_route(app, mb, rpc, auth_service)
+    # UI route
+    if enable_route_handler and enable_ui:
+        register_log_ui_route(app, mb, rpc, menu_service, page_template)
+    # handle event
+    if enable_event_handler:
+        register_log_event_handler(mb, rpc)
+    # serve RPC
+    if enable_rpc_handler:
+        # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
+        register_log_rpc_handler(mb, rpc, activity_repo)

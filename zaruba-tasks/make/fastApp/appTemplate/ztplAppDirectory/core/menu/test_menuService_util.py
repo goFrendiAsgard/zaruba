@@ -1,7 +1,7 @@
 from typing import Callable, Optional, Tuple, List, Mapping, Any
 from core.menu.menuService import MenuService
 from core.security.service.authService import AuthService
-from modules.auth.user.test_util import UNAUTHORIZED_INACTIVE_USER, UNAUTHORIZED_ACTIVE_USER, AUTHORIZED_ACTIVE_USER, AUTHORIZED_INACTIVE_USER
+from modules.auth.user.test_defaultUserService_util import UNAUTHORIZED_INACTIVE_USER, UNAUTHORIZED_ACTIVE_USER, AUTHORIZED_ACTIVE_USER, AUTHORIZED_INACTIVE_USER
 from helpers.transport.localRpc import LocalRPC
 from schemas.user import User, UserData
 from schemas.menu import Menu

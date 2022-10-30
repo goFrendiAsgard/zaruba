@@ -11,4 +11,6 @@ def create_menu_service(rpc: RPC, auth_service: AuthService) -> MenuService:
     menu_service.add_menu(name='auth', title='Security', url='#', auth_type=AuthType.ANYONE)
     menu_service.add_menu(name='auth:roles', title='Roles', url='/auth/roles', auth_type=AuthType.HAS_PERMISSION, permission_name='ui:auth:role', parent_name='auth')
     menu_service.add_menu(name='auth:users', title='Users', url='/auth/users', auth_type=AuthType.HAS_PERMISSION, permission_name='ui:auth:user', parent_name='auth')
+    menu_service.add_menu(name='log', title='Log', url='#', auth_type=AuthType.ANYONE)
+    menu_service.add_menu(name='log:activities', title='User Activities', url='/log/activities', auth_type=AuthType.HAS_PERMISSION, permission_name='ui:log:activity', parent_name='log')
     return menu_service # Note: 💀 Don't delete this line, Zaruba use it for pattern matching

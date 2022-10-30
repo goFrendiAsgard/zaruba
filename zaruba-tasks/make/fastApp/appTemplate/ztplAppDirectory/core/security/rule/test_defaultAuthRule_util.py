@@ -1,7 +1,7 @@
 from typing import Tuple
 from helpers.transport import RPC, LocalRPC
 from core.security.rule.defaultAuthRule import DefaultAuthRule
-from modules.auth.user.test_util import AUTHORIZED_ACTIVE_USER, AUTHORIZED_INACTIVE_USER
+from modules.auth.user.test_defaultUserService_util import AUTHORIZED_ACTIVE_USER, AUTHORIZED_INACTIVE_USER
 from schemas.user import User, UserData
 
 rpc = LocalRPC()

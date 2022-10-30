@@ -1,7 +1,7 @@
 from typing import Tuple, Mapping, Optional
 from helpers.transport.localRpc import RPC, LocalRPC
 from schemas.user import User
-from modules.auth.user.test_util import AUTHORIZED_ACTIVE_USER
+from modules.auth.user.test_defaultUserService_util import AUTHORIZED_ACTIVE_USER
 from core.security.middleware.defaultUserFetcher import DefaultUserFetcher
 from fastapi.security import OAuth2, OAuth2PasswordBearer
 

@@ -1,5 +1,5 @@
 from typing import Any, Tuple
-from modules.auth.user.test_util import UNAUTHORIZED_ACTIVE_USER, UNAUTHORIZED_INACTIVE_USER, AUTHORIZED_ACTIVE_USER, AUTHORIZED_INACTIVE_USER
+from modules.auth.user.test_defaultUserService_util import UNAUTHORIZED_ACTIVE_USER, UNAUTHORIZED_INACTIVE_USER, AUTHORIZED_ACTIVE_USER, AUTHORIZED_INACTIVE_USER
 from helpers.transport.localRpc import LocalRPC
 from schemas.user import User
 from fastapi.security import OAuth2, OAuth2PasswordBearer

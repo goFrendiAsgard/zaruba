@@ -12,6 +12,7 @@ confluent-kafka==1.8.2
 coverage==6.4.1
 cryptography==36.0.1
 ecdsa==0.17.0
+exceptiongroup==1.0.0
 fastapi==0.68.1
 fastavro==1.4.9
 greenlet==1.1.1
@@ -22,7 +23,7 @@ importlib-resources==5.7.1
 iniconfig==1.1.1
 Jinja2==3.0.3
 jsons==1.5.1
-mako==1.2.2
+Mako==1.2.2
 MarkupSafe==2.1.1
 packaging==21.3
 passlib==1.7.4
@@ -34,7 +35,7 @@ pycparser==2.21
 pydantic==1.8.2
 PyMySQL==1.0.2
 pyparsing==3.0.9
-pytest==6.2.5
+pytest==7.2.0
 pytest-asyncio==0.19.0
 pytest-cov==3.0.0
 python-jose==3.3.0

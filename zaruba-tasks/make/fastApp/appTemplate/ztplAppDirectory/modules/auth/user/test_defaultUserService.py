@@ -1,5 +1,5 @@
 from modules.auth.role.test_roleService import create_role_data
-from modules.auth.user.test_util import create_user_data, init_test_default_user_service_components, init_user_data, AUTHORIZED_ACTIVE_USER
+from modules.auth.user.test_defaultUserService_util import create_user_data, init_test_default_user_service_components, init_user_data, AUTHORIZED_ACTIVE_USER
 
 
 def test_user_service_crud_find_by_id_existing():

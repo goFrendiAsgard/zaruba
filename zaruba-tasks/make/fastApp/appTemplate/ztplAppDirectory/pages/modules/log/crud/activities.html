@@ -1,0 +1,13 @@
+<div id="app"></div>
+<script defer="defer">
+    const { loadModule } = window['vue3-sfc-loader'];
+    Vue.createApp({
+        components: {
+            crud: Vue.defineAsyncComponent(() => loadModule(
+                '{{ public_url_path }}/vue/modules/log/crud/activitiesCrud.vue',
+                appHelper.getVueSfcLoaderOptions()
+            ))
+        },
+        template: '<crud apiUrl="{{ backend_url }}/api/v1/activities"></crud>',
+    }).mount('#app');
+</script>

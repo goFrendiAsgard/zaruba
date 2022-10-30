@@ -1,4 +1,4 @@
-from modules.auth.user.test_util import AUTHORIZED_ACTIVE_USER
+from modules.auth.user.test_defaultUserService_util import AUTHORIZED_ACTIVE_USER
 from core.security.middleware.test_defaultUserFetcher_util import init_test_default_user_fetcher_components
 import pytest
 

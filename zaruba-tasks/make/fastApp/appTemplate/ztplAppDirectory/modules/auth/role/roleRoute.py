@@ -119,7 +119,7 @@ def register_role_ui_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service:
         '''
         return page_template.TemplateResponse('default_crud.html', context={
             'api_path': '/api/vi/roles',
-            'content_path': 'auth/crud/roles.html',
+            'content_path': 'modules/auth/crud/roles.html',
             'request': request, 
             'context': context
         }, status_code=200)

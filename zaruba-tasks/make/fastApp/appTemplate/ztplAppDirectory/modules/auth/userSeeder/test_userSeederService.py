@@ -1,4 +1,4 @@
-from modules.auth.userSeeder.test_util import ROOT_USER_DATA, init_test_user_seeder_service_components
+from modules.auth.userSeeder.test_userSeederService_util import ROOT_USER_DATA, init_test_user_seeder_service_components
 
 
 def test_user_seeder_service_with_existing_user():

@@ -1,5 +1,5 @@
-from modules.auth.user.test_util import create_user
-from core.token.test_util import init_test_jwt_token_service_components, ROOT_USER_DATA
+from modules.auth.user.test_defaultUserService_util import create_user
+from core.token.test_jwtTokenService_util import init_test_jwt_token_service_components, ROOT_USER_DATA
 
 from sqlalchemy import create_engine
 
