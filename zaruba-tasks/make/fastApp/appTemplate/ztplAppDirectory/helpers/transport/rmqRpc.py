@@ -25,8 +25,10 @@ class RMQRPC(RMQConnection, RPC):
         self._event_map = rmq_event_map
         self._error_count = 0
 
+
     def get_error_count(self) -> int:
         return self._error_count
+
 
     def handle(self, rpc_name: str) -> Callable[..., Any]:
         def register_rpc_handler(rpc_handler: Callable[..., Any]):
@@ -61,6 +63,7 @@ class RMQRPC(RMQConnection, RPC):
             thread = threading.Thread(target=consume)
             thread.start()
         return register_rpc_handler
+
 
     def _create_rpc_request_handler(self, rpc_name: str, exchange: str, queue: str, auto_ack: bool, rpc_handler: Callable[..., Any]):
         def on_rpc_request(ch, method, props, body):
@@ -98,6 +101,7 @@ class RMQRPC(RMQConnection, RPC):
                     ch.basic_ack(delivery_tag=method.delivery_tag)
         return on_rpc_request
 
+
     def call(self, rpc_name: str, *args: Any) -> Any:
         try:
             caller = RMQRPCCaller(self)
@@ -120,6 +124,7 @@ class RMQRPCCaller():
         self.corr_id = str(uuid.uuid4())
         self.replied: bool = False
         self.reply_queue: str = ''
+
 
     def call(self, rpc_name: str, *args: Any) -> Any:
         # consume from reply queue
@@ -154,16 +159,19 @@ class RMQRPCCaller():
             raise Exception(self.reply.error_message)
         return self.reply.result
 
+
     def _clean_up(self):
         self.ch.stop_consuming()
         self.ch.queue_delete(self.reply_queue)
         self.ch.close()
         self.rpc.remove_connection(self.connection)
 
+
     def _consume_from_reply_queue(self, rpc_name: str, reply_queue: str):
         self.ch.queue_declare(queue=reply_queue, exclusive=True)
         on_rpc_response = self._create_rpc_responder(rpc_name, reply_queue)
         self.ch.basic_consume(queue=reply_queue, on_message_callback=on_rpc_response)
+
 
     def _create_rpc_responder(self, rpc_name: str, reply_queue: str):
         def on_rpc_response(ch: BlockingChannel, method, props, body):
@@ -179,6 +187,7 @@ class RMQRPCCaller():
                 self.replied = True
             ch.basic_ack(delivery_tag=method.delivery_tag)
         return on_rpc_response
+
 
     def _handle_timeout(self, rpc_name: str):
         rpc_timeout = self.event_map.get_rpc_timeout(rpc_name)

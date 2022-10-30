@@ -8,19 +8,24 @@ class LocalRPC(RPC):
         self.rpc_handler: Mapping[str, Callable[..., Any]] = {}
         self.error_count = 0
 
+
     def get_error_count(self) -> int:
         return self.error_count
+
 
     def is_failing(self) -> bool:
         return False
 
+
     def shutdown(self):
         pass
+
 
     def handle(self, rpc_name: str) -> Callable[..., Any]:
         def register_rpc_handler(rpc_handler: Callable[..., Any]):
             self.rpc_handler[rpc_name] = rpc_handler
         return register_rpc_handler
+
 
     def call(self, rpc_name: str, *args: Any) -> Any:
         if rpc_name not in self.rpc_handler:

@@ -73,7 +73,7 @@ class MenuService():
             current_user = current_user,
             accessible_menu = accessible_menu
         )
-        if not self._is_menu_accessible(current_menu, current_user):
+        if not self.auth_service.check_user_access(current_user, current_menu.auth_type, current_menu.permission_name):
             raise PageTemplateException(status_code=status.HTTP_403_FORBIDDEN, detail='Forbidden', menu_context = menu_context)
         return menu_context
 
@@ -90,23 +90,9 @@ class MenuService():
         menu: Menu = copy.deepcopy(original_menu)
         new_submenus: List[Menu] = []
         for submenu in menu.submenus:
-            if not self._is_menu_accessible(submenu, user):
+            if not self.auth_service.check_user_access(user, submenu.auth_type, submenu.permission_name):
                 continue
             new_submenu = self._get_accessible_menu(submenu, user)
             new_submenus.append(new_submenu)
         menu.submenus = new_submenus
         return menu
-
-
-    def _is_menu_accessible(self, menu: Optional[Menu], user: Optional[User]) -> bool:
-        if menu is None:
-            return False
-        if menu.auth_type == AuthType.ANYONE:
-            return True
-        if menu.auth_type == AuthType.VISITOR and user is None:
-            return True
-        if menu.auth_type == AuthType.USER and user is not None:
-            return True
-        if menu.auth_type == AuthType.HAS_PERMISSION and user is not None:
-            return self.rpc.call('is_user_authorized', user.dict(), menu.permission_name)
-        return False

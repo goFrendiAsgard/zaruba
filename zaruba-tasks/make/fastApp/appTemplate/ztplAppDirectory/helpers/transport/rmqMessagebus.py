@@ -17,8 +17,10 @@ class RMQMessageBus(RMQConnection, MessageBus):
         self._event_map=rmq_event_map
         self._error_count = 0
 
+
     def get_error_count(self) -> int:
         return self._error_count
+
 
     def handle(self, event_name: str) -> Callable[..., Any]:
         def register_event_handler(event_handler: Callable[[Any], Any]):
@@ -55,6 +57,7 @@ class RMQMessageBus(RMQConnection, MessageBus):
             thread.start()
         return register_event_handler
 
+
     def _create_event_handler(self, event_name: str, exchange: str, queue: str, auto_ack: bool, event_handler: Callable[[Any], Any]):
         def on_event(ch, method, props, body):
             try:
@@ -69,6 +72,7 @@ class RMQMessageBus(RMQConnection, MessageBus):
                 if not auto_ack:
                     ch.basic_ack(delivery_tag=method.delivery_tag)
         return on_event
+
 
     def publish(self, event_name: str, message: Any) -> Any:
         try:

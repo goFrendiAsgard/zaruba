@@ -70,6 +70,7 @@ UNAUTHORIZED_ACTIVE_USER.active = True
 AUTHORIZED_ACTIVE_USER = create_user()
 AUTHORIZED_ACTIVE_USER.id = 'mock_authorized_active_user_id'
 AUTHORIZED_ACTIVE_USER.username = 'authorized_active_username'
+AUTHORIZED_ACTIVE_USER.permissions = ['permission']
 AUTHORIZED_ACTIVE_USER.created_by = 'mock_user_id'
 AUTHORIZED_ACTIVE_USER.active = True
 
@@ -82,5 +83,6 @@ UNAUTHORIZED_INACTIVE_USER.active = False
 AUTHORIZED_INACTIVE_USER = create_user()
 AUTHORIZED_INACTIVE_USER.id = 'mock_authorized_inactive_user_id'
 AUTHORIZED_INACTIVE_USER.username = 'authorized_inactive_username'
+AUTHORIZED_INACTIVE_USER.permissions = ['permission']
 AUTHORIZED_INACTIVE_USER.created_by = 'mock_user_id'
 AUTHORIZED_INACTIVE_USER.active = False

@@ -13,7 +13,18 @@ class MockAuthService(AuthService):
 
     def __init__(self, current_user: Optional[User]):
         self.current_user = current_user
-    
+
+    def check_user_access(self, current_user: Optional[User], auth_type: int, permission_name: Optional[str] = None) -> bool:
+        if auth_type == AuthType.ANYONE:
+            return True
+        if auth_type == AuthType.VISITOR:
+            return self.current_user is None or self.current_user == GUEST_USER
+        if auth_type == AuthType.USER:
+            return self.current_user == UNAUTHORIZED_ACTIVE_USER or self.current_user == AUTHORIZED_ACTIVE_USER
+        if auth_type == AuthType.HAS_PERMISSION:
+           return self.current_user == AUTHORIZED_ACTIVE_USER
+        return False
+
     def _return_none_or_throw_error(throw_error: bool):
         if not throw_error:
             return False
@@ -28,21 +39,21 @@ class MockAuthService(AuthService):
 
     def is_user(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         def verify_authenticated(request: Optional[Request]) -> Optional[User]:
-            if self.current_user == UNAUTHORIZED_ACTIVE_USER or self.current_user == AUTHORIZED_ACTIVE_USER:
+            if self.check_user_access(self.current_user, AuthType.USER):
                 return self.current_user
             return self._return_none_or_throw_error(throw_error)
         return verify_authenticated
 
     def is_visitor(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         def verify_unauthenticated(request: Optional[Request]) -> Optional[User]:
-            if self.current_user is None or self.current_user == GUEST_USER:
+            if self.check_user_access(self.current_user, AuthType.VISITOR):
                 return self.current_user
             return self._return_none_or_throw_error(throw_error)
         return verify_unauthenticated
 
     def has_permission(self, permission: str, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         def verify_authorized(request: Optional[Request]) -> Optional[User]:
-            if self.current_user == AUTHORIZED_ACTIVE_USER:
+            if self.check_user_access(self.current_user, AuthType.HAS_PERMISSION):
                 return self.current_user
             return self._return_none_or_throw_error(throw_error)
         return verify_authorized

@@ -37,11 +37,14 @@ class KafkaMessageBus(MessageBus):
         self._error_count = 0
         self._is_failing = False
 
+
     def get_error_count(self) -> int:
         return self._error_count
 
+
     def is_failing(self) -> bool:
         return self._is_failing
+
 
     def shutdown(self):
         if self._is_shutdown:
@@ -50,6 +53,7 @@ class KafkaMessageBus(MessageBus):
         for event_name, consumer in self._consumers.items():
             print('stop listening to {event_name}'.format(event_name=event_name), file=sys.stderr)
             consumer.close()
+
 
     def handle(self, event_name: str) -> Callable[..., Any]:
         def register_event_handler(event_handler: Callable[[Any], Any]):
@@ -73,6 +77,7 @@ class KafkaMessageBus(MessageBus):
                 self._is_failing = True
                 self.shutdown()
         return register_event_handler
+
 
     def _handle(self, consumer: Consumer, consumer_args, event_name: str, topic: str, group_id: str, event_handler: Callable[[Any], Any]):
         for _ in range(3):
@@ -106,6 +111,7 @@ class KafkaMessageBus(MessageBus):
                 print({'action': 're_subscribe_kafka_topic', 'topic': topic}, file=sys.stderr)
                 consumer.subscribe([topic])
 
+
     def publish(self, event_name: str, message: Any) -> Any:
         serialized_message = self._event_map.get_encoder(event_name)(message)
         try:
@@ -120,6 +126,7 @@ class KafkaMessageBus(MessageBus):
             print('Error while publishing event {event_name} with messages: {message}'.format(event_name=event_name, message=message), file=sys.stderr)
             self._error_count += 1
             raise exception
+
 
     def _create_kafka_topic(self, topic: str):
         create_kafka_topic(topic, {
