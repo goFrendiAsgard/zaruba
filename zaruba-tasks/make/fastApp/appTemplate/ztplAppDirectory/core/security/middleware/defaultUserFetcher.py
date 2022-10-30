@@ -19,8 +19,6 @@ class DefaultUserFetcher(UserFetcher):
 
     def get_user_fetcher(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
         async def fetch_user(bearer_token = Depends(self.oauth2_scheme), app_access_token=Cookie(default=None)) -> Optional[User]:
-            if bearer_token is None and app_access_token is None:
-                return self._raise_error_or_return_none(throw_error, status.HTTP_401_UNAUTHORIZED, 'Not authenticated')
             token = bearer_token if bearer_token is not None else app_access_token
             try:
                 user_data = self.rpc.call('get_user_by_access_token', token)

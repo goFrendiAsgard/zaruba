@@ -8,7 +8,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from pydantic import BaseModel
 from schemas.menuContext import MenuContext
 from schemas.user import User
-from core.security.authService import AuthService
+from core.security.service.authService import AuthService
 from core.menu.menuService import MenuService
 
 import traceback
@@ -43,7 +43,7 @@ def register_session_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_serv
         '''
         try:
             if not current_user:
-                current_user = User.parse_obj(rpc.call('get_guest_user'))
+                current_user = User.parse_obj(auth_service.get_guest_user())
             username = form_data.username
             password = form_data.password
             access_token = rpc.call('create_access_token', username, password)
@@ -63,7 +63,7 @@ def register_session_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_serv
         '''
         try:
             if not current_user:
-                current_user = User.parse_obj(rpc.call('get_guest_user'))
+                current_user = User.parse_obj(auth_service.get_guest_user())
             username = data.username
             password = data.password
             access_token = rpc.call('create_access_token', username, password)
@@ -82,7 +82,7 @@ def register_session_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_serv
         '''
         try:
             if not current_user:
-                current_user = User.parse_obj(rpc.call('get_guest_user'))
+                current_user = User.parse_obj(auth_service.get_guest_user())
             old_access_token = data.access_token
             new_access_token = rpc.call('renew_access_token', old_access_token, current_user.dict())
             return RenewAccessTokenResponse(access_token = new_access_token, token_type = 'bearer')

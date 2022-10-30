@@ -2,27 +2,6 @@ from modules.auth.role.test_roleService import create_role_data
 from modules.auth.user.test_util import create_user_data, init_test_default_user_service_components, init_user_data, AUTHORIZED_ACTIVE_USER
 
 
-def test_user_service_get_guest_user():
-    user_service, _, _, _, _, _ = init_test_default_user_service_components()
-    # test get guest user
-    guest_user = user_service.get_guest_user()
-    assert guest_user.id == 'guest'
-    assert guest_user.username == 'guest'
-    assert len(guest_user.permissions) == 0
-    assert len(guest_user.role_ids) == 0
-
-
-def test_user_service_get_system_user():
-    user_service, _, _, _, _, _ = init_test_default_user_service_components()
-    # test get system user
-    system_user = user_service.get_system_user()
-    assert system_user.id == 'system'
-    assert system_user.username == 'system'
-    assert len(system_user.permissions) == 1
-    assert system_user.permissions[0] == 'root'
-    assert len(system_user.role_ids) == 0
-
-
 def test_user_service_crud_find_by_id_existing():
     user_service, _, user_repo, _, _, _ = init_test_default_user_service_components()
     # prepare repo

@@ -8,18 +8,6 @@ import sys
 
 def register_user_rpc(mb: MessageBus, rpc: RPC, user_service: UserService):
 
-    @rpc.handle('get_guest_user')
-    def get_guest_user(current_user_data: Optional[Mapping[str, Any]] = None) -> Mapping[str, Any]:
-        current_user = None if current_user_data is None else User.parse_obj(current_user_data)
-        return user_service.get_guest_user(current_user).dict()
-
-
-    @rpc.handle('get_system_user')
-    def get_system_user(current_user_data: Optional[Mapping[str, Any]] = None) -> Mapping[str, Any]:
-        current_user = None if current_user_data is None else User.parse_obj(current_user_data)
-        return user_service.get_system_user(current_user).dict()
-
-
     @rpc.handle('find_users')
     def find_users(keyword: str, limit: int, offset: int, current_user_data: Optional[Mapping[str, Any]]) -> Mapping[str, Any]:
         current_user = None if current_user_data is None else User.parse_obj(current_user_data)

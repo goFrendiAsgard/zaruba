@@ -11,26 +11,6 @@ import datetime
 class UserService(abc.ABC):
 
     @abc.abstractmethod
-    def get_guest_user(self, current_user: Optional[User]) -> User:
-        '''
-        Guest user is only used to fill up `created_by` or `updated_by` anonymously.
-        Guest user is not stored in the repository.
-        You cannot and should not create user token for guest user.
-        You should not use guest user for authentication/authorization.
-        '''
-        pass
-
-    @abc.abstractmethod
-    def get_system_user(self, current_user: Optional[User]) -> User:
-        '''
-        System user is only used to fill up `created_by` or `updated_by` anonymously.
-        System user is not stored in the repository.
-        You cannot and should not create user token for system user.
-        You should not use system user for authentication/authorization.
-        '''
-        pass
-
-    @abc.abstractmethod
     def find(self, keyword: str, limit: int, offset: int, current_user: Optional[User]) -> UserResult:
         pass
 
@@ -69,29 +49,7 @@ class DefaultUserService(UserService):
         self.rpc = rpc
         self.user_repo = user_repo
         self.role_service = role_service
-        self.earliest_date = datetime.datetime(1970, 1, 1, 0, 0, 0, 0, datetime.timezone.utc)
         self.root_permission = root_permission
-
-
-    def get_guest_user(self, current_user: Optional[User] = None) -> User:
-        return User(
-            id = 'guest',
-            username = 'guest', 
-            active = True,
-            updated_at = self.earliest_date,
-            created_at = self.earliest_date,
-        )
-
-
-    def get_system_user(self, current_user: Optional[User] = None) -> User:
-        return User(
-            id = 'system',
-            username = 'system', 
-            active = True,
-            permissions=[self.root_permission],
-            updated_at = self.earliest_date,
-            created_at = self.earliest_date,
-        )
 
 
     def find(self, keyword: str, limit: int, offset: int, current_user: Optional[User] = None) -> UserResult:

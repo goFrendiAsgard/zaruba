@@ -1,12 +1,11 @@
 from schemas.authType import AuthType
-from core.menu.test_util import UNAUTHORIZED_ACTIVE_USER, AUTHORIZED_ACTIVE_USER, MenuTestCase, init_test_menu_service_components, init_test_menu_data, check_has_access
+from core.menu.test_menuService_util import UNAUTHORIZED_ACTIVE_USER, AUTHORIZED_ACTIVE_USER, MenuTestCase, init_test_menu_service_components, init_test_menu_data, check_has_access
 
 import pytest
 
 
 def test_menu_service_add_menu_with_invalid_auth_type():
-    user = None
-    menu_service, _ = init_test_menu_service_components(user)
+    menu_service, _ = init_test_menu_service_components()
     init_test_menu_data(menu_service)
     is_error = False
     try:
@@ -17,8 +16,7 @@ def test_menu_service_add_menu_with_invalid_auth_type():
 
 
 def test_menu_service_add_menu_with_non_existing_parent():
-    user = None
-    menu_service, _ = init_test_menu_service_components(user)
+    menu_service, _ = init_test_menu_service_components()
     init_test_menu_data(menu_service)
     is_error = False
     try:
@@ -29,13 +27,12 @@ def test_menu_service_add_menu_with_non_existing_parent():
 
 
 def test_menu_service_get_accessible_non_existing_menu():
-    user = None
-    menu_service, _ = init_test_menu_service_components(user)
+    menu_service, _ = init_test_menu_service_components()
     init_test_menu_data(menu_service)
     # test get accessible menu for not existing menu
     is_error = False
     try:
-        menu_service.get_accessible_menu('invalid', user)
+        menu_service.get_accessible_menu('invalid', None)
     except:
         is_error = True
     assert is_error
@@ -43,11 +40,10 @@ def test_menu_service_get_accessible_non_existing_menu():
 
 @pytest.mark.asyncio
 async def test_menu_service_no_user_get_accessible_everyone_menu():
-    user = None
-    menu_service, _ = init_test_menu_service_components(user)
+    menu_service, _ = init_test_menu_service_components()
     init_test_menu_data(menu_service)
     # test get accessible menu for authorized subbmenu
-    root = menu_service.get_accessible_menu('everyone-everyone', user)
+    root = menu_service.get_accessible_menu('everyone-everyone', None)
     assert len(root.submenus) == 2
     test_cases = [
         MenuTestCase(name='everyone', is_highlighted=True, submenus_count=2, children = [
@@ -65,11 +61,10 @@ async def test_menu_service_no_user_get_accessible_everyone_menu():
 
 @pytest.mark.asyncio
 async def test_menu_service_no_user_get_accessible_unauthenticated_menu():
-    user = None
-    menu_service, _ = init_test_menu_service_components(user)
+    menu_service, _ = init_test_menu_service_components()
     init_test_menu_data(menu_service)
     # test get accessible menu for authorized subbmenu
-    root = menu_service.get_accessible_menu('unauthenticated-unauthenticated', user)
+    root = menu_service.get_accessible_menu('unauthenticated-unauthenticated', None)
     assert len(root.submenus) == 2
     test_cases = [
         MenuTestCase(name='everyone', is_highlighted=False, submenus_count=2, children = [
@@ -87,11 +82,10 @@ async def test_menu_service_no_user_get_accessible_unauthenticated_menu():
 
 @pytest.mark.asyncio
 async def test_menu_service_authenticated_user_get_accessible_authenticated_menu():
-    user = UNAUTHORIZED_ACTIVE_USER
-    menu_service, _ = init_test_menu_service_components(user)
+    menu_service, _ = init_test_menu_service_components()
     init_test_menu_data(menu_service)
     # test get accessible menu for authorized subbmenu
-    root = menu_service.get_accessible_menu('authenticated-authenticated', user)
+    root = menu_service.get_accessible_menu('authenticated-authenticated', UNAUTHORIZED_ACTIVE_USER)
     assert len(root.submenus) == 2
     test_cases = [
         MenuTestCase(name='everyone', is_highlighted=False, submenus_count=2, children = [
@@ -109,11 +103,10 @@ async def test_menu_service_authenticated_user_get_accessible_authenticated_menu
 
 @pytest.mark.asyncio
 async def test_menu_service_authorized_user_get_accessible_authorized_menu():
-    user = AUTHORIZED_ACTIVE_USER
-    menu_service, _ = init_test_menu_service_components(user)
+    menu_service, _ = init_test_menu_service_components()
     init_test_menu_data(menu_service)
     # test get accessible menu for authorized subbmenu
-    root = menu_service.get_accessible_menu('authorized-authorized', user)
+    root = menu_service.get_accessible_menu('authorized-authorized', AUTHORIZED_ACTIVE_USER)
     assert len(root.submenus) == 3
     test_cases = [
         MenuTestCase(name='everyone', is_highlighted=False, submenus_count=3, children = [
@@ -138,10 +131,9 @@ async def test_menu_service_authorized_user_get_accessible_authorized_menu():
 
 @pytest.mark.asyncio
 async def test_menu_service_no_user_authorize():
-    user = None
-    menu_service, _ = init_test_menu_service_components(user)
+    menu_service, _ = init_test_menu_service_components()
     init_test_menu_data(menu_service)
-    await check_has_access(menu_service, user, {
+    await check_has_access(menu_service, None, {
         'everyone' : True,
         'unauthenticated' : True,
         'authenticated' : False,
@@ -152,10 +144,9 @@ async def test_menu_service_no_user_authorize():
 
 @pytest.mark.asyncio
 async def test_menu_service_authenticated_user_authorize():
-    user = UNAUTHORIZED_ACTIVE_USER
-    menu_service, _ = init_test_menu_service_components(user)
+    menu_service, _ = init_test_menu_service_components()
     init_test_menu_data(menu_service)
-    await check_has_access(menu_service, user, {
+    await check_has_access(menu_service, UNAUTHORIZED_ACTIVE_USER, {
         'everyone' : True,
         'unauthenticated' : False,
         'authenticated' : True,
@@ -166,10 +157,9 @@ async def test_menu_service_authenticated_user_authorize():
 
 @pytest.mark.asyncio
 async def test_menu_service_authorized_user_authorize():
-    user = AUTHORIZED_ACTIVE_USER
-    menu_service, _ = init_test_menu_service_components(user)
+    menu_service, _ = init_test_menu_service_components()
     init_test_menu_data(menu_service)
-    await check_has_access(menu_service, user, {
+    await check_has_access(menu_service, AUTHORIZED_ACTIVE_USER, {
         'everyone' : True,
         'unauthenticated' : False,
         'authenticated' : True,

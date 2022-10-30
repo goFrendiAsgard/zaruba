@@ -1,4 +1,8 @@
 from typing import Tuple
+from fastapi.security import OAuth2PasswordBearer
+from core.security.service.authService import AuthService
+from core.security.rule.defaultAuthRule import DefaultAuthRule
+from core.security.middleware.defaultUserFetcher import DefaultUserFetcher
 from modules.auth.user.userService import DefaultUserService
 from modules.auth.role.roleService import RoleService
 from modules.auth.userSeeder.userSeederService import UserSeederService
@@ -26,6 +30,10 @@ def init_test_user_seeder_service_components() -> Tuple[UserSeederService, RoleS
     rpc = LocalRPC()
     role_service = RoleService(mb, rpc, role_repo)
     user_service = DefaultUserService(mb, rpc, user_repo, role_service, 'root')
-    user_seeder_service = UserSeederService(user_service)
+    auth_rule = DefaultAuthRule(rpc)
+    oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/', auto_error = False)
+    user_fetcher = DefaultUserFetcher(rpc, oauth2_scheme)
+    auth_service = AuthService(auth_rule, user_fetcher, 'root')
+    user_seeder_service = UserSeederService(auth_service, user_service)
     return user_seeder_service, role_service, user_service, role_repo, user_repo, mb, rpc
 

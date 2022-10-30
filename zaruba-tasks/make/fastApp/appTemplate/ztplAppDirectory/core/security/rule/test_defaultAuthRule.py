@@ -1,4 +1,4 @@
-from core.security.rule.test_util import init_test_default_auth_rule_components
+from core.security.rule.test_defaultAuthRule_util import init_test_default_auth_rule_components
 from modules.auth.user.test_util import AUTHORIZED_ACTIVE_USER, AUTHORIZED_INACTIVE_USER, UNAUTHORIZED_ACTIVE_USER, UNAUTHORIZED_INACTIVE_USER, GUEST_USER
 from schemas.authType import AuthType
 

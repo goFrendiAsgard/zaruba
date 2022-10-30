@@ -3,7 +3,8 @@ from sqlalchemy import create_engine
 from schemas.user import UserData
 from core import (
     register_session_api_route, register_session_ui_route, register_session_rpc,
-    SessionService, TokenAuthService, JWTTokenService,
+    DefaultAuthRule, DefaultUserFetcher,
+    AuthService, SessionService, JWTTokenService,
 )
 from modules.auth import (
     register_auth_api_route, register_auth_ui_route, register_auth_event_handler, register_auth_rpc_handler,
@@ -45,7 +46,9 @@ engine = create_engine(db_url, echo=True)
 # -- 🔒 Auth service initialization
 ################################################
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl = create_oauth_access_token_url_path, auto_error = False)
-auth_service = TokenAuthService(rpc, oauth2_scheme)
+auth_rule = DefaultAuthRule(rpc)
+user_fetcher = DefaultUserFetcher(rpc, oauth2_scheme)
+auth_service = AuthService(auth_rule, user_fetcher, root_permission)
 
 ################################################
 # -- 👓 User Interface initialization
@@ -73,7 +76,7 @@ if enable_auth_module:
     role_service = RoleService(mb, rpc, role_repo)
     user_service = DefaultUserService(mb, rpc, user_repo, role_service, root_permission=root_permission)
     if seed_root_user:
-        user_seeder_service = UserSeederService(user_service)
+        user_seeder_service = UserSeederService(auth_service, user_service)
         user_seeder_service.seed(UserData(
             username = root_username,
             email = root_initial_email,

@@ -1,70 +1,49 @@
-from typing import Callable, Optional, Tuple, List, Mapping
+from typing import Callable, Optional, Tuple, List, Mapping, Any
 from core.menu.menuService import MenuService
-from core.security.authService import AuthService
-from modules.auth.user.test_util import GUEST_USER, UNAUTHORIZED_ACTIVE_USER, AUTHORIZED_ACTIVE_USER
+from core.security.service.authService import AuthService
+from modules.auth.user.test_util import UNAUTHORIZED_INACTIVE_USER, UNAUTHORIZED_ACTIVE_USER, AUTHORIZED_ACTIVE_USER, AUTHORIZED_INACTIVE_USER
 from helpers.transport.localRpc import LocalRPC
 from schemas.user import User, UserData
 from schemas.menu import Menu
 from starlette.requests import Request
 from fastapi import HTTPException
+from fastapi.security import OAuth2PasswordBearer
 from schemas.authType import AuthType
-
-class MockAuthService(AuthService):
-
-    def __init__(self, current_user: Optional[User]):
-        self.current_user = current_user
-
-    def check_user_access(self, current_user: Optional[User], auth_type: int, permission_name: Optional[str] = None) -> bool:
-        if auth_type == AuthType.ANYONE:
-            return True
-        if auth_type == AuthType.VISITOR:
-            return self.current_user is None or self.current_user == GUEST_USER
-        if auth_type == AuthType.USER:
-            return self.current_user == UNAUTHORIZED_ACTIVE_USER or self.current_user == AUTHORIZED_ACTIVE_USER
-        if auth_type == AuthType.HAS_PERMISSION:
-           return self.current_user == AUTHORIZED_ACTIVE_USER
-        return False
-
-    def _return_none_or_throw_error(throw_error: bool):
-        if not throw_error:
-            return False
-        raise HTTPException(status_code=402, detail='Unauthroized')
-
-    def anyone(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
-        def verify_everyone(request: Optional[Request]) -> Optional[User]:
-            if self.current_user is None:
-                return GUEST_USER
-            return self.current_user
-        return verify_everyone
-
-    def is_user(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
-        def verify_authenticated(request: Optional[Request]) -> Optional[User]:
-            if self.check_user_access(self.current_user, AuthType.USER):
-                return self.current_user
-            return self._return_none_or_throw_error(throw_error)
-        return verify_authenticated
-
-    def is_visitor(self, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
-        def verify_unauthenticated(request: Optional[Request]) -> Optional[User]:
-            if self.check_user_access(self.current_user, AuthType.VISITOR):
-                return self.current_user
-            return self._return_none_or_throw_error(throw_error)
-        return verify_unauthenticated
-
-    def has_permission(self, permission: str, throw_error: bool = True) -> Callable[[Request], Optional[User]]:
-        def verify_authorized(request: Optional[Request]) -> Optional[User]:
-            if self.check_user_access(self.current_user, AuthType.HAS_PERMISSION):
-                return self.current_user
-            return self._return_none_or_throw_error(throw_error)
-        return verify_authorized
+from core.security.middleware.defaultUserFetcher import DefaultUserFetcher
+from core.security.rule.defaultAuthRule import DefaultAuthRule
 
 
-menu_mock_rpc = LocalRPC()
+rpc = LocalRPC()
 
-@menu_mock_rpc.handle('is_user_authorized')
-def is_user_authorized(user_data: UserData, permission: str) -> bool:
+
+@rpc.handle('get_user_by_access_token')
+def get_user_by_token(token: str) -> Optional[User]:
+    token_map: Mapping[str, Optional[User]] = {
+        'unauthorized_active': UNAUTHORIZED_ACTIVE_USER,
+        'unauthorized_inactive': UNAUTHORIZED_INACTIVE_USER,
+        'authorized_active': AUTHORIZED_ACTIVE_USER,
+        'authorized_inactive': AUTHORIZED_INACTIVE_USER,
+    }
+    if token in token_map:
+        return token_map[token]
+    if token == 'error':
+        raise Exception('Emulating rpc error')
+    return None
+
+
+@rpc.handle('is_user_authorized')
+def is_user_authorized(user_data: Any, permission: str) -> bool:
     user = User.parse_obj(user_data)
-    return user.id == AUTHORIZED_ACTIVE_USER.id
+    return user.id in [AUTHORIZED_ACTIVE_USER.id, AUTHORIZED_INACTIVE_USER]
+
+
+def init_test_menu_service_components() -> Tuple[MenuService, AuthService]:
+    auth_rule = DefaultAuthRule(rpc)
+    oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/', auto_error = False)
+    user_fetcher = DefaultUserFetcher(rpc, oauth2_scheme)
+    auth_service = AuthService(auth_rule, user_fetcher, 'root')
+    menu_service = MenuService(rpc, auth_service)
+    return menu_service, auth_service
 
 
 class SingleMenuTestCase():
@@ -105,11 +84,6 @@ async def check_has_access(menu_service: MenuService, user: Optional[User], acce
             is_error = True
         assert is_error
 
-
-def init_test_menu_service_components(user: Optional[User]) -> Tuple[MenuService, MockAuthService]:
-    auth_service = MockAuthService(user)
-    menu_service = MenuService(menu_mock_rpc, auth_service)
-    return menu_service, auth_service
 
 
 def init_test_menu_data(menu_service: MenuService):

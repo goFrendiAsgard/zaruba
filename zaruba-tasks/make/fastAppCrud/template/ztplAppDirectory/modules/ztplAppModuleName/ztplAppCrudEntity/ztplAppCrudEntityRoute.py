@@ -25,7 +25,7 @@ def register_ztpl_app_crud_entity_entity_api_route(app: FastAPI, mb: MessageBus,
         result = {}
         try:
             if not current_user:
-                current_user = User.parse_obj(rpc.call('get_guest_user'))
+                current_user = User.parse_obj(auth_service.get_guest_user())
             result = rpc.call('find_ztpl_app_crud_entity', keyword, limit, offset, current_user.dict())
         except HTTPException as http_exception:
             raise http_exception
@@ -43,7 +43,7 @@ def register_ztpl_app_crud_entity_entity_api_route(app: FastAPI, mb: MessageBus,
         ztpl_app_crud_entity = None
         try:
             if not current_user:
-                current_user = User.parse_obj(rpc.call('get_guest_user'))
+                current_user = User.parse_obj(auth_service.get_guest_user())
             ztpl_app_crud_entity = rpc.call('find_ztpl_app_crud_entity_by_id', id, current_user.dict())
         except HTTPException as http_exception:
             raise http_exception
@@ -61,7 +61,7 @@ def register_ztpl_app_crud_entity_entity_api_route(app: FastAPI, mb: MessageBus,
         ztpl_app_crud_entity = None
         try:
             if not current_user:
-                current_user = User.parse_obj(rpc.call('get_guest_user'))
+                current_user = User.parse_obj(auth_service.get_guest_user())
             ztpl_app_crud_entity = rpc.call('insert_ztpl_app_crud_entity', ztpl_app_crud_entity_data.dict(), current_user.dict())
         except HTTPException as http_exception:
             raise http_exception
@@ -79,7 +79,7 @@ def register_ztpl_app_crud_entity_entity_api_route(app: FastAPI, mb: MessageBus,
         ztpl_app_crud_entity = None
         try:
             if not current_user:
-                current_user = User.parse_obj(rpc.call('get_guest_user'))
+                current_user = User.parse_obj(auth_service.get_guest_user())
             ztpl_app_crud_entity = rpc.call('update_ztpl_app_crud_entity', id, ztpl_app_crud_entity_data.dict(), current_user.dict())
         except HTTPException as http_exception:
             raise http_exception
@@ -97,7 +97,7 @@ def register_ztpl_app_crud_entity_entity_api_route(app: FastAPI, mb: MessageBus,
         ztpl_app_crud_entity = None
         try:
             if not current_user:
-                current_user = User.parse_obj(rpc.call('get_guest_user'))
+                current_user = User.parse_obj(auth_service.get_guest_user())
             ztpl_app_crud_entity = rpc.call('delete_ztpl_app_crud_entity', id, current_user.dict())
         except HTTPException as http_exception:
             raise http_exception
