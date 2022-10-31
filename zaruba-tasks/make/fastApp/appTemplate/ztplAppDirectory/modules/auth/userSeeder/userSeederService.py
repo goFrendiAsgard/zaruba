@@ -1,5 +1,5 @@
 from typing import Optional
-from fastapi import HTTPException
+from starlette.exceptions import HTTPException
 from core import AuthService
 from modules.auth.user.userService import UserService
 from schemas.user import UserData, User

@@ -4,12 +4,12 @@ from modules.auth.role.roleService import RoleService
 from modules.auth.user.repos.dbUserRepo import DBUserRepo
 from modules.auth.role.repos.dbRoleRepo import DBRoleRepo
 from schemas.user import User, UserData
-from helpers.transport import LocalRPC, LocalMessageBus
+from helpers.transport import LocalRPC, LocalMessageBus, MessageBus
 
 from sqlalchemy import create_engine
 
 
-def create_user_data():
+def create_user_data() -> UserData:
     # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
     dummy_user_data = UserData(
         username='',
@@ -24,17 +24,19 @@ def create_user_data():
     return dummy_user_data
 
 
-def create_user():
+def create_user() -> User:
     user_data_dict = create_user_data().dict()
     dummy_user = User(id='', **user_data_dict)
     return dummy_user
 
 
-def create_mb():
+def create_mb() -> MessageBus:
     mb = LocalMessageBus()
+    # handle new_activity event
     @mb.handle('new_activity')
     def handle_new_activity(activity_data):
         print('New Activity', activity_data)
+    # return mb
     return mb
 
 

@@ -1,6 +1,7 @@
 from typing import Optional
 from helpers.transport import RPC, MessageBus
 from schemas.user import User, UserData, UserResult
+from schemas.activity import ActivityData
 from modules.auth.user.repos.userRepo import UserRepo
 from modules.auth.role.roleService import RoleService
 from modules.auth.user.userService import UserService
@@ -52,21 +53,45 @@ class DefaultUserService(UserService):
         user_data.created_by = current_user.id
         user_data.updated_by = current_user.id
         user_data = self._validate_data(user_data)
-        return self.user_repo.insert(user_data)
+        new_user = self.user_repo.insert(user_data)
+        self.mb.publish('new_activity', ActivityData(
+            user_id = current_user.id,
+            activity = 'insert',
+            object = 'user',
+            row = new_user.dict(),
+            row_id = new_user.id
+        ).dict())
+        return new_user
 
 
     def update(self, id: str, user_data: UserData, current_user: User) -> Optional[User]:
         self._find_by_id_or_error(id)
         user_data = self._validate_data(user_data, id)
         user_data.updated_by = current_user.id
-        return self.user_repo.update(id, user_data)
+        updated_user = self.user_repo.update(id, user_data)
+        self.mb.publish('new_activity', ActivityData(
+            user_id = current_user.id,
+            activity = 'update',
+            object = 'user',
+            row = updated_user.dict(),
+            row_id = updated_user.id
+        ).dict())
+        return updated_user
 
 
     def delete(self, id: str, current_user: User) -> Optional[User]:
         self._find_by_id_or_error(id)
-        return self.user_repo.delete(id)
+        deleted_user = self.user_repo.delete(id)
+        self.mb.publish('new_activity', ActivityData(
+            user_id = current_user.id,
+            activity = 'delete',
+            object = 'user',
+            row = deleted_user.dict(),
+            row_id = deleted_user.id
+        ).dict())
+        return deleted_user
 
-    
+
     def is_authorized(self, user: User, permission: str) -> bool:
         # user has root permission
         if user.has_permission(self.root_permission):

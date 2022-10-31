@@ -1,7 +1,7 @@
 from typing import Any, Tuple
 from modules.auth.user.test_defaultUserService_util import UNAUTHORIZED_ACTIVE_USER, UNAUTHORIZED_INACTIVE_USER, AUTHORIZED_ACTIVE_USER, AUTHORIZED_INACTIVE_USER
-from helpers.transport.localRpc import LocalRPC
-from schemas.user import User
+from helpers.transport.localRpc import LocalRPC, RPC
+from schemas.user import User, UserData
 from fastapi.security import OAuth2, OAuth2PasswordBearer
 from core.security.service.authService import AuthService
 from core.security.rule.authRule import AuthRule
@@ -9,16 +9,20 @@ from core.security.rule.defaultAuthRule import DefaultAuthRule
 from core.security.middleware.userFetcher import UserFetcher
 from core.security.middleware.defaultUserFetcher import DefaultUserFetcher
 
-rpc = LocalRPC()
 
-
-@rpc.handle('is_user_authorized')
-def is_user_authorized(user_data: Any, permission: str) -> bool:
-    user = User.parse_obj(user_data)
-    return user.id in [AUTHORIZED_ACTIVE_USER.id, AUTHORIZED_INACTIVE_USER]
+def create_rpc() -> RPC:
+    rpc = LocalRPC()
+    # handle is_user_authorized
+    @rpc.handle('is_user_authorized')
+    def is_user_authorized(user_data: UserData, permission: str) -> bool:
+        user = User.parse_obj(user_data)
+        return user.id in [AUTHORIZED_ACTIVE_USER.id, AUTHORIZED_INACTIVE_USER]
+    # return rpc
+    return rpc
 
 
 def init_test_auth_service_components() -> Tuple[AuthService, AuthRule, UserFetcher, OAuth2]:
+    rpc = create_rpc()
     auth_rule = DefaultAuthRule(rpc)
     oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/', auto_error = False)
     user_fetcher = DefaultUserFetcher(rpc, oauth2_scheme)

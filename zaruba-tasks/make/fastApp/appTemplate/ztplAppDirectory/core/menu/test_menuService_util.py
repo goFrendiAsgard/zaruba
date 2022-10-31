@@ -2,7 +2,7 @@ from typing import Callable, Optional, Tuple, List, Mapping, Any
 from core.menu.menuService import MenuService
 from core.security.service.authService import AuthService
 from modules.auth.user.test_defaultUserService_util import UNAUTHORIZED_INACTIVE_USER, UNAUTHORIZED_ACTIVE_USER, AUTHORIZED_ACTIVE_USER, AUTHORIZED_INACTIVE_USER
-from helpers.transport.localRpc import LocalRPC
+from helpers.transport.localRpc import LocalRPC, RPC
 from schemas.user import User, UserData
 from schemas.menu import Menu
 from starlette.requests import Request
@@ -13,31 +13,33 @@ from core.security.middleware.defaultUserFetcher import DefaultUserFetcher
 from core.security.rule.defaultAuthRule import DefaultAuthRule
 
 
-rpc = LocalRPC()
-
-
-@rpc.handle('get_user_by_access_token')
-def get_user_by_token(token: str) -> Optional[User]:
-    token_map: Mapping[str, Optional[User]] = {
-        'unauthorized_active': UNAUTHORIZED_ACTIVE_USER,
-        'unauthorized_inactive': UNAUTHORIZED_INACTIVE_USER,
-        'authorized_active': AUTHORIZED_ACTIVE_USER,
-        'authorized_inactive': AUTHORIZED_INACTIVE_USER,
-    }
-    if token in token_map:
-        return token_map[token]
-    if token == 'error':
-        raise Exception('Emulating rpc error')
-    return None
-
-
-@rpc.handle('is_user_authorized')
-def is_user_authorized(user_data: Any, permission: str) -> bool:
-    user = User.parse_obj(user_data)
-    return user.id in [AUTHORIZED_ACTIVE_USER.id, AUTHORIZED_INACTIVE_USER]
+def create_rpc() -> RPC:
+    rpc = LocalRPC()
+    # handle get_user_by_access_token
+    @rpc.handle('get_user_by_access_token')
+    def get_user_by_token(token: str) -> Optional[User]:
+        token_map: Mapping[str, Optional[User]] = {
+            'unauthorized_active': UNAUTHORIZED_ACTIVE_USER,
+            'unauthorized_inactive': UNAUTHORIZED_INACTIVE_USER,
+            'authorized_active': AUTHORIZED_ACTIVE_USER,
+            'authorized_inactive': AUTHORIZED_INACTIVE_USER,
+        }
+        if token in token_map:
+            return token_map[token]
+        if token == 'error':
+            raise Exception('Emulating rpc error')
+        return None
+    # handle is_user_authorized
+    @rpc.handle('is_user_authorized')
+    def is_user_authorized(user_data: Any, permission: str) -> bool:
+        user = User.parse_obj(user_data)
+        return user.id in [AUTHORIZED_ACTIVE_USER.id, AUTHORIZED_INACTIVE_USER]
+    # return rpc
+    return rpc
 
 
 def init_test_menu_service_components() -> Tuple[MenuService, AuthService]:
+    rpc = create_rpc()
     auth_rule = DefaultAuthRule(rpc)
     oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/', auto_error = False)
     user_fetcher = DefaultUserFetcher(rpc, oauth2_scheme)

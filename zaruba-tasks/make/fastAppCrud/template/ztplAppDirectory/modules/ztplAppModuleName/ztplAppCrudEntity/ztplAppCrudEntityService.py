@@ -1,6 +1,7 @@
 from typing import Optional
 from helpers.transport import RPC, MessageBus
 from schemas.user import User
+from schemas.activity import ActivityData
 from schemas.ztplAppCrudEntity import ZtplAppCrudEntity, ZtplAppCrudEntityData, ZtplAppCrudEntityResult
 from modules.ztplAppModuleName.ztplAppCrudEntity.repos.ztplAppCrudEntityRepo import ZtplAppCrudEntityRepo
 from fastapi import HTTPException
@@ -28,19 +29,43 @@ class ZtplAppCrudEntityService():
         ztpl_app_crud_entity_data.created_by = current_user.id
         ztpl_app_crud_entity_data.updated_by = current_user.id
         ztpl_app_crud_entity_data = self._validate_data(ztpl_app_crud_entity_data)
-        return self.ztpl_app_crud_entity_repo.insert(ztpl_app_crud_entity_data)
+        new_ztpl_app_crud_entity = self.ztpl_app_crud_entity_repo.insert(ztpl_app_crud_entity_data)
+        self.mb.publish('new_activity', ActivityData(
+            user_id = current_user.id,
+            activity = 'insert',
+            object = 'ztplAppCrudEntity',
+            row = new_ztpl_app_crud_entity.dict(),
+            row_id = new_ztpl_app_crud_entity.id
+        ).dict())
+        return new_ztpl_app_crud_entity
 
 
     def update(self, id: str, ztpl_app_crud_entity_data: ZtplAppCrudEntityData, current_user: User) -> Optional[ZtplAppCrudEntity]:
         self._find_by_id_or_error(id, current_user)
         ztpl_app_crud_entity_data.updated_by = current_user.id
         ztpl_app_crud_entity_data = self._validate_data(ztpl_app_crud_entity_data, id)
-        return self.ztpl_app_crud_entity_repo.update(id, ztpl_app_crud_entity_data)
+        updated_ztpl_app_crud_entity = self.ztpl_app_crud_entity_repo.update(id, ztpl_app_crud_entity_data)
+        self.mb.publish('new_activity', ActivityData(
+            user_id = current_user.id,
+            activity = 'update',
+            object = 'ztplAppCrudEntity',
+            row = updated_ztpl_app_crud_entity.dict(),
+            row_id = updated_ztpl_app_crud_entity.id
+        ).dict())
+        return updated_ztpl_app_crud_entity
 
 
     def delete(self, id: str, current_user: User) -> Optional[ZtplAppCrudEntity]:
         self._find_by_id_or_error(id, current_user)
-        return self.ztpl_app_crud_entity_repo.delete(id)
+        deleted_ztpl_app_crud_entity = self.ztpl_app_crud_entity_repo.delete(id)
+        self.mb.publish('new_activity', ActivityData(
+            user_id = current_user.id,
+            activity = 'delete',
+            object = 'ztplAppCrudEntity',
+            row = deleted_ztpl_app_crud_entity.dict(),
+            row_id = deleted_ztpl_app_crud_entity.id
+        ).dict())
+        return deleted_ztpl_app_crud_entity
 
 
     def _find_by_id_or_error(self, id: Optional[str] = None, current_user: Optional[User] = None) -> Optional[ZtplAppCrudEntity]:

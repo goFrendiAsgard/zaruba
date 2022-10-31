@@ -9,7 +9,7 @@ from modules.auth.userSeeder.userSeederService import UserSeederService
 from modules.auth.user.repos.dbUserRepo import DBUserRepo
 from modules.auth.role.repos.dbRoleRepo import DBRoleRepo
 from modules.auth.user.test_defaultUserService import create_user_data
-from helpers.transport import LocalRPC, LocalMessageBus
+from helpers.transport import LocalRPC, LocalMessageBus, MessageBus
 
 from sqlalchemy import create_engine
 
@@ -22,11 +22,21 @@ ROOT_USER_DATA.password = 'root'
 ROOT_USER_DATA.permissions = ['root']
 
 
+def create_mb() -> MessageBus:
+    mb = LocalMessageBus()
+    # handle new_activity event
+    @mb.handle('new_activity')
+    def handle_new_activity(activity_data):
+        print('New Activity', activity_data)
+    # return mb
+    return mb
+
+
 def init_test_user_seeder_service_components() -> Tuple[UserSeederService, RoleService, DefaultUserService, DBRoleRepo, DBUserRepo, LocalMessageBus, LocalRPC]:
     engine = create_engine('sqlite://', echo=False)
     role_repo = DBRoleRepo(engine=engine, create_all=True)
     user_repo = DBUserRepo(engine=engine, create_all=True)
-    mb = LocalMessageBus()
+    mb = create_mb()
     rpc = LocalRPC()
     role_service = RoleService(mb, rpc, role_repo)
     user_service = DefaultUserService(mb, rpc, user_repo, role_service, 'root')

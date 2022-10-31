@@ -3,10 +3,10 @@ from modules.ztplAppModuleName.ztplAppCrudEntity.repos.ztplAppCrudEntityRepo imp
 from schemas.ztplAppCrudEntity import ZtplAppCrudEntity, ZtplAppCrudEntityData
 from modules.ztplAppModuleName.ztplAppCrudEntity.ztplAppCrudEntityService import ZtplAppCrudEntityService
 from modules.ztplAppModuleName.ztplAppCrudEntity.repos.dbZtplAppCrudEntityRepo import DBZtplAppCrudEntityRepo
-from helpers.transport import LocalRPC, LocalMessageBus
+from helpers.transport import LocalRPC, LocalMessageBus, MessageBus
 from sqlalchemy import create_engine
 
-def create_ztpl_app_crud_entity_data():
+def create_ztpl_app_crud_entity_data() -> ZtplAppCrudEntityData:
     # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
     dummy_ztpl_app_crud_entity_data = ZtplAppCrudEntityData(
         created_by=''
@@ -22,11 +22,13 @@ def insert_ztpl_app_crud_entity_data(ztpl_app_crud_entity_repo: ZtplAppCrudEntit
     return ztpl_app_crud_entity_repo.insert(ztpl_app_crud_entity_data)
 
 
-def create_mb():
+def create_mb() -> MessageBus:
     mb = LocalMessageBus()
+    # handle new_activity event
     @mb.handle('new_activity')
     def handle_new_activity(activity_data):
         print('New Activity', activity_data)
+    # return mb
     return mb
 
 
