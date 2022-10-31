@@ -70,7 +70,7 @@ class DBActivityRepo(ActivityRepo):
                         DBActivityEntity.row_id.like(keyword_filter),
                         DBActivityEntity.user_id.like(keyword_filter)
                     )
-                ).offset(offset).limit(limit).order_by(DBActivityEntity.created_at.desc()).all()
+                ).order_by(DBActivityEntity.created_at.desc()).offset(offset).limit(limit).all()
             activities = [self._from_db_result(db_result) for db_result in db_activities]
         finally:
             db.close()

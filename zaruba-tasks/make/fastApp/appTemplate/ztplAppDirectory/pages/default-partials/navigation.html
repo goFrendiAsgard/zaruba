@@ -29,11 +29,9 @@
         </ul>
         <div class="d-flex">
             {% if context.current_user %}
-                <i class="bi bi-person"></i>
-                {{ context.current_user.username }}
+                <i class="bi bi-person"></i> {{ context.current_user.username }}
             {% elif context.guest_user %}
-                <i class="bi bi-person"></i>
-                {{ context.guest_user.username }}
+                <i class="bi bi-person"></i> {{ context.guest_user.username }}
             {% endif %}
         </form>
     </div>
