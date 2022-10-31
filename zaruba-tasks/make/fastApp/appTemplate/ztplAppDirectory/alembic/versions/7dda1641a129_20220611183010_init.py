@@ -28,7 +28,7 @@ def upgrade() -> None:
     op.create_table('roles',
         sa.Column('id', sa.String(length=36), primary_key=True, nullable=False),
         sa.Column('name', sa.String(length=20), nullable=True),
-        sa.Column('json_permissions', sa.String(length=20), nullable=True),
+        sa.Column('json_permissions', sa.Text(), nullable=True),
         sa.Column('created_at', sa.DateTime(), nullable=True),
         sa.Column('created_by', sa.String(length=36), nullable=True),
         sa.Column('updated_at', sa.DateTime(), nullable=True),

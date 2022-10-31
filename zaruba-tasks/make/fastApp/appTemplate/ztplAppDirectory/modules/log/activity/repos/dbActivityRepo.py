@@ -2,7 +2,7 @@ from typing import Any, List, Optional
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session
-from sqlalchemy import or_, Boolean, Column, DateTime, ForeignKey, Integer, String
+from sqlalchemy import or_, Boolean, Column, DateTime, ForeignKey, Integer, String, Text
 from schemas.activity import Activity, ActivityData
 from modules.log.activity.repos.activityRepo import ActivityRepo
 from repos import Base
@@ -19,7 +19,7 @@ class DBActivityEntity(Base):
     activity = Column(String(255), index=True)
     object = Column(String(255), index=True, nullable=True)
     row_id = Column(String(255), index=True)
-    json_row = Column(String(255), index=True)
+    json_row = Column(Text(), index=True)
     created_at = Column(DateTime, default=datetime.datetime.utcnow) # Note: 💀 Don't delete this line, Zaruba use it for pattern matching
     created_by = Column(String(36), nullable=True)
     updated_at = Column(DateTime, nullable=True)

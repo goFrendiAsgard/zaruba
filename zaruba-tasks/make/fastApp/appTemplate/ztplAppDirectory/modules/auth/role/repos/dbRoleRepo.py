@@ -2,7 +2,7 @@ from typing import Any, List, Optional
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session
-from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String, Text
 from schemas.role import Role, RoleData
 from modules.auth.role.repos.roleRepo import RoleRepo
 from repos import Base
@@ -16,7 +16,7 @@ class DBRoleEntity(Base):
     __tablename__ = "roles"
     id = Column(String(36), primary_key=True, index=True)
     name = Column(String(20), unique=True, index=True)
-    json_permissions = Column(String(20), index=True)
+    json_permissions = Column(Text(), index=True)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     created_by = Column(String(36), nullable=True)
     updated_at = Column(DateTime, nullable=True)

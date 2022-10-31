@@ -31,7 +31,7 @@ def upgrade() -> None:
         sa.Column('activity', sa.String(length=255), nullable=False),
         sa.Column('object', sa.String(length=255), nullable=True),
         sa.Column('row_id', sa.String(length=255), nullable=True),
-        sa.Column('json_row', sa.String(length=255), nullable=True),
+        sa.Column('json_row', sa.Text(), nullable=True),
         sa.Column('created_at', sa.DateTime(), nullable=True),
         sa.Column('created_by', sa.String(length=36), nullable=True),
         sa.Column('updated_at', sa.DateTime(), nullable=True),
