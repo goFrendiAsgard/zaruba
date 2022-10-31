@@ -2,6 +2,7 @@ from typing import Optional
 from helpers.transport import RPC, MessageBus
 from schemas.user import User
 from schemas.role import Role, RoleData, RoleResult
+from schemas.activity import ActivityData
 from modules.auth.role.repos.roleRepo import RoleRepo
 from fastapi import HTTPException
 
@@ -38,19 +39,43 @@ class RoleService():
         role_data.created_by = current_user.id
         role_data.updated_by = current_user.id
         role_data = self._validate_data(role_data)
-        return self.role_repo.insert(role_data)
+        new_role = self.role_repo.insert(role_data)
+        self.mb.publish('new_activity', ActivityData(
+            user_id = current_user.id,
+            activity = 'insert',
+            object = 'role',
+            row = new_role.dict(),
+            row_id = new_role.id
+        ).dict())
+        return new_role
 
 
     def update(self, id: str, role_data: RoleData, current_user: User) -> Optional[Role]:
         self._find_by_id_or_error(id)
         role_data.updated_by = current_user.id
         role_data = self._validate_data(role_data, id)
-        return self.role_repo.update(id, role_data)
+        updated_role = self.role_repo.update(id, role_data)
+        self.mb.publish('new_activity', ActivityData(
+            user_id = current_user.id,
+            activity = 'update',
+            object = 'role',
+            row = updated_role.dict(),
+            row_id = updated_role.id
+        ).dict())
+        return updated_role
 
 
     def delete(self, id: str, current_user: User) -> Optional[Role]:
         self._find_by_id_or_error(id)
-        return self.role_repo.delete(id)
+        deleted_role = self.role_repo.delete(id)
+        self.mb.publish('new_activity', ActivityData(
+            user_id = current_user.id,
+            activity = 'delete',
+            object = 'role',
+            row = deleted_role.dict(),
+            row_id = deleted_role.id
+        ).dict())
+        return deleted_role
 
 
     def _find_by_id_or_error(self, id: Optional[str] = None) -> Optional[Role]:

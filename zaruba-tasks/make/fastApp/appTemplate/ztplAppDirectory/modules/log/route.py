@@ -1,11 +1,11 @@
-from modules.log.activity import register_activity_api_route, register_activity_ui_route
 from typing import Mapping, List, Any, Optional
+from core import AuthService, MenuService
+from modules.log.activity import register_activity_api_route, register_activity_ui_route
 from fastapi import Depends, FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from schemas.menuContext import MenuContext
 from schemas.user import User
-from core import AuthService, MenuService
 from helpers.transport import MessageBus, RPC
 
 import traceback

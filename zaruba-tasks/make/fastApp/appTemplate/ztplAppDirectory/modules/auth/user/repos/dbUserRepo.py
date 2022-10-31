@@ -11,7 +11,7 @@ from repos import Base
 import bcrypt
 import uuid
 import datetime
-import json
+import jsons
 
 class DBUserEntity(Base):
     __tablename__ = "users"
@@ -31,7 +31,7 @@ class DBUserEntity(Base):
 
     @hybrid_property
     def permissions(self) -> List[str]:
-        return json.loads(self.json_permissions)
+        return jsons.loads(self.json_permissions)
 
 
 class DBUserRepo(UserRepo):
@@ -52,8 +52,8 @@ class DBUserRepo(UserRepo):
 
     def _from_db_result(self, db_result: Any) -> UserWithoutPassword:
         user = UserWithoutPassword.from_orm(db_result)
-        user.permissions = json.loads(db_result.json_permissions)
-        user.role_ids = json.loads(db_result.json_role_ids)
+        user.permissions = jsons.loads(db_result.json_permissions)
+        user.role_ids = jsons.loads(db_result.json_role_ids)
         return user
 
     def find_by_username(self, username: str) -> Optional[UserWithoutPassword]:
@@ -167,8 +167,8 @@ class DBUserRepo(UserRepo):
                 username=user_data.username,
                 email=user_data.email,
                 phone_number=user_data.phone_number,
-                json_permissions=json.dumps(user_data.permissions),
-                json_role_ids=json.dumps(user_data.role_ids),
+                json_permissions=jsons.dumps(user_data.permissions),
+                json_role_ids=jsons.dumps(user_data.role_ids),
                 active=user_data.active,
                 hashed_password=self._hash_password(user_data.password),
                 full_name=user_data.full_name,
@@ -195,8 +195,8 @@ class DBUserRepo(UserRepo):
             db_user.username = user_data.username
             db_user.email = user_data.email
             db_user.phone_number = user_data.phone_number
-            db_user.json_permissions = json.dumps(user_data.permissions)
-            db_user.json_role_ids = json.dumps(user_data.role_ids)
+            db_user.json_permissions = jsons.dumps(user_data.permissions)
+            db_user.json_role_ids = jsons.dumps(user_data.role_ids)
             db_user.active = user_data.active
             db_user.full_name = user_data.full_name
             db_user.updated_at = datetime.datetime.utcnow()

@@ -1,10 +1,10 @@
 from typing import Any, List, Mapping, Optional
+from core import AuthService, MenuService
 from helpers.transport import MessageBus, RPC
 from fastapi import Depends, FastAPI, Request, HTTPException
 from fastapi.security import OAuth2
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from core import AuthService, MenuService
 from schemas.ztplAppCrudEntity import ZtplAppCrudEntity, ZtplAppCrudEntityData, ZtplAppCrudEntityResult
 from schemas.menuContext import MenuContext
 from schemas.user import User

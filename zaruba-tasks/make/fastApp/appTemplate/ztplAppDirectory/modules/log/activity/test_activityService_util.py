@@ -1,6 +1,7 @@
 from typing import Optional, Tuple
-from modules.log.activity.repos.activityRepo import ActivityRepo
 from schemas.activity import Activity, ActivityData
+from core.security.service.test_authService_util import init_test_auth_service_components
+from modules.log.activity.repos.activityRepo import ActivityRepo
 from modules.log.activity.activityService import ActivityService
 from modules.log.activity.repos.dbActivityRepo import DBActivityRepo
 from helpers.transport import LocalRPC, LocalMessageBus
@@ -28,9 +29,10 @@ def insert_activity_data(activity_repo: ActivityRepo, index: Optional[int] = Non
 
 
 def init_test_activity_service_components() -> Tuple[ActivityService, DBActivityRepo, LocalMessageBus, LocalRPC]:
+    auth_service, _, _, _ = init_test_auth_service_components()
     engine = create_engine('sqlite://', echo=False)
     activity_repo = DBActivityRepo(engine=engine, create_all=True)
     mb = LocalMessageBus()
     rpc = LocalRPC()
-    activity_service = ActivityService(mb, rpc, activity_repo)
-    return activity_service, activity_repo, mb, rpc
+    activity_service = ActivityService(mb, rpc, auth_service, activity_repo)
+    return activity_service, auth_service, activity_repo, mb, rpc

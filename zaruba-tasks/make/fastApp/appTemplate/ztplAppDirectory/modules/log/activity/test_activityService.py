@@ -3,7 +3,7 @@ from modules.auth.user.test_defaultUserService_util import AUTHORIZED_ACTIVE_USE
 
 
 def test_activity_service_crud_find_by_id_existing():
-    activity_service, activity_repo, _, _ = init_test_activity_service_components()
+    activity_service, _, activity_repo, _, _ = init_test_activity_service_components()
     # prepare repo
     existing_activity = insert_activity_data(activity_repo)
     # test find by id (existing)
@@ -16,7 +16,7 @@ def test_activity_service_crud_find_by_id_existing():
 
 
 def test_activity_service_crud_find_by_id_non_existing():
-    activity_service, activity_repo, _, _ = init_test_activity_service_components()
+    activity_service, _, activity_repo, _, _ = init_test_activity_service_components()
     # prepare repo
     insert_activity_data(activity_repo)
     # test find by id (non existing)
@@ -29,7 +29,7 @@ def test_activity_service_crud_find_by_id_non_existing():
 
 
 def test_activity_service_crud_find_existing():
-    activity_service, activity_repo, _, _ = init_test_activity_service_components()
+    activity_service, _, activity_repo, _, _ = init_test_activity_service_components()
     # prepare repo
     existing_activity = insert_activity_data(activity_repo)
     # test find (existing)
@@ -44,7 +44,7 @@ def test_activity_service_crud_find_existing():
 
 
 def test_activity_service_crud_find_non_existing():
-    activity_service, activity_repo, _, _ = init_test_activity_service_components()
+    activity_service, _, activity_repo, _, _ = init_test_activity_service_components()
     # prepare repo
     insert_activity_data(activity_repo)
     # test find (non existing)
@@ -53,7 +53,7 @@ def test_activity_service_crud_find_non_existing():
 
 
 def test_activity_service_crud_find_pagination():
-    activity_service, activity_repo, _, _ = init_test_activity_service_components()
+    activity_service, _, activity_repo, _, _ = init_test_activity_service_components()
     # prepare repo
     for index in range(7):
         insert_activity_data(activity_repo, index)
@@ -72,17 +72,18 @@ def test_activity_service_crud_find_pagination():
 
 
 def test_activity_service_crud_insert():
-    activity_service, activity_repo, _, _ = init_test_activity_service_components()
+    activity_service, auth_service, activity_repo, _, _ = init_test_activity_service_components()
+    system_user = auth_service.get_system_user()
     # prepare insert
     inserted_activity_data = create_activity_data()
     inserted_activity_data.activity = 'activity'
     inserted_activity_data.created_by = 'original_user'
     inserted_activity_data.updated_by = 'original_user'
     # test insert
-    inserted_activity = activity_service.insert(inserted_activity_data, AUTHORIZED_ACTIVE_USER)
+    inserted_activity = activity_service.insert(inserted_activity_data)
     assert inserted_activity is not None
     assert inserted_activity.id != '' 
     assert inserted_activity.activity == 'activity'
-    assert inserted_activity.created_by == AUTHORIZED_ACTIVE_USER.id
-    assert inserted_activity.updated_by == AUTHORIZED_ACTIVE_USER.id
+    assert inserted_activity.created_by == system_user.id
+    assert inserted_activity.updated_by == system_user.id
     assert activity_repo.count(keyword='') == 1

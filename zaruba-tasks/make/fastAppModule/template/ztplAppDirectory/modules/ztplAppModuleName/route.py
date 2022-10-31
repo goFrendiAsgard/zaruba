@@ -2,10 +2,10 @@ from typing import Mapping, List, Any, Optional
 from fastapi import Depends, FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from schemas.menuContext import MenuContext
-from schemas.user import User
 from core import AuthService, MenuService
 from helpers.transport import MessageBus, RPC
+from schemas.menuContext import MenuContext
+from schemas.user import User
 
 import traceback
 import sys

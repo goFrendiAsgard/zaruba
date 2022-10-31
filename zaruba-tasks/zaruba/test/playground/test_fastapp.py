@@ -1,6 +1,6 @@
 from typing import Any, Mapping
 import http.client
-import json
+import jsons
 
 def send_request(conn: http.client.HTTPConnection, method: str, url: str, payload: str, headers: Mapping[str, str]):
     conn.request(method, url, payload, headers)
@@ -17,7 +17,7 @@ def login(conn: http.client.HTTPConnection, username: str, password: str):
         'Content-Type': 'application/x-www-form-urlencoded',
     }
     raw_response = send_request(conn, 'POST', '/api/v1/create-oauth-access-token/', payload, headers)
-    decoded_response = json.loads(raw_response)
+    decoded_response = jsons.loads(raw_response)
     print('decoded response', decoded_response)
     return decoded_response
 
@@ -26,9 +26,9 @@ def send_json_request(conn: http.client.HTTPConnection, method: str, url: str, p
         headers['Content-Type'] = 'application/json'
     if access_token != '':
         headers['Authorization'] = 'Bearer {}'.format(access_token)
-    payload = json.dumps(payload_object)
+    payload = jsons.dumps(payload_object)
     raw_response = send_request(conn, method, url, payload, headers)
-    decoded_response = json.loads(raw_response)
+    decoded_response = jsons.loads(raw_response)
     print('decoded response', decoded_response)
     return decoded_response
 

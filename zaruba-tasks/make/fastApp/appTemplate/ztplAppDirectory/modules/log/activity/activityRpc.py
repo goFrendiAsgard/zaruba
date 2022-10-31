@@ -3,10 +3,11 @@ from helpers.transport import RPC, MessageBus
 from schemas.activity import Activity, ActivityData
 from schemas.user import User
 from modules.log.activity.activityService import ActivityService
+from core import AuthService
 
 import sys
 
-def register_activity_rpc(mb: MessageBus, rpc: RPC, activity_service: ActivityService):
+def register_activity_rpc(mb: MessageBus, rpc: RPC, auth_service: AuthService, activity_service: ActivityService):
 
     @rpc.handle('find_activity')
     def find_activities(keyword: str, limit: int, offset: int, current_user_data: Optional[Mapping[str, Any]]) -> Mapping[str, Any]:
@@ -23,11 +24,10 @@ def register_activity_rpc(mb: MessageBus, rpc: RPC, activity_service: ActivitySe
 
 
     @rpc.handle('insert_activity')
-    def insert_activity(activity_data: Mapping[str, Any], current_user_data: Mapping[str, Any]) -> Optional[Mapping[str, Any]]:
-        current_user = User.parse_obj(current_user_data)
+    def insert_activity(activity_data: Mapping[str, Any]) -> Optional[Mapping[str, Any]]:
         activity = ActivityData.parse_obj(activity_data) 
-        new_activity = activity_service.insert(activity, current_user)
+        new_activity = activity_service.insert(activity)
         return None if new_activity is None else new_activity.dict()
 
 
-    print('Handle RPC for log.Activity', file=sys.stderr)
+    print('Handle RPC for log.activity', file=sys.stderr)

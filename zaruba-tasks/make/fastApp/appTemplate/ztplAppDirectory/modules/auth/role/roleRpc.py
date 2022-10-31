@@ -1,12 +1,13 @@
 from typing import Any, Optional, Mapping
 from helpers.transport import RPC, MessageBus
+from core.security.service.authService import AuthService
 from schemas.role import RoleData
 from schemas.user import User
 from modules.auth.role.roleService import RoleService
 
 import sys
 
-def register_role_rpc(mb: MessageBus, rpc: RPC, role_service: RoleService):
+def register_role_rpc(mb: MessageBus, rpc: RPC, auth_service: AuthService, role_service: RoleService):
 
     @rpc.handle('find_roles')
     def find_roles(keyword: str, limit: int, offset: int, current_user_data: Optional[Mapping[str, Any]] = None) -> Mapping[str, Any]:

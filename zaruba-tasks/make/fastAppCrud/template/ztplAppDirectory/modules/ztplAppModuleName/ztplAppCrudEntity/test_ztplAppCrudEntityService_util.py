@@ -22,10 +22,18 @@ def insert_ztpl_app_crud_entity_data(ztpl_app_crud_entity_repo: ZtplAppCrudEntit
     return ztpl_app_crud_entity_repo.insert(ztpl_app_crud_entity_data)
 
 
+def create_mb():
+    mb = LocalMessageBus()
+    @mb.handle('new_activity')
+    def handle_new_activity(activity_data):
+        print('New Activity', activity_data)
+    return mb
+
+
 def init_test_ztpl_app_crud_entity_service_components() -> Tuple[ZtplAppCrudEntityService, DBZtplAppCrudEntityRepo, LocalMessageBus, LocalRPC]:
     engine = create_engine('sqlite://', echo=False)
     ztpl_app_crud_entity_repo = DBZtplAppCrudEntityRepo(engine=engine, create_all=True)
-    mb = LocalMessageBus()
+    mb = create_mb()
     rpc = LocalRPC()
     ztpl_app_crud_entity_service = ZtplAppCrudEntityService(mb, rpc, ztpl_app_crud_entity_repo)
     return ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, mb, rpc

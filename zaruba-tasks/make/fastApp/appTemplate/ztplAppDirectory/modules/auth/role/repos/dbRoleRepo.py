@@ -9,7 +9,7 @@ from repos import Base
 
 import uuid
 import datetime
-import json
+import jsons
 
 
 class DBRoleEntity(Base):
@@ -35,7 +35,7 @@ class DBRoleRepo(RoleRepo):
 
     def _from_db_result(self, db_result: Any) -> Role:
         role = Role.from_orm(db_result)
-        role.permissions = json.loads(db_result.json_permissions)
+        role.permissions = jsons.loads(db_result.json_permissions)
         return role
 
     def find_by_id(self, id: str) -> Optional[Role]:
@@ -91,7 +91,7 @@ class DBRoleRepo(RoleRepo):
             db_role = DBRoleEntity(
                 id=new_role_id,
                 name=role_data.name,
-                json_permissions=json.dumps(role_data.permissions),
+                json_permissions=jsons.dumps(role_data.permissions),
                 created_at=datetime.datetime.utcnow(),
                 created_by=role_data.created_by,
                 updated_at=datetime.datetime.utcnow(),
@@ -113,7 +113,7 @@ class DBRoleRepo(RoleRepo):
             if db_role is None:
                 return None
             db_role.name = role_data.name
-            db_role.json_permissions = json.dumps(role_data.permissions)
+            db_role.json_permissions = jsons.dumps(role_data.permissions)
             db_role.updated_at = datetime.datetime.utcnow()
             db_role.updated_by = role_data.updated_by
             db.add(db_role)

@@ -9,7 +9,7 @@ from repos import Base
 
 import uuid
 import datetime
-import json
+import jsons
 
 # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
 class DBActivityEntity(Base):
@@ -93,7 +93,7 @@ class DBActivityRepo(ActivityRepo):
                 activity=activity_data.activity,
                 object=activity_data.object,
                 row_id=activity_data.row_id,
-                json_row=json.dumps(activity_data.row),
+                json_row=jsons.dumps(activity_data.row),
                 created_at=datetime.datetime.utcnow(), # Note: 💀 Don't delete this line, Zaruba use it for pattern matching
                 created_by=activity_data.created_by,
                 updated_at=datetime.datetime.utcnow(),
@@ -120,7 +120,7 @@ class DBActivityRepo(ActivityRepo):
             db_activity.activity = activity_data.activity
             db_activity.object = activity_data.object
             db_activity.row_id = activity_data.row_id
-            db_activity.row = json.dumps(activity_data.row)
+            db_activity.row = jsons.dumps(activity_data.row)
             db_activity.updated_at = datetime.datetime.utcnow() # Note: 💀 Don't delete this line, Zaruba use it for pattern matching
             db_activity.updated_by = activity_data.updated_by
             db.add(db_activity)

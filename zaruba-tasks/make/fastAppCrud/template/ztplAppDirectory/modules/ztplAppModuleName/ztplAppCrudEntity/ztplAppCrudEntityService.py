@@ -20,7 +20,7 @@ class ZtplAppCrudEntityService():
 
 
     def find_by_id(self, id: str, current_user: Optional[User] = None) -> Optional[ZtplAppCrudEntity]:
-        ztpl_app_crud_entity = self._find_by_id_or_error(id)
+        ztpl_app_crud_entity = self._find_by_id_or_error(id, current_user)
         return ztpl_app_crud_entity
 
 
@@ -32,18 +32,18 @@ class ZtplAppCrudEntityService():
 
 
     def update(self, id: str, ztpl_app_crud_entity_data: ZtplAppCrudEntityData, current_user: User) -> Optional[ZtplAppCrudEntity]:
-        self._find_by_id_or_error(id)
+        self._find_by_id_or_error(id, current_user)
         ztpl_app_crud_entity_data.updated_by = current_user.id
         ztpl_app_crud_entity_data = self._validate_data(ztpl_app_crud_entity_data, id)
         return self.ztpl_app_crud_entity_repo.update(id, ztpl_app_crud_entity_data)
 
 
     def delete(self, id: str, current_user: User) -> Optional[ZtplAppCrudEntity]:
-        self._find_by_id_or_error(id)
+        self._find_by_id_or_error(id, current_user)
         return self.ztpl_app_crud_entity_repo.delete(id)
 
 
-    def _find_by_id_or_error(self, id: Optional[str] = None) -> Optional[ZtplAppCrudEntity]:
+    def _find_by_id_or_error(self, id: Optional[str] = None, current_user: Optional[User] = None) -> Optional[ZtplAppCrudEntity]:
         ztpl_app_crud_entity = self.ztpl_app_crud_entity_repo.find_by_id(id)
         if ztpl_app_crud_entity is None:
             raise HTTPException(

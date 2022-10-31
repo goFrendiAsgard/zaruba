@@ -6,7 +6,6 @@ from schemas.role import Role, RoleData
 from helpers.transport import LocalRPC, LocalMessageBus
 from sqlalchemy import create_engine
 
-
 def create_role_data():
     # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
     dummy_role_data = RoleData(
@@ -25,10 +24,18 @@ def insert_role_data(role_repo: RoleRepo, index: Optional[int] = None) -> Role:
     return role_repo.insert(role_data)
 
 
+def create_mb():
+    mb = LocalMessageBus()
+    @mb.handle('new_activity')
+    def handle_new_activity(activity_data):
+        print('New Activity', activity_data)
+    return mb
+
+
 def init_test_role_service_components() -> Tuple[RoleService, DBRoleRepo, LocalMessageBus, LocalRPC]:
     engine = create_engine('sqlite://', echo=False)
     role_repo = DBRoleRepo(engine=engine, create_all=True)
-    mb = LocalMessageBus()
+    mb = create_mb()
     rpc = LocalRPC()
     role_service = RoleService(mb, rpc, role_repo)
     return role_service, role_repo, mb, rpc

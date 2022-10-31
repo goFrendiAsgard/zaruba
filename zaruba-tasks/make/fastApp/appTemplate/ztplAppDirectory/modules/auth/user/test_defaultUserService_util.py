@@ -30,11 +30,19 @@ def create_user():
     return dummy_user
 
 
+def create_mb():
+    mb = LocalMessageBus()
+    @mb.handle('new_activity')
+    def handle_new_activity(activity_data):
+        print('New Activity', activity_data)
+    return mb
+
+
 def init_test_default_user_service_components() -> Tuple[DefaultUserService, RoleService, DBUserRepo, DBRoleRepo, LocalMessageBus, LocalRPC]:
     engine = create_engine('sqlite://', echo=False)
     role_repo = DBRoleRepo(engine=engine, create_all=True)
     user_repo = DBUserRepo(engine=engine, create_all=True)
-    mb = LocalMessageBus()
+    mb = create_mb()
     rpc = LocalRPC()
     role_service = RoleService(mb, rpc, role_repo)
     user_service = DefaultUserService(mb, rpc, user_repo, role_service, 'root')

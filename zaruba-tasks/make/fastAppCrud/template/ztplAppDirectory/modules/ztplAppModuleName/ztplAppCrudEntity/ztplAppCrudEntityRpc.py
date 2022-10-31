@@ -1,4 +1,5 @@
 from typing import Any, Optional, Mapping
+from core import AuthService
 from helpers.transport import RPC, MessageBus
 from schemas.ztplAppCrudEntity import ZtplAppCrudEntity, ZtplAppCrudEntityData
 from schemas.user import User
@@ -6,7 +7,7 @@ from modules.ztplAppModuleName.ztplAppCrudEntity.ztplAppCrudEntityService import
 
 import sys
 
-def register_ztpl_app_crud_entity_rpc(mb: MessageBus, rpc: RPC, ztpl_app_crud_entity_service: ZtplAppCrudEntityService):
+def register_ztpl_app_crud_entity_rpc(mb: MessageBus, rpc: RPC, auth_service: AuthService, ztpl_app_crud_entity_service: ZtplAppCrudEntityService):
 
     @rpc.handle('find_ztpl_app_crud_entity')
     def find_ztpl_app_crud_entities(keyword: str, limit: int, offset: int, current_user_data: Optional[Mapping[str, Any]]) -> Mapping[str, Any]:

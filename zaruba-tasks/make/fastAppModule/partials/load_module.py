@@ -13,8 +13,8 @@ if enable_ztpl_app_module_name_module:
         register_ztpl_app_module_name_ui_route(app, mb, rpc, menu_service, page_template)
     # handle event
     if enable_event_handler:
-        register_ztpl_app_module_name_event_handler(mb, rpc)
+        register_ztpl_app_module_name_event_handler(mb, rpc, auth_service)
     # serve RPC
     if enable_rpc_handler:
         # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
-        register_ztpl_app_module_name_rpc_handler(mb, rpc)
+        register_ztpl_app_module_name_rpc_handler(mb, rpc, auth_service)

@@ -1,5 +1,6 @@
 from typing import Optional
 from helpers.transport import RPC, MessageBus
+from core import AuthService
 from schemas.user import User
 from schemas.activity import Activity, ActivityData, ActivityResult
 from modules.log.activity.repos.activityRepo import ActivityRepo
@@ -7,9 +8,10 @@ from fastapi import HTTPException
 
 class ActivityService():
 
-    def __init__(self, mb: MessageBus, rpc: RPC, activity_repo: ActivityRepo):
+    def __init__(self, mb: MessageBus, rpc: RPC, auth_service: AuthService, activity_repo: ActivityRepo):
         self.mb = mb
         self.rpc = rpc
+        self.auth_service = auth_service
         self.activity_repo = activity_repo
 
 
@@ -24,9 +26,10 @@ class ActivityService():
         return activity
 
 
-    def insert(self, activity_data: ActivityData, current_user: User) -> Optional[Activity]:
-        activity_data.created_by = current_user.id
-        activity_data.updated_by = current_user.id
+    def insert(self, activity_data: ActivityData) -> Optional[Activity]:
+        system_user = self.auth_service.get_system_user()
+        activity_data.created_by = system_user.id
+        activity_data.updated_by = system_user.id
         activity_data = self._validate_data(activity_data)
         return self.activity_repo.insert(activity_data)
 
