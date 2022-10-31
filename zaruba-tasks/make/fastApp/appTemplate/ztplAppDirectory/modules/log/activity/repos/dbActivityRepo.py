@@ -15,11 +15,11 @@ import jsons
 class DBActivityEntity(Base):
     __tablename__ = "activities"
     id = Column(String(36), primary_key=True, index=True)
-    user_id = Column(String(36), index=True)
-    activity = Column(String(255), index=True)
+    user_id = Column(String(36), index=True, nullable=False)
+    activity = Column(String(255), index=True, nullable=False)
     object = Column(String(255), index=True, nullable=True)
-    row_id = Column(String(255), index=True)
-    json_row = Column(Text(), index=False)
+    row_id = Column(String(255), index=True, nullable=True)
+    json_row = Column(Text(), index=False, nullable=True)
     created_at = Column(DateTime, default=datetime.datetime.utcnow) # Note: 💀 Don't delete this line, Zaruba use it for pattern matching
     created_by = Column(String(36), nullable=True)
     updated_at = Column(DateTime, nullable=True)
