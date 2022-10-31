@@ -19,7 +19,7 @@ class DBActivityEntity(Base):
     activity = Column(String(255), index=True)
     object = Column(String(255), index=True, nullable=True)
     row_id = Column(String(255), index=True)
-    json_row = Column(Text(), index=True)
+    json_row = Column(Text(), index=False)
     created_at = Column(DateTime, default=datetime.datetime.utcnow) # Note: 💀 Don't delete this line, Zaruba use it for pattern matching
     created_by = Column(String(36), nullable=True)
     updated_at = Column(DateTime, nullable=True)

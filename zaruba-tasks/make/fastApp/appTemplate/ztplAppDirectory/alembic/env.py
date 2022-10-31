@@ -1,6 +1,7 @@
 from repos import Base
 from modules.auth import DBRoleRepo
 from modules.auth import DBUserRepo
+from modules.log.activity import DBActivityRepo
 
 from logging.config import fileConfig
 
