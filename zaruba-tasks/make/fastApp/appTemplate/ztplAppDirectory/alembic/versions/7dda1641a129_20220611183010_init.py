@@ -36,7 +36,6 @@ def upgrade() -> None:
         sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_roles_id'), 'roles', ['id'], unique=False)
-    op.create_index(op.f('ix_roles_json_permissions'), 'roles', ['json_permissions'], unique=False)
     op.create_index(op.f('ix_roles_name'), 'roles', ['name'], unique=True)
     # Users
     op.create_table('users',
@@ -76,6 +75,5 @@ def downgrade() -> None:
     op.drop_table('users')
     # Roles
     op.drop_index(op.f('ix_roles_name'), table_name='roles')
-    op.drop_index(op.f('ix_roles_json_permissions'), table_name='roles')
     op.drop_index(op.f('ix_roles_id'), table_name='roles')
     op.drop_table('roles')
