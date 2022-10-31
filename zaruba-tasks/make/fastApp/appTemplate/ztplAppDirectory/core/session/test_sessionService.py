@@ -1,6 +1,6 @@
 from core.session.sessionService import SessionService
 from core.token.tokenService import JWTTokenService
-from modules.auth.user.userService import DefaultUserService
+from modules.auth.user.defaultUserService import DefaultUserService
 from modules.auth.role.roleService import RoleService
 from modules.auth.user.repos.dbUserRepo import DBUserRepo
 from modules.auth.role.repos.dbRoleRepo import DBRoleRepo

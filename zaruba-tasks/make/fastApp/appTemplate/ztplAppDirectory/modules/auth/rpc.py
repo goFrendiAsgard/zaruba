@@ -1,7 +1,5 @@
-from modules.auth.role.roleRpc import register_role_rpc
-from modules.auth.role.roleService import RoleService
-from modules.auth.user.userRpc import register_user_rpc
-from modules.auth.user.userService import UserService
+from modules.auth.role import RoleService, register_role_rpc
+from modules.auth.user import UserService, register_user_rpc
 from helpers.transport import RPC, MessageBus
 
 import sys

@@ -1,4 +1,4 @@
-from modules.log.activity.activityRoute import register_activity_entity_api_route, register_activity_entity_ui_route
+from modules.log.activity import register_activity_api_route, register_activity_ui_route
 from typing import Mapping, List, Any, Optional
 from fastapi import Depends, FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse
@@ -18,7 +18,7 @@ import sys
 # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
 def register_log_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService):
 
-    register_activity_entity_api_route(app, mb, rpc, auth_service)
+    register_activity_api_route(app, mb, rpc, auth_service)
 
     print('Register log api route handler', file=sys.stderr)
 
@@ -29,6 +29,6 @@ def register_log_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service:
 # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
 def register_log_ui_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service: MenuService, page_template: Jinja2Templates):
 
-    register_activity_entity_ui_route(app, mb, rpc, menu_service, page_template)
+    register_activity_ui_route(app, mb, rpc, menu_service, page_template)
 
     print('Register log UI route handler', file=sys.stderr)

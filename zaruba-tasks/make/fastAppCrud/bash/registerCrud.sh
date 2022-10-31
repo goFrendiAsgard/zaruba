@@ -1,11 +1,11 @@
 set -e
 echo "Registering repo"
 
-_IMPORT_REPO_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrud/partials/import_repo.py")"
-_IMPORT_REPO_SCRIPT="$("${ZARUBA_BIN}" str replace "${_IMPORT_REPO_SCRIPT}" "${_ZRB_REPLACEMENT_MAP}" )"
+_IMPORT_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrud/partials/import_repo_and_service.py")"
+_IMPORT_SCRIPT="$("${ZARUBA_BIN}" str replace "${_IMPORT_SCRIPT}" "${_ZRB_REPLACEMENT_MAP}" )"
 
-_INIT_REPO_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrud/partials/init_repo.py")"
-_INIT_REPO_SCRIPT="$("${ZARUBA_BIN}" str replace "${_INIT_REPO_SCRIPT}" "${_ZRB_REPLACEMENT_MAP}" )"
+_INIT_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrud/partials/init_repo_and_service.py")"
+_INIT_SCRIPT="$("${ZARUBA_BIN}" str replace "${_INIT_SCRIPT}" "${_ZRB_REPLACEMENT_MAP}" )"
 
 
 ####################################################################
@@ -18,7 +18,7 @@ _MAIN_LINES="$("${ZARUBA_BIN}" lines read "${_MAIN_FILE_LOCATION}")"
 ####################################################################
 # insert import
 
-_MAIN_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_MAIN_LINES}" 0 "${_IMPORT_REPO_SCRIPT}")"
+_MAIN_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_MAIN_LINES}" 0 "${_IMPORT_SCRIPT}")"
 
 # init repo
 _PATTERN="if enable_${_ZRB_SNAKE_APP_MODULE_NAME}_module:"
@@ -29,9 +29,9 @@ then
     exit 1
 fi
 
-_INIT_REPO_SCRIPT_INDENTATION="    "
-_INDENTED_INIT_REPO_SCRIPT="$("${ZARUBA_BIN}" str fullIndent "${_INIT_REPO_SCRIPT}" "${_INIT_REPO_SCRIPT_INDENTATION}")"
-_MAIN_LINES="$("${ZARUBA_BIN}" lines insertAfter "${_MAIN_LINES}" "${_ENGINE_DECLARATION_INDEX}" "${_INDENTED_INIT_REPO_SCRIPT}")"
+_INIT_SCRIPT_INDENTATION="    "
+_INDENTED_INIT_SCRIPT="$("${ZARUBA_BIN}" str fullIndent "${_INIT_SCRIPT}" "${_INIT_SCRIPT_INDENTATION}")"
+_MAIN_LINES="$("${ZARUBA_BIN}" lines insertAfter "${_MAIN_LINES}" "${_ENGINE_DECLARATION_INDEX}" "${_INDENTED_INIT_SCRIPT}")"
 
 ####################################################################
 # look for rpc call
@@ -49,7 +49,7 @@ _CALL_SUBMATCH="$("${ZARUBA_BIN}" lines submatch "${_MAIN_LINES}" "${_PATTERN}")
 _CALL_INDENTATION="$("${ZARUBA_BIN}" list get "${_CALL_SUBMATCH}" 1)"
 _CALL_PARAM="$("${ZARUBA_BIN}" list get "${_CALL_SUBMATCH}" 2)"
 _CALL_SUFFIX="$("${ZARUBA_BIN}" list get "${_CALL_SUBMATCH}" 3)"
-_NEW_CALL_LINE="${_CALL_INDENTATION}register_${_ZRB_SNAKE_APP_MODULE_NAME}_rpc_handler(${_CALL_PARAM}, ${_ZRB_SNAKE_APP_CRUD_ENTITY}_repo)${_CALL_SUFFIX}"
+_NEW_CALL_LINE="${_CALL_INDENTATION}register_${_ZRB_SNAKE_APP_MODULE_NAME}_rpc_handler(${_CALL_PARAM}, ${_ZRB_SNAKE_APP_CRUD_ENTITY}_service)${_CALL_SUFFIX}"
 
 # replace rpc call
 _MAIN_LINES="$("${ZARUBA_BIN}" list set "${_MAIN_LINES}" "${_CALL_INDEX}" "${_NEW_CALL_LINE}")"
@@ -69,7 +69,7 @@ _ENV_FILE_LOCATION="${_ZRB_APP_DIRECTORY}/alembic/env.py"
 _ENV_LINES="$("${ZARUBA_BIN}" lines read "${_ENV_FILE_LOCATION}")"
 
 
-_ENV_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_ENV_LINES}" 1 "${_IMPORT_REPO_SCRIPT}")"
+_ENV_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_ENV_LINES}" 1 "${_IMPORT_SCRIPT}")"
 
 ####################################################################
 # Overwrite existing alembic env

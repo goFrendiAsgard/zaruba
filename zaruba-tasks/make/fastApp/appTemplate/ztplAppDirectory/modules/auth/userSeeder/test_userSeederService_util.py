@@ -3,7 +3,7 @@ from fastapi.security import OAuth2PasswordBearer
 from core.security.service.authService import AuthService
 from core.security.rule.defaultAuthRule import DefaultAuthRule
 from core.security.middleware.defaultUserFetcher import DefaultUserFetcher
-from modules.auth.user.userService import DefaultUserService
+from modules.auth.user.defaultUserService import DefaultUserService
 from modules.auth.role.roleService import RoleService
 from modules.auth.userSeeder.userSeederService import UserSeederService
 from modules.auth.user.repos.dbUserRepo import DBUserRepo

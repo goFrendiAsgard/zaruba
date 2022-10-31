@@ -2,14 +2,11 @@ from typing import Any, Optional, Mapping
 from helpers.transport import RPC, MessageBus
 from schemas.activity import Activity, ActivityData
 from schemas.user import User
-from modules.log.activity.repos.activityRepo import ActivityRepo
 from modules.log.activity.activityService import ActivityService
 
 import sys
 
-def register_activity_entity_rpc(mb: MessageBus, rpc: RPC, activity_repo: ActivityRepo):
-
-    activity_service = ActivityService(mb, rpc, activity_repo)
+def register_activity_rpc(mb: MessageBus, rpc: RPC, activity_service: ActivityService):
 
     @rpc.handle('find_activity')
     def find_activities(keyword: str, limit: int, offset: int, current_user_data: Optional[Mapping[str, Any]]) -> Mapping[str, Any]:

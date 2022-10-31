@@ -15,7 +15,7 @@ import sys
 ################################################
 # -- ⚙️ API
 ################################################
-def register_activity_entity_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService):
+def register_activity_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService):
 
     @app.get('/api/v1/activities/', response_model=ActivityResult)
     async def find_activities(keyword: str='', limit: int=100, offset: int=0, current_user: Optional[User] = Depends(auth_service.has_permission('api:activity:read'))) -> ActivityResult:
@@ -74,7 +74,7 @@ def register_activity_entity_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, a
 ################################################
 # -- 👓 User Interface
 ################################################
-def register_activity_entity_ui_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service: MenuService, page_template: Jinja2Templates):
+def register_activity_ui_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service: MenuService, page_template: Jinja2Templates):
 
     @app.get('/log/activities', response_class=HTMLResponse)
     async def manage_activity(request: Request, context: MenuContext = Depends(menu_service.has_access('log:activities'))):

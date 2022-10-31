@@ -1,5 +1,5 @@
-from modules.auth.role.roleRoute import register_role_api_route, register_role_ui_route
-from modules.auth.user.userRoute import register_user_api_route, register_user_ui_route
+from modules.auth.role import register_role_api_route, register_role_ui_route
+from modules.auth.user import register_user_api_route, register_user_ui_route
 from typing import Mapping, List, Any, Optional
 from fastapi import Depends, FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse
