@@ -2,7 +2,7 @@ from typing import Any, List, Optional
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session
-from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
+from sqlalchemy import or_, Boolean, Column, DateTime, ForeignKey, Integer, String
 from schemas.activity import Activity, ActivityData
 from modules.log.activity.repos.activityRepo import ActivityRepo
 from repos import Base
@@ -41,7 +41,7 @@ class DBActivityRepo(ActivityRepo):
 
     def _from_db_result(self, db_result: Any) -> Activity:
         activity = Activity.from_orm(db_result)
-        activity.row = json.loads(db_result.json_row)
+        activity.row = jsons.loads(db_result.json_row)
         return activity
 
 
@@ -52,7 +52,7 @@ class DBActivityRepo(ActivityRepo):
             db_activity = db.query(DBActivityEntity).filter(DBActivityEntity.id == id).first()
             if db_activity is None:
                 return None
-            activity = Activity.from_orm(db_activity)
+            activity = self._from_db_result(db_activity)
         finally:
             db.close()
         return activity
@@ -63,8 +63,15 @@ class DBActivityRepo(ActivityRepo):
         activities: List[Activity] = []
         try:
             keyword_filter = self._get_keyword_filter(keyword)
-            db_activities = db.query(DBActivityEntity).filter(DBActivityEntity.activity.like(keyword_filter)).offset(offset).limit(limit).all()
-            activities = [Activity.from_orm(db_result) for db_result in db_activities]
+            db_activities = db.query(DBActivityEntity).filter(
+                    or_(
+                        DBActivityEntity.activity.like(keyword_filter),
+                        DBActivityEntity.object.like(keyword_filter),
+                        DBActivityEntity.row_id.like(keyword_filter),
+                        DBActivityEntity.user_id.like(keyword_filter)
+                    )
+                ).offset(offset).limit(limit).order_by(DBActivityEntity.created_at.desc()).all()
+            activities = [self._from_db_result(db_result) for db_result in db_activities]
         finally:
             db.close()
         return activities
@@ -102,7 +109,7 @@ class DBActivityRepo(ActivityRepo):
             db.add(db_activity)
             db.commit()
             db.refresh(db_activity) 
-            activity = Activity.from_orm(db_activity)
+            activity = self._from_db_result(db_activity)
         finally:
             db.close()
         return activity
@@ -126,7 +133,7 @@ class DBActivityRepo(ActivityRepo):
             db.add(db_activity)
             db.commit()
             db.refresh(db_activity) 
-            activity = Activity.from_orm(db_activity)
+            activity = self._from_db_result(db_activity)
         finally:
             db.close()
         return activity
@@ -141,7 +148,7 @@ class DBActivityRepo(ActivityRepo):
                 return None
             db.delete(db_activity)
             db.commit()
-            activity = Activity.from_orm(db_activity)
+            activity = self._from_db_result(db_activity)
         finally:
             db.close()
         return activity

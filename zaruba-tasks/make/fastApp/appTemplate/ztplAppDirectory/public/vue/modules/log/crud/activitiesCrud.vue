@@ -35,7 +35,7 @@
                 <td>{{ row.activity }}</td>
                 <td>{{ row.object }}</td>
                 <td>{{ row.row_id }}</td>
-                <td>{{ row.row }}</td>
+                <td>{{ JSON.stringify(row.row) }}</td>
                 <!-- Put column value here, Note: 💀 Don't delete this line, Zaruba use it for pattern matching -->
             </tr>
         </tbody>

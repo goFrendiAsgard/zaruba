@@ -1,4 +1,4 @@
-from typing import Any, Tuple
+from typing import Tuple
 from modules.auth.user.test_defaultUserService_util import UNAUTHORIZED_ACTIVE_USER, UNAUTHORIZED_INACTIVE_USER, AUTHORIZED_ACTIVE_USER, AUTHORIZED_INACTIVE_USER
 from helpers.transport.localRpc import LocalRPC, RPC
 from schemas.user import User, UserData

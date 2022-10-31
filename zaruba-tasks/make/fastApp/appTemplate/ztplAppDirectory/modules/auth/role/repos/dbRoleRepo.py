@@ -42,10 +42,10 @@ class DBRoleRepo(RoleRepo):
         db = Session(self.engine)
         role: Role
         try:
-            db_result = db.query(DBRoleEntity).filter(DBRoleEntity.id == id).first()
-            if db_result is None:
+            db_role = db.query(DBRoleEntity).filter(DBRoleEntity.id == id).first()
+            if db_role is None:
                 return None
-            role = self._from_db_result(db_result)
+            role = self._from_db_result(db_role)
         finally:
             db.close()
         return role
@@ -54,10 +54,10 @@ class DBRoleRepo(RoleRepo):
         db = Session(self.engine)
         role: Role
         try:
-            db_result = db.query(DBRoleEntity).filter(DBRoleEntity.name == name).first()
-            if db_result is None:
+            db_role = db.query(DBRoleEntity).filter(DBRoleEntity.name == name).first()
+            if db_role is None:
                 return None
-            role = self._from_db_result(db_result)
+            role = self._from_db_result(db_role)
         finally:
             db.close()
         return role
@@ -67,8 +67,8 @@ class DBRoleRepo(RoleRepo):
         roles: List[Role] = []
         try:
             keyword_filter = self._get_keyword_filter(keyword)
-            db_results = db.query(DBRoleEntity).filter(DBRoleEntity.name.like(keyword_filter)).offset(offset).limit(limit).all()
-            roles = [self._from_db_result(db_result) for db_result in db_results]
+            db_roles = db.query(DBRoleEntity).filter(DBRoleEntity.name.like(keyword_filter)).offset(offset).limit(limit).all()
+            roles = [self._from_db_result(db_result) for db_result in db_roles]
         finally:
             db.close()
         return roles
