@@ -20,6 +20,7 @@ import sys
 def create_app(mb: MessageBus, rpc: RPC, page_template: Jinja2Templates) -> FastAPI:
     app = FastAPI(title=site_name)
 
+
     # 🔀 Apply CORS middleware
     app.add_middleware(
         CORSMiddleware,
@@ -31,6 +32,7 @@ def create_app(mb: MessageBus, rpc: RPC, page_template: Jinja2Templates) -> Fast
         expose_headers = cors_expose_headers,
         max_age = cors_max_age,
     )
+
 
     # 🥑 Handle readiness request
     @app.get('/readiness')
@@ -45,12 +47,14 @@ def create_app(mb: MessageBus, rpc: RPC, page_template: Jinja2Templates) -> Fast
             raise HTTPException(status_code=500, detail='RPC error exceeding threshold')
         return HTMLResponse(content='ready', status_code=200)
 
+
     # 🔚 Handle application shutdown
     @app.on_event('shutdown')
     def on_shutdown():
         mb.shutdown()
         rpc.shutdown()
     print('Register app shutdown handler', file=sys.stderr)
+
 
     if public_dir != '':
         # 📢 serve public static directory (js, css, html, images, etc)

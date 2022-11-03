@@ -33,8 +33,11 @@ class AppMessageBus(MessageBus):
         return self.mb.is_failing()
 
 
+    def broadcast(self, event_names: List[str], message: Any):
+        for event_name in event_names:
+            self.mb.publish(event_name, message)
+
+
     def publish_activity(self, activity_data: ActivityData):
         self.mb.publish('new_activity', activity_data.dict())
-        self.mb.publish('new_activity', activity_data.dict())
-        for activity_event in self.activity_events:
-            self.mb.publish(activity_event, activity_data.dict())
+        self.broadcast(self.activity_events, activity_data.dict())
