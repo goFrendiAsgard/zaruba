@@ -1,5 +1,5 @@
 from typing import Any, Optional, Mapping
-from helpers.transport import RPC, MessageBus
+from transport import AppMessageBus, AppRPC
 from core.security.service.authService import AuthService
 from schemas.user import UserData
 from schemas.user import User
@@ -7,7 +7,7 @@ from modules.auth.user.userService import UserService
 
 import sys
 
-def register_user_rpc(mb: MessageBus, rpc: RPC, auth_service: AuthService, user_service: UserService):
+def register_user_rpc(mb: AppMessageBus, rpc: AppRPC, auth_service: AuthService, user_service: UserService):
 
     @rpc.handle('find_users')
     def find_users(keyword: str, limit: int, offset: int, current_user_data: Optional[Mapping[str, Any]]) -> Mapping[str, Any]:

@@ -6,7 +6,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from schemas.menuContext import MenuContext
 from schemas.user import User
-from helpers.transport import MessageBus, RPC
+from transport import AppMessageBus, AppRPC
 
 import traceback
 import sys
@@ -16,7 +16,7 @@ import sys
 # -- ⚙️ API
 ################################################
 # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
-def register_log_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService):
+def register_log_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, auth_service: AuthService):
 
     register_activity_api_route(app, mb, rpc, auth_service)
 
@@ -27,7 +27,7 @@ def register_log_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service:
 # -- 👓 User Interface
 ################################################
 # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
-def register_log_ui_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service: MenuService, page_template: Jinja2Templates):
+def register_log_ui_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, menu_service: MenuService, page_template: Jinja2Templates):
 
     register_activity_ui_route(app, mb, rpc, menu_service, page_template)
 

@@ -30,7 +30,9 @@ from configs import (
     # auth
     root_initial_email, root_initial_fullname, root_initial_password, 
     root_initial_phone_number, root_username, root_permission, access_token_algorithm,
-    access_token_expire, access_token_secret_key
+    access_token_expire, access_token_secret_key,
+    # activity
+    activity_events
 )
 
 import os
@@ -38,7 +40,7 @@ import os
 ################################################
 # -- 🚌 Message bus and RPC initialization
 ################################################
-mb = create_message_bus(message_bus_type)
+mb = create_message_bus(message_bus_type, activity_events)
 rpc = create_rpc(rpc_type)
 
 ################################################

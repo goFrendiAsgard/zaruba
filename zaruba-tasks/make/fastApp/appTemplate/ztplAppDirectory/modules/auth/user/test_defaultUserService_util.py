@@ -5,6 +5,7 @@ from modules.auth.user.repos.dbUserRepo import DBUserRepo
 from modules.auth.role.repos.dbRoleRepo import DBRoleRepo
 from schemas.user import User, UserData
 from helpers.transport import LocalRPC, LocalMessageBus, MessageBus
+from transport import AppMessageBus, AppRPC
 
 from sqlalchemy import create_engine
 
@@ -30,8 +31,8 @@ def create_user() -> User:
     return dummy_user
 
 
-def create_mb() -> MessageBus:
-    mb = LocalMessageBus()
+def create_mb() -> AppMessageBus:
+    mb = AppMessageBus(LocalMessageBus())
     # handle new_activity event
     @mb.handle('new_activity')
     def handle_new_activity(activity_data):
@@ -40,12 +41,12 @@ def create_mb() -> MessageBus:
     return mb
 
 
-def init_test_default_user_service_components() -> Tuple[DefaultUserService, RoleService, DBUserRepo, DBRoleRepo, LocalMessageBus, LocalRPC]:
+def init_test_default_user_service_components() -> Tuple[DefaultUserService, RoleService, DBUserRepo, DBRoleRepo, AppMessageBus, AppRPC]:
     engine = create_engine('sqlite://', echo=False)
     role_repo = DBRoleRepo(engine=engine, create_all=True)
     user_repo = DBUserRepo(engine=engine, create_all=True)
     mb = create_mb()
-    rpc = LocalRPC()
+    rpc = AppRPC(LocalRPC())
     role_service = RoleService(mb, rpc, role_repo)
     user_service = DefaultUserService(mb, rpc, user_repo, role_service, 'root')
     return user_service, role_service, user_repo, role_repo, mb, rpc

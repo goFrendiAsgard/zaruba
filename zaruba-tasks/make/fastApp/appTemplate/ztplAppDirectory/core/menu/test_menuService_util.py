@@ -11,10 +11,11 @@ from fastapi.security import OAuth2PasswordBearer
 from schemas.authType import AuthType
 from core.security.middleware.defaultUserFetcher import DefaultUserFetcher
 from core.security.rule.defaultAuthRule import DefaultAuthRule
+from transport import AppRPC
 
 
-def create_rpc() -> RPC:
-    rpc = LocalRPC()
+def create_rpc() -> AppRPC:
+    rpc = AppRPC(LocalRPC())
     # handle get_user_by_access_token
     @rpc.handle('get_user_by_access_token')
     def get_user_by_token(token: str) -> Optional[User]:

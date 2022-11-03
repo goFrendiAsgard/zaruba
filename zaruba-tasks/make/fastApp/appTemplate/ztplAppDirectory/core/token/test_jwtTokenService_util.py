@@ -6,6 +6,7 @@ from modules.auth.role.repos.dbRoleRepo import DBRoleRepo
 from core.token.tokenService import JWTTokenService
 from modules.auth.user.test_defaultUserService_util import create_user_data
 from helpers.transport import LocalRPC, LocalMessageBus
+from transport import AppMessageBus, AppRPC
 
 from sqlalchemy import create_engine
 
@@ -18,12 +19,12 @@ ROOT_USER_DATA.password = 'root'
 ROOT_USER_DATA.permissions = ['root']
 
 
-def init_test_jwt_token_service_components() -> Tuple[JWTTokenService, RoleService, DefaultUserService, DBRoleRepo, DBUserRepo, LocalMessageBus, LocalRPC]:
+def init_test_jwt_token_service_components() -> Tuple[JWTTokenService, RoleService, DefaultUserService, DBRoleRepo, DBUserRepo, AppMessageBus, AppRPC]:
     engine = create_engine('sqlite://', echo=False)
     role_repo = DBRoleRepo(engine=engine, create_all=True)
     user_repo = DBUserRepo(engine=engine, create_all=True)
-    mb = LocalMessageBus()
-    rpc = LocalRPC()
+    mb = AppMessageBus(LocalMessageBus())
+    rpc = AppRPC(LocalRPC())
     role_service = RoleService(mb, rpc, role_repo)
     user_service = DefaultUserService(mb, rpc, user_repo, role_service, 'root')
     token_service = JWTTokenService(user_service, 'secret', 'HS256', 1800)

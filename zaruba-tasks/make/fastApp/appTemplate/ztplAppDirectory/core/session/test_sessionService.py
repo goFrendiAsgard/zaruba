@@ -6,6 +6,7 @@ from modules.auth.user.repos.dbUserRepo import DBUserRepo
 from modules.auth.role.repos.dbRoleRepo import DBRoleRepo
 from modules.auth.user.test_defaultUserService import create_user_data
 from helpers.transport import LocalRPC, LocalMessageBus
+from transport import AppMessageBus, AppRPC
 
 from sqlalchemy import create_engine
 
@@ -14,8 +15,8 @@ def test_session_service_with_authenticated_user():
     engine = create_engine('sqlite://', echo=False)
     role_repo = DBRoleRepo(engine=engine, create_all=True)
     user_repo = DBUserRepo(engine=engine, create_all=True)
-    mb = LocalMessageBus()
-    rpc = LocalRPC()
+    mb = AppMessageBus(LocalMessageBus())
+    rpc = AppRPC(LocalRPC())
     role_service = RoleService(mb, rpc, role_repo)
     user_service = DefaultUserService(mb, rpc, user_repo, role_service, 'root')
     token_service = JWTTokenService(user_service, 'secret', 'HS256', 1800)
@@ -42,8 +43,8 @@ def test_session_service_create_access_token_for_unauthenticated_user():
     engine = create_engine('sqlite://', echo=False)
     role_repo = DBRoleRepo(engine=engine, create_all=True)
     user_repo = DBUserRepo(engine=engine, create_all=True)
-    mb = LocalMessageBus()
-    rpc = LocalRPC()
+    mb = AppMessageBus(LocalMessageBus())
+    rpc = AppRPC(LocalRPC())
     role_service = RoleService(mb, rpc, role_repo)
     user_service = DefaultUserService(mb, rpc, user_repo, role_service, 'root')
     token_service = JWTTokenService(user_service, 'secret', 'HS256', 1800)

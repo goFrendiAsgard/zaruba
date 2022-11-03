@@ -1,12 +1,12 @@
 from typing import Any, Optional, Mapping
-from helpers.transport import RPC, MessageBus
+from transport import AppMessageBus, AppRPC
 from core.session.sessionService import SessionService
 from core.security.service.authService import AuthService
 from schemas.user import User
 
 import sys
 
-def register_session_rpc(mb: MessageBus, rpc: RPC, auth_service: AuthService, session_service: SessionService):
+def register_session_rpc(mb: AppMessageBus, rpc: AppRPC, auth_service: AuthService, session_service: SessionService):
 
     @rpc.handle('create_access_token')
     def create_access_token(identity: str, password: str, current_user_data: Optional[Mapping[str, Any]] = None) -> str:

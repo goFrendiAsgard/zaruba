@@ -8,10 +8,11 @@ from core.security.rule.authRule import AuthRule
 from core.security.rule.defaultAuthRule import DefaultAuthRule
 from core.security.middleware.userFetcher import UserFetcher
 from core.security.middleware.defaultUserFetcher import DefaultUserFetcher
+from transport import AppRPC
 
 
-def create_rpc() -> RPC:
-    rpc = LocalRPC()
+def create_rpc() -> AppRPC:
+    rpc = AppRPC(LocalRPC())
     # handle is_user_authorized
     @rpc.handle('is_user_authorized')
     def is_user_authorized(user_data: UserData, permission: str) -> bool:

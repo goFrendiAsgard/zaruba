@@ -1,6 +1,6 @@
 from typing import Any, List, Mapping, Optional
 from core import AuthService, MenuService
-from helpers.transport import MessageBus, RPC
+from transport import AppMessageBus, AppRPC
 from fastapi import Depends, FastAPI, Request, HTTPException
 from fastapi.security import OAuth2
 from fastapi.responses import HTMLResponse
@@ -15,7 +15,7 @@ import sys
 ################################################
 # -- ⚙️ API
 ################################################
-def register_ztpl_app_crud_entity_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService):
+def register_ztpl_app_crud_entity_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, auth_service: AuthService):
 
     @app.get('/api/v1/ztpl_app_crud_entities/', response_model=ZtplAppCrudEntityResult)
     async def find_ztpl_app_crud_entities(keyword: str='', limit: int=100, offset: int=0, current_user: Optional[User] = Depends(auth_service.has_permission('api:ztpl_app_crud_entity:read'))) -> ZtplAppCrudEntityResult:
@@ -110,7 +110,7 @@ def register_ztpl_app_crud_entity_api_route(app: FastAPI, mb: MessageBus, rpc: R
 ################################################
 # -- 👓 User Interface
 ################################################
-def register_ztpl_app_crud_entity_ui_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service: MenuService, page_template: Jinja2Templates):
+def register_ztpl_app_crud_entity_ui_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, menu_service: MenuService, page_template: Jinja2Templates):
 
     @app.get('/ztpl-app-module-name/ztpl-app-crud-entities', response_class=HTMLResponse)
     async def manage_ztpl_app_crud_entity(request: Request, context: MenuContext = Depends(menu_service.has_access('ztplAppModuleName:ztplAppCrudEntities'))):

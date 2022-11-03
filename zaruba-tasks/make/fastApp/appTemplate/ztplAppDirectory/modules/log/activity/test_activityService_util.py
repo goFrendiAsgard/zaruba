@@ -6,6 +6,7 @@ from modules.log.activity.activityService import ActivityService
 from modules.log.activity.repos.dbActivityRepo import DBActivityRepo
 from helpers.transport import LocalRPC, LocalMessageBus
 from sqlalchemy import create_engine
+from transport import AppMessageBus, AppRPC
 
 def create_activity_data():
     # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
@@ -28,11 +29,11 @@ def insert_activity_data(activity_repo: ActivityRepo, index: Optional[int] = Non
     return activity_repo.insert(activity_data)
 
 
-def init_test_activity_service_components() -> Tuple[ActivityService, DBActivityRepo, LocalMessageBus, LocalRPC]:
+def init_test_activity_service_components() -> Tuple[ActivityService, DBActivityRepo, AppMessageBus, AppRPC]:
     auth_service, _, _, _ = init_test_auth_service_components()
     engine = create_engine('sqlite://', echo=False)
     activity_repo = DBActivityRepo(engine=engine, create_all=True)
-    mb = LocalMessageBus()
-    rpc = LocalRPC()
+    mb = AppMessageBus(LocalMessageBus())
+    rpc = AppRPC(LocalRPC())
     activity_service = ActivityService(mb, rpc, auth_service, activity_repo)
     return activity_service, auth_service, activity_repo, mb, rpc

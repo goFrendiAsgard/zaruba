@@ -4,6 +4,7 @@ from schemas.ztplAppCrudEntity import ZtplAppCrudEntity, ZtplAppCrudEntityData
 from modules.ztplAppModuleName.ztplAppCrudEntity.ztplAppCrudEntityService import ZtplAppCrudEntityService
 from modules.ztplAppModuleName.ztplAppCrudEntity.repos.dbZtplAppCrudEntityRepo import DBZtplAppCrudEntityRepo
 from helpers.transport import LocalRPC, LocalMessageBus, MessageBus
+from transport import AppMessageBus, AppRPC
 from sqlalchemy import create_engine
 
 def create_ztpl_app_crud_entity_data() -> ZtplAppCrudEntityData:
@@ -22,8 +23,8 @@ def insert_ztpl_app_crud_entity_data(ztpl_app_crud_entity_repo: ZtplAppCrudEntit
     return ztpl_app_crud_entity_repo.insert(ztpl_app_crud_entity_data)
 
 
-def create_mb() -> MessageBus:
-    mb = LocalMessageBus()
+def create_mb() -> AppMessageBus:
+    mb = AppMessageBus(LocalMessageBus())
     # handle new_activity event
     @mb.handle('new_activity')
     def handle_new_activity(activity_data):
@@ -32,10 +33,10 @@ def create_mb() -> MessageBus:
     return mb
 
 
-def init_test_ztpl_app_crud_entity_service_components() -> Tuple[ZtplAppCrudEntityService, DBZtplAppCrudEntityRepo, LocalMessageBus, LocalRPC]:
+def init_test_ztpl_app_crud_entity_service_components() -> Tuple[ZtplAppCrudEntityService, DBZtplAppCrudEntityRepo, AppMessageBus, AppRPC]:
     engine = create_engine('sqlite://', echo=False)
     ztpl_app_crud_entity_repo = DBZtplAppCrudEntityRepo(engine=engine, create_all=True)
     mb = create_mb()
-    rpc = LocalRPC()
+    rpc = AppRPC(LocalRPC())
     ztpl_app_crud_entity_service = ZtplAppCrudEntityService(mb, rpc, ztpl_app_crud_entity_repo)
     return ztpl_app_crud_entity_service, ztpl_app_crud_entity_repo, mb, rpc

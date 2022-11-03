@@ -5,6 +5,8 @@ from modules.auth.role.repos.roleRepo import RoleRepo
 from schemas.role import Role, RoleData
 from helpers.transport import LocalRPC, LocalMessageBus, MessageBus
 from sqlalchemy import create_engine
+from transport import AppMessageBus, AppRPC
+
 
 def create_role_data() -> RoleData:
     # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
@@ -24,8 +26,8 @@ def insert_role_data(role_repo: RoleRepo, index: Optional[int] = None) -> Role:
     return role_repo.insert(role_data)
 
 
-def create_mb() -> MessageBus:
-    mb = LocalMessageBus()
+def create_mb() -> AppMessageBus:
+    mb = AppMessageBus(LocalMessageBus())
     # handle new_activity event
     @mb.handle('new_activity')
     def handle_new_activity(activity_data):
@@ -34,10 +36,10 @@ def create_mb() -> MessageBus:
     return mb
 
 
-def init_test_role_service_components() -> Tuple[RoleService, DBRoleRepo, LocalMessageBus, LocalRPC]:
+def init_test_role_service_components() -> Tuple[RoleService, DBRoleRepo, AppMessageBus, AppRPC]:
     engine = create_engine('sqlite://', echo=False)
     role_repo = DBRoleRepo(engine=engine, create_all=True)
     mb = create_mb()
-    rpc = LocalRPC()
+    rpc = AppRPC(LocalRPC())
     role_service = RoleService(mb, rpc, role_repo)
     return role_service, role_repo, mb, rpc

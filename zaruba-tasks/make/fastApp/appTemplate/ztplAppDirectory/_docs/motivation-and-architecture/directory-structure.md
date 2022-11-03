@@ -85,3 +85,8 @@ Containing base repo declaration.
 # schemas directory
 
 Containing schemas/DTO.
+
+
+# transport directory
+
+Containing definition of `AppMessageBus` and `AppRPC`.

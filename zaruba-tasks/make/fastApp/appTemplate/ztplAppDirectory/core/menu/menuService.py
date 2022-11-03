@@ -1,4 +1,5 @@
 from typing import Callable, List, Optional, Mapping
+from transport import AppRPC
 from schemas.authType import AuthType
 from schemas.menu import Menu
 from schemas.menuContext import MenuContext
@@ -7,13 +8,12 @@ from core.security.service.authService import AuthService
 from core.page.pageTemplateException import PageTemplateException
 from fastapi import Depends, status
 from starlette.requests import Request
-from helpers.transport import RPC
 
 import copy
 
 class MenuService():
 
-    def __init__(self, rpc: RPC, auth_service: AuthService, root_menu_name: str = 'root', root_menu_title: str = '', root_menu_url: str = '/'):
+    def __init__(self, rpc: AppRPC, auth_service: AuthService, root_menu_name: str = 'root', root_menu_title: str = '', root_menu_url: str = '/'):
         self.auth_service: AuthService = auth_service
         self.rpc: RPC = rpc
         self.root_menu: Menu = Menu(name=root_menu_name, title=root_menu_title, url=root_menu_url, auth_type=AuthType.ANYONE)

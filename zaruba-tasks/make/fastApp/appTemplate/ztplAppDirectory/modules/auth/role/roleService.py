@@ -1,5 +1,5 @@
 from typing import Optional
-from helpers.transport import RPC, MessageBus
+from transport import AppMessageBus, AppRPC
 from schemas.user import User
 from schemas.role import Role, RoleData, RoleResult
 from schemas.activity import ActivityData
@@ -8,7 +8,7 @@ from fastapi import HTTPException
 
 class RoleService():
 
-    def __init__(self, mb: MessageBus, rpc: RPC, role_repo: RoleRepo):
+    def __init__(self, mb: AppMessageBus, rpc: AppRPC, role_repo: RoleRepo):
         self.mb = mb
         self.rpc = rpc
         self.role_repo = role_repo
@@ -40,13 +40,13 @@ class RoleService():
         role_data.updated_by = current_user.id
         role_data = self._validate_data(role_data)
         new_role = self.role_repo.insert(role_data)
-        self.mb.publish('new_activity', ActivityData(
+        self.mb.publish_activity(ActivityData(
             user_id = current_user.id,
             activity = 'insert',
             object = 'role',
             row = new_role.dict(),
             row_id = new_role.id
-        ).dict())
+        ))
         return new_role
 
 
@@ -55,26 +55,26 @@ class RoleService():
         role_data.updated_by = current_user.id
         role_data = self._validate_data(role_data, id)
         updated_role = self.role_repo.update(id, role_data)
-        self.mb.publish('new_activity', ActivityData(
+        self.mb.publish_activity(ActivityData(
             user_id = current_user.id,
             activity = 'update',
             object = 'role',
             row = updated_role.dict(),
             row_id = updated_role.id
-        ).dict())
+        ))
         return updated_role
 
 
     def delete(self, id: str, current_user: User) -> Optional[Role]:
         self._find_by_id_or_error(id)
         deleted_role = self.role_repo.delete(id)
-        self.mb.publish('new_activity', ActivityData(
+        self.mb.publish_activity(ActivityData(
             user_id = current_user.id,
             activity = 'delete',
             object = 'role',
             row = deleted_role.dict(),
             row_id = deleted_role.id
-        ).dict())
+        ))
         return deleted_role
 
 

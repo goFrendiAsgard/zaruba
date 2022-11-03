@@ -1,5 +1,5 @@
 from typing import Any, List, Mapping, Optional
-from helpers.transport import MessageBus, RPC
+from transport import AppMessageBus, AppRPC
 from fastapi import Depends, FastAPI, Request, HTTPException
 from fastapi.security import OAuth2
 from fastapi.responses import HTMLResponse
@@ -15,7 +15,7 @@ import sys
 ################################################
 # -- ⚙️ API
 ################################################
-def register_role_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService):
+def register_role_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, auth_service: AuthService):
 
     @app.get('/api/v1/roles/', response_model=RoleResult)
     def find_roles(keyword: str='', limit: int=100, offset: int=0, current_user: Optional[User] = Depends(auth_service.has_permission('api:role:read'))) -> RoleResult:
@@ -110,7 +110,7 @@ def register_role_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service
 ################################################
 # -- 👓 User Interface
 ################################################
-def register_role_ui_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service: MenuService, page_template: Jinja2Templates):
+def register_role_ui_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, menu_service: MenuService, page_template: Jinja2Templates):
 
     @app.get('/auth/roles', response_class=HTMLResponse)
     async def manage_role(request: Request, context: MenuContext = Depends(menu_service.has_access('auth:roles'))):
