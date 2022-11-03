@@ -10,7 +10,7 @@ charset-normalizer==2.0.12
 click==8.0.1
 confluent-kafka==1.8.2
 coverage==6.4.1
-cryptography==36.0.1
+cryptography==38.0.3
 ecdsa==0.17.0
 exceptiongroup==1.0.0
 fastapi==0.68.1
