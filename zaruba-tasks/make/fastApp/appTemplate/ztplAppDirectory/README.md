@@ -225,4 +225,4 @@ zaruba please addFastAppRpcHandler \
 
 # 📖 Documentation
 
-Please visit ZtplAppDirectory documentation [here](_docs/README.md).
+Please visit [ZtplAppDirectory documentation](_docs/README.md) for more information.

@@ -5,7 +5,7 @@
 
 Building software is like building a city. You __cannot plan everything right from the start__.
 
-When you build software, you usually __start with some basic requirements__. But, over time, your requirements grow and so does your software.
+When you build software, you usually __start with some basic requirements__. But your needs will grow over time, and so will your software.
 
 If you are getting started with a project, monolith architecture is your safe bet. Monolith is easy to maintain/develop. Even though it won't scale very well.
 
@@ -13,13 +13,15 @@ You can start considering microservices when you need to scale some features ind
 
 It is usually better to __start with a monolith__ and __migrate to microservices__ later.
 
-Migration to microservices is not always easy. There are many stories of companies who failed to do so because their code was __not modular/testable__. Their growth is now hindered by their technology.
+Yet, migration to microservices is not always easy. There are many stories of companies who failed to do so because their code was __not modular/testable__. Their technology turns into a liability that hinders their business growth.
 
-Some companies __invest too much__ in Kubernetes or other expensive technologies. They built a great microservices architecture, yet failed to maintain/develop it properly. Or even worse, they have great technology but not a great business. In the end, their technologies become their liability.
+Some companies __invest too much__ in Kubernetes or other expensive technologies. They built a great microservices architecture yet failed to maintain it properly. Or even worse, the technology becomes their cost center.
 
 So we need a middle ground. We need a __monolith application__ that is ready to be __deployed as microservices anytime__.
 
-We design `ZtplAppDirectory` with this consideration. With `ZtplAppDirectory` you will have a straightforward development experience like building a simple monolith. But at the end, you know that `ZtplAppDirectory` is always ready for microservices.
+![palmon evolve to togemon](./images/palmon.gif)
+
+We design `ZtplAppDirectory` with this consideration. With `ZtplAppDirectory` you will have a straightforward development experience like building a simple monolith. But you always now that `ZtplAppDirectory` is ready for microservices.
 
 Let's see the following scenarios, and see what we can do in each phase:
 
