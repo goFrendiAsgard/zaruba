@@ -29,10 +29,6 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
             Base.metadata.create_all(bind=engine)
 
 
-    def _get_keyword_filter(self, keyword: str) -> str:
-        return '%{}%'.format(keyword) if keyword != '' else '%'
-
-
     def find_by_id(self, id: str) -> Optional[ZtplAppCrudEntity]:
         db = Session(self.engine)
         ztpl_app_crud_entity: ZtplAppCrudEntity
@@ -124,3 +120,6 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
             db.close()
         return ztpl_app_crud_entity
 
+
+    def _get_keyword_filter(self, keyword: str) -> str:
+        return '%{}%'.format(keyword) if keyword != '' else '%'

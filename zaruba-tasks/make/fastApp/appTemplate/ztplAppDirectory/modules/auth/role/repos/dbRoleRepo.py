@@ -30,13 +30,6 @@ class DBRoleRepo(RoleRepo):
         if create_all:
             Base.metadata.create_all(bind=engine)
 
-    def _get_keyword_filter(self, keyword: str) -> str:
-        return '%{}%'.format(keyword) if keyword != '' else '%'
-
-    def _from_db_result(self, db_result: Any) -> Role:
-        role = Role.from_orm(db_result)
-        role.permissions = jsons.loads(db_result.json_permissions)
-        return role
 
     def find_by_id(self, id: str) -> Optional[Role]:
         db = Session(self.engine)
@@ -45,10 +38,11 @@ class DBRoleRepo(RoleRepo):
             db_role = db.query(DBRoleEntity).filter(DBRoleEntity.id == id).first()
             if db_role is None:
                 return None
-            role = self._from_db_result(db_role)
+            role = self._from_db_role(db_role)
         finally:
             db.close()
         return role
+
 
     def find_by_name(self, name: str) -> Optional[Role]:
         db = Session(self.engine)
@@ -57,10 +51,11 @@ class DBRoleRepo(RoleRepo):
             db_role = db.query(DBRoleEntity).filter(DBRoleEntity.name == name).first()
             if db_role is None:
                 return None
-            role = self._from_db_result(db_role)
+            role = self._from_db_role(db_role)
         finally:
             db.close()
         return role
+
 
     def find(self, keyword: str, limit: int, offset: int) -> List[Role]:
         db = Session(self.engine)
@@ -68,10 +63,11 @@ class DBRoleRepo(RoleRepo):
         try:
             keyword_filter = self._get_keyword_filter(keyword)
             db_roles = db.query(DBRoleEntity).filter(DBRoleEntity.name.like(keyword_filter)).offset(offset).limit(limit).all()
-            roles = [self._from_db_result(db_result) for db_result in db_roles]
+            roles = [self._from_db_role(db_result) for db_result in db_roles]
         finally:
             db.close()
         return roles
+
 
     def count(self, keyword: str) -> int:
         db = Session(self.engine)
@@ -82,6 +78,7 @@ class DBRoleRepo(RoleRepo):
         finally:
             db.close()
         return role_count
+
 
     def insert(self, role_data: RoleData) -> Optional[Role]:
         db = Session(self.engine)
@@ -100,10 +97,11 @@ class DBRoleRepo(RoleRepo):
             db.add(db_role)
             db.commit()
             db.refresh(db_role) 
-            role = self._from_db_result(db_role)
+            role = self._from_db_role(db_role)
         finally:
             db.close()
         return role
+
 
     def update(self, id: str, role_data: RoleData) -> Optional[Role]:
         db = Session(self.engine)
@@ -119,10 +117,11 @@ class DBRoleRepo(RoleRepo):
             db.add(db_role)
             db.commit()
             db.refresh(db_role) 
-            role = self._from_db_result(db_role)
+            role = self._from_db_role(db_role)
         finally:
             db.close()
         return role
+
 
     def delete(self, id: str) -> Optional[Role]:
         db = Session(self.engine)
@@ -133,8 +132,17 @@ class DBRoleRepo(RoleRepo):
                 return None
             db.delete(db_role)
             db.commit()
-            role = self._from_db_result(db_role)
+            role = self._from_db_role(db_role)
         finally:
             db.close()
         return role
 
+
+    def _get_keyword_filter(self, keyword: str) -> str:
+        return '%{}%'.format(keyword) if keyword != '' else '%'
+
+
+    def _from_db_role(self, db_role: DBRoleEntity) -> Role:
+        role = Role.from_orm(db_role)
+        role.permissions = jsons.loads(db_role.json_permissions)
+        return role

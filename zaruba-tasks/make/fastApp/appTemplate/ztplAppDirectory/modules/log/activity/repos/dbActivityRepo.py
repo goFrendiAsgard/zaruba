@@ -39,12 +39,6 @@ class DBActivityRepo(ActivityRepo):
         return '%{}%'.format(keyword) if keyword != '' else '%'
 
 
-    def _from_db_result(self, db_result: Any) -> Activity:
-        activity = Activity.from_orm(db_result)
-        activity.row = jsons.loads(db_result.json_row)
-        return activity
-
-
     def find_by_id(self, id: str) -> Optional[Activity]:
         db = Session(self.engine)
         activity: Activity
@@ -52,7 +46,7 @@ class DBActivityRepo(ActivityRepo):
             db_activity = db.query(DBActivityEntity).filter(DBActivityEntity.id == id).first()
             if db_activity is None:
                 return None
-            activity = self._from_db_result(db_activity)
+            activity = self._from_db_activity(db_activity)
         finally:
             db.close()
         return activity
@@ -71,7 +65,7 @@ class DBActivityRepo(ActivityRepo):
                         DBActivityEntity.user_id.like(keyword_filter)
                     )
                 ).order_by(DBActivityEntity.created_at.desc()).offset(offset).limit(limit).all()
-            activities = [self._from_db_result(db_result) for db_result in db_activities]
+            activities = [self._from_db_activity(db_result) for db_result in db_activities]
         finally:
             db.close()
         return activities
@@ -109,7 +103,7 @@ class DBActivityRepo(ActivityRepo):
             db.add(db_activity)
             db.commit()
             db.refresh(db_activity) 
-            activity = self._from_db_result(db_activity)
+            activity = self._from_db_activity(db_activity)
         finally:
             db.close()
         return activity
@@ -133,7 +127,7 @@ class DBActivityRepo(ActivityRepo):
             db.add(db_activity)
             db.commit()
             db.refresh(db_activity) 
-            activity = self._from_db_result(db_activity)
+            activity = self._from_db_activity(db_activity)
         finally:
             db.close()
         return activity
@@ -148,8 +142,13 @@ class DBActivityRepo(ActivityRepo):
                 return None
             db.delete(db_activity)
             db.commit()
-            activity = self._from_db_result(db_activity)
+            activity = self._from_db_activity(db_activity)
         finally:
             db.close()
         return activity
 
+
+    def _from_db_activity(self, db_activity: DBActivityEntity) -> Activity:
+        activity = Activity.from_orm(db_activity)
+        activity.row = jsons.loads(db_activity.json_row)
+        return activity
