@@ -1,6 +1,8 @@
 import os
 
 enable_auth_module: bool = os.getenv('APP_ENABLE_AUTH_MODULE', '1') != '0'
+enable_cms_module: bool = os.getenv('APP_ENABLE_CMS_MODULE', '1') != '0'
+enable_log_module: bool = os.getenv('APP_ENABLE_LOG_MODULE', '1') != '0'
 enable_route_handler: bool = os.getenv('APP_ENABLE_ROUTE_HANDLER', '1') != '0'
 enable_ui: bool = os.getenv('APP_ENABLE_UI', '1') != '0'
 enable_api: bool = os.getenv('APP_ENABLE_API', '1') != '0'

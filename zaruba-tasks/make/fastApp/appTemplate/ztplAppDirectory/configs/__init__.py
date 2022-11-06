@@ -3,7 +3,7 @@ from configs.auth import root_initial_email, root_initial_fullname, root_initial
 from configs.cors import cors_allow_credentials, cors_allow_headers, cors_allow_methods, cors_allow_origin_regex, cors_allow_origins, cors_expose_headers, cors_max_age
 from configs.dir import public_dir, page_dir
 from configs.error import error_threshold
-from configs.featureFlag import enable_api, enable_auth_module, enable_event_handler, enable_route_handler, enable_rpc_handler, enable_ui
+from configs.featureFlag import enable_api, enable_auth_module, enable_cms_module, enable_log_module, enable_event_handler, enable_route_handler, enable_rpc_handler, enable_ui
 from configs.db import db_url, db_create_all
 from configs.kafka import kafka_connection_parameters, kafka_event_map, kafka_avro_connection_parameters, kafka_avro_event_map
 from configs.messagebus import message_bus_type

@@ -2,6 +2,9 @@ from repos import Base
 from modules.auth import DBRoleRepo
 from modules.auth import DBUserRepo
 from modules.log.activity import DBActivityRepo
+from modules.cms.contentAttribute import ContentAttributeService, DBContentAttributeRepo
+from modules.cms.content import ContentService, DBContentRepo
+from modules.cms.contentType import ContentTypeService, DBContentTypeRepo
 
 from logging.config import fileConfig
 

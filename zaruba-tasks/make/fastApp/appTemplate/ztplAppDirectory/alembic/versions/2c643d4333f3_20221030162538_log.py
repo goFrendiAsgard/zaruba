@@ -1,4 +1,4 @@
-"""20221030162538 polished_weed
+"""20221030162538 log
 
 Revision ID: 2c643d4333f3
 Revises: 7dda1641a129

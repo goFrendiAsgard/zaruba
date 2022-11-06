@@ -1,0 +1,5 @@
+from modules.cms.contentAttribute.repos.contentAttributeRepo import ContentAttributeRepo
+from modules.cms.contentAttribute.repos.dbContentAttributeRepo import DBContentAttributeRepo
+from modules.cms.contentAttribute.contentAttributeService import ContentAttributeService
+from modules.cms.contentAttribute.contentAttributeRoute import register_content_attribute_api_route, register_content_attribute_ui_route
+from modules.cms.contentAttribute.contentAttributeRpc import register_content_attribute_rpc
