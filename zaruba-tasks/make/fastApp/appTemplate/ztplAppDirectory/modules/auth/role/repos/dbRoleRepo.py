@@ -1,5 +1,4 @@
 from typing import Any, List, Optional
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String, Text

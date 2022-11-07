@@ -1,13 +1,13 @@
 from typing import List, Optional
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String, Text
-from schemas.contentType import ContentType, ContentTypeData
+from schemas.contentType import ContentType, ContentTypeData, ContentTypeAttribute
 from modules.cms.contentType.repos.contentTypeRepo import ContentTypeRepo
 from repos import Base
 
 import uuid
+import jsons
 import datetime
 
 # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
@@ -16,7 +16,7 @@ class DBContentTypeEntity(Base):
     id = Column(String(36), primary_key=True, index=True)
     name = Column(String(255), index=True)
     template = Column(String(255), index=True)
-    attributes = Column(String(255), index=True)
+    json_attributes = Column(Text(), index=True)
     created_at = Column(DateTime, default=datetime.datetime.utcnow) # Note: 💀 Don't delete this line, Zaruba use it for pattern matching
     created_by = Column(String(36), nullable=True)
     updated_at = Column(DateTime, nullable=True)
@@ -39,7 +39,7 @@ class DBContentTypeRepo(ContentTypeRepo):
             db_content_type = db.query(DBContentTypeEntity).filter(DBContentTypeEntity.id == id).first()
             if db_content_type is None:
                 return None
-            content_type = ContentType.from_orm(db_content_type)
+            content_type = self._from_db_content_type(db_content_type)
         finally:
             db.close()
         return content_type
@@ -51,7 +51,7 @@ class DBContentTypeRepo(ContentTypeRepo):
         try:
             keyword_filter = self._get_keyword_filter(keyword)
             db_content_types = db.query(DBContentTypeEntity).filter(DBContentTypeEntity.name.like(keyword_filter)).offset(offset).limit(limit).all()
-            content_types = [ContentType.from_orm(db_result) for db_result in db_content_types]
+            content_types = [self._from_db_content_type(db_content_type) for db_content_type in db_content_types]
         finally:
             db.close()
         return content_types
@@ -78,7 +78,7 @@ class DBContentTypeRepo(ContentTypeRepo):
                 id=new_content_type_id,
                 name=content_type_data.name,
                 template=content_type_data.template,
-                attributes=content_type_data.attributes,
+                json_attributes=jsons.dumps([attribute.dict() for attribute in content_type_data.attributes]),
                 created_at=datetime.datetime.utcnow(), # Note: 💀 Don't delete this line, Zaruba use it for pattern matching
                 created_by=content_type_data.created_by,
                 updated_at=datetime.datetime.utcnow(),
@@ -87,7 +87,7 @@ class DBContentTypeRepo(ContentTypeRepo):
             db.add(db_content_type)
             db.commit()
             db.refresh(db_content_type) 
-            content_type = ContentType.from_orm(db_content_type)
+            content_type = self._from_db_content_type(db_content_type)
         finally:
             db.close()
         return content_type
@@ -109,7 +109,7 @@ class DBContentTypeRepo(ContentTypeRepo):
             db.add(db_content_type)
             db.commit()
             db.refresh(db_content_type) 
-            content_type = ContentType.from_orm(db_content_type)
+            content_type = self._from_db_content_type(db_content_type)
         finally:
             db.close()
         return content_type
@@ -124,7 +124,7 @@ class DBContentTypeRepo(ContentTypeRepo):
                 return None
             db.delete(db_content_type)
             db.commit()
-            content_type = ContentType.from_orm(db_content_type)
+            content_type = self._from_db_content_type(db_content_type)
         finally:
             db.close()
         return content_type
@@ -132,3 +132,10 @@ class DBContentTypeRepo(ContentTypeRepo):
 
     def _get_keyword_filter(self, keyword: str) -> str:
         return '%{}%'.format(keyword) if keyword != '' else '%'
+
+
+    def _from_db_content_type(self, db_content_type: DBContentTypeEntity) -> ContentType:
+        content_type = ContentType.from_orm(db_content_type)
+        content_type.attributes = [ContentTypeAttribute(**attribute) for attribute in jsons.loads(db_content_type.json_attributes)]
+        return content_type
+

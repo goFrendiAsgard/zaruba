@@ -1,5 +1,4 @@
 from typing import Any, List, Optional
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session
