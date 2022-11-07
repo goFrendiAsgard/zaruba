@@ -6,7 +6,6 @@ from core import (
     DefaultAuthRule, DefaultUserFetcher,
     AuthService, SessionService, JWTTokenService,
 )
-from modules.cms.contentAttribute import ContentAttributeService, DBContentAttributeRepo
 from modules.cms.content import ContentService, DBContentRepo
 from modules.cms.contentType import ContentTypeService, DBContentTypeRepo
 from modules.cms import (
@@ -149,8 +148,6 @@ if enable_auth_module:
 ################################################
 # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
 if enable_cms_module:
-    content_attribute_repo = DBContentAttributeRepo(engine=engine, create_all=db_create_all)
-    content_attribute_service = ContentAttributeService(mb, rpc, content_attribute_repo)
     content_repo = DBContentRepo(engine=engine, create_all=db_create_all)
     content_service = ContentService(mb, rpc, content_repo)
     content_type_repo = DBContentTypeRepo(engine=engine, create_all=db_create_all)
@@ -167,4 +164,4 @@ if enable_cms_module:
     # serve RPC
     if enable_rpc_handler:
         # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
-        register_cms_rpc_handler(mb, rpc, auth_service, content_type_service, content_service, content_attribute_service)
+        register_cms_rpc_handler(mb, rpc, auth_service, content_type_service, content_service)

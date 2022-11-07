@@ -117,7 +117,6 @@ def register_user_ui_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, menu_se
         Serving user interface to manage user.
         '''
         return page_template.TemplateResponse('default_crud.html', context={
-            'api_path': '/api/vi/users',
             'content_path': 'modules/auth/crud/users.html',
             'request': request, 
             'context': context

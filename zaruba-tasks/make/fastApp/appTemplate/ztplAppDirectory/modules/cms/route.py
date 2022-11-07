@@ -1,4 +1,3 @@
-from modules.cms.contentAttribute import register_content_attribute_api_route, register_content_attribute_ui_route
 from modules.cms.content import register_content_api_route, register_content_ui_route
 from modules.cms.contentType import register_content_type_api_route, register_content_type_ui_route
 from typing import Mapping, List, Any, Optional
@@ -20,10 +19,7 @@ import sys
 # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
 def register_cms_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, auth_service: AuthService):
 
-    register_content_attribute_api_route(app, mb, rpc, auth_service)
-
     register_content_api_route(app, mb, rpc, auth_service)
-
     register_content_type_api_route(app, mb, rpc, auth_service)
 
     print('Register cms api route handler', file=sys.stderr)
@@ -35,10 +31,7 @@ def register_cms_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, auth_se
 # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
 def register_cms_ui_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, menu_service: MenuService, page_template: Jinja2Templates):
 
-    register_content_attribute_ui_route(app, mb, rpc, menu_service, page_template)
-
     register_content_ui_route(app, mb, rpc, menu_service, page_template)
-
     register_content_type_ui_route(app, mb, rpc, menu_service, page_template)
 
     print('Register cms UI route handler', file=sys.stderr)

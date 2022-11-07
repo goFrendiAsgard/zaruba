@@ -118,7 +118,6 @@ def register_content_ui_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, menu
         Serving user interface for managing content.
         '''
         return page_template.TemplateResponse('default_crud.html', context={
-            'api_path': '/api/vi/ztp_app_crud_entities',
             'content_path': 'modules/cms/crud/contents.html',
             'request': request, 
             'context': context

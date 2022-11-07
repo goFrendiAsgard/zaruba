@@ -118,7 +118,6 @@ def register_ztpl_app_crud_entity_ui_route(app: FastAPI, mb: AppMessageBus, rpc:
         Serving user interface for managing ztplAppCrudEntity.
         '''
         return page_template.TemplateResponse('default_crud.html', context={
-            'api_path': '/api/vi/ztp_app_crud_entities',
             'content_path': 'modules/ztplAppModuleName/crud/ztpl_app_crud_entities.html',
             'request': request, 
             'context': context

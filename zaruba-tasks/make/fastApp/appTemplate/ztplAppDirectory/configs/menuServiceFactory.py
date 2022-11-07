@@ -15,5 +15,4 @@ def create_menu_service(rpc: RPC, auth_service: AuthService) -> MenuService:
     menu_service.add_menu(name='cms', title='CMS', url='#', auth_type=AuthType.ANYONE)
     menu_service.add_menu(name='cms:contentTypes', title='ContentTypes', url='/cms/content-types', auth_type=AuthType.HAS_PERMISSION, permission_name='ui:cms:contentType', parent_name='cms')
     menu_service.add_menu(name='cms:contents', title='Contents', url='/cms/contents', auth_type=AuthType.HAS_PERMISSION, permission_name='ui:cms:content', parent_name='cms')
-    menu_service.add_menu(name='cms:contentAttributes', title='ContentAttributes', url='/cms/content-attributes', auth_type=AuthType.HAS_PERMISSION, permission_name='ui:cms:contentAttribute', parent_name='cms')
     return menu_service # Note: 💀 Don't delete this line, Zaruba use it for pattern matching

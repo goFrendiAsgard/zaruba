@@ -1,0 +1,1 @@
+from modules.ztplAppModuleName.ztplAppCrudEntity import DBZtplAppCrudEntityEntity

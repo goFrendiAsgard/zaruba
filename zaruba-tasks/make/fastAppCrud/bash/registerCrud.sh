@@ -1,5 +1,5 @@
 set -e
-echo "Registering repo"
+echo "Registering repo and service"
 
 _IMPORT_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrud/partials/import_repo_and_service.py")"
 _IMPORT_SCRIPT="$("${ZARUBA_BIN}" str replace "${_IMPORT_SCRIPT}" "${_ZRB_REPLACEMENT_MAP}" )"
@@ -57,24 +57,4 @@ _MAIN_LINES="$("${ZARUBA_BIN}" list set "${_MAIN_LINES}" "${_CALL_INDEX}" "${_NE
 chmod 755 "${_MAIN_FILE_LOCATION}"
 "${ZARUBA_BIN}" lines write "${_MAIN_FILE_LOCATION}" "${_MAIN_LINES}"
 
-
-####################################################################
-## alembic/env.py
-####################################################################
-
-####################################################################
-# Read existing alembic env
-
-_ENV_FILE_LOCATION="${_ZRB_APP_DIRECTORY}/alembic/env.py"
-_ENV_LINES="$("${ZARUBA_BIN}" lines read "${_ENV_FILE_LOCATION}")"
-
-
-_ENV_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_ENV_LINES}" 1 "${_IMPORT_SCRIPT}")"
-
-####################################################################
-# Overwrite existing alembic env
-
-chmod 755 "${_ENV_FILE_LOCATION}"
-"${ZARUBA_BIN}" lines write "${_ENV_FILE_LOCATION}" "${_ENV_LINES}"
-
-echo "Done registering repo"
+echo "Done registering repo and service"

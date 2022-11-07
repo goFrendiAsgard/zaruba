@@ -82,7 +82,6 @@ def register_activity_ui_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_serv
         Serving user interface for managing activity.
         '''
         return page_template.TemplateResponse('default_crud.html', context={
-            'api_path': '/api/vi/ztp_app_crud_entities',
             'content_path': 'modules/log/crud/activities.html',
             'request': request, 
             'context': context

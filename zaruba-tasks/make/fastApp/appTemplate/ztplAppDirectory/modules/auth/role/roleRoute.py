@@ -118,7 +118,6 @@ def register_role_ui_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, menu_se
         Serving user interface to manage role.
         '''
         return page_template.TemplateResponse('default_crud.html', context={
-            'api_path': '/api/vi/roles',
             'content_path': 'modules/auth/crud/roles.html',
             'request': request, 
             'context': context

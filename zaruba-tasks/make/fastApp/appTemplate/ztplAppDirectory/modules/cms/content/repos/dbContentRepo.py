@@ -23,6 +23,18 @@ class DBContentEntity(Base):
     updated_by = Column(String(36), nullable=True)
 
 
+class DBContentAttributeEntity(Base):
+    __tablename__ = "content_attributes"
+    id = Column(String(36), primary_key=True, index=True)
+    content_id = Column(String(36), index=True)
+    key = Column(String(255), index=True)
+    value = Column(Text(), index=True, nullable=True)
+    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+    created_by = Column(String(36), nullable=True)
+    updated_at = Column(DateTime, nullable=True)
+    updated_by = Column(String(36), nullable=True)
+
+
 # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
 class DBContentRepo(ContentRepo):
 
