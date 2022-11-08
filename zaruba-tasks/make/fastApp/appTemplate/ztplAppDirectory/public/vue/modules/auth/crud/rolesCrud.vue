@@ -5,7 +5,7 @@
             <label for="input-keyword" class="col-form-label">Keyword</label>
         </div>
         <div class="col-auto">
-            <input type="text" id="input-keyword" class="form-control" v-model="keyword" @keyup.enter="applyFilter" @change="resetFilterApplied" @keyup="resetFilterApplied">
+            <input type="text" id="input-keyword" class="form-control" v-model="keyword" @keyup.enter="applyFilter" @change="resetFilterApplied" @keyup="resetFilterApplied" />
         </div>
         <div class="col-auto">
             <button id="btn-filter" class="btn btn-primary" @click="applyFilter" :disabled="isFilterApplied"><i class="bi bi-funnel"></i> Filter</button>
@@ -54,13 +54,13 @@
             <label for="input-page" class="col-form-label">Page</label>
         </div>
         <div class="col-auto">
-            <input type="number" id="input-page" class="form-control" min="1" :max="Math.ceil(result.count/limit)" v-model="page" @change="applyFilter">
+            <input type="number" id="input-page" class="form-control" min="1" :max="Math.ceil(result.count/limit)" v-model="page" @change="applyFilter" />
         </div>
         <div class="col-auto">
             <label for="input-limit" class="col-form-label">Result/Page</label>
         </div>
         <div class="col-auto">
-            <input type="number" id="input-limit" class="form-control" min="1" v-model="limit" @change="applyFilter">
+            <input type="number" id="input-limit" class="form-control" min="1" v-model="limit" @change="applyFilter" />
         </div>
     </div>
 
@@ -75,7 +75,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="form-input-name" class="col-form-label">Name:</label>
-                        <input type="text" class="form-control" id="form-input-name" v-model="formData.name">
+                        <input type="text" class="form-control" id="form-input-name" v-model="formData.name" />
                     </div>
                     <div class="mb-3">
                         <label for="form-input-permissions" class="col-form-label">Permission:</label>

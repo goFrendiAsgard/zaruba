@@ -10,8 +10,9 @@ from sqlalchemy import create_engine
 def create_content_data() -> ContentData:
     # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
     dummy_content_data = ContentData(
-        title='',
         type_id='',
+        title='',
+        attributes={},
         description='',
         created_by=''
     )

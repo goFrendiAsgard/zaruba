@@ -1,13 +1,18 @@
-from typing import List, Optional
+from typing import List, Optional, Mapping
 from sqlalchemy.engine import Engine
-from sqlalchemy.orm import Session
-from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String, Text
+from sqlalchemy.orm import Session, relationship
+from sqlalchemy import or_, Boolean, Column, DateTime, ForeignKey, Integer, String, Text
 from schemas.content import Content, ContentData
 from modules.cms.content.repos.contentRepo import ContentRepo
 from repos import Base
 
 import uuid
 import datetime
+
+
+def generate_primary_key() -> str:
+    return str(uuid.uuid4())
+
 
 # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
 class DBContentEntity(Base):
@@ -16,6 +21,7 @@ class DBContentEntity(Base):
     title = Column(String(255), index=True)
     type_id = Column(String(36), index=True)
     description = Column(Text(), index=True, nullable=True)
+    content_attributes = relationship('DBContentAttributeEntity', back_populates='content', cascade='all, delete-orphan')
     created_at = Column(DateTime, default=datetime.datetime.utcnow) # Note: 💀 Don't delete this line, Zaruba use it for pattern matching
     created_by = Column(String(36), nullable=True)
     updated_at = Column(DateTime, nullable=True)
@@ -24,10 +30,11 @@ class DBContentEntity(Base):
 
 class DBContentAttributeEntity(Base):
     __tablename__ = "content_attributes"
-    id = Column(String(36), primary_key=True, index=True)
-    content_id = Column(String(36), index=True)
+    id = Column(String(36), primary_key=True, index=True, default=generate_primary_key)
+    content_id = Column(String(36), ForeignKey('contents.id'), index=True)
     key = Column(String(255), index=True)
     value = Column(Text(), index=True, nullable=True)
+    content = relationship('DBContentEntity', back_populates='content_attributes')
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     created_by = Column(String(36), nullable=True)
     updated_at = Column(DateTime, nullable=True)
@@ -50,7 +57,7 @@ class DBContentRepo(ContentRepo):
             db_content = db.query(DBContentEntity).filter(DBContentEntity.id == id).first()
             if db_content is None:
                 return None
-            content = Content.from_orm(db_content)
+            content = self._from_db_content(db_content)
         finally:
             db.close()
         return content
@@ -61,8 +68,16 @@ class DBContentRepo(ContentRepo):
         contents: List[Content] = []
         try:
             keyword_filter = self._get_keyword_filter(keyword)
-            db_contents = db.query(DBContentEntity).filter(DBContentEntity.title.like(keyword_filter)).offset(offset).limit(limit).all()
-            contents = [Content.from_orm(db_result) for db_result in db_contents]
+            subquery = db.query(DBContentAttributeEntity.content_id).filter(
+                DBContentAttributeEntity.value.like(keyword_filter)
+            ).subquery()
+            db_contents = db.query(DBContentEntity).filter(
+                or_(
+                    DBContentEntity.title.like(keyword_filter),
+                    DBContentEntity.id.in_(subquery)
+                )
+            ).offset(offset).limit(limit).all()
+            contents = [self._from_db_content(db_content) for db_content in db_contents]
         finally:
             db.close()
         return contents
@@ -73,7 +88,15 @@ class DBContentRepo(ContentRepo):
         content_count = 0
         try:
             keyword_filter = self._get_keyword_filter(keyword)
-            content_count = db.query(DBContentEntity).filter(DBContentEntity.title.like(keyword_filter)).count()
+            subquery = db.query(DBContentAttributeEntity.content_id).filter(
+                DBContentAttributeEntity.value.like(keyword_filter)
+            ).subquery()
+            content_count = db.query(DBContentEntity).filter(
+                or_(
+                    DBContentEntity.title.like(keyword_filter),
+                    DBContentEntity.id.in_(subquery)
+                )
+            ).count()
         finally:
             db.close()
         return content_count
@@ -84,10 +107,12 @@ class DBContentRepo(ContentRepo):
         db = Session(self.engine)
         content: Content
         try:
+            content_attributes = self._map_to_attributes(content_data.attributes)
             new_content_id = str(uuid.uuid4())
             db_content = DBContentEntity(
                 id=new_content_id,
                 title=content_data.title,
+                content_attributes=content_attributes,
                 type_id=content_data.type_id,
                 description=content_data.description,
                 created_at=datetime.datetime.utcnow(), # Note: 💀 Don't delete this line, Zaruba use it for pattern matching
@@ -98,7 +123,7 @@ class DBContentRepo(ContentRepo):
             db.add(db_content)
             db.commit()
             db.refresh(db_content) 
-            content = Content.from_orm(db_content)
+            content = self._from_db_content(db_content)
         finally:
             db.close()
         return content
@@ -120,7 +145,7 @@ class DBContentRepo(ContentRepo):
             db.add(db_content)
             db.commit()
             db.refresh(db_content) 
-            content = Content.from_orm(db_content)
+            content = self._from_db_content(db_content)
         finally:
             db.close()
         return content
@@ -135,7 +160,7 @@ class DBContentRepo(ContentRepo):
                 return None
             db.delete(db_content)
             db.commit()
-            content = Content.from_orm(db_content)
+            content = self._from_db_content(db_content)
         finally:
             db.close()
         return content
@@ -143,3 +168,23 @@ class DBContentRepo(ContentRepo):
 
     def _get_keyword_filter(self, keyword: str) -> str:
         return '%{}%'.format(keyword) if keyword != '' else '%'
+
+
+    def _from_db_content(self, db_content: DBContentEntity) -> Content:
+        content = Content.from_orm(db_content)
+        content.attributes = self._attributes_to_map(db_content.content_attributes)
+        return content
+
+ 
+    def _map_to_attributes(self, attribute_map: Mapping[str, str]) -> List[DBContentAttributeEntity]:
+        attributes: List[DBContentAttributeEntity] = []
+        for key, value in attribute_map.items():
+            attributes.append(DBContentAttributeEntity(key=key, value=value))
+        return attributes
+
+
+    def _attributes_to_map(self, attributes: List[DBContentAttributeEntity]) -> Mapping[str, str]:
+        attribute_map: Mapping[str, str] = {}
+        for attribute in attributes:
+            attribute_map[attribute.key] = attribute.value
+        return attribute_map

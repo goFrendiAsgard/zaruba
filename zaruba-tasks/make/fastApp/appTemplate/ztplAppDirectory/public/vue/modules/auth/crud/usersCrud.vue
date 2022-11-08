@@ -5,7 +5,7 @@
             <label for="input-keyword" class="col-form-label">Keyword</label>
         </div>
         <div class="col-auto">
-            <input type="text" id="input-keyword" class="form-control" v-model="keyword" @keyup.enter="applyFilter" @change="resetFilterApplied" @keyup="resetFilterApplied">
+            <input type="text" id="input-keyword" class="form-control" v-model="keyword" @keyup.enter="applyFilter" @change="resetFilterApplied" @keyup="resetFilterApplied" />
         </div>
         <div class="col-auto">
             <button id="btn-filter" class="btn btn-primary" @click="applyFilter" :disabled="isFilterApplied"><i class="bi bi-funnel"></i> Filter</button>
@@ -64,13 +64,13 @@
             <label for="input-page" class="col-form-label">Page</label>
         </div>
         <div class="col-auto">
-            <input type="number" id="input-page" class="form-control" min="1" :max="Math.ceil(result.count/limit)" v-model="page" @change="applyFilter">
+            <input type="number" id="input-page" class="form-control" min="1" :max="Math.ceil(result.count/limit)" v-model="page" @change="applyFilter" />
         </div>
         <div class="col-auto">
             <label for="input-limit" class="col-form-label">Result/Page</label>
         </div>
         <div class="col-auto">
-            <input type="number" id="input-limit" class="form-control" min="1" v-model="limit" @change="applyFilter">
+            <input type="number" id="input-limit" class="form-control" min="1" v-model="limit" @change="applyFilter" />
         </div>
     </div>
 
@@ -85,23 +85,23 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="form-input-username" class="col-form-label">Username:</label>
-                        <input type="text" class="form-control" id="form-input-username" v-model="formData.username">
+                        <input type="text" class="form-control" id="form-input-username" v-model="formData.username" />
                     </div>
                     <div class="mb-3">
                         <label for="form-input-email" class="col-form-label">Email:</label>
-                        <input type="text" class="form-control" id="form-input-email" v-model="formData.email">
+                        <input type="text" class="form-control" id="form-input-email" v-model="formData.email" />
                     </div>
                     <div class="mb-3">
                         <label for="form-input-full-name" class="col-form-label">Full Name:</label>
-                        <input type="text" class="form-control" id="form-input-full-name" v-model="formData.full_name">
+                        <input type="text" class="form-control" id="form-input-full-name" v-model="formData.full_name" />
                     </div>
                     <div class="mb-3">
                         <label for="form-input-phone-number" class="col-form-label">Phone Number:</label>
-                        <input type="text" class="form-control" id="form-input-phone-number" v-model="formData.phone_number">
+                        <input type="text" class="form-control" id="form-input-phone-number" v-model="formData.phone_number" />
                     </div>
                     <div class="mb-3">
                         <label for="form-input-password" class="col-form-label">Password:</label>
-                        <input type="password" class="form-control" id="form-input-password" v-model="formData.password" placeholder="Leave blank to keep old password">
+                        <input type="password" class="form-control" id="form-input-password" v-model="formData.password" placeholder="Leave blank to keep old password" />
                     </div>
                     <div class="mb-3">
                         <label for="form-input-roles" class="col-form-label">Roles:</label>

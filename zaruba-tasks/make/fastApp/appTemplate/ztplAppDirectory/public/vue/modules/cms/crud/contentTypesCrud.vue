@@ -6,7 +6,7 @@
             <label for="input-keyword" class="col-form-label">Keyword</label>
         </div>
         <div class="col-auto">
-            <input type="text" id="input-keyword" class="form-control" v-model="keyword" @keyup.enter="applyFilter" @change="resetFilterApplied" @keyup="resetFilterApplied">
+            <input type="text" id="input-keyword" class="form-control" v-model="keyword" @keyup.enter="applyFilter" @change="resetFilterApplied" @keyup="resetFilterApplied" />
         </div>
         <div class="col-auto">
             <button id="btn-filter" class="btn btn-primary" @click="applyFilter" :disabled="isFilterApplied"><i class="bi bi-funnel"></i> Filter</button>
@@ -37,7 +37,7 @@
                 <td>{{ row.id }}</td>
                 <td>{{ row.name }}</td>
                 <td>{{ row.template }}</td>
-                <td>{{ row.attributes }}</td>
+                <td>{{ JSON.stringify(row.attributes) }}</td>
                 <!-- Put column value here, Note: 💀 Don't delete this line, Zaruba use it for pattern matching -->
                 <td id="td-action">
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -55,13 +55,13 @@
             <label for="input-page" class="col-form-label">Page</label>
         </div>
         <div class="col-auto">
-            <input type="number" id="input-page" class="form-control" min="1" :max="Math.ceil(result.count/limit)" v-model="page" @change="applyFilter">
+            <input type="number" id="input-page" class="form-control" min="1" :max="Math.ceil(result.count/limit)" v-model="page" @change="applyFilter" />
         </div>
         <div class="col-auto">
             <label for="input-limit" class="col-form-label">Result/Page</label>
         </div>
         <div class="col-auto">
-            <input type="number" id="input-limit" class="form-control" min="1" v-model="limit" @change="applyFilter">
+            <input type="number" id="input-limit" class="form-control" min="1" v-model="limit" @change="applyFilter" />
         </div>
     </div>
 
@@ -76,15 +76,15 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="form-input-name" class="col-form-label">Name:</label>
-                        <input type="text" class="form-control" id="form-input-name" v-model="formData.name">
+                        <input type="text" class="form-control" id="form-input-name" v-model="formData.name" />
                     </div>
                     <div class="mb-3">
                         <label for="form-input-template" class="col-form-label">Template:</label>
-                        <input type="text" class="form-control" id="form-input-template" v-model="formData.template">
+                        <input type="text" class="form-control" id="form-input-template" v-model="formData.template" />
                     </div>
                     <div class="mb-3">
                         <label for="form-input-attributes" class="col-form-label">Attributes:</label>
-                        <input type="text" class="form-control" id="form-input-attributes" v-model="formData.attributes">
+                        <Json class="form-control" id="form-input-attributes" v-model="formData.attributes" />
                     </div>
                     <!-- Put form input here, Note: 💀 Don't delete this line, Zaruba use it for pattern matching -->
                 </div>
@@ -99,6 +99,7 @@
 </template>
 
 <script setup>
+    import Json from '../../../components/jsonInput.vue';
     import {useCrud} from '../../../components/useCrud.vue';
     import {defineProps} from 'vue';
 

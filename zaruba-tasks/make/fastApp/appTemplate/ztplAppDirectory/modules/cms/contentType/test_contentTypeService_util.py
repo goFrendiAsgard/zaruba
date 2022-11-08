@@ -12,7 +12,7 @@ def create_content_type_data() -> ContentTypeData:
     dummy_content_type_data = ContentTypeData(
         name='',
         template='',
-        attributes='',
+        attributes=[],
         created_by=''
     )
     return dummy_content_type_data

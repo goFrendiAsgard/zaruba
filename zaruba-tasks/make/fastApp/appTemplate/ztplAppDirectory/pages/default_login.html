@@ -15,11 +15,11 @@
             {%if context.current_menu %}<h1>{{ context.current_menu.title }}</h1>{% endif %}
             <div class="mb-3">
                 <label for="login-username" class="form-label">Username/Email address</label>
-                <input type="email" class="form-control" id="login-username" placeholder="name@example.com" v-model="username">
+                <input type="email" class="form-control" id="login-username" placeholder="name@example.com" v-model="username" />
             </div>
             <div class="mb-3">
                 <label for="login-password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="login-password" placeholder="password" v-model="password" @keyup.enter="login">
+                <input type="password" class="form-control" id="login-password" placeholder="password" v-model="password" @keyup.enter="login" />
             </div>
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary mb-3" @click="login">Log in</button>
