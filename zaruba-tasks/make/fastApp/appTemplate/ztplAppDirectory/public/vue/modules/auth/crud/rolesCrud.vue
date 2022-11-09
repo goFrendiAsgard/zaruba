@@ -79,7 +79,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="form-input-permissions" class="col-form-label">Permission:</label>
-                        <Json class="form-control" id="form-input-permissions" v-model="formData.permissions" />
+                        <JsonInput class="form-control" id="form-input-permissions" v-model="formData.permissions" />
                     </div>
                     <!-- CRUD form inputs -->
                     <!-- Put form input here -->
@@ -95,7 +95,7 @@
 </template>
 
 <script setup>
-    import Json from '../../../components/jsonInput.vue';
+    import JsonInput from '../../../components/jsonInput.vue';
     import {useCrud} from '../../../components/useCrud.vue';
     import {defineProps} from 'vue';
 

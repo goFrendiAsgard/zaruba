@@ -105,15 +105,15 @@
                     </div>
                     <div class="mb-3">
                         <label for="form-input-roles" class="col-form-label">Roles:</label>
-                        <Json class="form-control" id="form-input-roles" v-model="formData.role_ids" />
+                        <JsonInput class="form-control" id="form-input-roles" v-model="formData.role_ids" />
                     </div>
                     <div class="mb-3">
                         <label for="form-input-permissions" class="col-form-label">Permission:</label>
-                        <Json class="form-control" id="form-input-permissions" v-model="formData.permissions" />
+                        <JsonInput class="form-control" id="form-input-permissions" v-model="formData.permissions" />
                     </div>
                     <div class="mb-3">
                         <label for="form-input-active" class="col-form-label">Active:</label>
-                        <Boolean class="form-select" id="form-input-active" v-model="formData.active" />
+                        <BooleanInput class="form-select" id="form-input-active" v-model="formData.active" />
                     </div>
                     <!-- CRUD form inputs -->
                     <!-- Put form input here -->
@@ -128,8 +128,8 @@
 </template>
 
 <script setup>
-    import Json from '../../../components/jsonInput.vue';
-    import Boolean from '../../../components/booleanInput.vue';
+    import JsonInput from '../../../components/jsonInput.vue';
+    import BooleanInput from '../../../components/booleanInput.vue';
     import {useCrud} from '../../../components/useCrud.vue';
     import {defineProps} from 'vue';
 

@@ -86,7 +86,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="form-input-attributes" class="col-form-label">Attributes:</label>
-                        <Json class="form-control" id="form-input-attributes" v-model="formData.attributes" />
+                        <JsonInput class="form-control" id="form-input-attributes" v-model="formData.attributes" />
                     </div>
                     <div class="mb-3">
                         <label for="form-input-description" class="col-form-label">Description:</label>
@@ -105,7 +105,7 @@
 </template>
 
 <script setup>
-    import Json from '../../../components/jsonInput.vue';
+    import JsonInput from '../../../components/jsonInput.vue';
     import {useCrud} from '../../../components/useCrud.vue';
     import {defineProps} from 'vue';
 
