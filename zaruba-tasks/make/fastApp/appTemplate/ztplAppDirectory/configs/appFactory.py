@@ -59,12 +59,13 @@ def create_app(mb: MessageBus, rpc: RPC, menu_service: MenuService, page_templat
     print('Register app shutdown handler', file=sys.stderr)
 
 
+    # 📢 serve public static directory (js, css, html, images, etc)
     if public_dir != '':
-        # 📢 serve public static directory (js, css, html, images, etc)
         app.mount(public_url_path, StaticFiles(directory=public_dir), name='static-resources')
         print('Register static directory route', file=sys.stderr)
 
 
+    # 🏠 Serve home page 
     if enable_ui:
         @app.get('/', response_class=HTMLResponse)
         async def get_home(request: Request, context: MenuContext = Depends(menu_service.has_access('home'))) -> HTMLResponse:
@@ -86,9 +87,8 @@ def create_app(mb: MessageBus, rpc: RPC, menu_service: MenuService, page_templat
                 }, status_code=500)
 
 
+    # h❌ Handle any PageTemplateException 
     if enable_ui and enable_error_page:
-
-        # handle any PageTemplateException 
         @app.exception_handler(PageTemplateException)
         def handle_template_exception(request: Request, exception: PageTemplateException):
             menu_context = exception.menu_context
@@ -103,7 +103,8 @@ def create_app(mb: MessageBus, rpc: RPC, menu_service: MenuService, page_templat
                 status_code=exception.status_code
             )
 
-        # handle any StarletteHTTPException
+    # ❌ Handle any StarletteHTTPException
+    if enable_ui and enable_error_page:
         @app.exception_handler(StarletteHTTPException)
         def handle_template_exception(request: Request, exception: StarletteHTTPException):
             url = request.url.path
