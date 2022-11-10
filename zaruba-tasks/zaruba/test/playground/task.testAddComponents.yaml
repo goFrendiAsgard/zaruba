@@ -38,7 +38,7 @@ tasks:
 
         ../zaruba please addFastAppModule appDirectory=provoFastApp appModuleName=library
         ../zaruba please addFastAppRouteHandler appDirectory=provoFastApp appModuleName=blog appHttpMethod=get appUrl=/api/v1/hello
-        ../zaruba please addFastAppPage appDirectory=provoFastApp appModuleName=blog appHttpMethod=get appUrl=/
+        ../zaruba please addFastAppPage appDirectory=provoFastApp appModuleName=blog appHttpMethod=get appUrl=/blog
         ../zaruba please addFastAppEventHandler appDirectory=provoFastApp appModuleName=library appEventName=open
         ../zaruba please addFastAppRpcHandler appDirectory=provoFastApp appModuleName=library appRpcName=isBookAvailable
         ../zaruba please addFastAppCrud appDirectory=provoFastApp appModuleName=library appCrudEntity=books appCrudFields='["title", "author", "synopsis"]'

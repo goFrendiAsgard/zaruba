@@ -1,7 +1,7 @@
-echo "Registering user interface"
+echo "Registering menu"
 
-_REGISTER_UI_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppPage/partials/register_ui.py")"
-_REGISTER_UI_SCRIPT="$("${ZARUBA_BIN}" str replace "${_REGISTER_UI_SCRIPT}" "${_ZRB_REPLACEMENT_MAP}" )"
+_REGISTER_MENU_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppModule/partials/register_menu.py")"
+_REGISTER_MENU_SCRIPT="$("${ZARUBA_BIN}" str replace "${_REGISTER_MENU_SCRIPT}" "${_ZRB_REPLACEMENT_MAP}" )"
 
 _CREATE_MENU_SERVICE_FILE_LOCATION="${_ZRB_APP_DIRECTORY}/configs/menuServiceFactory.py"
 
@@ -18,12 +18,12 @@ fi
 # get indentation
 _RETURN_LINE="$("${ZARUBA_BIN}" list get "${_LINES}" "${_RETURN_INDEX}")"
 _INDENTATION="$("${ZARUBA_BIN}" str getIndentation "${_RETURN_LINE}")"
-_INDENTED_REGISTER_UI_SCRIPT="$("${ZARUBA_BIN}" str fullIndent "${_REGISTER_UI_SCRIPT}" "${_INDENTATION}")"
+_INDENTED_REGISTER_MENU_SCRIPT="$("${ZARUBA_BIN}" str fullIndent "${_REGISTER_MENU_SCRIPT}" "${_INDENTATION}")"
 
 # insert handler
-_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" "${_RETURN_INDEX}" "${_INDENTED_REGISTER_UI_SCRIPT}")"
+_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" "${_RETURN_INDEX}" "${_INDENTED_REGISTER_MENU_SCRIPT}")"
 
 chmod 755 "${_CREATE_MENU_SERVICE_FILE_LOCATION}"
 "${ZARUBA_BIN}" lines write "${_CREATE_MENU_SERVICE_FILE_LOCATION}" "${_LINES}"
 
-echo "Done registering user interface"
+echo "Done registering menu"

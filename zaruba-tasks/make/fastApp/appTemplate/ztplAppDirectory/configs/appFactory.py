@@ -1,11 +1,12 @@
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, Request, HTTPException, Depends
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from core import PageTemplateException
+from core import MenuService, PageTemplateException
 from helpers.transport import MessageBus, RPC
 from configs.cors import cors_allow_credentials, cors_allow_headers, cors_allow_methods, cors_allow_origin_regex, cors_allow_origins, cors_expose_headers, cors_max_age
 from configs.dir import public_dir
@@ -13,11 +14,13 @@ from configs.error import error_threshold
 from configs.ui import site_name
 from configs.featureFlag import enable_error_page, enable_ui
 from configs.url import public_url_path 
+from schemas.menuContext import MenuContext
 
 import re
 import sys
+import traceback
 
-def create_app(mb: MessageBus, rpc: RPC, page_template: Jinja2Templates) -> FastAPI:
+def create_app(mb: MessageBus, rpc: RPC, menu_service: MenuService, page_template: Jinja2Templates) -> FastAPI:
     app = FastAPI(title=site_name)
 
 
@@ -60,6 +63,27 @@ def create_app(mb: MessageBus, rpc: RPC, page_template: Jinja2Templates) -> Fast
         # 📢 serve public static directory (js, css, html, images, etc)
         app.mount(public_url_path, StaticFiles(directory=public_dir), name='static-resources')
         print('Register static directory route', file=sys.stderr)
+
+
+    if enable_ui:
+        @app.get('/', response_class=HTMLResponse)
+        async def get_home(request: Request, context: MenuContext = Depends(menu_service.has_access('home'))) -> HTMLResponse:
+            '''
+            Handle (get) /
+            '''
+            try:
+                return page_template.TemplateResponse('default_page.html', context={
+                    'request': request,
+                    'context': context,
+                    'content_path': 'home.html'
+                }, status_code=200)
+            except:
+                print(traceback.format_exc(), file=sys.stderr) 
+                return page_template.TemplateResponse('default_error.html', context={
+                    'request': request,
+                    'status_code': 500,
+                    'detail': 'Internal server error'
+                }, status_code=500)
 
 
     if enable_ui and enable_error_page:

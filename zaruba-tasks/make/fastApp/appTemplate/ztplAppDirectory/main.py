@@ -70,7 +70,7 @@ page_template = create_page_template()
 ################################################
 # -- ⚛️ FastAPI initialization
 ################################################
-app = create_app(mb, rpc, page_template)
+app = create_app(mb, rpc, menu_service, page_template)
 if enable_route_handler:
     register_session_api_route(
         app, mb, rpc, auth_service,
