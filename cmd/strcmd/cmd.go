@@ -30,6 +30,7 @@ func Init() {
 	Cmd.AddCommand(toPluralCmd)
 	Cmd.AddCommand(toSingularCmd)
 	Cmd.AddCommand(toSnakeCmd)
+	Cmd.AddCommand(toTitleCmd)
 	Cmd.AddCommand(toUpperCmd)
 	Cmd.AddCommand(toUpperSnakeCmd)
 }

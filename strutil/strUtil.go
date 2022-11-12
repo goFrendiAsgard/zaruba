@@ -75,6 +75,21 @@ func (strUtil *StrUtil) ToUpperSnake(s string) (result string) {
 	return strUtil.ToUpper(strUtil.ToSnake(s))
 }
 
+func (strUtil *StrUtil) ToTitle(s string) (result string) {
+	result = ""
+	for index, ch := range strUtil.ToCamel(s) {
+		if index == 0 {
+			result += strings.ToLower(string(ch))
+			continue
+		}
+		if strUtil.IsUpper(string(ch)) && !strUtil.IsLower(string(ch)) {
+			result += " "
+		}
+		result += strings.ToLower(string(ch))
+	}
+	return strings.Title(result)
+}
+
 func (strUtil *StrUtil) ToSnake(s string) (result string) {
 	result = ""
 	for index, ch := range strUtil.ToCamel(s) {

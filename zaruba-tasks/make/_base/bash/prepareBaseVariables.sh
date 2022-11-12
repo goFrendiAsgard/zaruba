@@ -126,12 +126,12 @@ then
     then
         _ZRB_NORMALIZED_APP_URL="/"
     else
-        _ZRB_NORMALIZED_APP_URL="${_ZRB_KEBAB_APP_URL}" 
+        _ZRB_NORMALIZED_APP_URL="/${_ZRB_KEBAB_APP_URL}" 
     fi
 fi
 
 # url title
-_ZRB_UPPER_SNAKE_APP_URL="$("${ZARUBA_BIN}" str toUpperSnake "${_ZRB_APP_URL}")"
+_ZRB_UPPER_SNAKE_APP_URL="$("${ZARUBA_BIN}" str toTitle "${_ZRB_APP_URL}")"
 _ZRB_APP_URL_TITLE="$("${ZARUBA_BIN}" str replace "${_ZRB_UPPER_SNAKE_APP_URL}" '{"_": " "}')"
 if [ -z "${_ZRB_APP_URL_TITLE}" ]
 then

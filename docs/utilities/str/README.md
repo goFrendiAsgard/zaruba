@@ -42,6 +42,7 @@ Available Commands:
   toPlural       Turn string into PascalCase
   toSingular     Turn string into singular
   toSnake        Turn string into snake_case
+  toTitle        Turn string into Title
   toUpper        Turn string into UPPER CASE
   toUpperSnake   Turn string into UPPER_SNAKE_CASE
 
