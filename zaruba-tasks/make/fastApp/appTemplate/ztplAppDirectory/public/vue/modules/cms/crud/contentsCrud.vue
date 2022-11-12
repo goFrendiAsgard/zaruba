@@ -78,7 +78,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="form-input-type" class="col-form-label">Type:</label>
-                        <SelectInput class="form-control" id="form-input-type" v-model="formData.type_id" appApiUrl="/api/v1/content-types" />
+                        <SelectInput class="form-select" id="form-input-type" v-model="formData.type_id" appApiUrl="/api/v1/content-types" optionValueKey="name" />
                     </div>
                     <div class="mb-3">
                         <label for="form-input-title" class="col-form-label">Title:</label>

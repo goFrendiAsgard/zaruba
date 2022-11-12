@@ -57,9 +57,9 @@
         // using list as options
         if (props.optionList.length > 0) {
             const optionValue = {};
-            props.optionList.foreach((option) => {
+            props.optionList.forEach((option) => {
                 optionValue[option] = option;
-            })
+            });
             options.value = optionValue;
             return
         }
@@ -76,11 +76,12 @@
             if (response && response.status == 200 && response.data && typeof(response.data.count) == 'number' && response.data.rows) {
                 const rows = response.data.rows;
                 const optionValue = {};
-                rows.foreach((row) => {
+                rows.forEach((row) => {
                     const value = row[props.optionValueKey];
                     const caption = row[props.optionValueKey];
-                    optionsValue[value] = caption;
-                })
+                    optionValue[value] = caption;
+                });
+                options.value = optionValue;
             }
             return
         }
