@@ -31,6 +31,18 @@ class DBContentTypeRepo(ContentTypeRepo):
         if create_all:
             Base.metadata.create_all(bind=engine)
 
+    def find_by_name(self, name: str) -> Optional[ContentType]:
+        db = Session(self.engine)
+        content_type: ContentType
+        try:
+            db_content_type = db.query(DBContentTypeEntity).filter(DBContentTypeEntity.name == name).first()
+            if db_content_type is None:
+                return None
+            content_type = ContentType.from_orm(db_content_type)
+        finally:
+            db.close()
+        return content_type
+
 
     def find_by_id(self, id: str) -> Optional[ContentType]:
         db = Session(self.engine)

@@ -36,8 +36,12 @@
                 <td>{{ index+1 }}</td>
                 <td>{{ row.id }}</td>
                 <td>{{ row.name }}</td>
-                <td>{{ row.template }}</td>
-                <td>{{ JSON.stringify(row.attributes) }}</td>
+                <td>
+                   <textarea class="form-control" readonly rows="3">{{ row.template }}</textarea>
+                </td>
+                <td>
+                    <textarea class="form-control" readonly rows="3">{{ JSON.stringify(row.attributes) }}</textarea>
+                </td>
                 <!-- Put column value here, Note: 💀 Don't delete this line, Zaruba use it for pattern matching -->
                 <td id="td-action">
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -80,11 +84,11 @@
                     </div>
                     <div class="mb-3">
                         <label for="form-input-template" class="col-form-label">Template:</label>
-                        <input type="text" class="form-control" id="form-input-template" v-model="formData.template" />
+                        <MarkdownInput class="form-control" id="form-input-template" v-model="formData.template" />
                     </div>
                     <div class="mb-3">
                         <label for="form-input-attributes" class="col-form-label">Attributes:</label>
-                        <JsonInput class="form-control" id="form-input-attributes" v-model="formData.attributes" />
+                        <JsonInput class="form-control" id="form-input-attributes" v-model="formData.attributes" rows="10" />
                     </div>
                     <!-- Put form input here, Note: 💀 Don't delete this line, Zaruba use it for pattern matching -->
                 </div>
@@ -99,6 +103,7 @@
 </template>
 
 <script setup>
+    import MarkdownInput from '../../../components/markdownInput.vue';
     import JsonInput from '../../../components/jsonInput.vue';
     import {useCrud} from '../../../components/useCrud.vue';
     import {defineProps} from 'vue';

@@ -1,24 +1,25 @@
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy import create_engine
 from schemas.user import UserData
+from schemas.contentType import ContentTypeData
 from core import (
     register_session_api_route, register_session_ui_route, register_session_rpc,
     DefaultAuthRule, DefaultUserFetcher,
     AuthService, MenuService, SessionService, JWTTokenService,
 )
-from modules.cms.content import ContentService, DBContentRepo
-from modules.cms.contentType import ContentTypeService, DBContentTypeRepo
-from modules.cms import (
-    register_cms_api_route, register_cms_ui_route, register_cms_event_handler, register_cms_rpc_handler
-)
-from modules.log.activity import ActivityService, DBActivityRepo
 from modules.log import (
-    register_log_api_route, register_log_ui_route, register_log_event_handler, register_log_rpc_handler
+    register_log_api_route, register_log_ui_route, register_log_event_handler, register_log_rpc_handler,
+    ActivityService, DBActivityRepo
 )
 from modules.auth import (
     register_auth_api_route, register_auth_ui_route, register_auth_event_handler, register_auth_rpc_handler,
     DefaultUserService, UserSeederService, RoleService,
     DBRoleRepo, DBUserRepo
+)
+from modules.cms import (
+    register_cms_api_route, register_cms_ui_route, register_cms_event_handler, register_cms_rpc_handler,
+    ContentTypeService, ContentService, ContentTypeSeederService,
+    DBContentTypeRepo, DBContentRepo
 )
 from configs import (
     # feature flags
@@ -36,6 +37,8 @@ from configs import (
     root_initial_email, root_initial_fullname, root_initial_password, 
     root_initial_phone_number, root_username, root_permission, access_token_algorithm,
     access_token_expire, access_token_secret_key,
+    # cms
+    seed_default_content_type, default_content_type_name,
     # activity
     activity_events
 )
@@ -152,6 +155,10 @@ if enable_cms_module:
     content_service = ContentService(mb, rpc, content_repo)
     content_type_repo = DBContentTypeRepo(engine=engine, create_all=db_create_all)
     content_type_service = ContentTypeService(mb, rpc, content_type_repo)
+    # Seed default content type
+    if seed_default_content_type:
+        content_type_seeder_service = ContentTypeSeederService(auth_service, content_type_service)
+        content_type_seeder_service.seed(ContentTypeData(name=default_content_type_name))
     # API route
     if enable_route_handler and enable_api:
         register_cms_api_route(app, mb, rpc, auth_service)

@@ -67,9 +67,7 @@ def create_app(mb: MessageBus, rpc: RPC, menu_service: MenuService, page_templat
 
     # 🏠 Serve home page 
     if enable_ui:
-        # register menu
         menu_service.add_menu(name='home', title='Home', url='/', auth_type=AuthType.ANYONE)
-
         @app.get('/', response_class=HTMLResponse)
         async def get_home(request: Request, context: MenuContext = Depends(menu_service.has_access('home'))) -> HTMLResponse:
             '''

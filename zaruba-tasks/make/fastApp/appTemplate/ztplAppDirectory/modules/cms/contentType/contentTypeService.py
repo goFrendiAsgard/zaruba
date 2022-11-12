@@ -25,6 +25,16 @@ class ContentTypeService():
         return content_type
 
 
+    def find_by_name(self, name: str, current_user: Optional[User] = None) -> Optional[ContentType]:
+        content_type = self.content_type_repo.find_by_name(name)
+        if content_type is None:
+            raise HTTPException(
+                status_code=404, 
+                detail='Content type not found: {}'.format(name)
+            )
+        return content_type
+
+
     def insert(self, content_type_data: ContentTypeData, current_user: User) -> Optional[ContentType]:
         content_type_data.created_by = current_user.id
         content_type_data.updated_by = current_user.id
@@ -73,19 +83,17 @@ class ContentTypeService():
         if content_type is None:
             raise HTTPException(
                 status_code=404, 
-                detail='ContentType id not found: {}'.format(id)
+                detail='Content type id not found: {}'.format(id)
             )
         return content_type
 
 
     def _validate_data(self, content_type_data: ContentTypeData, id: Optional[str] = None) -> ContentTypeData:
-        # TODO: add your custom logic
-        # Example: checking duplication
-        # if content_type_data.some_field is not None:
-        #     user = self.user_repo.find_by_some_field(content_type_data.some_field)
-        #     if user is not None and (id is None or user.id != id):
-        #         raise HTTPException(
-        #             status_code=422, 
-        #             detail='some_field already exist: {}'.format(content_type_data.some_field)
-        #         )
+        if content_type_data.name is not None:
+            content_type = self.content_type_repo.find_by_name(content_type_data.name)
+            if content_type is not None and (id is None or content_type.id != id):
+                raise HTTPException(
+                    status_code=422, 
+                    detail='Content type with the same name already exist: {}'.format(content_type_data.some_field)
+                )
         return content_type_data

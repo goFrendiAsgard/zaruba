@@ -30,7 +30,7 @@ def register_log_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, auth_se
 # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
 def register_log_ui_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, menu_service: MenuService, page_template: Jinja2Templates):
 
-    # register menu
+    # Log menu
     menu_service.add_menu(name='log', title='Log', url='#', auth_type=AuthType.ANYONE)
 
     register_activity_ui_route(app, mb, rpc, menu_service, page_template)

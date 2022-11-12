@@ -10,6 +10,10 @@ class ContentTypeRepo(abc.ABC):
         pass
 
     @abc.abstractmethod
+    def find_by_name(self, name: str) -> Optional[ContentType]:
+        pass
+
+    @abc.abstractmethod
     def find(self, keyword: str, limit: int, offset: int) -> List[ContentType]:
         pass
 

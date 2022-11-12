@@ -32,7 +32,7 @@ def register_cms_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, auth_se
 # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
 def register_cms_ui_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, menu_service: MenuService, page_template: Jinja2Templates):
     
-    # register menu
+    # CMS menu
     menu_service.add_menu(name='cms', title='CMS', url='#', auth_type=AuthType.ANYONE)
 
     register_content_ui_route(app, mb, rpc, menu_service, page_template)

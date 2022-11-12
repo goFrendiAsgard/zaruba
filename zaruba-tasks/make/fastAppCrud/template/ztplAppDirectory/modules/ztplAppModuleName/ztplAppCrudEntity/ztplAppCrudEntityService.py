@@ -82,8 +82,8 @@ class ZtplAppCrudEntityService():
         # TODO: add your custom logic
         # Example: checking duplication
         # if ztpl_app_crud_entity_data.some_field is not None:
-        #     user = self.user_repo.find_by_some_field(ztpl_app_crud_entity_data.some_field)
-        #     if user is not None and (id is None or user.id != id):
+        #     ztpl_app_crud_entity = self.ztpl_app_crud_entity_repo.find_by_some_field(ztpl_app_crud_entity_data.some_field)
+        #     if ztpl_app_crud_entity is not None and (id is None or ztpl_app_crud_entity.id != id):
         #         raise HTTPException(
         #             status_code=422, 
         #             detail='some_field already exist: {}'.format(ztpl_app_crud_entity_data.some_field)

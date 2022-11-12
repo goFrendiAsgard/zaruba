@@ -113,9 +113,8 @@ def register_ztpl_app_crud_entity_api_route(app: FastAPI, mb: AppMessageBus, rpc
 ################################################
 def register_ztpl_app_crud_entity_ui_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, menu_service: MenuService, page_template: Jinja2Templates):
 
-    # register menu
+    # ZtplAppCrudEntity CRUD page
     menu_service.add_menu(name='ztplAppModuleName:ztplAppCrudEntities', title='ZtplAppCrudEntities', url='/ztpl-app-module-name/ztpl-app-crud-entities', auth_type=AuthType.HAS_PERMISSION, permission_name='ui:ztplAppModuleName:ztplAppCrudEntity', parent_name='ztplAppModuleName')
-
     @app.get('/ztpl-app-module-name/ztpl-app-crud-entities', response_class=HTMLResponse)
     async def manage_ztpl_app_crud_entity(request: Request, context: MenuContext = Depends(menu_service.has_access('ztplAppModuleName:ztplAppCrudEntities'))):
         '''

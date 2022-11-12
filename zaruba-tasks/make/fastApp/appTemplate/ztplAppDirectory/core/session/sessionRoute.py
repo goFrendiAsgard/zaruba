@@ -1,12 +1,11 @@
 from typing import Any, List, Mapping, Optional
 from transport import AppMessageBus, AppRPC
 from fastapi import Depends, FastAPI, Request, HTTPException
-from fastapi.security import OAuth2
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.security import OAuth2PasswordRequestForm
-from pydantic import BaseModel
 from schemas.menuContext import MenuContext
+from schemas.accessToken import CreateAccessTokenRequest, CreateAccessTokenResponse, RenewAccessTokenRequest, RenewAccessTokenResponse
 from schemas.user import User
 from schemas.authType import AuthType
 from core.security.service.authService import AuthService
@@ -14,21 +13,6 @@ from core.menu.menuService import MenuService
 
 import traceback
 import sys
-
-class CreateAccessTokenRequest(BaseModel):
-    username: str
-    password: str
-
-class CreateAccessTokenResponse(BaseModel):
-    access_token: str
-    token_type: str
-
-class RenewAccessTokenRequest(BaseModel):
-    access_token: str
-
-class RenewAccessTokenResponse(BaseModel):
-    access_token: str
-    token_type: str
 
 
 ################################################
@@ -99,12 +83,12 @@ def register_session_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, aut
 ################################################
 def register_session_ui_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, menu_service: MenuService, page_template: Jinja2Templates, create_access_token_url_path: str):
 
-    # registering menu
+    # Session menu
     menu_service.add_menu(name='account', title='Account', url='#', auth_type=AuthType.ANYONE)
+
+
+    # Login page
     menu_service.add_menu(name='account:login', title='Log in', url='/account/login', auth_type=AuthType.VISITOR, parent_name='account')
-    menu_service.add_menu(name='account:logout', title='Log out', url='/account/logout', auth_type=AuthType.USER, parent_name='account')
-
-
     @app.get('/account/login', response_class=HTMLResponse)
     async def login(request: Request, context: MenuContext = Depends(menu_service.has_access('account:login'))):
         '''
@@ -121,6 +105,8 @@ def register_session_ui_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, menu
         )
 
 
+    # Logout page
+    menu_service.add_menu(name='account:logout', title='Log out', url='/account/logout', auth_type=AuthType.USER, parent_name='account')
     @app.get('/account/logout', response_class=HTMLResponse)
     async def logout(request: Request, context: MenuContext = Depends(menu_service.has_access('account:logout'))):
         '''

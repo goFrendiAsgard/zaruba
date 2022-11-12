@@ -78,7 +78,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="form-input-type" class="col-form-label">Type:</label>
-                        <SelectInput class="form-select" id="form-input-type" v-model="formData.type_id" appApiUrl="/api/v1/content-types" optionValueKey="name" />
+                        <SelectInput class="form-select" id="form-input-type" v-model="formData.type_id" appApiUrl="/api/v1/content-types" optionCaptionKey="name" />
                     </div>
                     <div class="mb-3">
                         <label for="form-input-title" class="col-form-label">Title:</label>
@@ -90,7 +90,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="form-input-description" class="col-form-label">Description:</label>
-                        <input type="text" class="form-control" id="form-input-description" v-model="formData.description" />
+                        <MarkdownInput class="form-control" id="form-input-description" v-model="formData.description" />
                     </div>
                     <!-- Put form input here, Note: 💀 Don't delete this line, Zaruba use it for pattern matching -->
                 </div>
@@ -105,6 +105,7 @@
 </template>
 
 <script setup>
+    import MarkdownInput from '../../../components/markdownInput.vue';
     import SelectInput from '../../../components/selectInput.vue';
     import JsonInput from '../../../components/jsonInput.vue';
     import {useCrud} from '../../../components/useCrud.vue';

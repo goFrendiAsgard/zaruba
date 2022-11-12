@@ -1,6 +1,5 @@
-# register menu
+# ZtplAppUrlTitle page
 menu_service.add_menu(name='ztplAppModuleName:ztplAppUrl', title='ZtplAppUrlTitle', url='ztpl-normalized-app-url', auth_type=AuthType.ANYONE, parent_name='ztplAppModuleName')
-
 @app.get('ztpl-normalized-app-url', response_class=HTMLResponse)
 async def get_ztpl_app_url(request: Request, context: MenuContext = Depends(menu_service.has_access('ztplAppModuleName:ztplAppUrl'))) -> HTMLResponse:
     '''

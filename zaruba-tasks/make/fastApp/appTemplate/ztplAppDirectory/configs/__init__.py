@@ -1,5 +1,6 @@
 from configs.appFactory import create_app
 from configs.auth import root_initial_email, root_initial_fullname, root_initial_password, root_initial_phone_number, root_username, root_permission, access_token_algorithm, access_token_expire, access_token_secret_key, seed_root_user
+from configs.cms import seed_default_content_type, default_content_type_name
 from configs.cors import cors_allow_credentials, cors_allow_headers, cors_allow_methods, cors_allow_origin_regex, cors_allow_origins, cors_expose_headers, cors_max_age
 from configs.dir import public_dir, page_dir
 from configs.error import error_threshold

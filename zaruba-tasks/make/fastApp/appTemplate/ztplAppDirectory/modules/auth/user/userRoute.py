@@ -112,9 +112,8 @@ def register_user_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, auth_s
 ################################################
 def register_user_ui_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, menu_service: MenuService, page_template: Jinja2Templates):
 
-    # register menu
+    # User CRUD page
     menu_service.add_menu(name='auth:users', title='Users', url='/auth/users', auth_type=AuthType.HAS_PERMISSION, permission_name='ui:auth:user', parent_name='auth')
-
     @app.get('/auth/users', response_class=HTMLResponse)
     async def manage_user(request: Request, context: MenuContext = Depends(menu_service.has_access('auth:users'))):
         '''
