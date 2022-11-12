@@ -126,7 +126,7 @@
                 },
                 ...appHelper.getConfigAuthHeader(),
             });
-            if (response && response.status == 200 && response.data && typeof response.data.count == 'number' && response.data.rows) {
+            if (response && response.status == 200 && response.data && typeof(response.data.count) == 'number' && response.data.rows) {
                 result.value = response.data;
                 return;
             }

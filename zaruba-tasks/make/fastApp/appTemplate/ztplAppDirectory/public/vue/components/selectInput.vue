@@ -12,9 +12,35 @@
         modelValue: {
             type: String
         },
-        fetchOptions: {
+        appApiUrl: {
+            type: String,
+            default: '',
+        },
+        optionValueKey: {
+            type: String,
+            default: 'id',
+        },
+        optionCaptionKey: {
+            type: String,
+            default: 'id',
+        },
+        optionList: {
+            type: Array,
+            default: () => {
+                return [];
+            },
+        },
+        optionMap: {
+            type: Object,
+            default: () => {
+                return {};
+            }
+        },
+        getOptions: {
             type: Function,
-            default: async () => {return {}}
+            default: async () => {
+                return {}
+            },
         }
     });
 
@@ -27,6 +53,43 @@
 
     const options = ref({});
     onMounted(async () => {
-        options.value = await props.fetchOptions();
+
+        // using list as options
+        if (props.optionList.length > 0) {
+            const optionValue = {};
+            props.optionList.foreach((option) => {
+                optionValue[option] = option;
+            })
+            options.value = optionValue;
+            return
+        }
+
+        // using object as options
+        if (Object.keys(props.optionMap).length > 0) {
+            options.value = props.optionMap;
+            return
+        }
+
+        // using appApiUrl
+        if (props.appApiUrl != '') {
+            const response = await appHelper.axios.get(props.appApiUrl, appHelper.getConfigAuthHeader());
+            if (response && response.status == 200 && response.data && typeof(response.data.count) == 'number' && response.data.rows) {
+                const rows = response.data.rows;
+                const optionValue = {};
+                rows.foreach((row) => {
+                    const value = row[props.optionValueKey];
+                    const caption = row[props.optionValueKey];
+                    optionsValue[value] = caption;
+                })
+            }
+            return
+        }
+
+        // using getOptions
+        if (typeof(props.getOptions) == 'function') {
+            options.value = await props.getOptions();
+            return
+        }
+
     });
 </script>

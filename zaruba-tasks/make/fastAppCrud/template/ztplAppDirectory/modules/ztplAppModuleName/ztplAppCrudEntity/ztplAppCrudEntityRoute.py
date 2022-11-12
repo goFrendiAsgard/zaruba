@@ -18,10 +18,10 @@ import sys
 ################################################
 def register_ztpl_app_crud_entity_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, auth_service: AuthService):
 
-    @app.get('/api/v1/ztpl_app_crud_entities/', response_model=ZtplAppCrudEntityResult)
+    @app.get('/api/v1/ztpl-app-crud-entities/', response_model=ZtplAppCrudEntityResult)
     async def find_ztpl_app_crud_entities(keyword: str='', limit: int=100, offset: int=0, current_user: Optional[User] = Depends(auth_service.has_permission('api:ztpl_app_crud_entity:read'))) -> ZtplAppCrudEntityResult:
         '''
-        Serving API to find ztpl_app_crud_entities by keyword.
+        Serving API to find ztplAppCrudEntities by keyword.
         '''
         result = {}
         try:
@@ -36,7 +36,7 @@ def register_ztpl_app_crud_entity_api_route(app: FastAPI, mb: AppMessageBus, rpc
         return ZtplAppCrudEntityResult.parse_obj(result)
 
 
-    @app.get('/api/v1/ztpl_app_crud_entities/{id}', response_model=ZtplAppCrudEntity)
+    @app.get('/api/v1/ztpl-app-crud-entities/{id}', response_model=ZtplAppCrudEntity)
     async def find_ztpl_app_crud_entity_by_id(id: str, current_user: Optional[User] = Depends(auth_service.has_permission('api:ztpl_app_crud_entity:read'))) -> ZtplAppCrudEntity:
         '''
         Serving API to find ztplAppCrudEntity by id.
@@ -54,7 +54,7 @@ def register_ztpl_app_crud_entity_api_route(app: FastAPI, mb: AppMessageBus, rpc
         return ZtplAppCrudEntity.parse_obj(ztpl_app_crud_entity)
 
 
-    @app.post('/api/v1/ztpl_app_crud_entities/', response_model=ZtplAppCrudEntity)
+    @app.post('/api/v1/ztpl-app-crud-entities/', response_model=ZtplAppCrudEntity)
     async def insert_ztpl_app_crud_entity(ztpl_app_crud_entity_data: ZtplAppCrudEntityData, current_user: Optional[User] = Depends(auth_service.has_permission('api:ztpl_app_crud_entity:create'))) -> ZtplAppCrudEntity:
         '''
         Serving API to insert new ztplAppCrudEntity.
@@ -72,7 +72,7 @@ def register_ztpl_app_crud_entity_api_route(app: FastAPI, mb: AppMessageBus, rpc
         return ZtplAppCrudEntity.parse_obj(ztpl_app_crud_entity)
 
 
-    @app.put('/api/v1/ztpl_app_crud_entities/{id}', response_model=ZtplAppCrudEntity)
+    @app.put('/api/v1/ztpl-app-crud-entities/{id}', response_model=ZtplAppCrudEntity)
     async def update_ztpl_app_crud_entity(id: str, ztpl_app_crud_entity_data: ZtplAppCrudEntityData, current_user: Optional[User] = Depends(auth_service.has_permission('api:ztpl_app_crud_entity:update'))) -> ZtplAppCrudEntity:
         '''
         Serving API to update ztplAppCrudEntity by id.
@@ -90,7 +90,7 @@ def register_ztpl_app_crud_entity_api_route(app: FastAPI, mb: AppMessageBus, rpc
         return ZtplAppCrudEntity.parse_obj(ztpl_app_crud_entity)
 
 
-    @app.delete('/api/v1/ztpl_app_crud_entities/{id}')
+    @app.delete('/api/v1/ztpl-app-crud-entities/{id}')
     async def delete_ztpl_app_crud_entity(id: str, current_user: Optional[User] = Depends(auth_service.has_permission('api:ztpl_app_crud_entity:delete'))) -> ZtplAppCrudEntity:
         '''
         Serving API to delete ztplAppCrudEntity by id.

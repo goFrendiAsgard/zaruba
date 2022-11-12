@@ -31,13 +31,13 @@ class AppHelper {
 
     getResponseErrorMessage(response, defaultErrorMessage='error') {
         const errorSuffix = response.status ? ` (HTTP Status: ${response.status})` : ' (No HTTP Status)';
-        if (response && response.data && typeof response.data == 'string') {
+        if (response && response.data && typeof(response.data) == 'string') {
             return response.data + errorSuffix;
         }
-        if (response && response.data && response.data.detail && typeof response.data.detail == 'string') {
+        if (response && response.data && response.data.detail && typeof(response.data.detail) == 'string') {
             return response.data.detail + errorSuffix;
         }
-        if (response && response.data && response.data.detail && response.data.detail.msg && typeof response.data.detail.msg == 'string') {
+        if (response && response.data && response.data.detail && response.data.detail.msg && typeof(response.data.detail.msg) == 'string') {
             return response.data.detail.msg + errorSuffix;
         }
         return defaultErrorMessage + errorSuffix;

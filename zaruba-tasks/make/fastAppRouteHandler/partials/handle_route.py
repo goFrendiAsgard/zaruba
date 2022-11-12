@@ -2,7 +2,7 @@
 @app.ztplAppHttpMethod('ztpl-normalized-app-url', response_class=HTMLResponse)
 async def ztplAppHttpMethod_ztpl_app_url(current_user: Optional[User] = Depends(auth_service.anyone())) -> HTMLResponse:
     '''
-    Handle (ztplAppHttpMethod) ztplAppUrl
+    Handle (ztplAppHttpMethod) ztpl-normalized-app-url
     To enforce authorization, you can use any of these dependencies:
         - auth_service.anyone()
         - auth_service.is_visitor()

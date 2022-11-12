@@ -134,7 +134,7 @@
     } = useCrud({
         formDataToRow,
         rowToFormData,
-        entityName: 'contentType',
+        entityName: 'content type',
         apiUrl: props.apiUrl,
         formComponentId: 'form-crud',
     });

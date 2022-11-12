@@ -18,7 +18,7 @@ import sys
 ################################################
 def register_content_type_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, auth_service: AuthService):
 
-    @app.get('/api/v1/content_types/', response_model=ContentTypeResult)
+    @app.get('/api/v1/content-types/', response_model=ContentTypeResult)
     async def find_content_types(keyword: str='', limit: int=100, offset: int=0, current_user: Optional[User] = Depends(auth_service.has_permission('api:content_type:read'))) -> ContentTypeResult:
         '''
         Serving API to find content_types by keyword.
@@ -36,7 +36,7 @@ def register_content_type_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC
         return ContentTypeResult.parse_obj(result)
 
 
-    @app.get('/api/v1/content_types/{id}', response_model=ContentType)
+    @app.get('/api/v1/content-types/{id}', response_model=ContentType)
     async def find_content_type_by_id(id: str, current_user: Optional[User] = Depends(auth_service.has_permission('api:content_type:read'))) -> ContentType:
         '''
         Serving API to find contentType by id.
@@ -54,7 +54,7 @@ def register_content_type_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC
         return ContentType.parse_obj(content_type)
 
 
-    @app.post('/api/v1/content_types/', response_model=ContentType)
+    @app.post('/api/v1/content-types/', response_model=ContentType)
     async def insert_content_type(content_type_data: ContentTypeData, current_user: Optional[User] = Depends(auth_service.has_permission('api:content_type:create'))) -> ContentType:
         '''
         Serving API to insert new contentType.
@@ -72,7 +72,7 @@ def register_content_type_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC
         return ContentType.parse_obj(content_type)
 
 
-    @app.put('/api/v1/content_types/{id}', response_model=ContentType)
+    @app.put('/api/v1/content-types/{id}', response_model=ContentType)
     async def update_content_type(id: str, content_type_data: ContentTypeData, current_user: Optional[User] = Depends(auth_service.has_permission('api:content_type:update'))) -> ContentType:
         '''
         Serving API to update contentType by id.
@@ -90,7 +90,7 @@ def register_content_type_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC
         return ContentType.parse_obj(content_type)
 
 
-    @app.delete('/api/v1/content_types/{id}')
+    @app.delete('/api/v1/content-types/{id}')
     async def delete_content_type(id: str, current_user: Optional[User] = Depends(auth_service.has_permission('api:content_type:delete'))) -> ContentType:
         '''
         Serving API to delete contentType by id.
@@ -114,7 +114,7 @@ def register_content_type_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC
 def register_content_type_ui_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, menu_service: MenuService, page_template: Jinja2Templates):
 
     # register menu
-    menu_service.add_menu(name='cms:contentTypes', title='ContentTypes', url='/cms/content-types', auth_type=AuthType.HAS_PERMISSION, permission_name='ui:cms:contentType', parent_name='cms')
+    menu_service.add_menu(name='cms:contentTypes', title='Content Types', url='/cms/content-types', auth_type=AuthType.HAS_PERMISSION, permission_name='ui:cms:contentType', parent_name='cms')
 
 
     @app.get('/cms/content-types', response_class=HTMLResponse)

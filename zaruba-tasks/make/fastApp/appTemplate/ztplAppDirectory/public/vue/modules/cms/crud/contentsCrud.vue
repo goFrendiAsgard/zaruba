@@ -78,7 +78,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="form-input-type" class="col-form-label">Type:</label>
-                        <input type="text" class="form-control" id="form-input-type" v-model="formData.type_id" />
+                        <SelectInput class="form-control" id="form-input-type" v-model="formData.type_id" appApiUrl="/api/v1/content-types" />
                     </div>
                     <div class="mb-3">
                         <label for="form-input-title" class="col-form-label">Title:</label>
@@ -105,6 +105,7 @@
 </template>
 
 <script setup>
+    import SelectInput from '../../../components/selectInput.vue';
     import JsonInput from '../../../components/jsonInput.vue';
     import {useCrud} from '../../../components/useCrud.vue';
     import {defineProps} from 'vue';
