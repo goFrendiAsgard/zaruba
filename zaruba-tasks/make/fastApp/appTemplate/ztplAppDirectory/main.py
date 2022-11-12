@@ -4,7 +4,7 @@ from schemas.user import UserData
 from core import (
     register_session_api_route, register_session_ui_route, register_session_rpc,
     DefaultAuthRule, DefaultUserFetcher,
-    AuthService, SessionService, JWTTokenService,
+    AuthService, MenuService, SessionService, JWTTokenService,
 )
 from modules.cms.content import ContentService, DBContentRepo
 from modules.cms.contentType import ContentTypeService, DBContentTypeRepo
@@ -25,7 +25,7 @@ from configs import (
     enable_api, enable_auth_module, enable_cms_module, enable_log_module,
     enable_event_handler, enable_route_handler, enable_rpc_handler, enable_ui, seed_root_user,
     # factories
-    create_app, create_menu_service, create_message_bus, create_rpc, create_page_template,
+    create_app, create_message_bus, create_rpc, create_page_template,
     # db
     db_create_all, db_url,
     # messagebus + rpc
@@ -64,41 +64,22 @@ auth_service = AuthService(auth_rule, user_fetcher, root_permission)
 ################################################
 # -- 👓 User Interface initialization
 ################################################
-menu_service = create_menu_service(rpc, auth_service)
+menu_service = MenuService(rpc, auth_service)
 page_template = create_page_template()
 
 ################################################
 # -- ⚛️ FastAPI initialization
 ################################################
 app = create_app(mb, rpc, menu_service, page_template)
+# session API
 if enable_route_handler:
     register_session_api_route(
         app, mb, rpc, auth_service,
         create_oauth_access_token_url_path, create_access_token_url_path, renew_access_token_url_path
     )
-
-
-################################################
-# -- ✍️ Log module
-################################################
-# Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
-if enable_log_module:
-    activity_repo = DBActivityRepo(engine=engine, create_all=db_create_all)
-    activity_service = ActivityService(mb, rpc, auth_service, activity_repo)
-    # API route
-    if enable_route_handler and enable_api:
-        register_log_api_route(app, mb, rpc, auth_service)
-    # UI route
-    if enable_route_handler and enable_ui:
-        register_log_ui_route(app, mb, rpc, menu_service, page_template)
-    # handle event
-    if enable_event_handler:
-        register_log_event_handler(mb, rpc, auth_service, activity_service)
-    # serve RPC
-    if enable_rpc_handler:
-        # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
-        register_log_rpc_handler(mb, rpc, auth_service, activity_service)
-
+# session page
+if enable_route_handler and enable_ui:
+    register_session_ui_route(app, mb, rpc, menu_service, page_template, create_access_token_url_path)
 
 ################################################
 # -- 🔒 Auth module
@@ -133,7 +114,6 @@ if enable_auth_module:
     # UI route
     if enable_route_handler and enable_ui:
         register_auth_ui_route(app, mb, rpc, menu_service, page_template, create_access_token_url_path)
-        register_session_ui_route(app, mb, rpc, menu_service, page_template, create_access_token_url_path)
     # handle event
     if enable_event_handler:
         register_auth_event_handler(mb, rpc, auth_service)
@@ -142,6 +122,26 @@ if enable_auth_module:
         register_auth_rpc_handler(mb, rpc, auth_service, role_service, user_service)
         register_session_rpc(mb, rpc, auth_service, session_service)
 
+################################################
+# -- ✍️ Log module
+################################################
+# Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
+if enable_log_module:
+    activity_repo = DBActivityRepo(engine=engine, create_all=db_create_all)
+    activity_service = ActivityService(mb, rpc, auth_service, activity_repo)
+    # API route
+    if enable_route_handler and enable_api:
+        register_log_api_route(app, mb, rpc, auth_service)
+    # UI route
+    if enable_route_handler and enable_ui:
+        register_log_ui_route(app, mb, rpc, menu_service, page_template)
+    # handle event
+    if enable_event_handler:
+        register_log_event_handler(mb, rpc, auth_service, activity_service)
+    # serve RPC
+    if enable_rpc_handler:
+        # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
+        register_log_rpc_handler(mb, rpc, auth_service, activity_service)
 
 ################################################
 # -- 📰 CMS module

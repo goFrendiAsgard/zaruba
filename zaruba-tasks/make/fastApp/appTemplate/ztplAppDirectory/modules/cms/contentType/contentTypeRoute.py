@@ -8,6 +8,7 @@ from fastapi.templating import Jinja2Templates
 from schemas.contentType import ContentType, ContentTypeData, ContentTypeResult
 from schemas.menuContext import MenuContext
 from schemas.user import User
+from schemas.authType import AuthType
 
 import traceback
 import sys
@@ -111,6 +112,10 @@ def register_content_type_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC
 # -- 👓 User Interface
 ################################################
 def register_content_type_ui_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, menu_service: MenuService, page_template: Jinja2Templates):
+
+    # register menu
+    menu_service.add_menu(name='cms:contentTypes', title='ContentTypes', url='/cms/content-types', auth_type=AuthType.HAS_PERMISSION, permission_name='ui:cms:contentType', parent_name='cms')
+
 
     @app.get('/cms/content-types', response_class=HTMLResponse)
     async def manage_content_type(request: Request, context: MenuContext = Depends(menu_service.has_access('cms:contentTypes'))):

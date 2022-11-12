@@ -6,6 +6,7 @@ from core import AuthService, MenuService
 from transport import AppMessageBus, AppRPC
 from schemas.menuContext import MenuContext
 from schemas.user import User
+from schemas.authType import AuthType
 
 import traceback
 import sys
@@ -25,5 +26,8 @@ def register_ztpl_app_module_name_api_route(app: FastAPI, mb: AppMessageBus, rpc
 ################################################
 # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
 def register_ztpl_app_module_name_ui_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, menu_service: MenuService, page_template: Jinja2Templates):
+
+    # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
+    menu_service.add_menu(name='ztplAppModuleName', title='ZtplAppModuleName', url='#', auth_type=AuthType.ANYONE)
 
     print('Register ztplAppModuleName UI route handler', file=sys.stderr)

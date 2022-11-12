@@ -8,6 +8,7 @@ from core import AuthService, MenuService
 from schemas.activity import Activity, ActivityData, ActivityResult
 from schemas.menuContext import MenuContext
 from schemas.user import User
+from schemas.authType import AuthType
 
 import traceback
 import sys
@@ -75,6 +76,9 @@ def register_activity_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_ser
 # -- 👓 User Interface
 ################################################
 def register_activity_ui_route(app: FastAPI, mb: MessageBus, rpc: RPC, menu_service: MenuService, page_template: Jinja2Templates):
+
+    # register menu
+    menu_service.add_menu(name='log:activities', title='User Activities', url='/log/activities', auth_type=AuthType.HAS_PERMISSION, permission_name='ui:log:activity', parent_name='log')
 
     @app.get('/log/activities', response_class=HTMLResponse)
     async def manage_activity(request: Request, context: MenuContext = Depends(menu_service.has_access('log:activities'))):

@@ -8,6 +8,7 @@ from core import AuthService, MenuService
 from schemas.menuContext import MenuContext
 from schemas.role import Role, RoleData, RoleResult
 from schemas.user import User
+from schemas.authType import AuthType
  
 import traceback
 import sys
@@ -111,6 +112,9 @@ def register_role_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, auth_s
 # -- 👓 User Interface
 ################################################
 def register_role_ui_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, menu_service: MenuService, page_template: Jinja2Templates):
+
+    # register menu
+    menu_service.add_menu(name='auth:roles', title='Roles', url='/auth/roles', auth_type=AuthType.HAS_PERMISSION, permission_name='ui:auth:role', parent_name='auth')
 
     @app.get('/auth/roles', response_class=HTMLResponse)
     async def manage_role(request: Request, context: MenuContext = Depends(menu_service.has_access('auth:roles'))):

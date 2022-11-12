@@ -5,7 +5,6 @@ configs:
     _prepareVariables: ''
     _integrate: |
       . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppPage/bash/addRouteHandler.sh"
-      . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppPage/bash/registerMenu.sh"
     defaultAppDirectory: '{{ .ProjectName }}FastApp'
     templateLocations: |
       [

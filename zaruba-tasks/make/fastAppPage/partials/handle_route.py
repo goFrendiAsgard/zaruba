@@ -1,8 +1,10 @@
+# register menu
+menu_service.add_menu(name='ztplAppModuleName:ztplAppUrl', title='ZtplAppUrlTitle', url='ztpl-normalized-app-url', auth_type=AuthType.ANYONE, parent_name='ztplAppModuleName')
 
 @app.get('ztplAppUrl', response_class=HTMLResponse)
 async def get_ztpl_app_url(request: Request, context: MenuContext = Depends(menu_service.has_access('ztplAppModuleName:ztplAppUrl'))) -> HTMLResponse:
     '''
-    Handle (get) ztplAppUrl
+    Serve page: ztplAppUrl
     '''
     try:
         return page_template.TemplateResponse('default_page.html', context={

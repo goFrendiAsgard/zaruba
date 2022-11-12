@@ -153,7 +153,6 @@ Value:
 Value:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppPage/bash/addRouteHandler.sh"
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppPage/bash/registerUi.sh"
 
 
 

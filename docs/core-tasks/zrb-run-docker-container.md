@@ -37,10 +37,13 @@ Description:
                        separated by new line.
       volumes        : Host-container volume mappings,
                        separated by new line.
-      user           : docker user (i.e., 0 for root)
+      user           : docker user (e.g., 0 for root)
       shmSize        : Size of /dev/shm. The format is <number><unit>. number must be greater than 0. 
                        Unit is optional and can be b (bytes), k (kilobytes), m (megabytes), or g (gigabytes).
                        If you omit the unit, the system uses bytes. If you omit the size entirely, the system uses 64m.
+      memory         : Memory limit, default: 512m
+      cpus           : CPU limit, default: 1
+      gpus           : GPU config, default: unset. Possible value: 'all,capabilities=utlity'
       rebuild        : Should container be rebuild (This will not rebuild the image)
       command        : Command to be used (Single Line).
                        Leave blank to use container's CMD.

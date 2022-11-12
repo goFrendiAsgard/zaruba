@@ -8,6 +8,7 @@ from core import AuthService, MenuService
 from transport import AppMessageBus, AppRPC
 from schemas.menuContext import MenuContext
 from schemas.user import User
+from schemas.authType import AuthType
 
 import traceback
 import sys
@@ -30,6 +31,9 @@ def register_cms_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, auth_se
 ################################################
 # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
 def register_cms_ui_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, menu_service: MenuService, page_template: Jinja2Templates):
+    
+    # register menu
+    menu_service.add_menu(name='cms', title='CMS', url='#', auth_type=AuthType.ANYONE)
 
     register_content_ui_route(app, mb, rpc, menu_service, page_template)
     register_content_type_ui_route(app, mb, rpc, menu_service, page_template)

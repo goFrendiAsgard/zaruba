@@ -14,5 +14,4 @@ from configs.rpcFactory import create_rpc
 from configs.url import create_access_token_url_path, create_oauth_access_token_url_path, renew_access_token_url_path, public_url_path, backend_url
 from configs.ui import site_name, tagline, footer, renew_access_token_interval
 from configs.activity import activity_events
-from configs.menuServiceFactory import create_menu_service
 from configs.pageTemplateFactory import create_page_template

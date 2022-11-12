@@ -5,7 +5,6 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from starlette.exceptions import HTTPException as StarletteHTTPException
-
 from core import MenuService, PageTemplateException
 from helpers.transport import MessageBus, RPC
 from configs.cors import cors_allow_credentials, cors_allow_headers, cors_allow_methods, cors_allow_origin_regex, cors_allow_origins, cors_expose_headers, cors_max_age
@@ -15,6 +14,7 @@ from configs.ui import site_name
 from configs.featureFlag import enable_error_page, enable_ui
 from configs.url import public_url_path 
 from schemas.menuContext import MenuContext
+from schemas.authType import AuthType
 
 import re
 import sys
@@ -67,6 +67,9 @@ def create_app(mb: MessageBus, rpc: RPC, menu_service: MenuService, page_templat
 
     # 🏠 Serve home page 
     if enable_ui:
+        # register menu
+        menu_service.add_menu(name='home', title='Home', url='/', auth_type=AuthType.ANYONE)
+
         @app.get('/', response_class=HTMLResponse)
         async def get_home(request: Request, context: MenuContext = Depends(menu_service.has_access('home'))) -> HTMLResponse:
             '''
@@ -87,7 +90,7 @@ def create_app(mb: MessageBus, rpc: RPC, menu_service: MenuService, page_templat
                 }, status_code=500)
 
 
-    # h❌ Handle any PageTemplateException 
+    # ❌ Handle any PageTemplateException 
     if enable_ui and enable_error_page:
         @app.exception_handler(PageTemplateException)
         def handle_template_exception(request: Request, exception: PageTemplateException):
