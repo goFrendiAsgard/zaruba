@@ -22,7 +22,6 @@ class DBContentEntity(Base):
     content_type_id = Column(String(36), ForeignKey('content_types.id'), index=True)
     description = Column(Text(), index=True, nullable=True)
     content_attributes = relationship('DBContentAttributeEntity', back_populates='content', cascade='all, delete-orphan')
-    content_type = relationship('DBContentTypeEntity')
     created_at = Column(DateTime, default=datetime.datetime.utcnow) # Note: 💀 Don't delete this line, Zaruba use it for pattern matching
     created_by = Column(String(36), nullable=True)
     updated_at = Column(DateTime, nullable=True)

@@ -88,8 +88,7 @@ class ContentService():
 
 
     def _fulfill(self, content: Content) -> Content:
-        if content.content_type is None:
-            content.content_type = self.content_type_repo.find_by_id(content.content_type_id)
+        content.content_type = self.content_type_repo.find_by_id(content.content_type_id)
         if content.content_type is None:
             content.content_type = ContentType(id='default', name='default')
         jinja_template = Template(content.content_type.template)
