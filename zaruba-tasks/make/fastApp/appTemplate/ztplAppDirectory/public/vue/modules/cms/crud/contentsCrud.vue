@@ -23,11 +23,8 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th>Id</th>
-                <th>Type</th>
-                <th>Title</th>
-                <th>Attributes</th>
-                <th>Description</th>
+                <th>Content</th>
+                <th>Preview</th>
                 <!-- Put column header here, Note: 💀 Don't delete this line, Zaruba use it for pattern matching --> 
                 <th id="th-action">Actions</th>
             </tr>
@@ -35,13 +32,12 @@
         <tbody>
             <tr v-for="(row, index) in result.rows">
                 <td>{{ index+1 }}</td>
-                <td>{{ row.id }}</td>
-                <td>{{ row.type_id }}</td>
-                <td>{{ row.title }}</td>
                 <td>
-                    <textarea class="form-control-plaintext" readonly rows="5" cols="65">{{ JSON.stringify(row.attributes, null, 2) }}</textarea>
+                    <span class="badge bg-secondary">{{ row.content_type.name }}</span><br />
+                    <b>{{ row.title }}</b><br />
+                    ({{ row.id }})
                 </td>
-                <td>{{ row.description }}</td>
+                <td v-html="row.html_content"></td>
                 <!-- Put column value here, Note: 💀 Don't delete this line, Zaruba use it for pattern matching -->
                 <td id="td-action">
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -80,7 +76,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="form-input-type" class="col-form-label">Type:</label>
-                        <SelectInput class="form-select" id="form-input-type" v-model="formData.type_id" appApiUrl="/api/v1/content-types" optionCaptionKey="name" />
+                        <SelectInput class="form-select" id="form-input-type" v-model="formData.content_type_id" appApiUrl="/api/v1/content-types" optionCaptionKey="name" />
                     </div>
                     <div class="mb-3">
                         <label for="form-input-title" class="col-form-label">Title:</label>

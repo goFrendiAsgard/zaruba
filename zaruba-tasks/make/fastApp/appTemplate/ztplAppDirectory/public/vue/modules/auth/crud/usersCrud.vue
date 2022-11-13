@@ -22,7 +22,6 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th>Id</th>
                 <th>Username</th>
                 <th>Email</th>
                 <th>Phone Number</th>
@@ -38,8 +37,10 @@
         <tbody>
             <tr v-for="(row, index) in result.rows">
                 <td>{{ index+1 }}</td>
-                <td>{{ row.id }}</td>
-                <td>{{ row.username }}</td>
+                <td>
+                    <b>{{ row.username }}</b><br />
+                    ({{ row.id }})
+                </td>
                 <td>{{ row.email }}</td>
                 <td>{{ row.phone_number }}</td>
                 <td>{{ row.full_name }}</td>

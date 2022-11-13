@@ -1,16 +1,18 @@
 from typing import Optional, Tuple
 from modules.cms.content.repos.contentRepo import ContentRepo
-from schemas.content import Content, ContentData
+from schemas.content import Content, ContentData, ContentType
+from schemas.contentType import ContentTypeData
 from modules.cms.content.contentService import ContentService
 from modules.cms.content.repos.dbContentRepo import DBContentRepo
+from modules.cms.contentType.repos.dbContentTypeRepo import DBContentTypeRepo
 from helpers.transport import LocalRPC, LocalMessageBus, MessageBus
 from transport import AppMessageBus, AppRPC
 from sqlalchemy import create_engine
 
-def create_content_data() -> ContentData:
+def create_content_data(content_type_id: str) -> ContentData:
     # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
     dummy_content_data = ContentData(
-        type_id='',
+        content_type_id=content_type_id,
         title='',
         attributes={},
         description='',
@@ -19,8 +21,8 @@ def create_content_data() -> ContentData:
     return dummy_content_data
 
 
-def insert_content_data(content_repo: ContentRepo, index: Optional[int] = None) -> Content:
-    content_data = create_content_data()
+def insert_content_data(content_repo: ContentRepo, content_type_id: str, index: Optional[int] = None) -> Content:
+    content_data = create_content_data(content_type_id)
     content_data.title = 'content' if index is None else 'content-{index}'.format(index=index)
     content_data.created_by = 'original_user'
     content_data.updated_by = 'original_user'
@@ -37,10 +39,13 @@ def create_mb() -> AppMessageBus:
     return mb
 
 
-def init_test_content_service_components() -> Tuple[ContentService, DBContentRepo, AppMessageBus, AppRPC]:
+def init_test_content_service_components() -> Tuple[ContentService, DBContentTypeRepo, DBContentRepo, ContentType, AppMessageBus, AppRPC]:
     engine = create_engine('sqlite://', echo=False)
+    content_type_repo = DBContentTypeRepo(engine=engine, create_all=True)
+    content_type = content_type_repo.insert(ContentTypeData(name='article'))
     content_repo = DBContentRepo(engine=engine, create_all=True)
+    DBContentTypeRepo(engine=engine, create_all=True)
     mb = create_mb()
     rpc = AppRPC(LocalRPC())
-    content_service = ContentService(mb, rpc, content_repo)
-    return content_service, content_repo, mb, rpc
+    content_service = ContentService(mb, rpc, content_repo, content_type_repo)
+    return content_service, content_type_repo, content_repo, content_type, mb, rpc

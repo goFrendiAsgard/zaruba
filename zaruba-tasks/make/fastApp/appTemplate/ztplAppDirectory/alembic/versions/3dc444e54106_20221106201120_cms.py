@@ -43,7 +43,7 @@ def upgrade() -> None:
     op.create_table('contents',
         sa.Column('id', sa.String(length=36), nullable=False),
         sa.Column('title', sa.String(length=255), nullable=True),
-        sa.Column('type_id', sa.String(length=36), nullable=True),
+        sa.Column('content_type_id', sa.String(length=36), nullable=True),
         sa.Column('description', sa.Text(), nullable=True),
         sa.Column('created_at', sa.DateTime(), nullable=True),
         sa.Column('created_by', sa.String(length=36), nullable=True),
@@ -54,7 +54,7 @@ def upgrade() -> None:
     op.create_index(op.f('ix_contents_description'), 'contents', ['description'], unique=False)
     op.create_index(op.f('ix_contents_id'), 'contents', ['id'], unique=False)
     op.create_index(op.f('ix_contents_title'), 'contents', ['title'], unique=False)
-    op.create_index(op.f('ix_contents_type_id'), 'contents', ['type_id'], unique=False)
+    op.create_index(op.f('ix_contents_content_type_id'), 'contents', ['content_type_id'], unique=False)
     op.create_table('content_attributes',
         sa.Column('id', sa.String(length=36), nullable=False),
         sa.Column('content_id', sa.String(length=36), sa.ForeignKey('contents.id'), nullable=False),
@@ -88,7 +88,7 @@ def downgrade() -> None:
     op.drop_index(op.f('ix_content_types_id'), table_name='content_types')
     op.drop_index(op.f('ix_content_types_json_attributes'), table_name='content_types')
     op.drop_table('content_types')
-    op.drop_index(op.f('ix_contents_type_id'), table_name='contents')
+    op.drop_index(op.f('ix_contents_content_type_id'), table_name='contents')
     op.drop_index(op.f('ix_contents_title'), table_name='contents')
     op.drop_index(op.f('ix_contents_id'), table_name='contents')
     op.drop_index(op.f('ix_contents_description'), table_name='contents')

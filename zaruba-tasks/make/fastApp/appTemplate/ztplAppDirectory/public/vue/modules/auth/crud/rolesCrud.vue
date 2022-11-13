@@ -22,8 +22,7 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th>Id</th>
-                <th>Name</th>
+                <th>Role</th>
                 <th>Permissions</th>
                 <!-- CRUD column headers -->
                 <!-- Put column header here -->
@@ -33,8 +32,10 @@
         <tbody>
             <tr v-for="(row, index) in result.rows">
                 <td>{{ index+1 }}</td>
-                <td>{{ row.id }}</td>
-                <td>{{ row.name }}</td>
+                <td>
+                    <b>{{ row.name }}</b><br />
+                    ({{ row.id }})
+                </td>
                 <td>{{ row.permissions.join(', ') }}</td>
                 <!-- CRUD column values -->
                 <!-- Put column value here -->

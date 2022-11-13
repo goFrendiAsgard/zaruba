@@ -16,12 +16,13 @@ class ContentTypeService():
 
     def find(self, keyword: str, limit: int, offset: int, current_user: Optional[User] = None) -> ContentTypeResult:
         count = self.content_type_repo.count(keyword)
-        rows = self.content_type_repo.find(keyword, limit, offset)
+        rows = [self._fulfill(row) for row in self.content_type_repo.find(keyword, limit, offset)]
         return ContentTypeResult(count=count, rows=rows)
 
 
     def find_by_id(self, id: str, current_user: Optional[User] = None) -> Optional[ContentType]:
         content_type = self._find_by_id_or_error(id, current_user)
+        content_type = self._fulfill(content_type)
         return content_type
 
 
@@ -32,6 +33,7 @@ class ContentTypeService():
                 status_code=404, 
                 detail='content type not found: {}'.format(name)
             )
+        content_type = self._fulfill(content_type)
         return content_type
 
 
@@ -47,6 +49,7 @@ class ContentTypeService():
             row = new_content_type.dict(),
             row_id = new_content_type.id
         ))
+        new_content_type = self._fulfill(new_content_type)
         return new_content_type
 
 
@@ -62,6 +65,7 @@ class ContentTypeService():
             row = updated_content_type.dict(),
             row_id = updated_content_type.id
         ))
+        updated_content_type = self._fulfill(updated_content_type)
         return updated_content_type
 
 
@@ -75,6 +79,7 @@ class ContentTypeService():
             row = deleted_content_type.dict(),
             row_id = deleted_content_type.id
         ))
+        deleted_content_type = self._fulfill(deleted_content_type)
         return deleted_content_type
 
 
@@ -85,6 +90,10 @@ class ContentTypeService():
                 status_code=404, 
                 detail='content type id not found: {}'.format(id)
             )
+        return content_type
+
+
+    def _fulfill(self, content_type: ContentType) -> ContentType:
         return content_type
 
 

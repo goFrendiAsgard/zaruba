@@ -157,24 +157,6 @@ class AppHelper {
             log(type, ...args) {
                 console[type](...args);
             },
-            compiledCache: {
-                set(key, str) {
-                    // naive storage space management
-                    for (; ;) {
-                        try {
-                            // doc: https://developer.mozilla.org/en-US/docs/Web/API/Storage
-                            window.localStorage.setItem(key, str);
-                            break;
-                        } catch (ex) {
-                            // handle: Uncaught DOMException: Failed to execute 'setItem' on 'Storage': Setting the value of 'XXX' exceeded the quota
-                            window.localStorage.removeItem(window.localStorage.key(0));
-                        }
-                    }
-                },
-                get(key) {
-                    return window.localStorage.getItem(key);
-                },
-            },
             handleModule(type, source, path, options) {
                 if (type === '.json') {
                     return JSON.parse(source);

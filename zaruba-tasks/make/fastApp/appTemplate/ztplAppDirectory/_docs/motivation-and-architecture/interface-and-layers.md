@@ -184,7 +184,7 @@ class DBBookRepo(BookRepo):
         return '%{}%'.format(keyword) if keyword != '' else '%'
 
     def find(self, keyword: str, limit: int, offset: int) -> List[Book]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         books: List[Book] = []
         try:
             keyword_filter = self._get_keyword_filter(keyword)
@@ -195,7 +195,7 @@ class DBBookRepo(BookRepo):
         return books
 
     def count(self, keyword: str) -> int:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         book_count = 0
         try:
             keyword_filter = self._get_keyword_filter(keyword)

@@ -29,7 +29,7 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
 
 
     def find_by_id(self, id: str) -> Optional[ZtplAppCrudEntity]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         ztpl_app_crud_entity: ZtplAppCrudEntity
         try:
             db_ztpl_app_crud_entity = db.query(DBZtplAppCrudEntityEntity).filter(DBZtplAppCrudEntityEntity.id == id).first()
@@ -42,7 +42,7 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
 
 
     def find(self, keyword: str, limit: int, offset: int) -> List[ZtplAppCrudEntity]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         ztpl_app_crud_entities: List[ZtplAppCrudEntity] = []
         try:
             keyword_filter = self._get_keyword_filter(keyword)
@@ -54,7 +54,7 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
 
 
     def count(self, keyword: str) -> int:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         ztpl_app_crud_entity_count = 0
         try:
             keyword_filter = self._get_keyword_filter(keyword)
@@ -66,7 +66,7 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
 
     # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
     def insert(self, ztpl_app_crud_entity_data: ZtplAppCrudEntityData) -> Optional[ZtplAppCrudEntity]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         ztpl_app_crud_entity: ZtplAppCrudEntity
         try:
             new_ztpl_app_crud_entity_id = str(uuid.uuid4())
@@ -88,7 +88,7 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
 
     # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
     def update(self, id: str, ztpl_app_crud_entity_data: ZtplAppCrudEntityData) -> Optional[ZtplAppCrudEntity]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         ztpl_app_crud_entity: ZtplAppCrudEntity
         try:
             db_ztpl_app_crud_entity = db.query(DBZtplAppCrudEntityEntity).filter(DBZtplAppCrudEntityEntity.id == id).first()
@@ -106,7 +106,7 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
 
 
     def delete(self, id: str) -> Optional[ZtplAppCrudEntity]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         ztpl_app_crud_entity: ZtplAppCrudEntity
         try:
             db_ztpl_app_crud_entity = db.query(DBZtplAppCrudEntityEntity).filter(DBZtplAppCrudEntityEntity.id == id).first()

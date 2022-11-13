@@ -32,7 +32,7 @@ class DBContentTypeRepo(ContentTypeRepo):
             Base.metadata.create_all(bind=engine)
 
     def find_by_name(self, name: str) -> Optional[ContentType]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         content_type: ContentType
         try:
             db_content_type = db.query(DBContentTypeEntity).filter(DBContentTypeEntity.name == name).first()
@@ -45,7 +45,7 @@ class DBContentTypeRepo(ContentTypeRepo):
 
 
     def find_by_id(self, id: str) -> Optional[ContentType]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         content_type: ContentType
         try:
             db_content_type = db.query(DBContentTypeEntity).filter(DBContentTypeEntity.id == id).first()
@@ -58,7 +58,7 @@ class DBContentTypeRepo(ContentTypeRepo):
 
 
     def find(self, keyword: str, limit: int, offset: int) -> List[ContentType]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         content_types: List[ContentType] = []
         try:
             keyword_filter = self._get_keyword_filter(keyword)
@@ -70,7 +70,7 @@ class DBContentTypeRepo(ContentTypeRepo):
 
 
     def count(self, keyword: str) -> int:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         content_type_count = 0
         try:
             keyword_filter = self._get_keyword_filter(keyword)
@@ -82,15 +82,16 @@ class DBContentTypeRepo(ContentTypeRepo):
 
     # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
     def insert(self, content_type_data: ContentTypeData) -> Optional[ContentType]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         content_type: ContentType
         try:
             new_content_type_id = str(uuid.uuid4())
+            json_attributes = jsons.dumps([attribute.dict() for attribute in content_type_data.attributes])
             db_content_type = DBContentTypeEntity(
                 id=new_content_type_id,
                 name=content_type_data.name,
                 template=content_type_data.template,
-                json_attributes=jsons.dumps([attribute.dict() for attribute in content_type_data.attributes]),
+                json_attributes=json_attributes,
                 created_at=datetime.datetime.utcnow(), # Note: 💀 Don't delete this line, Zaruba use it for pattern matching
                 created_by=content_type_data.created_by,
                 updated_at=datetime.datetime.utcnow(),
@@ -107,15 +108,16 @@ class DBContentTypeRepo(ContentTypeRepo):
 
     # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
     def update(self, id: str, content_type_data: ContentTypeData) -> Optional[ContentType]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         content_type: ContentType
         try:
             db_content_type = db.query(DBContentTypeEntity).filter(DBContentTypeEntity.id == id).first()
             if db_content_type is None:
                 return None
+            json_attributes=jsons.dumps([attribute.dict() for attribute in content_type_data.attributes])
             db_content_type.name = content_type_data.name
             db_content_type.template = content_type_data.template
-            db_content_type.attributes = content_type_data.attributes
+            db_content_type.json_attributes = json_attributes
             db_content_type.updated_at = datetime.datetime.utcnow() # Note: 💀 Don't delete this line, Zaruba use it for pattern matching
             db_content_type.updated_by = content_type_data.updated_by
             db.add(db_content_type)
@@ -128,7 +130,7 @@ class DBContentTypeRepo(ContentTypeRepo):
 
 
     def delete(self, id: str) -> Optional[ContentType]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         content_type: ContentType
         try:
             db_content_type = db.query(DBContentTypeEntity).filter(DBContentTypeEntity.id == id).first()

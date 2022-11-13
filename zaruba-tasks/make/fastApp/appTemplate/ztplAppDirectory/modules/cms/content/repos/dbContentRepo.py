@@ -19,9 +19,10 @@ class DBContentEntity(Base):
     __tablename__ = "contents"
     id = Column(String(36), primary_key=True, index=True)
     title = Column(String(255), index=True)
-    type_id = Column(String(36), index=True)
+    content_type_id = Column(String(36), ForeignKey('content_types.id'), index=True)
     description = Column(Text(), index=True, nullable=True)
     content_attributes = relationship('DBContentAttributeEntity', back_populates='content', cascade='all, delete-orphan')
+    content_type = relationship('DBContentTypeEntity')
     created_at = Column(DateTime, default=datetime.datetime.utcnow) # Note: 💀 Don't delete this line, Zaruba use it for pattern matching
     created_by = Column(String(36), nullable=True)
     updated_at = Column(DateTime, nullable=True)
@@ -51,7 +52,7 @@ class DBContentRepo(ContentRepo):
 
 
     def find_by_id(self, id: str) -> Optional[Content]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         content: Content
         try:
             db_content = db.query(DBContentEntity).filter(DBContentEntity.id == id).first()
@@ -64,7 +65,7 @@ class DBContentRepo(ContentRepo):
 
 
     def find(self, keyword: str, limit: int, offset: int) -> List[Content]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         contents: List[Content] = []
         try:
             keyword_filter = self._get_keyword_filter(keyword)
@@ -84,7 +85,7 @@ class DBContentRepo(ContentRepo):
 
 
     def count(self, keyword: str) -> int:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         content_count = 0
         try:
             keyword_filter = self._get_keyword_filter(keyword)
@@ -104,7 +105,7 @@ class DBContentRepo(ContentRepo):
 
     # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
     def insert(self, content_data: ContentData) -> Optional[Content]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         content: Content
         try:
             content_attributes = self._map_to_attributes(content_data.attributes)
@@ -113,7 +114,7 @@ class DBContentRepo(ContentRepo):
                 id=new_content_id,
                 title=content_data.title,
                 content_attributes=content_attributes,
-                type_id=content_data.type_id,
+                content_type_id=content_data.content_type_id,
                 description=content_data.description,
                 created_at=datetime.datetime.utcnow(), # Note: 💀 Don't delete this line, Zaruba use it for pattern matching
                 created_by=content_data.created_by,
@@ -131,14 +132,16 @@ class DBContentRepo(ContentRepo):
 
     # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
     def update(self, id: str, content_data: ContentData) -> Optional[Content]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         content: Content
         try:
             db_content = db.query(DBContentEntity).filter(DBContentEntity.id == id).first()
             if db_content is None:
                 return None
+            content_attributes = self._map_to_attributes(content_data.attributes)
             db_content.title = content_data.title
-            db_content.type_id = content_data.type_id
+            db_content.content_attributes = content_attributes
+            db_content.content_type_id = content_data.content_type_id
             db_content.description = content_data.description
             db_content.updated_at = datetime.datetime.utcnow() # Note: 💀 Don't delete this line, Zaruba use it for pattern matching
             db_content.updated_by = content_data.updated_by
@@ -152,7 +155,7 @@ class DBContentRepo(ContentRepo):
 
 
     def delete(self, id: str) -> Optional[Content]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         content: Content
         try:
             db_content = db.query(DBContentEntity).filter(DBContentEntity.id == id).first()

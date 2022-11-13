@@ -151,10 +151,10 @@ if enable_auth_module:
 ################################################
 # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
 if enable_cms_module:
-    content_repo = DBContentRepo(engine=engine, create_all=db_create_all)
-    content_service = ContentService(mb, rpc, content_repo)
     content_type_repo = DBContentTypeRepo(engine=engine, create_all=db_create_all)
     content_type_service = ContentTypeService(mb, rpc, content_type_repo)
+    content_repo = DBContentRepo(engine=engine, create_all=db_create_all)
+    content_service = ContentService(mb, rpc, content_repo, content_type_repo)
     # Seed default content type
     if seed_default_content_type:
         content_type_seeder_service = ContentTypeSeederService(auth_service, content_type_service)

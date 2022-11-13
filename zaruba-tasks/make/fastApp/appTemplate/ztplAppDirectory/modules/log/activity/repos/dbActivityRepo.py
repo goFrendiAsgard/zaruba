@@ -39,7 +39,7 @@ class DBActivityRepo(ActivityRepo):
 
 
     def find_by_id(self, id: str) -> Optional[Activity]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         activity: Activity
         try:
             db_activity = db.query(DBActivityEntity).filter(DBActivityEntity.id == id).first()
@@ -52,7 +52,7 @@ class DBActivityRepo(ActivityRepo):
 
 
     def find(self, keyword: str, limit: int, offset: int) -> List[Activity]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         activities: List[Activity] = []
         try:
             keyword_filter = self._get_keyword_filter(keyword)
@@ -71,7 +71,7 @@ class DBActivityRepo(ActivityRepo):
 
 
     def count(self, keyword: str) -> int:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         activity_count = 0
         try:
             keyword_filter = self._get_keyword_filter(keyword)
@@ -83,7 +83,7 @@ class DBActivityRepo(ActivityRepo):
 
     # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
     def insert(self, activity_data: ActivityData) -> Optional[Activity]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         activity: Activity
         try:
             new_activity_id = str(uuid.uuid4())
@@ -110,7 +110,7 @@ class DBActivityRepo(ActivityRepo):
 
     # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
     def update(self, id: str, activity_data: ActivityData) -> Optional[Activity]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         activity: Activity
         try:
             db_activity = db.query(DBActivityEntity).filter(DBActivityEntity.id == id).first()
@@ -133,7 +133,7 @@ class DBActivityRepo(ActivityRepo):
 
 
     def delete(self, id: str) -> Optional[Activity]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         activity: Activity
         try:
             db_activity = db.query(DBActivityEntity).filter(DBActivityEntity.id == id).first()

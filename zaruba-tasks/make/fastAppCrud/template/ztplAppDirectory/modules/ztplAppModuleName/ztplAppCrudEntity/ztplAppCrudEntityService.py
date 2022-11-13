@@ -16,12 +16,13 @@ class ZtplAppCrudEntityService():
 
     def find(self, keyword: str, limit: int, offset: int, current_user: Optional[User] = None) -> ZtplAppCrudEntityResult:
         count = self.ztpl_app_crud_entity_repo.count(keyword)
-        rows = self.ztpl_app_crud_entity_repo.find(keyword, limit, offset)
+        rows = [self._fulfill(row) for row in self.ztpl_app_crud_entity_repo.find(keyword, limit, offset)]
         return ZtplAppCrudEntityResult(count=count, rows=rows)
 
 
     def find_by_id(self, id: str, current_user: Optional[User] = None) -> Optional[ZtplAppCrudEntity]:
         ztpl_app_crud_entity = self._find_by_id_or_error(id, current_user)
+        ztpl_app_crud_entity = self._fulfill(ztpl_app_crud_entity)
         return ztpl_app_crud_entity
 
 
@@ -37,6 +38,7 @@ class ZtplAppCrudEntityService():
             row = new_ztpl_app_crud_entity.dict(),
             row_id = new_ztpl_app_crud_entity.id
         ))
+        new_ztpl_app_crud_entity = self._fulfill(new_ztpl_app_crud_entity)
         return new_ztpl_app_crud_entity
 
 
@@ -52,6 +54,7 @@ class ZtplAppCrudEntityService():
             row = updated_ztpl_app_crud_entity.dict(),
             row_id = updated_ztpl_app_crud_entity.id
         ))
+        updated_ztpl_app_crud_entity = self._fulfill(updated_ztpl_app_crud_entity)
         return updated_ztpl_app_crud_entity
 
 
@@ -65,6 +68,7 @@ class ZtplAppCrudEntityService():
             row = deleted_ztpl_app_crud_entity.dict(),
             row_id = deleted_ztpl_app_crud_entity.id
         ))
+        deleted_ztpl_app_crud_entity = self._fulfill(deleted_ztpl_app_crud_entity)
         return deleted_ztpl_app_crud_entity
 
 
@@ -76,6 +80,11 @@ class ZtplAppCrudEntityService():
                 detail='ztplAppCrudEntity id not found: {}'.format(id)
             )
         return ztpl_app_crud_entity
+
+
+    def _fulfill(self, content_type: ZtplAppCrudEntity) -> ZtplAppCrudEntity:
+        # TODO: add calculated field, etc
+        return content_type
 
 
     def _validate_data(self, ztpl_app_crud_entity_data: ZtplAppCrudEntityData, id: Optional[str] = None) -> ZtplAppCrudEntityData:

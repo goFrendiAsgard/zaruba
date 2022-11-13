@@ -31,7 +31,7 @@ class DBRoleRepo(RoleRepo):
 
 
     def find_by_id(self, id: str) -> Optional[Role]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         role: Role
         try:
             db_role = db.query(DBRoleEntity).filter(DBRoleEntity.id == id).first()
@@ -44,7 +44,7 @@ class DBRoleRepo(RoleRepo):
 
 
     def find_by_name(self, name: str) -> Optional[Role]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         role: Role
         try:
             db_role = db.query(DBRoleEntity).filter(DBRoleEntity.name == name).first()
@@ -57,7 +57,7 @@ class DBRoleRepo(RoleRepo):
 
 
     def find(self, keyword: str, limit: int, offset: int) -> List[Role]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         roles: List[Role] = []
         try:
             keyword_filter = self._get_keyword_filter(keyword)
@@ -69,7 +69,7 @@ class DBRoleRepo(RoleRepo):
 
 
     def count(self, keyword: str) -> int:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         role_count = 0
         try:
             keyword_filter = self._get_keyword_filter(keyword)
@@ -80,7 +80,7 @@ class DBRoleRepo(RoleRepo):
 
 
     def insert(self, role_data: RoleData) -> Optional[Role]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         role: Role
         try:
             new_role_id=str(uuid.uuid4())
@@ -103,7 +103,7 @@ class DBRoleRepo(RoleRepo):
 
 
     def update(self, id: str, role_data: RoleData) -> Optional[Role]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         role: Role
         try:
             db_role = db.query(DBRoleEntity).filter(DBRoleEntity.id == id).first()
@@ -123,7 +123,7 @@ class DBRoleRepo(RoleRepo):
 
 
     def delete(self, id: str) -> Optional[Role]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         role: Role
         try:
             db_role = db.query(DBRoleEntity).filter(DBRoleEntity.id == id).first()

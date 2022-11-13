@@ -1,27 +1,33 @@
-from typing import Optional
+from typing import Optional, List
 from transport import AppMessageBus, AppRPC
 from schemas.user import User
 from schemas.activity import ActivityData
 from schemas.content import Content, ContentData, ContentResult
+from schemas.contentType import DEFAULT_MARKDOWN_TEMPLATE, ContentType
 from modules.cms.content.repos.contentRepo import ContentRepo
+from modules.cms.contentType.repos.contentTypeRepo import ContentTypeRepo
 from fastapi import HTTPException
+from markdown import markdown
+from jinja2 import Template
 
 class ContentService():
 
-    def __init__(self, mb: AppMessageBus, rpc: AppRPC, content_repo: ContentRepo):
+    def __init__(self, mb: AppMessageBus, rpc: AppRPC, content_repo: ContentRepo, content_type_repo: ContentTypeRepo):
         self.mb = mb
         self.rpc = rpc
         self.content_repo = content_repo
+        self.content_type_repo = content_type_repo
 
 
     def find(self, keyword: str, limit: int, offset: int, current_user: Optional[User] = None) -> ContentResult:
         count = self.content_repo.count(keyword)
-        rows = self.content_repo.find(keyword, limit, offset)
+        rows = [self._fulfill(row) for row in self.content_repo.find(keyword, limit, offset)]
         return ContentResult(count=count, rows=rows)
 
 
     def find_by_id(self, id: str, current_user: Optional[User] = None) -> Optional[Content]:
         content = self._find_by_id_or_error(id, current_user)
+        content = self._fulfill(content)
         return content
 
 
@@ -37,6 +43,7 @@ class ContentService():
             row = new_content.dict(),
             row_id = new_content.id
         ))
+        new_content = self._fulfill(new_content)
         return new_content
 
 
@@ -52,6 +59,7 @@ class ContentService():
             row = updated_content.dict(),
             row_id = updated_content.id
         ))
+        updated_content = self._fulfill(updated_content)
         return updated_content
 
 
@@ -65,6 +73,7 @@ class ContentService():
             row = deleted_content.dict(),
             row_id = deleted_content.id
         ))
+        deleted_content = self._fulfill(deleted_content)
         return deleted_content
 
 
@@ -78,5 +87,27 @@ class ContentService():
         return content
 
 
+    def _fulfill(self, content: Content) -> Content:
+        if content.content_type is None:
+            content.content_type = self.content_type_repo.find_by_id(content.content_type_id)
+        if content.content_type is None:
+            content.content_type = ContentType(id='default', name='default')
+        jinja_template = Template(content.content_type.template)
+        try:
+            content.html_content = markdown(jinja_template.render(**content.dict()))
+        except:
+            content.html_content = 'Cannot render content'
+        return content
+
+
     def _validate_data(self, content_data: ContentData, id: Optional[str] = None) -> ContentData:
+        content_type = self.content_type_repo.find_by_id(content_data.content_type_id)
+        if content_type is None:
+            raise HTTPException(
+                status_code=422, 
+                detail='content type is not exist: {}'.format(content_data.content_type_id)
+            )
+        for cta in content_type.attributes:
+            if cta.name not in content_data.attributes:
+                content_data.attributes[cta.name] = cta.default_value
         return content_data

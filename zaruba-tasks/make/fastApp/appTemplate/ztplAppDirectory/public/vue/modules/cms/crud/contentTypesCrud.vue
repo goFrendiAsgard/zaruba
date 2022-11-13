@@ -23,10 +23,8 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Template</th>
-                <th>Attributes</th>
+                <th>Content Type</th>
+                <th>Markdown Template (Jinja)</th>
                 <!-- Put column header here, Note: 💀 Don't delete this line, Zaruba use it for pattern matching --> 
                 <th id="th-action">Actions</th>
             </tr>
@@ -34,13 +32,21 @@
         <tbody>
             <tr v-for="(row, index) in result.rows">
                 <td>{{ index+1 }}</td>
-                <td>{{ row.id }}</td>
-                <td>{{ row.name }}</td>
                 <td>
-                   <textarea class="form-control-plaintext" readonly rows="5">{{ row.template }}</textarea>
+                    <b>{{ row.name }}</b><br />
+                    ({{ row.id }})<br />
+                    <p>
+                        <b>Attributes:</b>
+                        <ul>
+                            <li v-for="attribute in row.attributes">
+                                <span class="badge bg-secondary">{{ attribute.input_type }}</span>
+                                {{ attribute.name }} ({{ attribute.caption }})
+                            </li>
+                        </ul>
+                    </p>
                 </td>
                 <td>
-                    <textarea class="form-control-plaintext" readonly rows="5" cols="65">{{ JSON.stringify(row.attributes, null, 2) }}</textarea>
+                    <textarea class="form-control-plaintext" readonly rows="10" cols="80">{{ row.template }}</textarea>
                 </td>
                 <!-- Put column value here, Note: 💀 Don't delete this line, Zaruba use it for pattern matching -->
                 <td id="td-action">

@@ -42,7 +42,7 @@ class DBUserRepo(UserRepo):
 
 
     def find_by_username(self, username: str) -> Optional[UserWithoutPassword]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         user: User
         try:
             db_user = db.query(DBUserEntity).filter(DBUserEntity.username == username).first()
@@ -55,7 +55,7 @@ class DBUserRepo(UserRepo):
 
 
     def find_by_email(self, email: str) -> Optional[UserWithoutPassword]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         user: User
         try:
             db_user = db.query(DBUserEntity).filter(DBUserEntity.email == email).first()
@@ -68,7 +68,7 @@ class DBUserRepo(UserRepo):
 
 
     def find_by_phone_number(self, phone_number: str) -> Optional[UserWithoutPassword]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         user: User
         try:
             db_user = db.query(DBUserEntity).filter(DBUserEntity.phone_number == phone_number).first()
@@ -81,7 +81,7 @@ class DBUserRepo(UserRepo):
 
 
     def find_by_id(self, id: str) -> Optional[UserWithoutPassword]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         user: UserWithoutPassword
         try:
             db_user = db.query(DBUserEntity).filter(DBUserEntity.id == id).first()
@@ -94,7 +94,7 @@ class DBUserRepo(UserRepo):
 
 
     def find_by_identity_and_password(self, identity: str, password: str) -> Optional[UserWithoutPassword]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         user: UserWithoutPassword
         try:
             db_user = db.query(DBUserEntity).filter(
@@ -113,7 +113,7 @@ class DBUserRepo(UserRepo):
 
 
     def find(self, keyword: str, limit: int, offset: int) -> List[UserWithoutPassword]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         users: List[UserWithoutPassword] = []
         try:
             keyword_filter = self._get_keyword_filter(keyword)
@@ -132,7 +132,7 @@ class DBUserRepo(UserRepo):
 
 
     def count(self, keyword: str) -> int:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         user_count = 0
         try:
             keyword_filter = self._get_keyword_filter(keyword)
@@ -150,7 +150,7 @@ class DBUserRepo(UserRepo):
 
 
     def insert(self, user_data: UserData) -> Optional[UserWithoutPassword]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         new_user: UserWithoutPassword
         try:
             new_user_id=str(uuid.uuid4())
@@ -179,7 +179,7 @@ class DBUserRepo(UserRepo):
 
 
     def update(self, id: str, user_data: UserData) -> Optional[UserWithoutPassword]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         updated_user: UserWithoutPassword
         try:
             db_user = db.query(DBUserEntity).filter(DBUserEntity.id == id).first()
@@ -206,7 +206,7 @@ class DBUserRepo(UserRepo):
 
 
     def delete(self, id: str) -> Optional[UserWithoutPassword]:
-        db = Session(self.engine)
+        db = Session(self.engine, expire_on_commit=False)
         deleted_user: UserWithoutPassword
         try:
             db_user = db.query(DBUserEntity).filter(DBUserEntity.id == id).first()
