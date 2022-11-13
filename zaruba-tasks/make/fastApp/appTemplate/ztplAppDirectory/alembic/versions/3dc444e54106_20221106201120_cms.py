@@ -43,7 +43,7 @@ def upgrade() -> None:
     op.create_table('contents',
         sa.Column('id', sa.String(length=36), nullable=False),
         sa.Column('title', sa.String(length=255), nullable=True),
-        sa.Column('content_type_id', sa.String(length=36), nullable=True),
+        sa.Column('content_type_id', sa.String(length=36), sa.ForeignKey('content_types.id'), nullable=True),
         sa.Column('description', sa.Text(), nullable=True),
         sa.Column('created_at', sa.DateTime(), nullable=True),
         sa.Column('created_by', sa.String(length=36), nullable=True),
