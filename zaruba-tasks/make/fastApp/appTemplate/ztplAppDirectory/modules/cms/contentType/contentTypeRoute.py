@@ -32,7 +32,7 @@ def register_content_type_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC
             raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
-            raise HTTPException(status_code=500, detail='Internal Server Error')
+            raise HTTPException(status_code=500, detail='internal Server Error')
         return ContentTypeResult.parse_obj(result)
 
 
@@ -50,7 +50,7 @@ def register_content_type_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC
             raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
-            raise HTTPException(status_code=500, detail='Internal Server Error')
+            raise HTTPException(status_code=500, detail='internal Server Error')
         return ContentType.parse_obj(content_type)
 
 
@@ -68,7 +68,7 @@ def register_content_type_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC
             raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
-            raise HTTPException(status_code=500, detail='Internal Server Error')
+            raise HTTPException(status_code=500, detail='internal Server Error')
         return ContentType.parse_obj(content_type)
 
 
@@ -86,7 +86,7 @@ def register_content_type_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC
             raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
-            raise HTTPException(status_code=500, detail='Internal Server Error')
+            raise HTTPException(status_code=500, detail='internal Server Error')
         return ContentType.parse_obj(content_type)
 
 
@@ -104,7 +104,7 @@ def register_content_type_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC
             raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
-            raise HTTPException(status_code=500, detail='Internal Server Error')
+            raise HTTPException(status_code=500, detail='internal Server Error')
         return ContentType.parse_obj(content_type)
 
 

@@ -35,7 +35,9 @@
                 <td>{{ row.activity }}</td>
                 <td>{{ row.object }}</td>
                 <td>{{ row.row_id }}</td>
-                <td>{{ JSON.stringify(row.row) }}</td>
+                <td>
+                    <textarea class="form-control-plaintext" readonly rows="5" cols="65">{{ JSON.stringify(row.row, null, 2) }}</textarea>
+                </td>
                 <!-- Put column value here, Note: 💀 Don't delete this line, Zaruba use it for pattern matching -->
             </tr>
         </tbody>

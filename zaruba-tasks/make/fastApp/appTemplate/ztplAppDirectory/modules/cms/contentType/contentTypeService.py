@@ -30,7 +30,7 @@ class ContentTypeService():
         if content_type is None:
             raise HTTPException(
                 status_code=404, 
-                detail='Content type not found: {}'.format(name)
+                detail='content type not found: {}'.format(name)
             )
         return content_type
 
@@ -83,7 +83,7 @@ class ContentTypeService():
         if content_type is None:
             raise HTTPException(
                 status_code=404, 
-                detail='Content type id not found: {}'.format(id)
+                detail='content type id not found: {}'.format(id)
             )
         return content_type
 
@@ -94,6 +94,6 @@ class ContentTypeService():
             if content_type is not None and (id is None or content_type.id != id):
                 raise HTTPException(
                     status_code=422, 
-                    detail='Content type with the same name already exist: {}'.format(content_type_data.some_field)
+                    detail='content type with the same name already exist: {}'.format(content_type_data.name)
                 )
         return content_type_data

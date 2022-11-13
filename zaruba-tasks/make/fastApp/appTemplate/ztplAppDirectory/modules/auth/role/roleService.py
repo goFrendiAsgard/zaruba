@@ -30,7 +30,7 @@ class RoleService():
         if role is None:
             raise HTTPException(
                 status_code=404, 
-                detail='Role name not found: {}'.format(name)
+                detail='role name not found: {}'.format(name)
             )
         return role
 
@@ -83,7 +83,7 @@ class RoleService():
         if role is None:
             raise HTTPException(
                 status_code=404, 
-                detail='Role id not found: {}'.format(id)
+                detail='role id not found: {}'.format(id)
             )
         return role
 
@@ -94,6 +94,6 @@ class RoleService():
             if role is not None and (id is None or role.id != id):
                 raise HTTPException(
                     status_code=422, 
-                    detail='Role name already exist: {}'.format(role_data.name)
+                    detail='role name already exist: {}'.format(role_data.name)
                 )
         return role_data

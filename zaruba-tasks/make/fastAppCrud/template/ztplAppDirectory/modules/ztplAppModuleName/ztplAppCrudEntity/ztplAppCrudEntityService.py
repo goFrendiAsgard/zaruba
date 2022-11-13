@@ -73,7 +73,7 @@ class ZtplAppCrudEntityService():
         if ztpl_app_crud_entity is None:
             raise HTTPException(
                 status_code=404, 
-                detail='ZtplAppCrudEntity id not found: {}'.format(id)
+                detail='ztplAppCrudEntity id not found: {}'.format(id)
             )
         return ztpl_app_crud_entity
 

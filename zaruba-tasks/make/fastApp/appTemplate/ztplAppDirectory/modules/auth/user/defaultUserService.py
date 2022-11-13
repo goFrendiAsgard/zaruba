@@ -6,6 +6,8 @@ from modules.auth.user.repos.userRepo import UserRepo
 from modules.auth.role.roleService import RoleService
 from modules.auth.user.userService import UserService
 from fastapi import HTTPException
+from pydantic import ValidationError
+
 
 
 class DefaultUserService(UserService):
@@ -34,7 +36,7 @@ class DefaultUserService(UserService):
         if user is None:
             raise HTTPException(
                 status_code=404, 
-                detail='Username not found: {}'.format(username)
+                detail='username not found: {}'.format(username)
             )
         return user
 
@@ -44,7 +46,7 @@ class DefaultUserService(UserService):
         if user is None:
             raise HTTPException(
                 status_code=404, 
-                detail='Identity or password does not match: {}'.format(identity)
+                detail='identity or password does not match: {}'.format(identity)
             )
         return user
 
@@ -116,7 +118,7 @@ class DefaultUserService(UserService):
         if user is None:
             raise HTTPException(
                 status_code=404, 
-                detail='User id not found: {}'.format(id)
+                detail='user id not found: {}'.format(id)
             )
         return user
 
@@ -127,20 +129,20 @@ class DefaultUserService(UserService):
             if user is not None and (id is None or user.id != id):
                 raise HTTPException(
                     status_code=422, 
-                    detail='Username already registered: {}'.format(user_data.username)
+                    detail='username already registered: {}'.format(user_data.username)
                 )
         if user_data.email is not None:
             user = self.user_repo.find_by_email(user_data.email)
             if user is not None and (id is None or user.id != id):
                 raise HTTPException(
                     status_code=422,
-                    detail='Email already registered: {}'.format(user_data.email)
+                    detail='email already registered: {}'.format(user_data.email)
                 )
         if user_data.phone_number is not None:
             user = self.user_repo.find_by_phone_number(user_data.phone_number)
             if user is not None and (id is None or user.id != id):
                 raise HTTPException(
                     status_code=422,
-                    detail='Phone number already registered: {}'.format(user_data.phone_number)
+                    detail='phone number already registered: {}'.format(user_data.phone_number)
                 )
         return user_data

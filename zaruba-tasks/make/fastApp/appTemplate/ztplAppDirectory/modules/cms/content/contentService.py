@@ -73,19 +73,10 @@ class ContentService():
         if content is None:
             raise HTTPException(
                 status_code=404, 
-                detail='Content id not found: {}'.format(id)
+                detail='content id not found: {}'.format(id)
             )
         return content
 
 
     def _validate_data(self, content_data: ContentData, id: Optional[str] = None) -> ContentData:
-        # TODO: add your custom logic
-        # Example: checking duplication
-        # if content_data.some_field is not None:
-        #     user = self.user_repo.find_by_some_field(content_data.some_field)
-        #     if user is not None and (id is None or user.id != id):
-        #         raise HTTPException(
-        #             status_code=422, 
-        #             detail='some_field already exist: {}'.format(content_data.some_field)
-        #         )
         return content_data

@@ -41,11 +41,11 @@ def create_app(mb: MessageBus, rpc: RPC, menu_service: MenuService, page_templat
     @app.get('/readiness')
     def handle_readiness():
         if mb.is_failing():
-            raise HTTPException(status_code=500, detail='Messagebus is failing')
+            raise HTTPException(status_code=500, detail='messagebus is failing')
         if rpc.is_failing():
             raise HTTPException(status_code=500, detail='RPC is failing')
         if mb.get_error_count() > error_threshold:
-            raise HTTPException(status_code=500, detail='Messagebus error exceeding threshold')
+            raise HTTPException(status_code=500, detail='messagebus error exceeding threshold')
         if rpc.get_error_count() > error_threshold:
             raise HTTPException(status_code=500, detail='RPC error exceeding threshold')
         return HTMLResponse(content='ready', status_code=200)

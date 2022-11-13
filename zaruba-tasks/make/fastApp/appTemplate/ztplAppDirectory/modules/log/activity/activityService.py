@@ -39,7 +39,7 @@ class ActivityService():
         if activity is None:
             raise HTTPException(
                 status_code=404, 
-                detail='Activity id not found: {}'.format(id)
+                detail='activity id not found: {}'.format(id)
             )
         return activity
 

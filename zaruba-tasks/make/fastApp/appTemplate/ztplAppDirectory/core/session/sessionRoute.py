@@ -37,7 +37,7 @@ def register_session_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, aut
             raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
-            raise HTTPException(status_code=400, detail='Incorrect identity or password')
+            raise HTTPException(status_code=400, detail='incorrect identity or password')
 
 
     @app.post(create_access_token_url_path, response_model=CreateAccessTokenResponse)
@@ -57,7 +57,7 @@ def register_session_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, aut
             raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
-            raise HTTPException(status_code=400, detail='Incorrect identity or password')
+            raise HTTPException(status_code=400, detail='incorrect identity or password')
 
 
     @app.post(renew_access_token_url_path, response_model=RenewAccessTokenResponse)
@@ -75,7 +75,7 @@ def register_session_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, aut
             raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
-            raise HTTPException(status_code=400, detail='Invalid token')
+            raise HTTPException(status_code=400, detail='invalid token')
 
 
 ################################################

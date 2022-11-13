@@ -20,4 +20,4 @@ async def ztplAppHttpMethod_ztpl_app_url(current_user: Optional[User] = Depends(
         return HTMLResponse(content=greetings, status_code=200)
     except:
         print(traceback.format_exc(), file=sys.stderr) 
-        raise HTTPException(status_code=500, detail='Internal Server Error')
+        raise HTTPException(status_code=500, detail='internal Server Error')

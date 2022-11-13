@@ -51,7 +51,7 @@ class MenuService():
         async def check(current_user: Optional[User] = Depends(user_fetcher)) -> MenuContext:
             menu_context = self._get_menu_context(menu_name, current_user)
             if not self.auth_service.check_user_access(current_user, menu.auth_type, menu.permission_name):
-                raise PageTemplateException(status_code=status.HTTP_403_FORBIDDEN, detail='Forbidden', menu_context = menu_context)
+                raise PageTemplateException(status_code=status.HTTP_403_FORBIDDEN, detail='forbidden', menu_context = menu_context)
             return menu_context
         return check
 

@@ -32,7 +32,7 @@ def register_ztpl_app_crud_entity_api_route(app: FastAPI, mb: AppMessageBus, rpc
             raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
-            raise HTTPException(status_code=500, detail='Internal Server Error')
+            raise HTTPException(status_code=500, detail='internal Server Error')
         return ZtplAppCrudEntityResult.parse_obj(result)
 
 
@@ -50,7 +50,7 @@ def register_ztpl_app_crud_entity_api_route(app: FastAPI, mb: AppMessageBus, rpc
             raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
-            raise HTTPException(status_code=500, detail='Internal Server Error')
+            raise HTTPException(status_code=500, detail='internal Server Error')
         return ZtplAppCrudEntity.parse_obj(ztpl_app_crud_entity)
 
 
@@ -68,7 +68,7 @@ def register_ztpl_app_crud_entity_api_route(app: FastAPI, mb: AppMessageBus, rpc
             raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
-            raise HTTPException(status_code=500, detail='Internal Server Error')
+            raise HTTPException(status_code=500, detail='internal Server Error')
         return ZtplAppCrudEntity.parse_obj(ztpl_app_crud_entity)
 
 
@@ -86,7 +86,7 @@ def register_ztpl_app_crud_entity_api_route(app: FastAPI, mb: AppMessageBus, rpc
             raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
-            raise HTTPException(status_code=500, detail='Internal Server Error')
+            raise HTTPException(status_code=500, detail='internal Server Error')
         return ZtplAppCrudEntity.parse_obj(ztpl_app_crud_entity)
 
 
@@ -104,7 +104,7 @@ def register_ztpl_app_crud_entity_api_route(app: FastAPI, mb: AppMessageBus, rpc
             raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
-            raise HTTPException(status_code=500, detail='Internal Server Error')
+            raise HTTPException(status_code=500, detail='internal Server Error')
         return ZtplAppCrudEntity.parse_obj(ztpl_app_crud_entity)
 
 

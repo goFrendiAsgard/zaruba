@@ -31,7 +31,7 @@ def register_user_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, auth_s
             raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
-            raise HTTPException(status_code=500, detail='Internal Server Error')
+            raise HTTPException(status_code=500, detail='internal Server Error')
         return UserResult.parse_obj(result)
 
 
@@ -49,7 +49,7 @@ def register_user_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, auth_s
             raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
-            raise HTTPException(status_code=500, detail='Internal Server Error')
+            raise HTTPException(status_code=500, detail='internal Server Error')
         return User.parse_obj(result)
 
 
@@ -67,7 +67,7 @@ def register_user_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, auth_s
             raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
-            raise HTTPException(status_code=500, detail='Internal Server Error')
+            raise HTTPException(status_code=500, detail='internal Server Error')
         return User.parse_obj(result)
 
 
@@ -85,7 +85,7 @@ def register_user_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, auth_s
             raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
-            raise HTTPException(status_code=500, detail='Internal Server Error')
+            raise HTTPException(status_code=500, detail='internal Server Error')
         return User.parse_obj(result)
 
 
@@ -103,7 +103,7 @@ def register_user_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, auth_s
             raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
-            raise HTTPException(status_code=500, detail='Internal Server Error')
+            raise HTTPException(status_code=500, detail='internal Server Error')
         return User.parse_obj(result)
 
 

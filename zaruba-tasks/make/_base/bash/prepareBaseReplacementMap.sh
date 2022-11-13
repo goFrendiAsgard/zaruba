@@ -75,7 +75,8 @@ _ZRB_REPLACEMENT_MAP=$("${ZARUBA_BIN}" map set "${_ZRB_REPLACEMENT_MAP}" \
     "ztplDeploymentName" "${_ZRB_DEPLOYMENT_NAME}" \
     "ztpl-deployment-name" "${_ZRB_KEBAB_DEPLOYMENT_NAME}" \
     "ZtplDeploymentName" "${_ZRB_PASCAL_DEPLOYMENT_NAME}" \
-    "ztplDeploymentTaskLocation" "${_ZRB_DEPLOYMENT_TASK_LOCATION}")
+    "ztplDeploymentTaskLocation" "${_ZRB_DEPLOYMENT_TASK_LOCATION}" \
+    "ztplUuid" "${_ZRB_UUID}")
 
 # add from config and env
 echo "Add config to replacement map"

@@ -32,7 +32,7 @@ def register_activity_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_ser
             raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
-            raise HTTPException(status_code=500, detail='Internal Server Error')
+            raise HTTPException(status_code=500, detail='internal Server Error')
         return ActivityResult.parse_obj(result)
 
 
@@ -50,7 +50,7 @@ def register_activity_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_ser
             raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
-            raise HTTPException(status_code=500, detail='Internal Server Error')
+            raise HTTPException(status_code=500, detail='internal Server Error')
         return Activity.parse_obj(activity)
 
 
@@ -68,7 +68,7 @@ def register_activity_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_ser
             raise http_exception
         except:
             print(traceback.format_exc(), file=sys.stderr) 
-            raise HTTPException(status_code=500, detail='Internal Server Error')
+            raise HTTPException(status_code=500, detail='internal Server Error')
         return Activity.parse_obj(activity)
 
 

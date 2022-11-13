@@ -29,18 +29,53 @@ class AppHelper {
         return '';
     }
 
-    getResponseErrorMessage(response, defaultErrorMessage='error') {
+    getResponseErrorMessage(response, errorMessage='Error') {
         const errorSuffix = response.status ? ` (HTTP Status: ${response.status})` : ' (No HTTP Status)';
         if (response && response.data && typeof(response.data) == 'string') {
-            return response.data + errorSuffix;
+            return `${errorMessage} ${errorSuffix}:\n- ${response.data}`;
         }
         if (response && response.data && response.data.detail && typeof(response.data.detail) == 'string') {
-            return response.data.detail + errorSuffix;
+            return `${errorMessage} ${errorSuffix}:\n- ${response.data.detail}`;
         }
-        if (response && response.data && response.data.detail && response.data.detail.msg && typeof(response.data.detail.msg) == 'string') {
-            return response.data.detail.msg + errorSuffix;
+        if (response && response.data && response.data.detail && Array.isArray(response.data.detail)) {
+            const details = response.data.detail;
+            const detailErrorMessageList = [];
+            for(const detail of details) {
+                detailErrorMessageList.push(this._getDetailErrorMessage(detail));
+            }
+            const detailErrorMessage = detailErrorMessageList.join('\n');
+            return `${errorMessage} ${errorSuffix}:\n${detailErrorMessage}`;
         }
-        return defaultErrorMessage + errorSuffix;
+        return `${errorMessage} ${errorSuffix}`;
+    }
+
+    _getDetailErrorMessage(detail) {
+        const msgStr = this._getMsgStr(detail.msg, detail.type);
+        const locStr = this._getLocStr(detail.loc);
+        if (locStr && locStr != '') {
+            return `- ${msgStr}: ${locStr}`;
+        }
+        return `- ${msgStr}`;
+    }
+
+    _getLocStr(loc) {
+        if (Array.isArray(loc)) {
+            if (loc.length == 0) {
+                return '';
+            }
+            if (loc.length > 1 && loc[0] == 'body') {
+                return loc.slice(1).join('.');
+            }
+            return loc.join('.');
+        }
+        return loc;
+    }
+
+    _getMsgStr(msg, msgType) {
+        if (msgType && msgType != '') {
+            return `(${msgType}) ${msg}`;
+        }
+        return msg;
     }
 
     async login(username, password) {
