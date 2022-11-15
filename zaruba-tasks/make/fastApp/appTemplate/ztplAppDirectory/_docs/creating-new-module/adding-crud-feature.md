@@ -1,9 +1,9 @@
 <!--startTocHeader-->
 [🏠](../README.md) > [Creating new module](README.md)
-# Creating HTTP router
+# Adding Crud feature
 <!--endTocHeader-->
 
-TODO: Write about `Creating HTTP router`
+TODO: Write about `Creating CRUD feature`
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

@@ -1,9 +1,9 @@
 <!--startTocHeader-->
 [🏠](../README.md) > [Creating new module](README.md)
-# Adding CRUD field
+# Adding Rpc handler
 <!--endTocHeader-->
 
-TODO: Write about `Adding CRUD field`
+TODO: Write about `Creating RPC handler`
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

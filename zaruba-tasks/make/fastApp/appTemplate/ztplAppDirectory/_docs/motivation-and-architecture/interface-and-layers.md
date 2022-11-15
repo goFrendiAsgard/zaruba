@@ -5,55 +5,111 @@
 
 You can break down `ZtplAppDirectory` code into several layers.
 
-A layer component can pass data into its top/botoom layer. However, every layer should be independent from each other.
+Each layer component can talk to each other.
 
-# Interface
+Some layer components has the same interface, so that they can replace each others. For example, both `LocalRPC` and `RMQRPC` are having the same interface: `RPC`. Thus, in your application, you can choose the RPC layer without changing any other implementation.
 
-![interface ilustration](images/fastApp-interfaces.png)
+If you are into tokusatsu and kamen rider, you probably know about [Kamen rider W/double](https://www.youtube.com/watch?v=3uQdN5s4m6M). Unlike their previous predecessor, Kamen rider W has a belt that can combine different type of powers. By putting different gaia memories into their driver belt, they can use unique combination to defeat their enemies.
 
-In `ZtplAppDirectory`, we use [Abstract Base Class](https://docs.python.org/3/library/abc.html) as interface.
+<figure>
+    <img src="./images/kamen-rider-w-driver.jpeg" width="500px" />
+    <figcaption>Kamen rider W/double: DX driver belt and Gaia Memories</figcaption>
+</figure>
 
-Interface helps you to make your code more configurable. For example, as `Repo B` and `Repo A` comply `Repo` interface, you can use either `Repo B` or `Repo A` in your application.
+You can see that all Gaia memories, despite of their different set of powers, has the same interface. Thus they can fit into the belt.
 
-This is why we are able to swap `LocalMessageBus` with `RMQMessageBus`, `KafkaAvroMessageBus`, or `KafkaMessageBus` easily.
+The following code will give you a better understanding about interface:
 
-You can see that all messagebus implementation comply `MessageBus` interface:
+> Python doesn't really support interface, so we use [Abstract Base Class](https://docs.python.org/3/library/abc.html) instead.
 
 ```python
-class MessageBus(abc.ABC):
+import abc
+
+###################################################################################
+# Gaia memories interface and implementations
+###################################################################################
+
+# Gaia memory interface.
+# Every gaia memory instances should be able to `play_sound`
+class GaiaMemory(abc.ABC):
 
     @abc.abstractmethod
-    def handle(self, event_name: str) -> Callable[..., Any]:
+    def play_sound(self):
         pass
 
-    @abc.abstractmethod
-    def publish(self, event_name: str, message: Any) -> Any:
-        pass
 
-    @abc.abstractmethod
-    def shutdown(self) -> Any:
-        pass
+# Joker gaia memory
+class Joker(GaiaMemory):
 
-    @abc.abstractclassmethod
-    def get_error_count(self) -> int:
-        pass
+    def play_sound(self):
+        print('JOKA...')
 
-    @abc.abstractclassmethod
-    def is_failing(self) -> bool:
-        pass
+
+# Cyclone gaia memory
+class Cyclone(GaiaMemory):
+
+    def play_sound(self):
+        print('CYCLONE...')
+
+
+# Trigger gaia memory
+class Trigger(GaiaMemory):
+
+    def play_sound(self):
+        print('TORIGA...')
+
+
+###################################################################################
+# DX Driver implementation
+###################################################################################
+
+# DX Driver
+class DXDriver():
+
+    def __init__(self, left_gaia_memory: GaiaMemory, right_gaia_memory: GaiaMemory):
+        self.left_gaia_memory = left_gaia_memory
+        self.right_gaia_memory = right_gaia_memory
+
+    def henshin():
+        self.left_gaia_memory.play_sound()
+        self.right_gaia_memory.play_sound()
+        print('さあ お前の罪を数えろ！') # now count up your sins
+
+
+###################################################################################
+# Let's henshin!!!
+###################################################################################
+cyclone = Cyclone()
+jocker = Jocker()
+belt = DXDriver(cyclone, jocker)
+belt.henshin() # CYCLONE... JOKA... さあ お前の罪を数えろ！
 ```
 
-This way, you will be able to create your own `messagebus` implementation as long as your implementation comply the interface.
+`ZtplAppDirectory` rely on this simple mechanism. By default, there are several available layers:
+
+- `MessageBus`
+- `RPC`
+- `Repo`
+- `Service`
+- `API Route handler`
+- `UI Route handler`
+- `RPC handler`
+- `Event handler`
+
+By combining everything together, you get a working modular application.
+
 
 # Available layers
 
-We have several layers in `ZtplAppDirectory`
+To understand every layer component, we have to understand their domain/functions. The ultimate goal of those layers are __communication__ and __separation of concern__.
+
+For example, when you think about the business process (Service layer) you don't need to bother how the data should be stored/fetched (Repo layer) or how the data should be served to user (UI/API route layer).
+
+The business process should be agnostic about any other implementation.
 
 ![image of available layer if fastApp](images/fastApp-layers.png)
 
-Layers are independent from each other, but they can pass data to each others. Some data are passed via function/method call, while some others require network communication (i.e., message bus, RPC, Database Query).
-
-Let's see how each layers work:
+Let's see the responsibility of each layers.
 
 ## Route handler
 

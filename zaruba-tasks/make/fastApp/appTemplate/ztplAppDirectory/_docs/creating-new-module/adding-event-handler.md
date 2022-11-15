@@ -1,9 +1,9 @@
 <!--startTocHeader-->
 [🏠](../README.md) > [Creating new module](README.md)
-# Creating RPC handler
+# Adding Event handler
 <!--endTocHeader-->
 
-TODO: Write about `Creating RPC handler`
+TODO: Write about `Creating Event handler`
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

@@ -3,11 +3,17 @@
 # Connecting components
 <!--endTocHeader-->
 
-Every layer should be able to connect to each other.
+You can connect every layer components to each other.
 
-You can choose which layer component you want to use for particular use cases. In `ZtplAppDirectory`, you can see how layers are connecting to each other in `main.py`.
+`ZtplAppDirectory` rely heavily on [dependency injection mechanism](https://en.wikipedia.org/wiki/Dependency_injection). With this mechanism, you can choose which layer component you want to use for particular use cases.
 
-There are two ways to connect layer components:
+For example, when you deploy your application as a monolith, you want to use internal communication protocol. Thus you choose `LocalMessagebus` and `LocalRPC`.
+
+However, when you deploy your application as microservices, you should use external communication protocol like Kafka or RabbitMq.
+
+You can see how layers are connecting to each other in `main.py`.
+
+In general, there are two ways to connect layer components:
 
 - by passing the component as function parameter
 - by passing the component to object's constructor parameter.
@@ -16,19 +22,44 @@ There are two ways to connect layer components:
 
 Layers like `route handler`, `rpc handler`, and `event handler` are defined as functions. You can pass dependency componets into those layers as function parameters.
 
-For example, to create and register `auth_route_handler`, you need `app`, `mb`, `rpc`, `auth_service`, `menu_service`, etc. In that case, you can pass those components as function parameters:
+For example, you have `register_auth_event_handler` with the following definition:
 
 ```python
-register_auth_route_handler(app, mb, rpc, auth_service, menu_service, page_template, enable_ui, enable_api, create_oauth_acess_token_path, create_acess_token_path, renew_access_token_url_path)
+def register_auth_event_handler(mb: AppMessageBus, rpc: AppRPC, auth_service: AuthService):
+
+    print('Register auth event handler', file=sys.stderr)
+```
+
+To call `register_auth_event_handler`, you need `AppMessageBus`, `AppRPC`, and `AuthService`. In that case, you can pass those components as function parameters:
+
+```python
+mb = LocalMessageBus()
+rpc = LocalRPC()
+auth_service = AuthService()
+register_auth_event_handler(mb, rpc, auth_service)
 ```
 
 # Passing component as object constructor parameter
 
 Layers like `service` and `repo` are defined as objects. You can pass dependency components into those layers as object constructor parameter.
 
-For example, to create `session_service`, you need `user_service` and `token_service`. Thus, you can pass those components as `SessionService`'s constructor parameter.
+For example, you have a `SessionService` with the following definition:
 
 ```python
+class SessionService():
+
+    def __init__(self, user_service: UserService, token_service: TokenService) ->
+        self.user_service = user_service
+        self.token_service = token_service
+    
+    # and other detail implementation
+```
+
+To create a `SessionService`, you need `user_service` and `token_service`. Thus, you can pass those components as `SessionService`'s constructor parameter.
+
+```python
+user_service = UserService()
+token_service = TokenService()
 session_service = SessionService(user_service, token_service)
 ```
 
