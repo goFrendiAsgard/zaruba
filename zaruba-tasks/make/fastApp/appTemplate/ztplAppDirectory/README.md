@@ -1,6 +1,6 @@
 # ZtplAppDirectory
 
-`ZtplAppDirectory` is a microservice-ready monolith application. It is built on top of [FastAPI](https://fastapi.tiangolo.com/), a modern, fast (high-performance), web framework for building APIs with Python 3.7+ based on standard Python type hints
+`ZtplAppDirectory` is a microservice-ready monolith application. It is built on top of [FastAPI](https://fastapi.tiangolo.com/), a modern, fast (high-performance) web framework for building APIs with Python 3.7+ based on standard Python-type hints
 
 `ZtplAppDirectory` was generated with the following command using [Zaruba](https://github.com/state-alchemists/zaruba):
 
@@ -56,7 +56,7 @@ source template.env
 
 # 🧪 How to test
 
-You can run `ztplAppDirectory` unit-test by invoking:
+You can run the `ztplAppDirectory` unit test by invoking the following command:
 
 ```bash
 zaruba please testZtplAppDirectory
@@ -97,7 +97,10 @@ zaruba please addFastAppModule \
 # zaruba please addFastAppModule -i
 ```
 
-You can activate/deactivate a module by setting `ENABLE_YOUR_MODULE_NAME` to `1` or `0`
+You can activate/deactivate a module by setting `ENABLE_YOUR_MODULE_NAME` to `1` or `0`.
+
+For more detailed information, please visit [adding a new module section](_docs/adding-a-new-module/README.md)
+
 
 # 📋 How to add a CRUD handler
 
@@ -132,6 +135,9 @@ Please note that Zaruba automatically adds the following fields:
 
 So, you no longer have to specify those fields.
 
+For more detailed information, please visit [adding a CRUD handler section](_docs/adding-a-new-module/adding-a-crud-handler.md)
+
+
 # 🍰 How to add a new column
 
 Once you have a CRUD handler, you can add a new column by invoking the following command:
@@ -146,7 +152,7 @@ zaruba please addFastAppCrudField \
 # zaruba please addFastAppCrudField -i
 ```
 
-For example, you already have a `book` CRUD handler inside a `library` module, and you want to add `synopsis` column:
+For example, you already have a `book` CRUD handler inside a `library` module, and you want to add a `synopsis` column:
 
 ```bash
 zaruba please addFastAppCrudField \
@@ -155,6 +161,9 @@ zaruba please addFastAppCrudField \
     appCrudEntity=books \
     appCrudField=synopsis
 ```
+
+For more detailed information, please visit [adding a new column section](_docs/adding-a-new-module/adding-a-new-column.md)
+
 
 # 📄 How to add a page
 
@@ -172,6 +181,9 @@ zaruba please addFastAppPage \
 # zaruba please addFastAppPage -i
 ```
 
+For more detailed information, please visit [adding a page section](_docs/adding-a-new-module/adding-a-page.md)
+
+
 # 🔗 How to add an API endpoint
 
 When other systems/apps need to talk to your application, you should provide an API endpoint.
@@ -188,6 +200,9 @@ zaruba please addFastAppRouteHandler \
 # zaruba please addFastAppRouteHandler -i
 ```
 
+For more detailed information, please visit [adding an API endpoint section](_docs/adding-a-new-module/adding-an-api-endpoint.md)
+
+
 ## 📢 How to add an event handler
 
 When you have multiple apps in your system, some of your apps might fire an event to be handled by other apps.
@@ -203,6 +218,9 @@ zaruba please addFastAppEventHandler \
 # zaruba please addFastAppEventHandler -i
 ```
 
+For more detailed information, please visit [adding an event handler section](_docs/adding-a-new-module/adding-an-event-handler.md)
+
+
 # 🤙 How to add an RPC handler
 
 When you have multiple apps in your system, they need to talk to each other and get appropriate responses. This is called RPC (Remote Procedure Call).
@@ -215,6 +233,9 @@ zaruba please addFastAppRpcHandler \
     appModuleName=yourModuleName \
     appRpcName=yourRPCFunctionName
 ```
+
+For more detailed information, please visit [adding an RPC handler section](_docs/adding-a-new-module/adding-an-rpc-handler.md)
+
 
 # ☑️ Prerequisites
 
