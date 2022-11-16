@@ -122,7 +122,7 @@ In most cases, route handler talk to RPC/event handler through message broker.
 Route handler usually located on:
 
 - `<module-name>/route.py`
-- `<module-name>/<entity>/<entity>Route.py`
+- `<module-name>/<entity>/<entity>_route.py`
 
 Here is an example of route handler layer:
 
@@ -155,15 +155,13 @@ This layer handle RPC call from message broker. An RPC call usually expect a rep
 RPC handler usually located on:
 
 - `<module-name>/rpc.py`
-- `<module-name>/<entity>/<entity>Rpc.py`
+- `<module-name>/<entity>/<entity>_rpc.py`
 
 Example:
 
 ```python
 
-def register_book_entity_rpc(rpc: RPC, book_repo: BookRepo):
-
-    book_service = BookService(book_repo)
+def register_book_entity_rpc(rpc: RPC, book_service: BookService):
 
     @rpc.handle('find_book')
     def find_books(keyword: str, limit: int, offset: int) -> Mapping[str, Any]:
@@ -202,6 +200,11 @@ def register_library_event_handler(mb: MessageBus):
 
 This layer handle your business logic. It is usually triggered by `RPC handler` or `Event handler`.
 
+Service usually located on:
+
+- `<module-name>/entity/entity_service.py`
+- `<module-name>/<some>_service.py`
+
 When a service need to retrive something from/store something into database, it usually need to talk to `Repo` layer. For example:
 
 ```python
@@ -224,8 +227,8 @@ This layer handle communication with database.
 
 Repo layer usually located on:
 
-- `<repos>/<entity>.py`
-- `<repos>/db<Entity>.py`
+- `<module-name>/<entity>/<repo>/<entity>.py`
+- `<module-name>/<entity>/<repo>/db_<entity>.py`
 
 
 Example:

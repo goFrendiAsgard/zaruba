@@ -30,7 +30,7 @@ So we need a middle ground. We need a __monolith application__ that is ready to 
 </center>
 
 
-We design `ZtplAppDirectory` with this consideration. With `ZtplAppDirectory` you will have a straightforward development experience like building a simple monolith. But you always now that `ZtplAppDirectory` is ready for microservices.
+We design `ZtplAppDirectory` with this consideration. With `ZtplAppDirectory` you will have a straightforward development experience like building a simple monolith. But you always know that `ZtplAppDirectory`` is ready for microservices.
 
 Let's see the following scenarios, and see what we can do in each phase:
 
@@ -54,8 +54,8 @@ Let's see how microservices and a monolith are different from each other.
 
 
 <center>
-    <img src="./images/individual-zords.jpg" width="500px" alt="Individual zords from mighty morphin power ranger" />
-    <figcaption>Individual zords from mighty morphin power ranger</figcaption>
+    <img src="./images/individual-zords.jpg" width="500px" alt="Individual Zords from Mighty Morphin Power Rangers" />
+    <figcaption>Individual Zords from Mighty Morphin Power Rangers</figcaption>
 </center>
 
 
@@ -74,8 +74,8 @@ Microservices architecture is bad because:
 ## Monolith: The good and the bad
 
 <center>
-    <img src="./images/megazord.jpg" width="500px" alt="A megazord from mighty morphin power ranger" />
-    <figcaption>A megazord from mighty morphin power ranger</figcaption>
+    <img src="./images/megazord.jpg" width="500px" alt="A Megazord from Mighty Morphin Power Rangers" />
+    <figcaption>A Megazord from Mighty Morphin Power Rangers</figcaption>
 </center>
 
 Monolith architecture is good because:
@@ -88,7 +88,7 @@ Monolith architecture is bad because:
 - When it is down, the entire system is down.
 - When you need to scale up/down, everything is scaled up/down
 
-# Microservices-ready monolith (aka: Modular Monolith)
+# Microservices-ready monolith (aka Modular Monolith)
 
 
 Many companies failed to refactor their monolith application into microservices, thus failing to support their business growth.
@@ -136,7 +136,7 @@ Suppose you have two modules in `ZtplAppDirectory`:
 - Library
 - Auth
 
-These module serves different domains.
+Those modules serve different domains.
 
 Let's start to deploy your application as a monolith:
 
@@ -145,9 +145,9 @@ Let's start to deploy your application as a monolith:
     <figcaption>Single instance of App with every feature enabled</figcaption>
 </center>
 
-At the beginning, you want to enable every feature flags. You can do this by setting all feature-flags environments into `1`.
+In the beginning, you want to enable every feature flag. You can do this by setting all feature-flags environments into `1`.
 
-You also want to use `LocalMessageBus` and `LocalRPC`, so you set `APP_MESSAGE_BUS_TYPE` and `APP_RPC_TYPE` into `local`. By setting your messagebus and RPC into local, the intermodule communication can be performed internally without any network overhead. This is a good thing because [network is not reliable](https://particular.net/blog/the-network-is-reliable)
+You also want to use `LocalMessageBus` and `LocalRPC`, so you set `APP_MESSAGE_BUS_TYPE` and `APP_RPC_TYPE` into `local`. By setting your message bus and RPC into local, the inter-module communication can be performed internally without any network overhead. This is a good thing because [network is not reliable](https://particular.net/blog/the-network-is-reliable)
 
 All good, now you can run everything locally.
 
@@ -159,16 +159,16 @@ The good news is: You don't need to modify the source code at all. Instead, you 
 
 <center>
     <img src="images/fastApp-microservices.png" width="500px" alt="App diagram, microservices mode" />
-    <figcaption>Multiple instances of App with different set of features for every instances</figcaption>
+    <figcaption>Multiple instances of App with a different set of features for every instance</figcaption>
 </center>
 
 
 In this example, we want to have:
 
-- __Frontend.__ This service only serve the UI. It won't serve any API request, but it handle the UI of both `auth` and `library` module.
-- __Backend.__ This service only serve API request from `Frontend` or other external applications, and pass them into respective services.
-- __Auth Service.__ This service handle any event/RPC call for `auth` module. It also handle every database operation related to `auth` module.
-- __Library Service.__ This service handle any event/RPC call for `library` module. It also handle every database operation related to `library` module.
+- __Frontend.__ This service only serves the UI. It won't serve any API request, but it handles the UI of both `auth` and `library` modules.
+- __Backend.__ This service only serves API request from `Frontend` or other external applications, and pass them into respective services.
+- __Auth Service.__ This service handles any event/RPC call for `auth` module. It also handles every database operation related to `auth` module.
+- __Library Service.__ This service handles any event/RPC call for `library` module. It also handles every database operation related to the `library` module.
 
 # Next
 
