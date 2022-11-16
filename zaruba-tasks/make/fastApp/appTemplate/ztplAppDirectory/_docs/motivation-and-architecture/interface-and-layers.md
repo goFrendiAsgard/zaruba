@@ -11,10 +11,10 @@ Some layer components has the same interface, so that they can replace each othe
 
 If you are into tokusatsu and kamen rider, you probably know about [Kamen rider W/double](https://www.youtube.com/watch?v=3uQdN5s4m6M). Unlike their previous predecessor, Kamen rider W/double has a belt that can combine different type of powers. By putting different gaia memories into their driver belt, they can use unique combination of powers to defeat their enemies.
 
-<center>
+<p align="center">
     <img src="./images/kamen-rider-w-driver.jpeg" width="500px" />
     <figcaption>Kamen rider W/double: DX driver belt and Gaia Memories</figcaption>
-</center>
+</p>
 
 You can see that all Gaia memories, despite of their different set of powers, has the same interface. Thus they can fit into the belt.
 
@@ -107,10 +107,10 @@ For example, when you think about the business process (Service layer) you don't
 
 The business process should be agnostic about any other implementation.
 
-<center>
+<p align="center">
     <img src="images/fastApp-layers.png" alt="image of available layer if fastApp" />
     <figcaption>Communication between layers</figcaption>
-</center>
+</p>
 
 Let's see the responsibility of each layers.
 
