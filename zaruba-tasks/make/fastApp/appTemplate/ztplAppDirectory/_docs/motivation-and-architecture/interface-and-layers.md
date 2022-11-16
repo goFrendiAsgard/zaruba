@@ -13,7 +13,7 @@ If you are into tokusatsu and kamen rider, you probably know about [Kamen rider 
 
 <p align="center">
     <img src="./images/kamen-rider-w-driver.jpeg" width="500px" />
-    <figcaption>Kamen rider W/double: DX driver belt and Gaia Memories</figcaption>
+    <p align="center">Kamen rider W/double: DX driver belt and Gaia Memories</p>
 </p>
 
 You can see that all Gaia memories, despite of their different set of powers, has the same interface. Thus they can fit into the belt.
@@ -109,7 +109,7 @@ The business process should be agnostic about any other implementation.
 
 <p align="center">
     <img src="images/fastApp-layers.png" alt="image of available layer if fastApp" />
-    <figcaption>Communication between layers</figcaption>
+    <p align="center">Communication between layers</p>
 </p>
 
 Let's see the responsibility of each layers.

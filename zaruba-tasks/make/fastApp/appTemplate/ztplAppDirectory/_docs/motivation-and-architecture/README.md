@@ -9,7 +9,7 @@ When you build software, you usually __start with some basic requirements__. But
 
 <p align="center">
     <img src="./images/night-city.jpg" width="500px" alt="Night city from cyberpunk 2077" />
-    <figcaption>A city grows over time, new buildings emerged, old ones abandoned and destroyed.</figcaption>
+    <p align="center">A city grows over time, new buildings emerged, old ones abandoned and destroyed.</p>
 </p>
 
 If you are getting started with a project, monolith architecture is your safe bet. Monolith is easy to maintain/develop. Even though it won't scale very well.
@@ -26,7 +26,7 @@ So we need a middle ground. We need a __monolith application__ that is ready to 
 
 <p align="center">
     <img src="./images/palmon.gif" width="500px" alt="Animation of Digimon evolution" />
-    <figcaption>A good system can be scaled up/down at any time. Like a digimon</figcaption>
+    <p align="center">A good system can be scaled up/down at any time. Like a digimon</p>
 </p>
 
 
@@ -55,7 +55,7 @@ Let's see how microservices and a monolith are different from each other.
 
 <p align="center">
     <img src="./images/individual-zords.jpg" width="500px" alt="Individual Zords from Mighty Morphin Power Rangers" />
-    <figcaption>Individual Zords from Mighty Morphin Power Rangers</figcaption>
+    <p align="center">Individual Zords from Mighty Morphin Power Rangers</p>
 </p>
 
 
@@ -75,7 +75,7 @@ Microservices architecture is bad because:
 
 <p align="center">
     <img src="./images/megazord.jpg" width="500px" alt="A Megazord from Mighty Morphin Power Rangers" />
-    <figcaption>A Megazord from Mighty Morphin Power Rangers</figcaption>
+    <p align="center">A Megazord from Mighty Morphin Power Rangers</p>
 </p>
 
 Monolith architecture is good because:
@@ -101,14 +101,14 @@ You can think of the __modular monolith application__ as a __super-soldier__ wit
 
 <p align="center">
     <img src="./images/super-soldier-monolith.jpg" width="500px" alt="A super soldier with all equipments" />
-    <figcaption>A single super monolith with every feature activated</figcaption>
+    <p align="center">A single super monolith with every feature activated</p>
 </p>
 
 But when you do a bigger mission, you cannot rely on a single super-soldier. A team consisting of multiple soldiers with less equipment and different specializations will do better.
 
 <p align="center">
     <img src="./images/super-soldier-microservices.jpg" width="500px" alt="Multiple soldiers with a single feature for each soldier" />
-    <figcaption>Multiple microservices with a very specific task</figcaption>
+    <p align="center">Multiple microservices with a very specific task</p>
 </p>
 
 ## Microservices-ready monolith: The good and the bad
@@ -142,7 +142,7 @@ Let's start to deploy your application as a monolith:
 
 <p align="center">
     <img src="images/fastApp-monolith.png" width="500px" alt="App diagram, monolith mode" />
-    <figcaption>Single instance of App with every feature enabled</figcaption>
+    <p align="center">Single instance of App with every feature enabled</p>
 </p>
 
 In the beginning, you want to enable every feature flag. You can do this by setting all feature-flags environments into `1`.
@@ -159,7 +159,7 @@ The good news is: You don't need to modify the source code at all. Instead, you 
 
 <p align="center">
     <img src="images/fastApp-microservices.png" width="500px" alt="App diagram, microservices mode" />
-    <figcaption>Multiple instances of App with a different set of features for every instance</figcaption>
+    <p align="center">Multiple instances of App with a different set of features for every instance</p>
 </p>
 
 
