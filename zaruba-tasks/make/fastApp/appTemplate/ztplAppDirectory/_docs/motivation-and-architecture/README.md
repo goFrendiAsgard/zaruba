@@ -141,7 +141,7 @@ Those modules serve different domains.
 Let's start to deploy your application as a monolith:
 
 <p align="center">
-    <img src="images/fastApp-monolith.png" width="500px" alt="App diagram, monolith mode" />
+    <img src="images/fastApp-monolith.png" alt="App diagram, monolith mode" />
     <p align="center">Single instance of App with every feature enabled</p>
 </p>
 
@@ -158,7 +158,7 @@ Now you want to run `ZtplAppDirectory` as microservices.
 The good news is: You don't need to modify the source code at all. Instead, you just need to deploy the application with different feature flags (configurations).
 
 <p align="center">
-    <img src="images/fastApp-microservices.png" width="500px" alt="App diagram, microservices mode" />
+    <img src="images/fastApp-microservices.png" alt="App diagram, microservices mode" />
     <p align="center">Multiple instances of App with a different set of features for every instance</p>
 </p>
 
