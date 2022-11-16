@@ -1,6 +1,6 @@
 from typing import Any, Callable, List
-from helpers.transport import MessageBus
-from schemas.activity import ActivityData
+from helper.transport import MessageBus
+from schema.activity import ActivityData
 
 class AppMessageBus(MessageBus):
     '''

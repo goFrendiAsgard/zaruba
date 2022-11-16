@@ -1,1 +1,1 @@
-from modules.ztplAppModuleName.ztplAppCrudEntity import DBZtplAppCrudEntityEntity
+from module.ztpl_app_module_name.ztpl_app_crud_entity import DBZtplAppCrudEntityEntity

@@ -1,27 +1,27 @@
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy import create_engine
-from schemas.user import UserData
-from schemas.contentType import ContentTypeData
+from schema.user import UserData
+from schema.content_type import ContentTypeData
 from core import (
     register_session_api_route, register_session_ui_route, register_session_rpc,
     DefaultAuthRule, DefaultUserFetcher,
     AuthService, MenuService, SessionService, JWTTokenService,
 )
-from modules.log import (
+from module.log import (
     register_log_api_route, register_log_ui_route, register_log_event_handler, register_log_rpc_handler,
     ActivityService, DBActivityRepo
 )
-from modules.auth import (
+from module.auth import (
     register_auth_api_route, register_auth_ui_route, register_auth_event_handler, register_auth_rpc_handler,
     DefaultUserService, UserSeederService, RoleService,
     DBRoleRepo, DBUserRepo
 )
-from modules.cms import (
+from module.cms import (
     register_cms_api_route, register_cms_ui_route, register_cms_event_handler, register_cms_rpc_handler,
     ContentTypeService, ContentService, ContentTypeSeederService,
     DBContentTypeRepo, DBContentRepo
 )
-from configs import (
+from config import (
     # feature flags
     enable_api, enable_auth_module, enable_cms_module, enable_log_module,
     enable_event_handler, enable_route_handler, enable_rpc_handler, enable_ui, seed_root_user,

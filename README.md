@@ -45,7 +45,7 @@ Now, how to run your system with a __single command__? How do we __ensure task d
 
 ## 💡 Solution
 
-Instead of opening many tmux panels, Zaruba allows you to create and run __a single task to run your entire system__.
+Instead of opening many [tmux](https://en.wikipedia.org/wiki/Tmux) panels, Zaruba allows you to create and run __a single task to run your entire system__.
 
 ![meme](docs/images/solution-meme.png)
 
@@ -238,7 +238,7 @@ make test
 
 Help Red Skull to click the donation button:
 
-[![](arts/donator.png)](https://stalchmst.com/donation.html)
+[![](arts/donator.png)](https://stalchmst.com/donation)
 
 # 🎉 Fun fact
 

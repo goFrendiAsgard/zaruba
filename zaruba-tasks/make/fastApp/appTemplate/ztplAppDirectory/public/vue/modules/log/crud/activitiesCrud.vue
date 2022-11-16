@@ -22,8 +22,8 @@
                 <th>User</th>
                 <th>Activity</th>
                 <th>Object</th>
-                <th>RowId</th>
-                <th>Row</th>
+                <th>Data Id</th>
+                <th>Data</th>
                 <!-- Put column header here, Note: 💀 Don't delete this line, Zaruba use it for pattern matching --> 
             </tr>
         </thead>

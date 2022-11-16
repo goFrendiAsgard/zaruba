@@ -7,7 +7,7 @@ _FIELD_SCRIPT="$("${ZARUBA_BIN}" str replace "${_FIELD_SCRIPT_TEMPLATE}" "${_ZRB
 #########################################################
 # Read existing schema
 
-_SCHEMA_LOCATION="${_ZRB_APP_DIRECTORY}/schemas/${_ZRB_APP_CRUD_ENTITY}.py"
+_SCHEMA_LOCATION="${_ZRB_APP_DIRECTORY}/schema/${_ZRB_SNAKE_APP_CRUD_ENTITY}.py"
 _LINES="$("${ZARUBA_BIN}" lines read "${_SCHEMA_LOCATION}")"
 
 

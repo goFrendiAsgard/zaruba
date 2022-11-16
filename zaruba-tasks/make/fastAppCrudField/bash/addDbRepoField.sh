@@ -13,7 +13,7 @@ _FIELD_UPDATE_SCRIPT="$("${ZARUBA_BIN}" str replace "${_FIELD_UPDATE_SCRIPT_TEMP
 #########################################################
 # Read existing repo
 
-_REPO_LOCATION="${_ZRB_APP_DIRECTORY}/modules/${_ZRB_APP_MODULE_NAME}/${_ZRB_APP_CRUD_ENTITY}/repos/db${_ZRB_PASCAL_APP_CRUD_ENTITY}Repo.py"
+_REPO_LOCATION="${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_NAME}/${_ZRB_APP_CRUD_ENTITY}/repo/db_${_ZRB_SNAKE_APP_CRUD_ENTITY}_repo.py"
 _LINES="$("${ZARUBA_BIN}" lines read "${_REPO_LOCATION}")"
 
 

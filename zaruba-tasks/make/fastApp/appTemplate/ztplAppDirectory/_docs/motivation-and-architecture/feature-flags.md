@@ -28,7 +28,7 @@ APP_ENABLE_<OTHER>_MODULE=1
 
 You can set `ZtplAppDirectory` feature flag by using [environment variable](https://en.wikipedia.org/wiki/Environment_variable).
 
-You can see how ZtplAppDirectory handle feature flags in `main.py` or `configs/featureFlag.py`.
+You can see how ZtplAppDirectory handle feature flags in `main.py` or `configs/feature_flag.py`.
 
 ```python
 # The value of `enable_ui` will be `False` if APP_ENABLE_UI` is set to `0`.
@@ -41,9 +41,9 @@ if enable_ui:
 
 Feature flag mechanism is very simple. It will run a feature only if the corresponding feature flag is `True`.
 
-# Interface and Layers
+# Next
 
-Next, you can continue to [interface and layers](interface-and-layers.md).
+Next, you can continue to read about [interface and layers](interface-and-layers.md).
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

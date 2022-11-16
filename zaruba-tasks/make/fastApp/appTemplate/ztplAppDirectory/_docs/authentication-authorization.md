@@ -75,7 +75,7 @@ menu_service = create_menu_service(rpc, auth_service)
 Inside `create_menu_service` function you can see how the menu is being aranged:
 
 ```python
-# location: configs/menuServiceFactory.py
+# location: configs/menu_serviceFactory.py
 def create_menu_service(rpc: RPC, auth_service: AuthService) -> MenuService:
     menu_service = MenuService(rpc, auth_service)
     menu_service.add_menu(name='account', title='Account', url='#', auth_type=AuthType.ANYONE)

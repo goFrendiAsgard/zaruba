@@ -15,9 +15,9 @@ To generate migration file, you should import your SQLALchemy model into `alembi
 
 ```python
 # file: alembic/env.py
-from modules.library.book.repos.dbBookRepo import DBBookRepo
-from modules.auth import DBRoleRepo
-from modules.auth import DBUserRepo
+from module.library.book.repo.dbBookRepo import DBBookRepo
+from module.auth import DBRoleRepo
+from module.auth import DBUserRepo
 ```
 
 Once the model has been imported, you can run the following commands:
@@ -46,16 +46,16 @@ Containing configurations for `ZtplAppDirectory`.
 
 There are several important files in this directory:
 
-- `configs/appFactory.py`: Containing logics to create FastApi application. The application also handle readiness route, error handling, etc.
-- `configs/pageTemplateFactory.py`: Containing page (Jinja templates) configuration.
-- `configs/messagebusFactory.py` and `configs/rpcFactory.py`: Containing a function to create messagebus/RPC.
+- `configs/app_factory.py`: Containing logics to create FastApi application. The application also handle readiness route, error handling, etc.
+- `configs/page_template_factory.py`: Containing page (Jinja templates) configuration.
+- `configs/messagebus_factory.py` and `configs/rpc_factory.py`: Containing a function to create messagebus/RPC.
 - `configs/url.py`: Contaiing URL/path settings.
-- `configs/featureFlag.py`: Containing some feature flags.
+- `configs/feature_flag.py`: Containing some feature flags.
 
 Any values from the configuration should be imported into `main.py` instead of being imported directly in the module, e.g.,
 
 ```python
-from configs import (
+from config import (
     # feature flags
     enable_api, enable_auth_module, enable_event_handler, enable_route_handler, enable_rpc_handler,
     enable_ui, seed_root_user,
@@ -84,10 +84,10 @@ Containing core components/services.
 
 Some important components are:
 
-- `authService`, `authRule`, and `userFetcher` (located inside `core/security`)
-- `sessionService` (located inside `core/session`)
-- `menuService` (located inside `core/menu`)
-- `tokenService` (located inside `core/token`)
+- `auth_service`, `auth_rule`, and `user_fetcher` (located inside `core/security`)
+- `session_service` (located inside `core/session`)
+- `menu_service` (located inside `core/menu`)
+- `token_service` (located inside `core/token`)
 
 # helpers directory
 

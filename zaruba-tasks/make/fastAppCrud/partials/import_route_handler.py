@@ -1,1 +1,1 @@
-from modules.ztplAppModuleName.ztplAppCrudEntity import register_ztpl_app_crud_entity_api_route, register_ztpl_app_crud_entity_ui_route
+from module.ztpl_app_module_name.ztpl_app_crud_entity import register_ztpl_app_crud_entity_api_route, register_ztpl_app_crud_entity_ui_route

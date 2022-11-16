@@ -1,7 +1,7 @@
 configs:
  
   addFastAppModule:
-    _skipCreationPath: '${_ZRB_APP_DIRECTORY}/modules/${_ZRB_APP_MODULE_NAME}'
+    _skipCreationPath: '${_ZRB_APP_DIRECTORY}/module/${_ZRB_APP_MODULE_NAME}'
     _integrate: |
       . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppModule/bash/registerModule.sh"
       . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppModule/bash/registerEnv.sh"

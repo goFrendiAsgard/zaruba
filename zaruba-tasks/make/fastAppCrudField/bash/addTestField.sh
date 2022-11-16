@@ -6,7 +6,7 @@ _TEST_FIELD_SCRIPT="$("${ZARUBA_BIN}" str replace "${_TEST_FIELD_SCRIPT_TEMPLATE
 
 #########################################################
 # Read existing test
-_TEST_UTIL_LOCATION="${_ZRB_APP_DIRECTORY}/modules/${_ZRB_APP_MODULE_NAME}/${_ZRB_APP_CRUD_ENTITY}/test_${_ZRB_APP_CRUD_ENTITY}Service_util.py"
+_TEST_UTIL_LOCATION="${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_NAME}/${_ZRB_SNAKE_APP_CRUD_ENTITY}/test_${_ZRB_SNAKE_APP_CRUD_ENTITY}_service_util.py"
 _LINES="$("${ZARUBA_BIN}" lines read "${_TEST_UTIL_LOCATION}")"
 
 
