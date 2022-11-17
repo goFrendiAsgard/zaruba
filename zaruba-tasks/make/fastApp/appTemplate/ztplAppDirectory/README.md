@@ -1,29 +1,25 @@
 # ZtplAppDirectory
 
-`ZtplAppDirectory` is a microservice-ready monolith application. It is built on top of [FastAPI](https://fastapi.tiangolo.com/), a modern, fast (high-performance) web framework for building APIs with Python 3.7+ based on standard Python-type hints
+`ZtplAppDirectory` is a microservice-ready monolith application. It is built on top of [FastAPI](https://fastapi.tiangolo.com/), a modern, fast (high-performance) web framework for building APIs with Python 3.7+ based on standard Python-type hints.
 
-`ZtplAppDirectory` was generated with the following command using [Zaruba](https://github.com/state-alchemists/zaruba):
+To generate `ZtplAppDirectory`, you can use the following command using [Zaruba](https://github.com/state-alchemists/zaruba):
 
 ```bash
 zaruba please initProject # or cd to your zaruba project
 zaruba please addFastApp appDirectory=ztplAppDirectory
 ```
 
-## 💀 Note
+Zaruba also allows you to add custom resources into `ZtplAppDirectory`. For this to work, you need to follow a few conventions:
 
-Zaruba uses pattern matching (aka regex) so that it can add new routes/modules/entities/fields to `ZtplAppDirectory`.
+- Don't delete any line __preceded__ by this comment:
 
-To make sure the feature works as intended, please don't delete/edit any line __preceeded__ by this comment:
+    `Note: 💀 Don't delete the following line; Zaruba uses it for pattern matching`
 
-```
-Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
-```
+- Don't delete any line __containing__ this comment:
 
-or any line __containing__ this comment:
+    `Note: 💀 Don't delete this line; Zaruba uses it for pattern matching `
 
-```
-Note: 💀 Don't delete this line, Zaruba use it for pattern matching 
-```
+By using Zaruba, you can focus on features and business processes.
 
 # 🏁 How to start
 

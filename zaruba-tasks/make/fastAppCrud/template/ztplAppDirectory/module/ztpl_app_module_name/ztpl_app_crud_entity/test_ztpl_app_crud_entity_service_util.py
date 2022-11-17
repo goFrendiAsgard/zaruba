@@ -8,7 +8,7 @@ from transport import AppMessageBus, AppRPC
 from sqlalchemy import create_engine
 
 def create_ztpl_app_crud_entity_data() -> ZtplAppCrudEntityData:
-    # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
+    # Note: 💀 Don't delete the following line; Zaruba uses it for pattern matching
     dummy_ztpl_app_crud_entity_data = ZtplAppCrudEntityData(
         created_by=''
     )

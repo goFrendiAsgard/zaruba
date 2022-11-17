@@ -37,7 +37,7 @@ class ContentTypeAttribute(BaseModel):
     option_config: OptionConfig = OptionConfig()
 
 
-# Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
+# Note: 💀 Don't delete the following line; Zaruba uses it for pattern matching
 class ContentTypeData(BaseModel):
     name: str
     template: str = DEFAULT_MARKDOWN_TEMPLATE
@@ -47,7 +47,7 @@ class ContentTypeData(BaseModel):
         default_value='',
         input_type='markdown'
     )]
-    created_at: Optional[datetime.datetime] # Note: 💀 Don't delete this line, Zaruba use it for pattern matching
+    created_at: Optional[datetime.datetime] # Note: 💀 Don't delete this line; Zaruba uses it for pattern matching
     created_by: Optional[str]
     updated_at: Optional[datetime.datetime]
     updated_by: Optional[str]

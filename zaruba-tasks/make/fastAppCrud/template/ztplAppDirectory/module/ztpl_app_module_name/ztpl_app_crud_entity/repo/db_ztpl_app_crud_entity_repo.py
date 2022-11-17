@@ -9,17 +9,17 @@ from repo import Base
 import uuid
 import datetime
 
-# Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
+# Note: 💀 Don't delete the following line; Zaruba uses it for pattern matching
 class DBZtplAppCrudEntityEntity(Base):
     __tablename__ = "ztpl_app_crud_entities"
     id = Column(String(36), primary_key=True, index=True)
-    created_at = Column(DateTime, default=datetime.datetime.utcnow) # Note: 💀 Don't delete this line, Zaruba use it for pattern matching
+    created_at = Column(DateTime, default=datetime.datetime.utcnow) # Note: 💀 Don't delete this line; Zaruba uses it for pattern matching
     created_by = Column(String(36), nullable=True)
     updated_at = Column(DateTime, nullable=True)
     updated_by = Column(String(36), nullable=True)
 
 
-# Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
+# Note: 💀 Don't delete the following line; Zaruba uses it for pattern matching
 class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
 
     def __init__(self, engine: Engine, create_all: bool):
@@ -64,7 +64,7 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
         return ztpl_app_crud_entity_count
 
 
-    # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
+    # Note: 💀 Don't delete the following line; Zaruba uses it for pattern matching
     def insert(self, ztpl_app_crud_entity_data: ZtplAppCrudEntityData) -> Optional[ZtplAppCrudEntity]:
         db = Session(self.engine, expire_on_commit=False)
         ztpl_app_crud_entity: ZtplAppCrudEntity
@@ -72,7 +72,7 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
             new_ztpl_app_crud_entity_id = str(uuid.uuid4())
             db_ztpl_app_crud_entity = DBZtplAppCrudEntityEntity(
                 id=new_ztpl_app_crud_entity_id,
-                created_at=datetime.datetime.utcnow(), # Note: 💀 Don't delete this line, Zaruba use it for pattern matching
+                created_at=datetime.datetime.utcnow(), # Note: 💀 Don't delete this line; Zaruba uses it for pattern matching
                 created_by=ztpl_app_crud_entity_data.created_by,
                 updated_at=datetime.datetime.utcnow(),
                 updated_by=ztpl_app_crud_entity_data.updated_by,
@@ -86,7 +86,7 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
         return ztpl_app_crud_entity
 
 
-    # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
+    # Note: 💀 Don't delete the following line; Zaruba uses it for pattern matching
     def update(self, id: str, ztpl_app_crud_entity_data: ZtplAppCrudEntityData) -> Optional[ZtplAppCrudEntity]:
         db = Session(self.engine, expire_on_commit=False)
         ztpl_app_crud_entity: ZtplAppCrudEntity
@@ -94,7 +94,7 @@ class DBZtplAppCrudEntityRepo(ZtplAppCrudEntityRepo):
             db_ztpl_app_crud_entity = db.query(DBZtplAppCrudEntityEntity).filter(DBZtplAppCrudEntityEntity.id == id).first()
             if db_ztpl_app_crud_entity is None:
                 return None
-            db_ztpl_app_crud_entity.updated_at = datetime.datetime.utcnow() # Note: 💀 Don't delete this line, Zaruba use it for pattern matching
+            db_ztpl_app_crud_entity.updated_at = datetime.datetime.utcnow() # Note: 💀 Don't delete this line; Zaruba uses it for pattern matching
             db_ztpl_app_crud_entity.updated_by = ztpl_app_crud_entity_data.updated_by
             db.add(db_ztpl_app_crud_entity)
             db.commit()

@@ -3,11 +3,11 @@
 # Directory structure
 <!--endTocHeader-->
 
-# _docs directory
+# `_docs` directory
 
 Containing the documentation of `ztplAppDirectory`. 
 
-# alembic directory
+# `alembic` directory
 
 Containing the database migration. We use [alembic](https://alembic.sqlalchemy.org/en/latest/) for database migration.
 
@@ -36,11 +36,11 @@ or, if you use Zaruba, you can do this intead:
 zaruba please createZtplAppNameMigration
 ```
 
-# avro directory
+# `avro` directory
 
 Containing Avro schema for `KafkaAvro` message bus. You can read more about avro schema in [this article](https://www.tutorialspoint.com/avro/avro_schemas.htm).
 
-# configs directory
+# `config` directory
 
 Containing configurations for `ZtplAppDirectory`.
 
@@ -48,8 +48,8 @@ There are several important files in this directory:
 
 - `configs/app_factory.py`: Containing logics to create FastApi application. The application also handle readiness route, error handling, etc.
 - `configs/page_template_factory.py`: Containing page (Jinja templates) configuration.
-- `configs/messagebus_factory.py` and `configs/rpc_factory.py`: Containing a function to create messagebus/RPC.
-- `configs/url.py`: Contaiing URL/path settings.
+- `configs/messagebus_factory.py` and `configs/rpc_factory.py`: Containing a function to create `AppMessagebus`/`AppRpc`.
+- `configs/url.py`: Containing URL/path settings.
 - `configs/feature_flag.py`: Containing some feature flags.
 
 Any values from the configuration should be imported into `main.py` instead of being imported directly in the module, e.g.,
@@ -60,7 +60,7 @@ from config import (
     enable_api, enable_auth_module, enable_event_handler, enable_route_handler, enable_rpc_handler,
     enable_ui, seed_root_user,
     # factories
-    create_app, create_menu_service, create_message_bus, create_rpc, create_page_template,
+    create_app, create_message_bus, create_rpc, create_page_template,
     # db
     db_create_all, db_url,
     # messagebus + rpc
@@ -78,7 +78,7 @@ from config import (
 
 Feel free to add your own configuration to this directory.
 
-# core directory
+# `core` directory
 
 Containing core components/services.
 
@@ -89,7 +89,7 @@ Some important components are:
 - `menu_service` (located inside `core/menu`)
 - `token_service` (located inside `core/token`)
 
-# helpers directory
+# `helper` directory
 
 Containing some functions/factories that will be used in your application.
 
@@ -100,27 +100,56 @@ Some important components are:
 - `RPC`, `LocalRPC`, `RMQRPC`
 - `MessageBus`, `LocalMessageBus`, `RMQMessageBus`, `KafkaMessageBus`, `KafkaAvroMessageBus`
 
-# modules directory
+# `module` directory
 
-Containing modules, including `auth` module and any other custom modules.
+Containing modules, including `auth` module, `cms` module, and any other custom modules.
 
-# pages directory
+Typically, a module contains the following files/directories:
 
-Containing Jinja templates.
+## `event.py`
 
-# public directory
+Module event handler. Containing definition of the following functions:
 
-Containing public assets (css/js/images, etc).
+- `register_<module>_event_handler`
 
-# repos directory
+## `route.py`
+
+Module route handler. Containing definition of the following functions:
+
+- `register_<module>_api_route`
+- `register_<module>_ui_route`
+
+## `rpc.py`
+
+Module RPC handler. Containing definition of the following functions:
+
+- `register_<module>_rpc_handler`
+
+
+## `<entity>/<entity>_route.py`
+## `<entity>/<entity>_rpc.py`
+## `<entity>/<entity>_service.py`
+## `<entity>/repo/<entity>_repo.py`
+## `<entity>/repo/db_<entity>_repo.py`
+
+# `pages` directory
+
+Containing Jinja templates for serving UI
+
+# `public` directory
+
+Containing public resources (css/js/images, etc).
+
+# `repo` directory
 
 Containing base repo declaration.
 
-# schemas directory
+# `schema` directory
 
 Containing schemas/DTO.
 
-
-# transport directory
+# `transport` directory
 
 Containing definition of `AppMessageBus` and `AppRPC`.
+
+Feel free to extend this to match your business processes.

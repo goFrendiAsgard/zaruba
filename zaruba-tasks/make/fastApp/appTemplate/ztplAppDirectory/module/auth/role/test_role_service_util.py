@@ -9,7 +9,7 @@ from transport import AppMessageBus, AppRPC
 
 
 def create_role_data() -> RoleData:
-    # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
+    # Note: 💀 Don't delete the following line; Zaruba uses it for pattern matching
     dummy_role_data = RoleData(
         name='',
         permissions=[],

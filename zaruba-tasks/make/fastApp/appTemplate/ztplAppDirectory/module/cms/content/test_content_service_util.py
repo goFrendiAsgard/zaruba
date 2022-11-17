@@ -10,7 +10,7 @@ from transport import AppMessageBus, AppRPC
 from sqlalchemy import create_engine
 
 def create_content_data(content_type_id: str) -> ContentData:
-    # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
+    # Note: 💀 Don't delete the following line; Zaruba uses it for pattern matching
     dummy_content_data = ContentData(
         content_type_id=content_type_id,
         title='',

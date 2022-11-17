@@ -10,20 +10,20 @@ import uuid
 import jsons
 import datetime
 
-# Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
+# Note: 💀 Don't delete the following line; Zaruba uses it for pattern matching
 class DBContentTypeEntity(Base):
     __tablename__ = "content_types"
     id = Column(String(36), primary_key=True, index=True)
     name = Column(String(255), index=True)
     template = Column(String(255), index=True)
     json_attributes = Column(Text(), index=True)
-    created_at = Column(DateTime, default=datetime.datetime.utcnow) # Note: 💀 Don't delete this line, Zaruba use it for pattern matching
+    created_at = Column(DateTime, default=datetime.datetime.utcnow) # Note: 💀 Don't delete this line; Zaruba uses it for pattern matching
     created_by = Column(String(36), nullable=True)
     updated_at = Column(DateTime, nullable=True)
     updated_by = Column(String(36), nullable=True)
 
 
-# Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
+# Note: 💀 Don't delete the following line; Zaruba uses it for pattern matching
 class DBContentTypeRepo(ContentTypeRepo):
 
     def __init__(self, engine: Engine, create_all: bool):
@@ -80,7 +80,7 @@ class DBContentTypeRepo(ContentTypeRepo):
         return content_type_count
 
 
-    # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
+    # Note: 💀 Don't delete the following line; Zaruba uses it for pattern matching
     def insert(self, content_type_data: ContentTypeData) -> Optional[ContentType]:
         db = Session(self.engine, expire_on_commit=False)
         content_type: ContentType
@@ -92,7 +92,7 @@ class DBContentTypeRepo(ContentTypeRepo):
                 name=content_type_data.name,
                 template=content_type_data.template,
                 json_attributes=json_attributes,
-                created_at=datetime.datetime.utcnow(), # Note: 💀 Don't delete this line, Zaruba use it for pattern matching
+                created_at=datetime.datetime.utcnow(), # Note: 💀 Don't delete this line; Zaruba uses it for pattern matching
                 created_by=content_type_data.created_by,
                 updated_at=datetime.datetime.utcnow(),
                 updated_by=content_type_data.updated_by,
@@ -106,7 +106,7 @@ class DBContentTypeRepo(ContentTypeRepo):
         return content_type
 
 
-    # Note: 💀 Don't delete the following line, Zaruba use it for pattern matching
+    # Note: 💀 Don't delete the following line; Zaruba uses it for pattern matching
     def update(self, id: str, content_type_data: ContentTypeData) -> Optional[ContentType]:
         db = Session(self.engine, expire_on_commit=False)
         content_type: ContentType
@@ -118,7 +118,7 @@ class DBContentTypeRepo(ContentTypeRepo):
             db_content_type.name = content_type_data.name
             db_content_type.template = content_type_data.template
             db_content_type.json_attributes = json_attributes
-            db_content_type.updated_at = datetime.datetime.utcnow() # Note: 💀 Don't delete this line, Zaruba use it for pattern matching
+            db_content_type.updated_at = datetime.datetime.utcnow() # Note: 💀 Don't delete this line; Zaruba uses it for pattern matching
             db_content_type.updated_by = content_type_data.updated_by
             db.add(db_content_type)
             db.commit()
