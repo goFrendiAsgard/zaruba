@@ -9,7 +9,7 @@ Containing the documentation of `ztplAppDirectory`.
 
 # `alembic` directory
 
-Containing the database migration. We use [alembic](https://alembic.sqlalchemy.org/en/latest/) for database migration.
+This directory contains database migration. We use [alembic](https://alembic.sqlalchemy.org/en/latest/) for database migration.
 
 To generate migration file, you should import your SQLALchemy model into `alembic/env.py`:
 
@@ -36,6 +36,89 @@ or, if you use Zaruba, you can do this intead:
 zaruba please createZtplAppNameMigration
 ```
 
+Some important files/directories in `alembic` directory are:
+
+- `alembic/env.py`
+- `alembic/script.py.mako`
+- `alembic/versions` directory
+
+
+## `alembic/env.py`
+
+Alembic use this file to generate/run migration.
+
+Whenever you create a new [SQLALchemy model](https://docs.sqlalchemy.org/en/14/orm/quickstart.html#declare-models), you need to import the model into this file.
+
+```python
+# file: alembic/env.py
+from repo import Base
+from module.auth import DBRoleEntity, DBUserEntity
+from module.log.activity import DBActivityEntity
+from module.cms.content import DBContentEntity, DBContentAttributeEntity
+from module.cms.content_type import DBContentTypeEntity
+```
+
+For more information about `env.py`, please refer to [alembic documentation](https://alembic.sqlalchemy.org/en/latest/tutorial.html#the-migration-environment).
+
+
+
+## `alembic/script.py.mako`
+
+This file is a [mako template](https://www.makotemplates.org/) to generate new migration versions in `alembic/versions` directory.
+
+`ZtplAppDirectory` add `run_migration` function to accomodate feature flag.
+
+```python
+def run_migration() -> bool:
+    return os.getenv('MIGRATION_RUN_ALL', '0') != '0'
+
+
+def upgrade() -> None:
+    if not run_migration():
+        return None
+    ${upgrades if upgrades else "pass"}
+
+
+def downgrade() -> None:
+    if not run_migration():
+        return None
+    ${downgrades if downgrades else "pass"}
+```
+
+When you generate a migration, Alembic will first run existing migrations in migration database. Once the migration has been done, it will compare existing models with the migration database. If there is any discrepancy, Alembic will make a new migration version to fill the gap.
+
+Thus, when generating a migration, you need to set `MIGRATION_RUN_ALL` to `1`.
+
+
+## `alembic/versions` directory
+
+This directory contains database migration versions.
+
+There are a few things you need to consider:
+
+- Every migration file contains `revision` and `down_revision`. If you need to delete/add migration version manually, please make sure that the `revision` and `down_version` are in sync with other versions.
+- As defined in `alembic/script.py.mako`, there is a `run_migration` version that you can modify to accomodate feature flag.
+
+To accomodate feature flag, you can add `or` logic to manipulate `run_migration` return value. For example, you want the migration version to be ignored when `APP_ENABLE_LOG_MODULE` is set to `0`:
+
+```python
+def run_migration() -> bool:
+    return os.getenv('MIGRATION_RUN_ALL', '0') != '0' or os.getenv('APP_ENABLE_LOG_MODULE', '1') != '0'
+
+
+def upgrade() -> None:
+    if not run_migration():
+        return None
+    # migration code
+
+
+def downgrade() -> None:
+    if not run_migration():
+        return None
+    # migration code
+```
+
+
 # `avro` directory
 
 Containing Avro schema for `KafkaAvro` message bus. You can read more about avro schema in [this article](https://www.tutorialspoint.com/avro/avro_schemas.htm).
@@ -44,17 +127,10 @@ Containing Avro schema for `KafkaAvro` message bus. You can read more about avro
 
 Containing configurations for `ZtplAppDirectory`.
 
-There are several important files in this directory:
-
-- `configs/app_factory.py`: Containing logics to create FastApi application. The application also handle readiness route, error handling, etc.
-- `configs/page_template_factory.py`: Containing page (Jinja templates) configuration.
-- `configs/messagebus_factory.py` and `configs/rpc_factory.py`: Containing a function to create `AppMessagebus`/`AppRpc`.
-- `configs/url.py`: Containing URL/path settings.
-- `configs/feature_flag.py`: Containing some feature flags.
-
 Any values from the configuration should be imported into `main.py` instead of being imported directly in the module, e.g.,
 
 ```python
+# file location: main.py
 from config import (
     # feature flags
     enable_api, enable_auth_module, enable_event_handler, enable_route_handler, enable_rpc_handler,
@@ -78,16 +154,106 @@ from config import (
 
 Feel free to add your own configuration to this directory.
 
+
+There are several important files in this directory:
+
+- `config/app_factory.py`
+- `config/page_template_factory.py`
+- `config/messagebus_factory.py`
+- `configs/rpc_factory.py`
+- `config/url.py`
+- `config/feature_flag.py`
+
+
+## `config/app_factory.py`
+
+Containing definition of `create_app` function. This function is responsible for:
+
+- creating `FastAPI` instance
+- apply middlewares (e.g., CORSMiddleware)
+- handle `readiness` URL
+- handle `shutdown` event
+- serve `public` directory
+- serve home page
+- handle UI for error
+
+
+## `config/page_template_factory.py`
+
+Containing definition of `create_page_template` function. This function is responsible for
+
+- creating `Jinja2Templates` instance
+- injecting some values to the template
+
+
+## `config/messagebus_factory.py`
+
+Containing definition of `create_message_bus` function. This function is responsible for creating messagebus based on `mb_type` parameter.
+
+
+## `config/rpc_factory.py`
+
+Containing definition of `create_rpc` function. This function is responsible for creating rpc based on `rpc_type` parameter.
+
+
+## `config/url.py`
+
+This file contains URL setting.
+
+
+## `config/feature_flag.py`
+
+This file contains some feature flag definitions.
+
+
 # `core` directory
 
 Containing core components/services.
 
-Some important components are:
+Some important directories are:
 
-- `auth_service`, `auth_rule`, and `user_fetcher` (located inside `core/security`)
-- `session_service` (located inside `core/session`)
-- `menu_service` (located inside `core/menu`)
-- `token_service` (located inside `core/token`)
+- `core/menu/menu_service.py`
+- `core/page/page_template_exception.py`
+- `core/security/middleware/user_fetcher.py`
+- `core/security/middleware/default_user_fetcher.py`
+- `core/security/rule/auth_rule`
+- `core/security/rule/default_auth_rule`
+- `core/security/rule/no_auth_rule`
+- `core/security/service/auth_service.py`
+- `core/sesion/session_route.py`
+- `core/sesion/session_rpc.py`
+- `core/sesion/session_service.py`
+- `core/token/token_service.py`
+- `core/token/jwt_token_service.py`
+
+## `core/menu/menu_service.py`
+
+Containing definition of `MenuService`. This service is responsible for:
+
+- add page menu
+- provide menu structure
+- authorize page
+
+## `core/page/page_template_exception.py`
+
+Containing definition of `PageTemplateException`. This exception should be used in UI.
+
+
+## `core/security/middleware/user_fetcher.py`
+## `core/security/middleware/default_user_fetcher.py`
+## `core/security/rule/auth_rule`
+## `core/security/rule/default_auth_rule`
+## `core/security/rule/no_auth_rule`
+
+## `core/security/service/auth_service.py`
+
+## `core/sesion/session_route.py`
+## `core/sesion/session_rpc.py`
+## `core/sesion/session_service.py`
+## `core/token/token_service.py`
+## `core/token/jwt_token_service.py`
+
+
 
 # `helper` directory
 
@@ -95,10 +261,16 @@ Containing some functions/factories that will be used in your application.
 
 Unlike configs, helpers should be stateless and has less dependencies. Usually containing function or class declaration.
 
-Some important components are:
+Some important files are
 
-- `RPC`, `LocalRPC`, `RMQRPC`
-- `MessageBus`, `LocalMessageBus`, `RMQMessageBus`, `KafkaMessageBus`, `KafkaAvroMessageBus`
+- `helper/transport/messagebus.py`
+- `helper/transport/local_messagebus.py`
+- `helper/transport/kafka_messagebus.py`
+- `helper/transport/kafka_avro_messagebus.py`
+- `helper/transport/rmq_messagebus.py`
+- `helper/transport/rpc.py`
+- `helper/transport/local_rpc.py`
+- `helper/transport/rmq_rpc.py`
 
 # `module` directory
 
@@ -106,31 +278,31 @@ Containing modules, including `auth` module, `cms` module, and any other custom 
 
 Typically, a module contains the following files/directories:
 
-## `event.py`
+## `module/<module-name>/event.py`
 
 Module event handler. Containing definition of the following functions:
 
-- `register_<module>_event_handler`
+- `register_<module-name>_event_handler`
 
-## `route.py`
+## `module/<module-name>/route.py`
 
 Module route handler. Containing definition of the following functions:
 
 - `register_<module>_api_route`
 - `register_<module>_ui_route`
 
-## `rpc.py`
+## `module/<module-name>/rpc.py`
 
 Module RPC handler. Containing definition of the following functions:
 
 - `register_<module>_rpc_handler`
 
 
-## `<entity>/<entity>_route.py`
-## `<entity>/<entity>_rpc.py`
-## `<entity>/<entity>_service.py`
-## `<entity>/repo/<entity>_repo.py`
-## `<entity>/repo/db_<entity>_repo.py`
+## `module/<module-name>/<entity-name>/<entity-name>_route.py`
+## `module/<module-name>/<entity-name>/<entity-name>_rpc.py`
+## `module/<module-name>/<entity-name>/<entity-name>_service.py`
+## `module/<module-name>/<entity-name>/repo/<entity-name>_repo.py`
+## `module/<module-name>/<entity-name>/repo/db_<entity-name>_repo.py`
 
 # `pages` directory
 
