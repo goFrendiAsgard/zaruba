@@ -58,6 +58,15 @@ class Trigger(GaiaMemory):
     def play_sound(self):
         print('TORIGA...')
 
+```
+
+Now you can use `Joker`, `Cyclone`, and `Trigger` as `GaiaMemory`. As long as the implementations comply with the interface, the implementation can substitute each other. This is known as [Liskov substitution principle](https://en.wikipedia.org/wiki/Liskov_substitution_principle).
+
+Let's continue with `WDriver` implementation. Notice that we will use `GaiaMemory` interface as `WDriver` constructor parameter. The code is as follows:
+
+
+```python
+
 
 ###################################################################################
 # W Belt driver implementation
@@ -74,7 +83,12 @@ class WDriver():
         self.left_gaia_memory.play_sound()
         self.right_gaia_memory.play_sound()
         print('さあ お前の罪を数えろ！') # now count up your sins
+```
 
+Finally, the program will looks like this:
+
+
+```python
 
 ###################################################################################
 # Let's henshin!!!
@@ -85,7 +99,9 @@ belt = WDriver(cyclone, jocker)
 belt.henshin() # CYCLONE... JOKA... さあ お前の罪を数えろ！
 ```
 
-`ZtplAppDirectory` rely on this simple mechanism. By default, there are several available layers:
+`ZtplAppDirectory` rely on this simple mechanism to achieve modularity and adaptability.
+
+By default, `ZtplAppDirectory`, contains of several layers:
 
 - `MessageBus`
 - `RPC`
