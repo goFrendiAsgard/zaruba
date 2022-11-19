@@ -5,32 +5,31 @@
 
 Building software is like building a city. You __cannot plan everything right from the start__.
 
-When you build software, you usually __start with some basic requirements__. But your needs will grow over time, and so will your software.
+In the beginning, you usually __start with some basic requirements__. But your software will grow as your requirements change over time.
 
 <p align="center">
     <img src="./images/night-city.jpg" width="500px" alt="Night city from cyberpunk 2077" />
-    <p align="center">A city grows over time, new buildings emerged, old ones abandoned and destroyed.</p>
+    <p align="center">A city grows over time, new buildings emerged, and old ones are destroyed.</p>
 </p>
 
-If you are getting started with a project, monolith architecture is your safe bet. Monolith is easy to maintain/develop. Even though it won't scale very well.
+Thus, the most important aspect when you build software is to anticipate changes. You want to break down your applications into multiple independent components that can be replaced or combined to match your need.
 
-You can start considering microservices when you need to scale some features independently.
+Many companies use microservices architecture. So instead of a single application, you build multiple applications (aka services) that communicate with each other. Microservices have their pitfall. It needs a lot of tooling/monitoring.
 
-It is usually better to __start with a monolith__ and __migrate to microservices__ later.
+So, if you are getting started with a project, it is better to build monolith software. Monolith is easy to maintain/develop. It doesn't scale very well, but when you do the code modular enough, you will be able to change your application into microservices.
 
-Yet, migration to microservices is not always easy. There are many stories of companies who failed to do so because their code was __not modular/testable__. Their technology turns into a liability that hinders their business growth.
+As building a city, software usually starts small and evolved/refactored over time. A great city, however, is built with a vision. It anticipates the future well but doesn't invest too much in it.
 
-Some companies __invest too much__ in Kubernetes or other expensive technologies. They built a great microservices architecture yet failed to maintain it properly. Or even worse, the technology becomes their cost center.
+This is what `ZtplAppDirectory` tries to aim for.
 
-So we need a middle ground. We need a __monolith application__ that is ready to be __deployed as microservices anytime__.
+A __monolith application__ that is ready to be __deployed as microservices__ anytime. Just like [Digimon's Digivolution](https://digimon.fandom.com/wiki/Digivolution).
 
 <p align="center">
     <img src="./images/palmon.gif" width="500px" alt="Animation of Digimon evolution" />
-    <p align="center">A good system can be scaled up/down at any time. Like a digimon</p>
+    <p align="center">A good system can be scaled up/down at any time. Like a Digimon that can <a href="https://digimon.fandom.com/wiki/Digivolution">digivolve</a> any time</p>
 </p>
 
-
-We design `ZtplAppDirectory` with this consideration. With `ZtplAppDirectory` you will have a straightforward development experience like building a simple monolith. But you always know that `ZtplAppDirectory`` is ready for microservices.
+`ZtplAppDirectory` lets you have a straightforward development experience like building a simple monolith. But you always know that `ZtplAppDirectory`` is ready for microservices.
 
 Let's see the following scenarios, and see what we can do in each phase:
 
@@ -42,22 +41,22 @@ Let's see the following scenarios, and see what we can do in each phase:
 
 Now let's dive into the architecture; so that you can get a better picture of why `ztplAppDirectory` is probably a good solution to your use case.
 
+
 # Microservices vs Monolith
 
 In 2016, [DHH](https://twitter.com/dhh) wrote an article titled [Majestic Monolith](https://m.signalvnoise.com/the-majestic-monolith/).
 
 Since big tech companies like Google or Netflix use microservices, people are getting curious about this. They start to adopt the architecture without understanding the drawbacks. In the article, DHH argued that not all companies need microservices architecture.
 
-Let's see how microservices and a monolith are different from each other.
+Now let's see how microservices and a monolith are different from each other.
+
 
 ## Microservices: The good and the bad
-
 
 <p align="center">
     <img src="./images/individual-zords.jpg" width="500px" alt="Individual Zords from Mighty Morphin Power Rangers" />
     <p align="center">Individual Zords from Mighty Morphin Power Rangers</p>
 </p>
-
 
 Microservices architecture is good because:
 
@@ -69,7 +68,8 @@ Microservices architecture is bad because:
 
 - There is a lot of network communication.
 - Either you build a correct one, or just create a [distributed monolith](https://www.techtarget.com/searchapparchitecture/tip/The-distributed-monolith-What-it-is-and-how-to-escape-it).
-- Deploying microservices can be challenging.
+- Developing/deploying/monitoring microservices can be challenging.
+
 
 ## Monolith: The good and the bad
 
@@ -88,12 +88,12 @@ Monolith architecture is bad because:
 - When it is down, the entire system is down.
 - When you need to scale up/down, everything is scaled up/down
 
-# Microservices-ready monolith (aka Modular Monolith)
 
+# Microservices-ready monolith (aka Modular Monolith)
 
 Many companies failed to refactor their monolith application into microservices, thus failing to support their business growth.
 
-Other companies are investing too much in Kubernetes or other expensive technologies. They are investing too much for something they didn't need. Technology become their cost center, and they have very few resources to grow their businesses.
+Other companies are investing too much in Kubernetes or other expensive technologies. They work too much for something they didn't need. Technology become their cost center, and they have very few resources to grow a real business.
 
 We can improve the situation by creating a __modular monolith application__. At the very beginning of your business, you should start with a cheap monolith app. But later, you should be able to split your application into microservices.
 

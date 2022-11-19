@@ -2,14 +2,16 @@
 
 `ZtplAppDirectory` is a microservice-ready monolith application. It is built on top of [FastAPI](https://fastapi.tiangolo.com/), a modern, fast (high-performance) web framework for building APIs with Python 3.7+ based on standard Python-type hints.
 
-To generate `ZtplAppDirectory`, you can use the following command using [Zaruba](https://github.com/state-alchemists/zaruba):
+`ZtplAppDirectory` is created by using [Zaruba](https://github.com/state-alchemists/zaruba).
+
+To generate `ZtplAppDirectory`, you can use the following command:
 
 ```bash
 zaruba please initProject # or cd to your zaruba project
 zaruba please addFastApp appDirectory=ztplAppDirectory
 ```
 
-Zaruba also allows you to add custom resources into `ZtplAppDirectory`. For this to work, you need to follow a few conventions:
+Zaruba also allows you to add custom resources (like modules or API endpoints) into `ZtplAppDirectory`. For this to work, you need to follow a few conventions:
 
 - Don't delete any line __preceded__ by this comment:
 
@@ -50,15 +52,26 @@ source template.env
 ./start.sh
 ```
 
+Once running, you can access `ZtplAppDirectory` by pointing your browser to [http://localhost:3000](http://localhost:3000).
+
+You can log in to the system by using the following credentials:
+
+- user: `root`
+- password: `Alch3mist`
+
+Make sure to change the `root` password by accessing [http://localhost:3000/auth/users](http://localhost:3000/auth/users).
+
 # 🧪 How to test
 
-You can run the `ztplAppDirectory` unit test by invoking the following command:
+Unit tests ensure that your software components work as intended. Thus, it is recommended to run the test every time you modify your code.
+
+To run the `ztplAppDirectory` test, you can invoke the following command:
 
 ```bash
 zaruba please testZtplAppDirectory
 ```
 
-Alternatively, you can also invoke the following script:
+Alternatively, you can also run the following script:
 
 ```bash
 cd ztplAppDirectory
@@ -83,6 +96,8 @@ pytest -rP -v --cov="$(pwd)" --cov-report html
 
 A module is a collection of code to handle a specific business domain.
 
+Your application might consist of several modules that are independent of each other.
+
 To add a new module, you can invoke the following command:
 
 ```bash
@@ -105,11 +120,12 @@ CRUD (Create Read Update Delete) is common business logic.
 A single CRUD handler contains several:
 
 - API Route handlers
-- Frontend Page
+- UI Route handlers
 - RPC handlers
+- Service
 - Repository
 
-You can add a CRUD handler by invoking the following command:
+You can add a CRUD handler to your module by invoking the following command:
 
 ```bash
 zaruba please addFastAppCrud \
@@ -182,7 +198,7 @@ For more detailed information, please visit [adding a page section](_docs/adding
 
 # 🔗 How to add an API endpoint
 
-When other systems/apps need to talk to your application, you should provide an API endpoint.
+API endpoint handles requests from UI pages or other systems.
 
 You can add a new API endpoint by invoking the following command:
 
@@ -199,11 +215,17 @@ zaruba please addFastAppRouteHandler \
 For more detailed information, please visit [adding an API endpoint section](_docs/adding-a-new-module/adding-an-api-endpoint.md)
 
 
-## 📢 How to add an event handler
+# 📢 How to add an event handler
 
-When you have multiple apps in your system, some of your apps might fire an event to be handled by other apps.
+Your software might consist of multiple applications working together.
 
-You can add an event handler by invoking the following command:
+Those applications need to talk to each other. Whenever an application needs to notify others about something, it will fire an event (e.g., an order created).
+
+Other applications then need to listen to the event and do appropriate action (e.g., send a bill to the customer).
+
+To listen to the event, you need an event handler.
+
+The following command will help you add an event handler:
 
 ```bash
 zaruba please addFastAppEventHandler \
@@ -219,7 +241,11 @@ For more detailed information, please visit [adding an event handler section](_d
 
 # 🤙 How to add an RPC handler
 
-When you have multiple apps in your system, they need to talk to each other and get appropriate responses. This is called RPC (Remote Procedure Call).
+Sometimes when your application needs to get a reply from other applications.
+
+For example, an application needs to know whether a user is authenticated or not. Thus it performs a `remote procedure call` (aka RPC). 
+
+The authorization service then handles the RPC and sends a reply response to the application.
 
 You can add an RPC handler by invoking the following command:
 

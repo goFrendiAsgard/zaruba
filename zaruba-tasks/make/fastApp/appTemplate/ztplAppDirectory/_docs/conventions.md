@@ -150,6 +150,91 @@ class BookService():
 
 Suppose you have multiple services (not just `BookService`), and you want to change `mb` or `rpc` implementation. Then you have to modify all services.
 
+# Inter module communication
+
+Always use RPC/events if you need to do inter module communication.
+
+If you deploy your application as monolith, you can use `LocalRPC` and `LocalMessagebus`. Later if you want to deploy your application as microservices, those interfaces can be changed without changing any other implementation.
+
+## ✔️ Do
+
+- Always Use RPC/messagebus.
+
+For example, you want to notify `ActivityService` in `log` module about book-insertion event.
+
+First you need to create an `event handler` in `log` module as follow:
+
+```python
+
+def register_activity_event(mb: MessageBus, rpc: RPC, auth_service: AuthService, activity_service: ActivityService):
+
+    @mb.handle('new_activity')
+    def insert_activity(activity_data: Mapping[str, Any]) -> Optional[Mapping[str, Any]]:
+        activity = ActivityData.parse_obj(activity_data) 
+        new_activity = activity_service.insert(activity)
+        return None if new_activity is None else new_activity.dict()
+
+```
+
+```python
+class BookService():
+
+    def __init__(self, mb: AppMessageBus, rpc: AppRPC, book_repo: BookRepo):
+        self.mb = mb
+        self.rpc = rpc
+        self.book_repo = book_repo
+
+
+    def insert(self, book_data: BookData, current_user: User) -> Optional[Book]:
+        book_data.created_by = current_user.id
+        book_data.updated_by = current_user.id
+        book_data = self._validate_data(book_data)
+        new_book = self.book_repo.insert(book_data)
+        self.mb.publish('new_activity', ActivityData(
+            user_id = current_user.id,
+            activity = 'insert',
+            object = 'book',
+            row = new_book.dict(),
+            row_id = new_book.id
+        ))
+        return new_book
+```
+
+## ❌ Don't
+
+- Construct other module service
+- Call other module service
+
+
+```python
+from modules.other_module.action import ActionService
+
+class BookService():
+
+    def __init__(self, mb: AppMessageBus, rpc: AppRPC, book_repo: BookRepo, action_service: ActionService):
+        self.mb = mb
+        self.rpc = rpc
+        self.book_repo = book_repo
+        # When you deploy the app as microservices, log module might has it's own database
+        # If you use action_service here, you limit the microservices to use the same database
+        self.action_service = action_service
+
+
+    def insert(self, book_data: BookData, current_user: User) -> Optional[Book]:
+        book_data.created_by = current_user.id
+        book_data.updated_by = current_user.id
+        book_data = self._validate_data(book_data)
+        new_book = self.book_repo.insert(book_data)
+        self.action_service.insert(ActivityData(
+            user_id = current_user.id,
+            activity = 'insert',
+            object = 'book',
+            row = new_book.dict(),
+            row_id = new_book.id
+        ))
+        return new_book
+```
+
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

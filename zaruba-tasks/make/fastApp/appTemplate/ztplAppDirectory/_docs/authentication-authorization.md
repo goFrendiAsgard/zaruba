@@ -47,9 +47,6 @@ Those methods will:
 Let's see the following example:
 
 ```python
-# location: 
-# - <module>/route.py
-# - <module>/<entity>/<entity>Route.py
 @app.get('/api/v1/books/', response_model=BookResult)
 def find_books(keyword: str='', limit: int=100, offset: int=0, current_user: Optional[User] = Depends(auth_service.has_permission('api:book:read'))) -> BookResult:
     result = {}
@@ -68,62 +65,47 @@ In this case, you want `GET /api/vi/books` to be accessible by any user that has
 To authorize a page, you can use any implementation of `MenuService` interface. `ZtplAppDirectory` provide you with default implementation that you can modify later:
 
 ```python
-# location: main.py
 menu_service = create_menu_service(rpc, auth_service)
 ```
 
-Inside `create_menu_service` function you can see how the menu is being aranged:
+Once you have a `MenuService`, you can start adding menu
+
 
 ```python
-# location: configs/menu_serviceFactory.py
-def create_menu_service(rpc: RPC, auth_service: AuthService) -> MenuService:
-    menu_service = MenuService(rpc, auth_service)
-    menu_service.add_menu(name='account', title='Account', url='#', auth_type=AuthType.ANYONE)
-    menu_service.add_menu(name='account/login', title='Log in', url='/account/login', auth_type=AuthType.VISITOR, parent_name='account')
-    menu_service.add_menu(name='account/logout', title='Log out', url='/account/logout', auth_type=AuthType.USER, parent_name='account')
-    menu_service.add_menu(name='auth', title='Security', url='#', auth_type=AuthType.ANYONE)
-    menu_service.add_menu(name='auth/roles', title='Roles', url='/auth/roles', auth_type=AuthType.HAS_PERMISSION, permission_name='ui:auth:role', parent_name='auth')
-    menu_service.add_menu(name='auth/users', title='Users', url='/auth/users', auth_type=AuthType.HAS_PERMISSION, permission_name='ui:auth:user', parent_name='auth')
-    return menu_service
+def register_book_ui_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, menu_service: MenuService, page_template: Jinja2Templates):
+
+    menu_service.add_menu(name='library', title='Library', url='#', auth_type=AuthType.ANYONE)
+    menu_service.add_menu(name='library:books', title='Books', url='/library/books', auth_type=AuthType.HAS_PERMISSION, permission_name='ui:library:book', parent_name='library')
 ```
 
 It also tell you about the menu structure:
 
 ```
-account (Account)
-  - account/login (Log in)
-  - account/logout (Log out)
-auth (Security)
-  - auth/roles (Roles)
-  - auth/users (Users)
+- library (#)
+    - library:books (/library/books)
 ```
 
-Be sure to register your page to `create_menu_service` whenever you add a new page.
-
-To authorize a page, you can inject `menu_service.has_access('<menu-name>')`:
+Now to authorize a page, you can inject `menu_service.has_access('<menu-name>')`:
 
 ```python
-@app.get('/', response_class=HTMLResponse)
-async def get_(request: Request, context: MenuContext = Depends(menu_service.has_access('library:/'))) -> HTMLResponse:
-    '''
-    Handle (get) /
-    '''
-    try:
-        return page_template.TemplateResponse('default_page.html', context={
-            'request': request,
-            'context': context,
-            'content_path': 'library/.html'
-        }, status_code=200)
-    except:
-        print(traceback.format_exc()) 
-        return page_template.TemplateResponse('default_error.html', context={
-            'request': request,
-            'status_code': 500,
-            'detail': 'Internal server error'
-        }, status_code=500)
+def register_book_ui_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, menu_service: MenuService, page_template: Jinja2Templates):
+
+    menu_service.add_menu(name='library', title='Library', url='#', auth_type=AuthType.ANYONE)
+    menu_service.add_menu(name='library:books', title='Books', url='/library/books', auth_type=AuthType.HAS_PERMISSION, permission_name='ui:library:book', parent_name='library')
+
+    @app.get('/library/books', response_class=HTMLResponse)
+        async def manage_book(request: Request, context: MenuContext = Depends(menu_service.has_access('library:books'))):
+            '''
+            Serving user interface for managing book.
+            '''
+            return page_template.TemplateResponse('default_crud.html', context={
+                'content_path': 'modules/library/crud/books.html',
+                'request': request, 
+                'context': context
+            }, status_code=200)
 ```
 
-`menu_service.has_access` will return `MenuContext` that you can use to render jinja page_template.
+`menu_service.has_access` will return `MenuContext` that you can use to render jinja page template in `pages/modules/library/crud/books.html`.
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

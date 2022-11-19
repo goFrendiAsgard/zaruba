@@ -62,7 +62,7 @@ class Trigger(GaiaMemory):
 
 Now you can use `Joker`, `Cyclone`, and `Trigger` as `GaiaMemory`. As long as the implementations comply with the interface, the implementation can substitute each other. This is known as [Liskov substitution principle](https://en.wikipedia.org/wiki/Liskov_substitution_principle).
 
-Let's continue with `WDriver` implementation. Notice that we will use `GaiaMemory` interface as `WDriver` constructor parameter. The code is as follows:
+Let's continue with `WDriver` implementation. Notice how we use `GaiaMemory` interface as `WDriver` constructor parameter. The code is as follows:
 
 
 ```python
