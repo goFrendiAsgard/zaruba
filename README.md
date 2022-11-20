@@ -8,11 +8,13 @@
 
 Zaruba is a [task](docs/core-concepts/task/README.md) runner and [CLI utility](docs/utilities/README.md). It helps you __prepare__, __run__, __deploy__, and __debug__ your applications.
 
+We believe, a good tool not only increases productivity but also changes and transforms people. In turn, a good tool will enable people to achieve their goals and open many other opportunities.
+
 ## ❓ Problem
 
 Developing/debugging a system can be challenging. 
 
-Your system might consist of several applications that depend on each other. And you need to watch every message or error log in your applications. So, you might end up opening many tmux panels.
+Your system might consist of several applications that depend on each other. And you need to watch every message or error logged in your applications. So, you might end up opening many Tmux panels.
 
 Suppose your system consists of:
 - A __frontend__ application
@@ -36,7 +38,7 @@ You can see that:
     - If the container is not there, you need to create and start it.
   - To execute any Python-related tasks, you have to activate the virtual environment first.
 - ⚙️ Several tasks might __share a similar configuration__. For example:
-  - `BACKEND_PORT` in your frontend has to reflect `HTTP_PORT` in your backend.
+  - `BACKEND_PORT` in your front end has to reflect `HTTP_PORT` in your backend.
   - `DB_PASSWORD` in your backend has to reflect `MYSQL_ROOT_PASSWORD` in your MySQL container.
 
 Thus, you have to be careful when you want to run the system on your computer. You must ensure the configuration is correct and the tasks executed in order.
