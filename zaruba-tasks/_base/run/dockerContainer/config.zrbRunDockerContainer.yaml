@@ -10,6 +10,7 @@ configs:
     ports: ''
     volumes: ''
     user: ''
+    escapedEnvs: ''
     shmSize: '100m'
     memory: '512m'
     cpus: '1'
@@ -50,12 +51,11 @@ configs:
       {{ end -}}
     _startRunContainerEnv: |
       {{ $this := . -}}
-      {{ if eq (.GetConfig "localhost") "localhost" -}}
-        {{ range $key, $val := $this.GetEnvs -}}
+      {{ $escapedEnvs := .Util.Str.Split (.Util.Str.Trim (.GetConfig "escapedEnvs") "\n ") "\n " -}}
+      {{ range $key, $val := $this.GetEnvs -}}
+        {{ if or ($this.Util.List.Contains $escapedEnvs $key) (eq ($this.GetConfig "localhost") "localhost") -}}
           -e {{ $this.Util.Str.EscapeShellValue (printf "%s=%s" $key $val) }} {{ "" -}}
-        {{ end -}}
-      {{ else -}}
-        {{ range $key, $val := $this.GetEnvs -}}
+        {{ else -}}
           {{ $val = $this.ReplaceAll $val "localhost" ($this.GetConfig "localhost") -}}
           {{ $val = $this.ReplaceAll $val "127.0.0.1" ($this.GetConfig "localhost") -}}
           {{ $val = $this.ReplaceAll $val "0.0.0.0" ($this.GetConfig "localhost") -}}

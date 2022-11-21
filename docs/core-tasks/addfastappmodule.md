@@ -221,7 +221,7 @@ Value:
 
 Value:
 
-    ${_ZRB_APP_DIRECTORY}/modules/${_ZRB_APP_MODULE_NAME}
+    ${_ZRB_APP_DIRECTORY}/module/${_ZRB_APP_MODULE_NAME}
 
 
 ### Configs._start

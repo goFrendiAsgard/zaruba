@@ -38,11 +38,11 @@ Use "zaruba task [command] --help" for more information about a command.
 
 <!--startTocSubTopic-->
 # Sub-topics
-* [AddDependencies](add-dependencies.md)
-* [AddParents](add-parents.md)
-* [GetIcon](get-icon.md)
-* [IsExist](is-exist.md)
-* [SetConfig](set-config.md)
-* [SetEnv](set-env.md)
-* [SyncEnv](sync-env.md)
+* [AddDependencies](adddependencies.md)
+* [AddParents](addparents.md)
+* [GetIcon](geticon.md)
+* [IsExist](isexist.md)
+* [SetConfig](setconfig.md)
+* [SetEnv](setenv.md)
+* [SyncEnv](syncenv.md)
 <!--endTocSubTopic-->

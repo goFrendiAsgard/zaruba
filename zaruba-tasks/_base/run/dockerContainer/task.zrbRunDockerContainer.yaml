@@ -17,6 +17,8 @@ tasks:
         imageName      : Image name
         imageTag       : Image tag
         containerName  : Name of the container
+        escapedEnvs    : Escaped envs would not be altered/parsed into host.docker.internal,
+                         separated by new line.
         ports          : Port to be checked to confirm service readiness, 
                          separated by new line.
         volumes        : Host-container volume mappings,
@@ -34,7 +36,7 @@ tasks:
                          The command will be executed from inside the container.
         checkCommand   : Command to check container readiness (Single Line).
                          The command will be executed from inside the container.
-        localhost      : Localhost mapping (e.g., host.docker.container)
+        localhost      : Localhost mapping (e.g., host.docker.internal)
     private: true
     extend: zrbRunShellScript
     dependencies:

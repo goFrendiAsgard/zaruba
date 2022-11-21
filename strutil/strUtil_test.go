@@ -79,7 +79,7 @@ func TestToPascalCaseEmpty(t *testing.T) {
 func TestToTitle(t *testing.T) {
 	strutil := NewStrUtil()
 	expected := "Some Random String"
-	actual := strutil.ToSnake("Some randomString")
+	actual := strutil.ToTitle("Some randomString")
 	if actual != expected {
 		t.Errorf("expected: %s, actual: %s", expected, actual)
 	}

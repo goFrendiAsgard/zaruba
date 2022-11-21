@@ -35,10 +35,10 @@ Use "zaruba file [command] --help" for more information about a command.
 
 <!--startTocSubTopic-->
 # Sub-topics
-* [AddTask](add-task.md)
+* [AddTask](addtask.md)
 * [Include](include.md)
-* [SetValue](set-value.md)
-* [ShowLog](show-log.md)
-* [SyncEnv](sync-env.md)
-* [SyncEnvFiles](sync-env-files.md)
+* [SetValue](setvalue.md)
+* [ShowLog](showlog.md)
+* [SyncEnv](syncenv.md)
+* [SyncEnvFiles](syncenvfiles.md)
 <!--endTocSubTopic-->

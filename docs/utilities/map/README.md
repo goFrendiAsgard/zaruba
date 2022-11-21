@@ -43,12 +43,12 @@ Use "zaruba map [command] --help" for more information about a command.
 <!--startTocSubTopic-->
 # Sub-topics
 * [Get](get.md)
-* [GetKeys](get-keys.md)
+* [GetKeys](getkeys.md)
 * [Merge](merge.md)
-* [RangeKey](range-key.md)
+* [RangeKey](rangekey.md)
 * [Set](set.md)
-* [ToStringMap](to-string-map.md)
-* [ToVariedStringMap](to-varied-string-map.md)
-* [TransformKey](transform-key.md)
+* [ToStringMap](tostringmap.md)
+* [ToVariedStringMap](tovariedstringmap.md)
+* [TransformKey](transformkey.md)
 * [Validate](validate.md)
 <!--endTocSubTopic-->

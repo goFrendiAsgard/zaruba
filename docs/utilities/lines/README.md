@@ -42,9 +42,9 @@ Use "zaruba lines [command] --help" for more information about a command.
 <!--startTocSubTopic-->
 # Sub-topics
 * [Fill](fill.md)
-* [GetIndex](get-index.md)
-* [InsertAfter](insert-after.md)
-* [InsertBefore](insert-before.md)
+* [GetIndex](getindex.md)
+* [InsertAfter](insertafter.md)
+* [InsertBefore](insertbefore.md)
 * [Read](read.md)
 * [Replace](replace.md)
 * [Submatch](submatch.md)

@@ -1,0 +1,36 @@
+configs:
+
+  ztplAppName:
+    runInLocal: '{{ .GetValue "runZtplAppNameInLocal" }}'
+    ports: |
+      ztplAppYamlPorts
+
+  ztplAppNameContainer:
+    useImagePrefix: true
+    imageName: ztpl-app-image-name
+    containerName: ztplAppContainerName
+    escapedEnvs: |
+      APP_UI_BACKEND_URL
+    localhost: host.docker.internal
+    checkCommand: |
+      ztplAppCheckCommand
+    volumes: |
+      ztplAppYamlContainerVolumes
+
+  startZtplAppName:
+    start: |
+      . "{{ .GetProjectPath "zaruba-tasks/ztplAppName/bash/run.sh" }}" "{{ .GetProjectPath "zaruba-tasks/ztplAppName/bash/application.sh" }}"
+    check: |
+      ztplAppCheckCommand
+
+  prepareZtplAppName:
+    start: |
+      . "{{ .GetProjectPath "zaruba-tasks/ztplAppName/bash/run.sh" }}" "{{ .GetProjectPath "zaruba-tasks/ztplAppName/bash/preparation.sh" }}"
+
+  testZtplAppName:
+    start: |
+      . "{{ .GetProjectPath "zaruba-tasks/ztplAppName/bash/run.sh" }}" "{{ .GetProjectPath "zaruba-tasks/ztplAppName/bash/test.sh" }}"
+
+  migrateZtplAppName:
+    start: |
+      . "{{ .GetProjectPath "zaruba-tasks/ztplAppName/bash/run.sh" }}" "{{ .GetProjectPath "zaruba-tasks/ztplAppName/bash/migration.sh" }}"

@@ -35,6 +35,6 @@ Use "zaruba num [command] --help" for more information about a command.
 <!--startTocSubTopic-->
 # Sub-topics
 * [Range](range.md)
-* [ValidateFloat](validate-float.md)
-* [ValidateInt](validate-int.md)
+* [ValidateFloat](validatefloat.md)
+* [ValidateInt](validateint.md)
 <!--endTocSubTopic-->

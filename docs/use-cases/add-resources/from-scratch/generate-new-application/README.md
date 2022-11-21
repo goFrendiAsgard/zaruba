@@ -28,12 +28,12 @@ For more detail information please visit any of the following documentations:
 <!--startTocSubTopic-->
 # Sub-topics
 * [Simple Go Application](simple-go-application.md)
-* [Simple NodeJs Application](simple-node-js-application.md)
+* [Simple NodeJs Application](simple-nodejs-application.md)
 * [Simple Python Application](simple-python-application.md)
-* [Simple TypeScript Application](simple-type-script-application.md)
-* [FastApi Application](fast-api-application/README.md)
-  * [Route](fast-api-application/route.md)
-  * [Event Handler](fast-api-application/event-handler.md)
-  * [Rpc Handler](fast-api-application/rpc-handler.md)
-  * [Crud](fast-api-application/crud.md)
+* [Simple TypeScript Application](simple-typescript-application.md)
+* [FastApi Application](fastapi-application/README.md)
+  * [Route](fastapi-application/route.md)
+  * [Event Handler](fastapi-application/event-handler.md)
+  * [Rpc Handler](fastapi-application/rpc-handler.md)
+  * [Crud](fastapi-application/crud.md)
 <!--endTocSubTopic-->

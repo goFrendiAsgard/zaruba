@@ -35,8 +35,8 @@ Use "zaruba path [command] --help" for more information about a command.
 
 <!--startTocSubTopic-->
 # Sub-topics
-* [GetAppName](get-app-name.md)
-* [GetEnv](get-env.md)
-* [GetPortConfig](get-port-config.md)
-* [GetRelativePath](get-relative-path.md)
+* [GetAppName](getappname.md)
+* [GetEnv](getenv.md)
+* [GetPortConfig](getportconfig.md)
+* [GetRelativePath](getrelativepath.md)
 <!--endTocSubTopic-->

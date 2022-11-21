@@ -28,9 +28,11 @@ Description:
       afterCheck     : Script to be executed before check app readiness.
       finish         : Script to be executed after start app or check app readiness.
       runInLocal     : Run app locally or not.
+      escapedEnvs    : Escaped envs would not be altered/parsed into host.docker.internal,
+                       separated by new line.
       ports          : Port to be checked to confirm app readiness, 
                        separated by new line.
-      localhost      : Localhost mapping (e.g., host.docker.container)
+      localhost      : Localhost mapping (e.g., host.docker.internal)
 
 
 
@@ -172,12 +174,11 @@ Value:
 Value:
 
     {{ $this := . -}}
-    {{ if eq (.GetConfig "localhost") "localhost" -}}
-      {{ range $key, $val := $this.GetEnvs -}}
+    {{ $escapedEnvs := .Util.Str.Split (.Util.Str.Trim (.GetConfig "escapedEnvs") "\n ") "\n " -}}
+    {{ range $key, $val := $this.GetEnvs -}}
+      {{ if or ($this.Util.List.Contains $escapedEnvs $key) (eq ($this.GetConfig "localhost") "localhost") -}}
         export {{ $this.Util.Str.EscapeShellValue (printf "%s=%s" $key $val) }}
-      {{ end -}}
-    {{ else -}}
-      {{ range $key, $val := $this.GetEnvs -}}
+      {{ else -}}
         {{ $val = $this.ReplaceAll $val "localhost" ($this.GetConfig "localhost") -}}
         {{ $val = $this.ReplaceAll $val "127.0.0.1" ($this.GetConfig "localhost") -}}
         {{ $val = $this.ReplaceAll $val "0.0.0.0" ($this.GetConfig "localhost") -}}

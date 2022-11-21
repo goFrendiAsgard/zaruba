@@ -49,7 +49,7 @@ Use "zaruba list [command] --help" for more information about a command.
 * [Join](join.md)
 * [Length](length.md)
 * [Merge](merge.md)
-* [RangeIndex](range-index.md)
+* [RangeIndex](rangeindex.md)
 * [Set](set.md)
 * [Validate](validate.md)
 <!--endTocSubTopic-->

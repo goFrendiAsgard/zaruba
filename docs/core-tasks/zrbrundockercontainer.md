@@ -1,13 +1,13 @@
 <!--startTocHeader-->
 [🏠](../README.md) > [🥝 Core Tasks](README.md)
-# 🐳 zrbStartDockerContainer
+# 🐳 zrbRunDockerContainer
 <!--endTocHeader-->
 
 ## Information
 
 File Location:
 
-    ~/.zaruba/zaruba-tasks/_base/start/task.zrbStartDockerContainer.yaml
+    ~/.zaruba/zaruba-tasks/_base/run/dockerContainer/task.zrbRunDockerContainer.yaml
 
 Should Sync Env:
 
@@ -15,44 +15,50 @@ Should Sync Env:
 
 Type:
 
-    long running
+    simple
 
 Description:
 
-    Start docker container and wait until it is ready.
+    Run docker container.
     If container is already started, its stdout/stderr will be shown.
     If container is exist but not started, it will be started.
     If container does not exist, it will be created and started.
     Common configs:
-      setup          : Script to be executed before start app or check app readiness.
-      beforeStart    : Script to be executed before start app.
-      afterStart     : Script to be executed after start app.
-      beforeCheck    : Script to be executed before check app readiness.
-      afterCheck     : Script to be executed before check app readiness.
-      finish         : Script to be executed after start app or check app readiness.
-      runInLocal     : Run app locally or not.
+      setup          : Script to be executed before start service or check service readiness.
+      beforeStart    : Script to be executed before start service.
+      afterStart     : Script to be executed after start service.
+      finish         : Script to be executed after start service or check service readiness.
       useImagePrefix : Whether image prefix should be used or not
       imagePrefix    : Image prefix
       imageName      : Image name
       imageTag       : Image tag
       containerName  : Name of the container
-      ports          : Port to be checked to confirm app readiness, 
+      escapedEnvs    : Escaped envs would not be altered/parsed into host.docker.internal,
+                       separated by new line.
+      ports          : Port to be checked to confirm service readiness, 
                        separated by new line.
       volumes        : Host-container volume mappings,
                        separated by new line.
+      user           : docker user (e.g., 0 for root)
+      shmSize        : Size of /dev/shm. The format is <number><unit>. number must be greater than 0. 
+                       Unit is optional and can be b (bytes), k (kilobytes), m (megabytes), or g (gigabytes).
+                       If you omit the unit, the system uses bytes. If you omit the size entirely, the system uses 64m.
+      memory         : Memory limit, default: 512m
+      cpus           : CPU limit, default: 1
+      gpus           : GPU config, default: unset. Possible value: 'all,capabilities=utlity'
       rebuild        : Should container be rebuild (This will not rebuild the image)
       command        : Command to be used (Single Line).
                        Leave blank to use container's CMD.
                        The command will be executed from inside the container.
       checkCommand   : Command to check container readiness (Single Line).
                        The command will be executed from inside the container.
-      localhost      : Localhost mapping (e.g., host.docker.container)
+      localhost      : Localhost mapping (e.g., host.docker.internal)
 
 
 
 ## Extends
 
-* [zrbStartApp](zrb-start-app.md)
+* [zrbRunShellScript](zrb-run-shell-script.md)
 
 
 ## Dependencies
@@ -67,11 +73,6 @@ Description:
 * `{{ .GetConfig "cmdArg" }}`
 *
     ```
-    {{ if .Util.Bool.IsFalse (.GetConfig "runInLocal") -}}
-      echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
-      echo "${_SCRIPT_ICON} ${_BOLD}${_YELLOW}Task '{{ .Name }}' is started${_NORMAL}"
-      sleep infinity
-    {{ end -}}
     {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
     {{ .Util.Str.Trim (.GetConfig "setup") "\n " }}
     {{ .Util.Str.Trim (.GetConfig "beforeStart") "\n " }}
@@ -80,107 +81,11 @@ Description:
     {{ .Util.Str.Trim (.GetConfig "afterStart") "\n " }}
     {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
     {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
-    echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
-    echo "${_SCRIPT_ICON} ${_BOLD}${_YELLOW}Task '{{ .Name }}' is started${_NORMAL}"
 
-    ```
-
-
-## Check
-
-* `{{ .GetConfig "cmd" }}`
-* `{{ .GetConfig "cmdArg" }}`
-*
-    ```
-    {{ if .Util.Bool.IsFalse (.GetConfig "runInLocal") -}}
-      echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
-      echo "${_SCRIPT_ICON} ${_BOLD}${_YELLOW}Task '{{ .Name }}' is ready${_NORMAL}"
-      exit 0
-    {{ end -}}
-    {{ .Util.Str.Trim (.GetConfig "_setup") "\n " }}
-    {{ .Util.Str.Trim (.GetConfig "setup") "\n " }}
-    {{ .Util.Str.Trim (.GetConfig "beforeCheck") "\n " }}
-    {{ .Util.Str.Trim (.GetConfig "_check") "\n " }}
-    {{ .Util.Str.Trim (.GetConfig "check") "\n " }}
-    {{ .Util.Str.Trim (.GetConfig "afterCheck") "\n " }}
-    {{ .Util.Str.Trim (.GetConfig "finish") "\n " }}
-    {{ .Util.Str.Trim (.GetConfig "_finish") "\n " }}
-    echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
-    echo "${_SCRIPT_ICON} ${_BOLD}${_YELLOW}Task '{{ .Name }}' is ready${_NORMAL}"
     ```
 
 
 ## Configs
-
-
-### Configs._check
-
-Value:
-
-    {{ .GetConfig "_checkContainerState" }}
-    {{ .GetConfig "_checkConfigPorts" }}
-    {{ .GetConfig "_checkCommand" }}
-    sleep 1
-
-
-
-### Configs._checkCommand
-
-Value:
-
-    {{ if .GetConfig "checkCommand" -}}
-    (echo $- | grep -Eq ^.*e.*$) && _OLD_STATE=-e || _OLD_STATE=+e
-    set +e
-    sleep 3
-    {{ $checkCommand := .Util.Str.Trim (.GetConfig "checkCommand") "\n" -}}
-    echo "${_INSPECT_ICON} ${_BOLD}${_YELLOW}Run check in '${CONTAINER_NAME}': {{ .Util.Str.EscapeShellValue $checkCommand }}${_NORMAL}"
-    docker exec "${CONTAINER_NAME}" {{ $checkCommand }}
-    until [ "$?" = "0" ]
-    do
-      sleep 3
-      docker exec "${CONTAINER_NAME}" {{ $checkCommand }}
-    done
-    echo "${_INSPECT_ICON} ${_BOLD}${_YELLOW}Sucessfully run check in '${CONTAINER_NAME}': {{ .Util.Str.EscapeShellValue $checkCommand }}${_NORMAL}"
-    set "${_OLD_STATE}"
-    {{ end -}}
-
-
-
-### Configs._checkConfigPorts
-
-Value:
-
-    {{ $this := . -}}
-    {{ range $index, $port := .Util.Str.Split (.Util.Str.Trim (.GetConfig "ports") "\n ") "\n" -}}
-      {{ if ne $port "" -}}
-        {{ $portParts := $this.Util.Str.Split ($this.Util.Str.Trim $port  " ") ":" -}}
-        {{ $hostPort := index $portParts 0 -}}
-        echo "${_INSPECT_ICON} ${_BOLD}${_YELLOW}Waiting for host port: '{{ $hostPort }}'${_NORMAL}"
-        waitPort "localhost" {{ $hostPort }}
-        echo "${_INSPECT_ICON} ${_BOLD}${_YELLOW}Host port '{{ $hostPort }}' is ready${_NORMAL}"
-      {{ end -}}
-    {{ end -}}
-
-
-
-### Configs._checkContainerState
-
-Value:
-
-    echo "${_INSPECT_ICON} ${_BOLD}${_YELLOW}Waiting docker container '${CONTAINER_NAME}' running status${_NORMAL}"
-    until [ "$(inspectDocker "container" ".State.Running" "${CONTAINER_NAME}")" = true ]
-    do
-      echo "${_INSPECT_ICON} ${_BOLD}${_RED}Docker container '${CONTAINER_NAME}' is not running${_NORMAL}"
-      sleep 1
-    done
-    echo "${_INSPECT_ICON} ${_BOLD}${_YELLOW}Waiting docker container '${CONTAINER_NAME}' healthcheck${_NORMAL}"
-    while [ "$(inspectDocker "container" ".State.Health" "${CONTAINER_NAME}")" = false ]
-    do
-      echo "${_INSPECT_ICON} ${_BOLD}${_RED}Docker container '${CONTAINER_NAME}' is not healthy${_NORMAL}"
-      sleep 1
-    done
-    echo "${_INSPECT_ICON} ${_BOLD}${_YELLOW}Docker container '${CONTAINER_NAME}' is running${_NORMAL}"
-
 
 
 ### Configs._finish
@@ -320,12 +225,11 @@ Value:
 Value:
 
     {{ $this := . -}}
-    {{ if eq (.GetConfig "localhost") "localhost" -}}
-      {{ range $key, $val := $this.GetEnvs -}}
+    {{ $escapedEnvs := .Util.Str.Split (.Util.Str.Trim (.GetConfig "escapedEnvs") "\n ") "\n " -}}
+    {{ range $key, $val := $this.GetEnvs -}}
+      {{ if or ($this.Util.List.Contains $escapedEnvs $key) (eq ($this.GetConfig "localhost") "localhost") -}}
         -e {{ $this.Util.Str.EscapeShellValue (printf "%s=%s" $key $val) }} {{ "" -}}
-      {{ end -}}
-    {{ else -}}
-      {{ range $key, $val := $this.GetEnvs -}}
+      {{ else -}}
         {{ $val = $this.ReplaceAll $val "localhost" ($this.GetConfig "localhost") -}}
         {{ $val = $this.ReplaceAll $val "127.0.0.1" ($this.GetConfig "localhost") -}}
         {{ $val = $this.ReplaceAll $val "0.0.0.0" ($this.GetConfig "localhost") -}}
@@ -373,19 +277,10 @@ Value:
 
 
 
-### Configs.afterCheck
-
-
 ### Configs.afterStart
 
 
-### Configs.beforeCheck
-
-
 ### Configs.beforeStart
-
-
-### Configs.check
 
 
 ### Configs.checkCommand
@@ -422,6 +317,9 @@ Value:
 
 
 ### Configs.entryPoint
+
+
+### Configs.escapedEnvs
 
 
 ### Configs.finish
@@ -486,13 +384,6 @@ Value:
 Value:
 
     no
-
-
-### Configs.runInLocal
-
-Value:
-
-    true
 
 
 ### Configs.setup

@@ -109,6 +109,6 @@ Zaruba will always start `myDb` first before starting `myApp`. This is expected 
 <!--startTocSubTopic-->
 # Sub-topics
 * [Go Application Runner](go-application-runner.md)
-* [NodeJs Application Runner](node-js-application-runner.md)
+* [NodeJs Application Runner](nodejs-application-runner.md)
 * [Python Application Runner](python-application-runner.md)
 <!--endTocSubTopic-->

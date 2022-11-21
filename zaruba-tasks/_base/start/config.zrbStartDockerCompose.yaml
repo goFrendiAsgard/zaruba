@@ -1,7 +1,7 @@
 configs:
 
   zrbStartDockerCompose:
-    localhost: 'localhost'
+    localhost: localhost
     _start: |
       if [ -z "$(docker-compose top)" ]
       then
@@ -16,12 +16,11 @@ configs:
       docker-compose logs --follow
     _startEnv: |
       {{ $this := . -}}
-      {{ if eq (.GetConfig "localhost") "localhost" -}}
-        {{ range $key, $val := $this.GetEnvs -}}
+      {{ $escapedEnvs := .Util.Str.Split (.Util.Str.Trim (.GetConfig "escapedEnvs") "\n ") "\n " -}}
+      {{ range $key, $val := $this.GetEnvs -}}
+        {{ if or ($this.Util.List.Contains $escapedEnvs $key) (eq ($this.GetConfig "localhost") "localhost") -}}
           export {{ $this.Util.Str.EscapeShellValue (printf "%s=%s" $key $val) }}
-        {{ end -}}
-      {{ else -}}
-        {{ range $key, $val := $this.GetEnvs -}}
+        {{ else -}}
           {{ $val = $this.ReplaceAll $val "localhost" ($this.GetConfig "localhost") -}}
           {{ $val = $this.ReplaceAll $val "127.0.0.1" ($this.GetConfig "localhost") -}}
           {{ $val = $this.ReplaceAll $val "0.0.0.0" ($this.GetConfig "localhost") -}}
