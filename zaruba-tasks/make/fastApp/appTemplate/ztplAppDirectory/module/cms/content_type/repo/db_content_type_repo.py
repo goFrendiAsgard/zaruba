@@ -16,7 +16,7 @@ class DBContentTypeEntity(Base):
     id = Column(String(36), primary_key=True, index=True)
     name = Column(String(255), index=True)
     template = Column(String(255), index=True)
-    json_attributes = Column(Text(), index=True)
+    json_attributes = Column(Text(), index=False, default='[]')
     created_at = Column(DateTime, default=datetime.datetime.utcnow) # Note: 💀 Don't delete this line; Zaruba uses it for pattern matching
     created_by = Column(String(36), nullable=True)
     updated_at = Column(DateTime, nullable=True)

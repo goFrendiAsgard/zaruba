@@ -36,7 +36,6 @@ def upgrade() -> None:
         sa.Column('updated_by', sa.String(length=36), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_index(op.f('ix_content_types_json_attributes'), 'content_types', ['json_attributes'], unique=False)
     op.create_index(op.f('ix_content_types_id'), 'content_types', ['id'], unique=False)
     op.create_index(op.f('ix_content_types_name'), 'content_types', ['name'], unique=False)
     op.create_index(op.f('ix_content_types_template'), 'content_types', ['template'], unique=False)
@@ -86,7 +85,6 @@ def downgrade() -> None:
     op.drop_index(op.f('ix_content_types_template'), table_name='content_types')
     op.drop_index(op.f('ix_content_types_name'), table_name='content_types')
     op.drop_index(op.f('ix_content_types_id'), table_name='content_types')
-    op.drop_index(op.f('ix_content_types_json_attributes'), table_name='content_types')
     op.drop_table('content_types')
     op.drop_index(op.f('ix_contents_content_type_id'), table_name='contents')
     op.drop_index(op.f('ix_contents_title'), table_name='contents')

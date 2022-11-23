@@ -15,7 +15,7 @@ class DBRoleEntity(Base):
     __tablename__ = "roles"
     id = Column(String(36), primary_key=True, index=True)
     name = Column(String(20), unique=True, index=True)
-    json_permissions = Column(Text(), index=False)
+    json_permissions = Column(Text(), index=False, default='[]')
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     created_by = Column(String(36), nullable=True)
     updated_at = Column(DateTime, nullable=True)
