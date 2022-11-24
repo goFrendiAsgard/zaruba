@@ -50,7 +50,6 @@ def upgrade() -> None:
         sa.Column('updated_by', sa.String(length=36), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_index(op.f('ix_contents_description'), 'contents', ['description'], unique=False)
     op.create_index(op.f('ix_contents_id'), 'contents', ['id'], unique=False)
     op.create_index(op.f('ix_contents_title'), 'contents', ['title'], unique=False)
     op.create_index(op.f('ix_contents_content_type_id'), 'contents', ['content_type_id'], unique=False)
@@ -89,6 +88,5 @@ def downgrade() -> None:
     op.drop_index(op.f('ix_contents_content_type_id'), table_name='contents')
     op.drop_index(op.f('ix_contents_title'), table_name='contents')
     op.drop_index(op.f('ix_contents_id'), table_name='contents')
-    op.drop_index(op.f('ix_contents_description'), table_name='contents')
     op.drop_table('contents')
     # ### end Alembic commands ###
