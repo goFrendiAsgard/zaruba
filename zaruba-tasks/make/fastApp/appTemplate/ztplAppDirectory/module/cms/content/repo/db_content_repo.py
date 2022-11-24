@@ -33,7 +33,7 @@ class DBContentAttributeEntity(Base):
     id = Column(String(36), primary_key=True, index=True, default=generate_primary_key)
     content_id = Column(String(36), ForeignKey('contents.id'), index=True, nullable=False)
     key = Column(String(255), index=True, nullable=False)
-    value = Column(Text(), index=True, nullable=True)
+    value = Column(Text(), index=False, nullable=True)
     content = relationship('DBContentEntity', back_populates='content_attributes')
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     created_by = Column(String(36), nullable=True)
