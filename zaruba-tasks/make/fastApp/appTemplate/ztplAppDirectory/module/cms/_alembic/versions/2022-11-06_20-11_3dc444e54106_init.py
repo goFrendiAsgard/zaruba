@@ -1,7 +1,7 @@
 """20221106201120 cms
 
 Revision ID: 3dc444e54106
-Revises: e768af779211
+Revises:
 Create Date: 2022-11-06 20:11:21.398067
 
 """
@@ -12,7 +12,7 @@ import os
 
 # revision identifiers, used by Alembic.
 revision = '3dc444e54106'
-down_revision = '2c643d4333f3'
+down_revision = None
 branch_labels = None
 depends_on = None
 
