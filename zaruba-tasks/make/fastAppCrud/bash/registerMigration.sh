@@ -6,13 +6,13 @@ _IMPORT_SCRIPT="$("${ZARUBA_BIN}" str replace "${_IMPORT_SCRIPT}" "${_ZRB_REPLAC
 
 
 ####################################################################
-## alembic/env.py
+## module/<module-name>/_alembic/env.py
 ####################################################################
 
 ####################################################################
 # Read existing alembic env
 
-_ENV_FILE_LOCATION="${_ZRB_APP_DIRECTORY}/alembic/env.py"
+_ENV_FILE_LOCATION="${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_NAME}/_alembic/env.py"
 _ENV_LINES="$("${ZARUBA_BIN}" lines read "${_ENV_FILE_LOCATION}")"
 
 

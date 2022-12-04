@@ -7,14 +7,14 @@
 
 Containing the documentation of `ztplAppDirectory`. 
 
-# `alembic` directory
+# `_alembic` directory
 
 This directory contains database migration. We use [alembic](https://alembic.sqlalchemy.org/en/latest/) for database migration.
 
-To generate migration file, you should import your SQLALchemy model into `alembic/env.py`:
+To generate migration file, you should import your SQLALchemy model into `_alembic/env.py`:
 
 ```python
-# file: alembic/env.py
+# file: _alembic/env.py
 from module.library.book.repo.dbBookRepo import DBBookRepo
 from module.auth import DBRoleRepo
 from module.auth import DBUserRepo
@@ -23,11 +23,8 @@ from module.auth import DBUserRepo
 Once the model has been imported, you can run the following commands:
 
 ```bash
-export IS_GENERATING_MIGRATION=1
 export MIGRATION_SQLALCHEMY_DATABASE_URL=sqlite://migration.db
-export MIGRATION_RUN_ALL=1
-alembic upgrade head
-alembic revision --autogenerate -m '<your-migration-name>'
+./create-migration.sh
 ```
 
 or, if you use Zaruba, you can do this intead:
@@ -38,12 +35,12 @@ zaruba please createZtplAppNameMigration
 
 Some important files/directories in `alembic` directory are:
 
-- `alembic/env.py`
-- `alembic/script.py.mako`
-- `alembic/versions` directory
+- `_alembic/env.py`
+- `_alembic/script.py.mako`
+- `_alembic/versions` directory
 
 
-## `alembic/env.py`
+## `_alembic/env.py`
 
 Alembic use this file to generate/run migration.
 
@@ -62,35 +59,11 @@ For more information about `env.py`, please refer to [alembic documentation](htt
 
 
 
-## `alembic/script.py.mako`
+## `_alembic/script.py.mako`
 
 This file is a [mako template](https://www.makotemplates.org/) to generate new migration versions in `alembic/versions` directory.
 
-`ZtplAppDirectory` add `run_migration` function to accomodate feature flag.
-
-```python
-def run_migration() -> bool:
-    return os.getenv('MIGRATION_RUN_ALL', '0') != '0'
-
-
-def upgrade() -> None:
-    if not run_migration():
-        return None
-    ${upgrades if upgrades else "pass"}
-
-
-def downgrade() -> None:
-    if not run_migration():
-        return None
-    ${downgrades if downgrades else "pass"}
-```
-
-When you generate a migration, Alembic will first run existing migrations in a migration database. Once the migration has been done, it will compare existing models with the migration database. If there is any discrepancy, Alembic will make a new migration version to fill the gap.
-
-Thus, when generating a migration, you need to set `MIGRATION_RUN_ALL` to `1`.
-
-
-## `alembic/versions` directory
+## `_alembic/versions` directory
 
 This directory contains database migration versions.
 
@@ -99,25 +72,16 @@ There are a few things you need to consider:
 - Every migration file contains `revision` and `down_revision`. If you need to delete/add migration version manually, please make sure that the `revision` and `down_version` are in sync with other versions.
 - As defined in `alembic/script.py.mako`, there is a `run_migration` function that you can modify to accomodate feature flag.
 
-Let's see how you can modify `run_migration` function.
-
-In the following code you want the migration to do nothing when `APP_ENABLE_LOG_MODULE` is set to `0`:
-
 ```python
-def run_migration() -> bool:
-    return os.getenv('MIGRATION_RUN_ALL', '0') != '0' or os.getenv('APP_ENABLE_LOG_MODULE', '1') != '0'
-
 
 def upgrade() -> None:
-    if not run_migration():
-        return None
-    # migration code (won't be executed if APP_ENABLE_LOG_MODULE equals to 0)
+    # migration code
+    pass
 
 
 def downgrade() -> None:
-    if not run_migration():
-        return None
-    # migration code (won't be executed if APP_ENABLE_LOG_MODULE equals to 0)
+    # migration code
+    pass
 ```
 
 

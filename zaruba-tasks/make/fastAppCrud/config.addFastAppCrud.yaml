@@ -1,7 +1,7 @@
 configs:
 
   addFastAppCrud:
-    _skipCreationPath: ''
+    _skipCreationPath: '${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_NAME}/${_ZRB_SNAKE_APP_CRUD_ENTITY}'
     _prepareVariables: |
       {{ .GetConfig "_prepareBaseStartCommand" }}
       {{ .GetConfig "_prepareBasePrepareCommand" }}
