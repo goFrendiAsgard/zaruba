@@ -6,6 +6,7 @@ then
     ./venv/bin/python -m pip install --upgrade pip
 fi
 source venv/bin/activate
+pip install -U pip
 if [ -f "requirements.txt" ]
 then
     echo "${_BOLD}${_YELLOW}Install dependencies${_NORMAL}"

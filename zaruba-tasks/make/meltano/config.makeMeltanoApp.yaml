@@ -7,6 +7,7 @@ configs:
         "{{ .ZarubaHome }}/zaruba-tasks/make/meltano/appTemplate"
       ]
     _generate: |
+      pip install -U pip
       pip install meltano
       meltano init "${_ZRB_APP_DIRECTORY}"
       if [ ! -d "${_ZRB_APP_DIRECTORY}" ]

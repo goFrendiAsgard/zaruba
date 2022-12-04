@@ -85,6 +85,7 @@ Value:
 
 Value:
 
+    pip install -U pip
     pip install meltano
     meltano init "${_ZRB_APP_DIRECTORY}"
     if [ ! -d "${_ZRB_APP_DIRECTORY}" ]

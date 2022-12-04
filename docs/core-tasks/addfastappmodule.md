@@ -133,6 +133,9 @@ Value:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppModule/bash/registerModule.sh"
     . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppModule/bash/registerEnv.sh"
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppModule/bash/registerAlembicConfig.sh"
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppModule/bash/registerCreateMigrationCommand.sh"
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppModule/bash/registerMigrateCommand.sh"
 
 
 
@@ -221,7 +224,7 @@ Value:
 
 Value:
 
-    ${_ZRB_APP_DIRECTORY}/module/${_ZRB_APP_MODULE_NAME}
+    ${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_NAME}
 
 
 ### Configs._start

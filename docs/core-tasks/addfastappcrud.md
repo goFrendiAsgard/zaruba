@@ -286,6 +286,10 @@ Value:
 
 ### Configs._skipCreationPath
 
+Value:
+
+    ${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_NAME}/${_ZRB_SNAKE_APP_CRUD_ENTITY}
+
 
 ### Configs._start
 

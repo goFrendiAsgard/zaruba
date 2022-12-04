@@ -133,7 +133,6 @@ Value:
     fi
     git init
     "{{ .ZarubaBin }}" file copy "{{ .ZarubaHome }}/zaruba-tasks/chore/initProject/template/" .
-    touch .env
     echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
     echo "${_BOLD}${_YELLOW}Project created${_NORMAL}"
 
