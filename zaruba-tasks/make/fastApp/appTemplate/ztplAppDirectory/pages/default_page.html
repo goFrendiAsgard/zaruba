@@ -13,6 +13,7 @@
         <div class="container">
             {% include 'default-partials/header.html' %}
             {%if context.current_menu %}<h1>{{ context.current_menu.title }}</h1>{% endif %}
+            <hr />
             {% if content_path is defined %}
                 {% include content_path %}
             {% elif content is defined %}

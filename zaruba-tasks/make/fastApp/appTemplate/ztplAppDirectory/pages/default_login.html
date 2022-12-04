@@ -13,6 +13,7 @@
         <div id="app" class="container">
             {% include 'default-partials/header.html' %}
             {%if context.current_menu %}<h1>{{ context.current_menu.title }}</h1>{% endif %}
+            <hr />
             <div class="mb-3">
                 <label for="login-username" class="form-label">Username/Email address</label>
                 <input type="email" class="form-control" id="login-username" placeholder="name@example.com" v-model="username" />

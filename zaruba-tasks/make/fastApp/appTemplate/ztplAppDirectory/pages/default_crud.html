@@ -12,6 +12,7 @@
         <script src="https://cdn.jsdelivr.net/npm/vue3-sfc-loader@0.8.4/dist/vue3-sfc-loader.js" crossorigin="anonymous"></script>
         <div class="container">
             {%if context.current_menu %}<h1>{{ context.current_menu.title }}</h1>{% endif %}
+            <hr />
             {% include content_path %}
             {% include 'default-partials/footer.html' %}
         </div>

@@ -13,6 +13,7 @@
         <div id="app" class="container">
             {% include 'default-partials/header.html' %}
             {%if context.current_menu %}<h1>{{ context.current_menu.title }}</h1>{% endif %}
+            <hr />
             <button type="submit" class="btn btn-primary mb-3" @click="logout">Log out</button>
             {% include 'default-partials/footer.html' %}
         </div>
