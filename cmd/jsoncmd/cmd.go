@@ -8,5 +8,6 @@ var Cmd = &cobra.Command{
 }
 
 func Init() {
+	printPretty = printCmd.Flags().BoolP("pretty", "p", true, "pretty print")
 	Cmd.AddCommand(printCmd)
 }

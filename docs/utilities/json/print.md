@@ -23,7 +23,8 @@ Aliases:
   print, write
 
 Flags:
-  -h, --help   help for print
+  -h, --help     help for print
+  -p, --pretty   pretty print (default true)
 ```````
 </details>
 <!--endCode-->

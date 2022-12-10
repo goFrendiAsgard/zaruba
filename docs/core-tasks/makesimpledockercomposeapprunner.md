@@ -303,8 +303,12 @@ Value:
     {{ .GetConfig "_validate" }}
     cd "${__ZRB_PWD}"
     echo "${_YELLOW}${_CONSTRUCTION_ICON} Generate${_NORMAL}"
-    echo "${_YELLOW}${_CONSTRUCTION_ICON} Template Location:${_NORMAL} ${_ZRB_TEMPLATE_LOCATIONS}"
-    echo "${_YELLOW}${_CONSTRUCTION_ICON} Replacement Map:${_NORMAL} ${_ZRB_REPLACEMENT_MAP}"
+    _PRINTED_TEMPLATE_LOCATIONS="$("{{ .ZarubaBin }}" json print "${_ZRB_TEMPLATE_LOCATIONS}" --pretty=false)"
+    _STYLED_PRINTED_TEMPLATE_LOCATIONS="${_FAINT}${_PRINTED_TEMPLATE_LOCATIONS}${_NORMAL}"
+    echo "${_YELLOW}${_CONSTRUCTION_ICON} Template Location:${_NORMAL} ${_STYLED_PRINTED_TEMPLATE_LOCATIONS}"
+    _PRINTED_REPLACEMENT_MAP="$("{{ .ZarubaBin }}" json print "${_ZRB_REPLACEMENT_MAP}" --pretty=false)"
+    _STYLED_PRINTED_REPLACEMENT_MAP="${_FAINT}${_PRINTED_REPLACEMENT_MAP}${_NORMAL}"
+    echo "${_YELLOW}${_CONSTRUCTION_ICON} Replacement Map:${_NORMAL} ${_STYLED_PRINTED_REPLACEMENT_MAP}"
     {{ .GetConfig "_generate" }}
     cd "${__ZRB_PWD}"
     echo "${_YELLOW}${_CONSTRUCTION_ICON} Integrate${_NORMAL}"

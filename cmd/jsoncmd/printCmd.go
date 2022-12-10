@@ -10,6 +10,8 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
+var printPretty *bool
+
 var printCmd = &cobra.Command{
 	Use:     "print <mapOrList> [jsonFileName]",
 	Short:   "Print JSON map or list",
@@ -18,25 +20,38 @@ var printCmd = &cobra.Command{
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 1)
-		jsonString := args[0]
+		jsonRawString := args[0]
 		util := dsl.NewDSLUtil()
 		var obj interface{}
-		err := json.Unmarshal([]byte(jsonString), &obj)
+		err := json.Unmarshal([]byte(jsonRawString), &obj)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-		prettyJsonBytes, err := json.MarshalIndent(obj, "", "  ")
+		jsonString, err := getJsonString(obj, *printPretty)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-		prettyJsonString := string(prettyJsonBytes)
 		if len(args) > 1 {
 			jsonFileName := args[1]
-			if err = util.File.WriteText(jsonFileName, prettyJsonString, 0755); err != nil {
+			if err = util.File.WriteText(jsonFileName, jsonString, 0755); err != nil {
 				cmdHelper.Exit(cmd, args, logger, decoration, err)
 			}
 			return
 		}
-		fmt.Println(prettyJsonString)
+		fmt.Println(jsonString)
 	},
+}
+
+func getJsonString(obj interface{}, printPretty bool) (jsonString string, err error) {
+	var jsonBytes []byte
+	if !printPretty {
+		jsonBytes, err = json.Marshal(obj)
+	} else {
+		jsonBytes, err = json.MarshalIndent(obj, "", "  ")
+	}
+	if err != nil {
+		return "", err
+	}
+	jsonString = string(jsonBytes)
+	return jsonString, err
 }
