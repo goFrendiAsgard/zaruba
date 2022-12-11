@@ -128,35 +128,29 @@ func (jsonList *JsonList) GetLinesSubmatch(jsonLines, jsonPatterns string) (matc
 }
 
 func (jsonList *JsonList) ReplaceLineAtIndex(jsonLines string, index int, jsonReplacements string) (newJsonLines string, err error) {
-	lines, replacements, err := jsonList.prepareLinesAndPattern(jsonLines, jsonReplacements)
-	if err != nil {
-		return "[]", err
-	}
-	newLines, err := strutil.StrReplaceLineAtIndex(lines, index, replacements)
-	if err != nil {
-		return jsonLines, err
-	}
-	newJsonLines, err = jsonHelper.FromStringList(newLines)
-	return newJsonLines, err
+	return jsonList.replaceLine(jsonLines, index, jsonReplacements, "REPLACE")
 }
 
 func (jsonList *JsonList) InsertLineAfterIndex(jsonLines string, index int, jsonReplacements string) (newJsonLines string, err error) {
-	lines, replacements, err := jsonList.prepareLinesAndPattern(jsonLines, jsonReplacements)
-	if err != nil {
-		return "[]", err
-	}
-	replacements = append([]string{lines[index]}, replacements...)
-	newLines, err := strutil.StrReplaceLineAtIndex(lines, index, replacements)
-	if err != nil {
-		return jsonLines, err
-	}
-	return jsonHelper.FromStringList(newLines)
+	return jsonList.replaceLine(jsonLines, index, jsonReplacements, "AFTER")
 }
 
 func (jsonList *JsonList) InsertLineBeforeIndex(jsonLines string, index int, jsonReplacements string) (newJsonLines string, err error) {
+	return jsonList.replaceLine(jsonLines, index, jsonReplacements, "BEFORE")
+}
+
+func (jsonList *JsonList) replaceLine(jsonLines string, index int, jsonReplacements string, mode string) (newJsonLines string, err error) {
 	lines, replacements, err := jsonList.prepareLinesAndPattern(jsonLines, jsonReplacements)
 	if err != nil {
 		return "[]", err
+	}
+	switch mode {
+	case "BEFORE":
+		replacements = append(replacements, lines[index])
+	case "AFTER":
+		replacements = append([]string{lines[index]}, replacements...)
+	case "REPLACE":
+	default:
 	}
 	replacements = append(replacements, lines[index])
 	newLines, err := strutil.StrReplaceLineAtIndex(lines, index, replacements)

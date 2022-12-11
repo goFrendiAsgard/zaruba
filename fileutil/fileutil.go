@@ -250,6 +250,18 @@ func (fileUtil *FileUtil) Generate(sourceTemplatePath, destinationPath string, r
 }
 
 func (fileUtil *FileUtil) ReplaceLineAtIndex(sourceTemplateFilePath, destinationFilePath string, replacementMapString string, index int) (err error) {
+	return fileUtil.replaceLineAtIndex(sourceTemplateFilePath, destinationFilePath, replacementMapString, index, "REPLACE")
+}
+
+func (fileUtil *FileUtil) InsertLineAfterIndex(sourceTemplateFilePath, destinationFilePath string, replacementMapString string, index int) (err error) {
+	return fileUtil.replaceLineAtIndex(sourceTemplateFilePath, destinationFilePath, replacementMapString, index, "AFTER")
+}
+
+func (fileUtil *FileUtil) InsertLineBeforeIndex(sourceTemplateFilePath, destinationFilePath string, replacementMapString string, index int) (err error) {
+	return fileUtil.replaceLineAtIndex(sourceTemplateFilePath, destinationFilePath, replacementMapString, index, "BEFORE")
+}
+
+func (fileUtil *FileUtil) replaceLineAtIndex(sourceTemplateFilePath, destinationFilePath string, replacementMapString string, index int, mode string) (err error) {
 	replacementMap, absSourceTemplatePath, absDestinationPath, err := fileUtil.preparePathAndReplacementMap(sourceTemplateFilePath, destinationFilePath, replacementMapString)
 	if err != nil {
 		return err
@@ -262,12 +274,20 @@ func (fileUtil *FileUtil) ReplaceLineAtIndex(sourceTemplateFilePath, destination
 	if err != nil {
 		return err
 	}
-	stringReplacement := strutil.StrReplace(replacementTemplate, replacementMap)
 	destinationMode, err := fileUtil.getFileMode(destinationFilePath)
 	if err != nil {
 		return err
 	}
+	stringReplacement := strutil.StrReplace(replacementTemplate, replacementMap)
 	replacements := []string{stringReplacement}
+	switch mode {
+	case "BEFORE":
+		replacements = append(replacements, stringList[index])
+	case "AFTER":
+		replacements = append([]string{stringList[index]}, replacements...)
+	case "REPLACE":
+	default:
+	}
 	newStringList, err := strutil.StrReplaceLineAtIndex(stringList, index, replacements)
 	if err != nil {
 		return err
