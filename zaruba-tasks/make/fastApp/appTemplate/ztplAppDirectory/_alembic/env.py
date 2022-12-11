@@ -4,8 +4,8 @@ from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
-
 from alembic import context
+from helper.config import get_boolean_env
 
 import os
 
@@ -29,7 +29,7 @@ target_metadata = Base.metadata
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
-is_generating_migration = os.getenv('IS_GENERATING_MIGRATION', '0') != '0'
+is_generating_migration = get_boolean_env('IS_GENERATING_MIRATION', False)
 env_db_url = os.getenv('MIGRATION_SQLALCHEMY_DATABASE_URL', '') if is_generating_migration else os.getenv('APP_SQLALCHEMY_DATABASE_URL', '')
 if env_db_url != '':
     config.set_main_option('sqlalchemy.url', env_db_url)

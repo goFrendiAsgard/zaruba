@@ -1,9 +1,12 @@
-# Pulumi's Config
+# Deployment config
 
-The pulumi config supposed to be auto-generated, and not intended to be edited manually.
+This directory contains a deployment config (`config.json`).
 
-To generate the config, manually, you can invoke:
+Deployment config is auto-generated, and not intended to be edited manually.
+
+To generate the deployment config, you can invoke the following:
 
 ```bash
+# location: ztplDeploymentName
 zaruba please prepareZtplDeploymentName
 ```

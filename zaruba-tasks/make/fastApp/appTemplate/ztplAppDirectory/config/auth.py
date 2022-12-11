@@ -1,4 +1,5 @@
 import os
+from helper.config import get_boolean_env
 
 root_username: str = os.getenv('APP_ROOT_INITIAL_USERNAME', 'root')
 root_initial_email: str = os.getenv('APP_ROOT_INITIAL_EMAIL', 'root@innistrad.com')
@@ -11,4 +12,4 @@ access_token_secret_key: str = os.getenv('APP_ACCESS_TOKEN_SECRET_KEY', '123')
 access_token_algorithm: str = os.getenv('APP_ACCESS_TOKEN_ALGORITHM', 'HS256')
 access_token_expire: float = float(os.getenv('APP_ACCESS_TOKEN_EXPIRE', '1800'))
 
-seed_root_user: bool = os.getenv('APP_SEED_ROOT_USER', '1') != '0'
+seed_root_user: bool = get_boolean_env('APP_SEED_ROOT_USER', True)

@@ -2,7 +2,7 @@
 ################################################
 # -- 🧩 ZtplAppModuleName module
 ################################################
-enable_ztpl_app_module_name_module = os.getenv('APP_ENABLE_ZTPL_APP_MODULE_NAME_MODULE', '1') != '0'
+enable_ztpl_app_module_name_module = get_boolean_env('APP_ENABLE_ZTPL_APP_MODULE_NAME_MODULE', True)
 # Note: 💀 Don't delete the following line; Zaruba uses it for pattern matching
 if enable_ztpl_app_module_name_module:
     # API route
