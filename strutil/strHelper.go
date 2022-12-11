@@ -146,36 +146,6 @@ func StrReplaceLineAtIndex(lines []string, index int, replacements []string) (re
 	return result, nil
 }
 
-func StrCompleteLines(lines, patterns, suplements []string) (newLines []string, err error) {
-	if len(patterns) != len(suplements) {
-		return newLines, fmt.Errorf("patterns and suplements length doesn't match")
-	}
-	for index, pattern := range patterns {
-		suplement := suplements[index]
-		match, err := regexp.MatchString(pattern, suplement)
-		if err != nil {
-			return newLines, err
-		}
-		if !match {
-			return newLines, fmt.Errorf("pattern[%d], %s doesn't match %s", index, pattern, suplement)
-		}
-	}
-	newLines = append([]string{}, lines...)
-	lastMatchIndex := len(newLines) - 1
-	for index, suplement := range suplements {
-		matchIndex, _, _ := StrGetLineSubmatch(newLines, patterns[:index+1])
-		if matchIndex > -1 {
-			lastMatchIndex = matchIndex
-			continue
-		}
-		newLines, _ = StrReplaceLineAtIndex(newLines, lastMatchIndex, []string{newLines[lastMatchIndex], suplement})
-		lastMatchIndex, _, _ = StrGetLineSubmatch(newLines, patterns[:index+1])
-	}
-	content := strings.Join(newLines, "\n")
-	newLines = strings.Split(content, "\n")
-	return newLines, nil
-}
-
 func StrSubmatch(s string, pattern string) (result []string, err error) {
 	rex, err := regexp.Compile(pattern)
 	if err != nil {

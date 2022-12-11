@@ -115,13 +115,9 @@ func (jsonList *JsonList) Contain(listString string, elementString string) (exis
 }
 
 func (jsonList *JsonList) GetLinesSubmatch(jsonLines, jsonPatterns string) (matchIndex int, jsonSubmatch string, err error) {
-	lines, err := jsonHelper.ToStringList(jsonLines)
+	lines, patterns, err := jsonList.prepareLinesAndPattern(jsonLines, jsonPatterns)
 	if err != nil {
 		return -1, "[]", err
-	}
-	patterns, err := jsonHelper.ToStringList(jsonPatterns)
-	if err != nil {
-		patterns = []string{jsonPatterns}
 	}
 	matchIndex, submatch, err := strutil.StrGetLineSubmatch(lines, patterns)
 	if err != nil {
@@ -132,13 +128,9 @@ func (jsonList *JsonList) GetLinesSubmatch(jsonLines, jsonPatterns string) (matc
 }
 
 func (jsonList *JsonList) ReplaceLineAtIndex(jsonLines string, index int, jsonReplacements string) (newJsonLines string, err error) {
-	lines, err := jsonHelper.ToStringList(jsonLines)
+	lines, replacements, err := jsonList.prepareLinesAndPattern(jsonLines, jsonReplacements)
 	if err != nil {
 		return "[]", err
-	}
-	replacements, err := jsonHelper.ToStringList(jsonReplacements)
-	if err != nil {
-		replacements = []string{jsonReplacements}
 	}
 	newLines, err := strutil.StrReplaceLineAtIndex(lines, index, replacements)
 	if err != nil {
@@ -149,13 +141,9 @@ func (jsonList *JsonList) ReplaceLineAtIndex(jsonLines string, index int, jsonRe
 }
 
 func (jsonList *JsonList) InsertLineAfterIndex(jsonLines string, index int, jsonReplacements string) (newJsonLines string, err error) {
-	lines, err := jsonHelper.ToStringList(jsonLines)
+	lines, replacements, err := jsonList.prepareLinesAndPattern(jsonLines, jsonReplacements)
 	if err != nil {
 		return "[]", err
-	}
-	replacements, err := jsonHelper.ToStringList(jsonReplacements)
-	if err != nil {
-		replacements = []string{jsonReplacements}
 	}
 	replacements = append([]string{lines[index]}, replacements...)
 	newLines, err := strutil.StrReplaceLineAtIndex(lines, index, replacements)
@@ -166,13 +154,9 @@ func (jsonList *JsonList) InsertLineAfterIndex(jsonLines string, index int, json
 }
 
 func (jsonList *JsonList) InsertLineBeforeIndex(jsonLines string, index int, jsonReplacements string) (newJsonLines string, err error) {
-	lines, err := jsonHelper.ToStringList(jsonLines)
+	lines, replacements, err := jsonList.prepareLinesAndPattern(jsonLines, jsonReplacements)
 	if err != nil {
 		return "[]", err
-	}
-	replacements, err := jsonHelper.ToStringList(jsonReplacements)
-	if err != nil {
-		replacements = []string{jsonReplacements}
 	}
 	replacements = append(replacements, lines[index])
 	newLines, err := strutil.StrReplaceLineAtIndex(lines, index, replacements)
@@ -182,22 +166,14 @@ func (jsonList *JsonList) InsertLineBeforeIndex(jsonLines string, index int, jso
 	return jsonHelper.FromStringList(newLines)
 }
 
-func (jsonList *JsonList) CompleteLines(jsonLines, jsonPatterns, jsonSuplements string) (newJsonLines string, err error) {
-	lines, err := jsonHelper.ToStringList(jsonLines)
+func (jsonList *JsonList) prepareLinesAndPattern(jsonLines, jsonPatterns string) (lines jsonHelper.StringList, patterns jsonHelper.StringList, err error) {
+	lines, err = jsonHelper.ToStringList(jsonLines)
 	if err != nil {
-		return "[]", err
+		return lines, patterns, err
 	}
-	patterns, err := jsonHelper.ToStringList(jsonPatterns)
-	if err != nil {
+	patterns, patternErr := jsonHelper.ToStringList(jsonPatterns)
+	if patternErr != nil {
 		patterns = []string{jsonPatterns}
 	}
-	suplements, err := jsonHelper.ToStringList(jsonSuplements)
-	if err != nil {
-		patterns = []string{jsonSuplements}
-	}
-	newLines, err := strutil.StrCompleteLines(lines, patterns, suplements)
-	if err != nil {
-		return jsonLines, err
-	}
-	return jsonHelper.FromStringList(newLines)
+	return lines, patterns, err
 }

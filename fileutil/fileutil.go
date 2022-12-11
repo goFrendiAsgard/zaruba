@@ -2,6 +2,7 @@ package fileutil
 
 import (
 	"io"
+	"io/fs"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -9,6 +10,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/state-alchemists/zaruba/jsonutil"
+	jsonHelper "github.com/state-alchemists/zaruba/jsonutil/helper"
 	"github.com/state-alchemists/zaruba/strutil"
 	"github.com/state-alchemists/zaruba/yamlstyler"
 	"gopkg.in/yaml.v3"
@@ -64,12 +66,26 @@ func (fileUtil *FileUtil) WriteText(fileName string, text string, fileMode os.Fi
 	return ioutil.WriteFile(fileName, []byte(text), fileMode)
 }
 
-func (fileUtil *FileUtil) ReadLines(fileName string) (jsonString string, err error) {
+func (fileUtil *FileUtil) ReadStringList(fileName string) (lines []string, err error) {
+	lines = []string{}
 	content, err := fileUtil.ReadText(fileName)
+	if err != nil {
+		return lines, err
+	}
+	return strings.Split(content, "\n"), nil
+}
+
+func (fileUtil *FileUtil) ReadLines(fileName string) (jsonString string, err error) {
+	stringList, err := fileUtil.ReadStringList(fileName)
 	if err != nil {
 		return "[]", err
 	}
-	return fileUtil.json.FromStringList(strings.Split(content, "\n"))
+	return fileUtil.json.FromStringList(stringList)
+}
+
+func (fileUtil *FileUtil) WriteStringList(fileName string, lines []string, fileMode os.FileMode) (err error) {
+	content := strings.Join(lines, "\n")
+	return fileUtil.WriteText(fileName, content, fileMode)
 }
 
 func (fileUtil *FileUtil) WriteLines(fileName string, jsonString string, fileMode os.FileMode) (err error) {
@@ -77,8 +93,7 @@ func (fileUtil *FileUtil) WriteLines(fileName string, jsonString string, fileMod
 	if err != nil {
 		return err
 	}
-	content := strings.Join(lines, "\n")
-	return fileUtil.WriteText(fileName, content, fileMode)
+	return fileUtil.WriteStringList(fileName, lines, fileMode)
 }
 
 func (fileUtil *FileUtil) ReadEnv(fileName string) (jsonString string, err error) {
@@ -204,15 +219,7 @@ func (fileUtil *FileUtil) Walk(dirPath string) (relativeChildPaths []string, err
 }
 
 func (fileUtil *FileUtil) Generate(sourceTemplatePath, destinationPath string, replacementMapString string) (err error) {
-	replacementMap, err := fileUtil.json.ToStringDict(replacementMapString)
-	if err != nil {
-		return err
-	}
-	absSourceTemplatePath, err := filepath.Abs(sourceTemplatePath)
-	if err != nil {
-		return err
-	}
-	absDestinationPath, err := filepath.Abs(destinationPath)
+	replacementMap, absSourceTemplatePath, absDestinationPath, err := fileUtil.preparePathAndReplacementMap(sourceTemplatePath, destinationPath, replacementMapString)
 	if err != nil {
 		return err
 	}
@@ -240,4 +247,52 @@ func (fileUtil *FileUtil) Generate(sourceTemplatePath, destinationPath string, r
 			return fileUtil.WriteText(absDestinationLocation, newContent, fileMode)
 		},
 	)
+}
+
+func (fileUtil *FileUtil) ReplaceLineAtIndex(sourceTemplateFilePath, destinationFilePath string, replacementMapString string, index int) (err error) {
+	replacementMap, absSourceTemplatePath, absDestinationPath, err := fileUtil.preparePathAndReplacementMap(sourceTemplateFilePath, destinationFilePath, replacementMapString)
+	if err != nil {
+		return err
+	}
+	stringList, err := fileUtil.ReadStringList(absDestinationPath)
+	if err != nil {
+		return err
+	}
+	replacementTemplate, err := fileUtil.ReadText(absSourceTemplatePath)
+	if err != nil {
+		return err
+	}
+	stringReplacement := strutil.StrReplace(replacementTemplate, replacementMap)
+	destinationMode, err := fileUtil.getFileMode(destinationFilePath)
+	if err != nil {
+		return err
+	}
+	replacements := []string{stringReplacement}
+	newStringList, err := strutil.StrReplaceLineAtIndex(stringList, index, replacements)
+	if err != nil {
+		return err
+	}
+	return fileUtil.WriteStringList(absDestinationPath, newStringList, destinationMode)
+}
+
+func (fileUtil *FileUtil) getFileMode(filePath string) (fileMode fs.FileMode, err error) {
+	fileStat, err := os.Stat(filePath)
+	if err != nil {
+		return fileMode, err
+	}
+	fileMode = fileStat.Mode()
+	return fileMode, err
+}
+
+func (fileUtil *FileUtil) preparePathAndReplacementMap(sourceTemplatePath, destinationPath string, replacementMapString string) (replacementMap jsonHelper.StringDict, absSourceTemplatePath, absDestinationPath string, err error) {
+	replacementMap, err = fileUtil.json.ToStringDict(replacementMapString)
+	if err != nil {
+		return replacementMap, absSourceTemplatePath, absDestinationPath, err
+	}
+	absSourceTemplatePath, err = filepath.Abs(sourceTemplatePath)
+	if err != nil {
+		return replacementMap, absSourceTemplatePath, absDestinationPath, err
+	}
+	absDestinationPath, err = filepath.Abs(destinationPath)
+	return replacementMap, absSourceTemplatePath, absDestinationPath, err
 }

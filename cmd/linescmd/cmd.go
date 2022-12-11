@@ -8,7 +8,6 @@ var Cmd = &cobra.Command{
 }
 
 func Init() {
-	Cmd.AddCommand(fillCmd)
 	Cmd.AddCommand(getIndexCmd)
 	Cmd.AddCommand(insertAfterCmd)
 	Cmd.AddCommand(insertBeforeCmd)

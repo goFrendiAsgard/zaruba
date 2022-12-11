@@ -91,7 +91,6 @@ Finally, you can visit our [end-to-end tutorial](use-cases/from-zero-to-cloud.md
         * [List](utilities/file/list.md)
         * [Walk](utilities/file/walk.md)
     * [🚈 Lines](utilities/lines/README.md)
-        * [Fill](utilities/lines/fill.md)
         * [GetIndex](utilities/lines/getindex.md)
         * [InsertAfter](utilities/lines/insertafter.md)
         * [InsertBefore](utilities/lines/insertbefore.md)
