@@ -128,18 +128,18 @@ func (jsonList *JsonList) GetLinesSubmatch(jsonLines, jsonPatterns string) (matc
 }
 
 func (jsonList *JsonList) ReplaceLineAtIndex(jsonLines string, index int, jsonReplacements string) (newJsonLines string, err error) {
-	return jsonList.replaceLine(jsonLines, index, jsonReplacements, "REPLACE")
+	return jsonList.replaceLineAtIndex(jsonLines, index, jsonReplacements, "REPLACE")
 }
 
 func (jsonList *JsonList) InsertLineAfterIndex(jsonLines string, index int, jsonReplacements string) (newJsonLines string, err error) {
-	return jsonList.replaceLine(jsonLines, index, jsonReplacements, "AFTER")
+	return jsonList.replaceLineAtIndex(jsonLines, index, jsonReplacements, "AFTER")
 }
 
 func (jsonList *JsonList) InsertLineBeforeIndex(jsonLines string, index int, jsonReplacements string) (newJsonLines string, err error) {
-	return jsonList.replaceLine(jsonLines, index, jsonReplacements, "BEFORE")
+	return jsonList.replaceLineAtIndex(jsonLines, index, jsonReplacements, "BEFORE")
 }
 
-func (jsonList *JsonList) replaceLine(jsonLines string, index int, jsonReplacements string, mode string) (newJsonLines string, err error) {
+func (jsonList *JsonList) replaceLineAtIndex(jsonLines string, index int, jsonReplacements string, mode string) (newJsonLines string, err error) {
 	lines, replacements, err := jsonList.prepareLinesAndPattern(jsonLines, jsonReplacements)
 	if err != nil {
 		return "[]", err
@@ -152,7 +152,6 @@ func (jsonList *JsonList) replaceLine(jsonLines string, index int, jsonReplaceme
 	case "REPLACE":
 	default:
 	}
-	replacements = append(replacements, lines[index])
 	newLines, err := strutil.StrReplaceLineAtIndex(lines, index, replacements)
 	if err != nil {
 		return jsonLines, err

@@ -24,7 +24,7 @@ M'   AMV                                 MM             ;MM:
 AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
 --.. .- .-. ..- -... .-    .--. .-.. . .- ... .    ... - .- .-. - 
                                     Task runner and CLI utility
-v0.9.0-alpha-2-7f598053687442250199745cf7ca203dac7bbe23
+v0.9.0-alpha-2-494941704b77f95d27e88ddcf4cfeef5ef4e5da1
 
 Usage:
   zaruba [command]
@@ -165,7 +165,6 @@ To see how `lines` utitilites works, please visit [lines utilities documentation
   * [List](file/list.md)
   * [Walk](file/walk.md)
 * [🚈 Lines](lines/README.md)
-  * [Fill](lines/fill.md)
   * [GetIndex](lines/getindex.md)
   * [InsertAfter](lines/insertafter.md)
   * [InsertBefore](lines/insertbefore.md)

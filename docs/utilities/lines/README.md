@@ -22,7 +22,6 @@ Usage:
   zaruba lines [command]
 
 Available Commands:
-  fill         Insert suplements to lines if patterns is not found
   getIndex     Return index of matching the pattern
   insertAfter  Insert newLine after lines[index]
   insertBefore Insert newLine before lines[index]
@@ -41,7 +40,6 @@ Use "zaruba lines [command] --help" for more information about a command.
 
 <!--startTocSubTopic-->
 # Sub-topics
-* [Fill](fill.md)
 * [GetIndex](getindex.md)
 * [InsertAfter](insertafter.md)
 * [InsertBefore](insertbefore.md)
