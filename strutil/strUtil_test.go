@@ -161,21 +161,21 @@ func TestGetSingleIndentationValidIndentation(t *testing.T) {
 }
 
 func TestGetFirstMatchInvalidFirstPattern(t *testing.T) {
-	if _, _, err := StrGetLineSubmatch([]string{}, []string{"[[^"}); err == nil {
+	if _, _, err := StrGetLineSubmatch([]string{}, []string{"[[^"}, 0); err == nil {
 		t.Errorf("error expected")
 	}
 }
 
 func TestGetFirstMatchInvalidNonFirstPattern(t *testing.T) {
 	lines := []string{"something", "really", "interesting", "", ""}
-	if _, _, err := StrGetLineSubmatch(lines, []string{"something", "interesting", "[[^"}); err == nil {
+	if _, _, err := StrGetLineSubmatch(lines, []string{"something", "interesting", "[[^"}, 2); err == nil {
 		t.Errorf("error expected")
 	}
 }
 
 func TestGetFirstMatchFound(t *testing.T) {
 	lines := []string{"something", "really", "interesting", "", "name: garo", ""}
-	actualIndex, actualSubmatch, err := StrGetLineSubmatch(lines, []string{"something", "interesting", "^name: (.+)$"})
+	actualIndex, actualSubmatch, err := StrGetLineSubmatch(lines, []string{"something", "interesting", "^name: (.+)$"}, 2)
 	if err != nil {
 		t.Error(err)
 	}
@@ -198,7 +198,7 @@ func TestGetFirstMatchFound(t *testing.T) {
 
 func TestGetFirstMatchNotFound(t *testing.T) {
 	lines := []string{"something", "really", "interesting", "", "", ""}
-	actualIndex, actualSubmatch, err := StrGetLineSubmatch(lines, []string{"something", "interesting", "^name: (.+)$"})
+	actualIndex, actualSubmatch, err := StrGetLineSubmatch(lines, []string{"something", "interesting", "^name: (.+)$"}, 2)
 	if err != nil {
 		t.Error(err)
 	}

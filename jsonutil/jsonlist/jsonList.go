@@ -114,12 +114,12 @@ func (jsonList *JsonList) Contain(listString string, elementString string) (exis
 	return index > -1, nil
 }
 
-func (jsonList *JsonList) GetLinesSubmatch(jsonLines, jsonPatterns string) (matchIndex int, jsonSubmatch string, err error) {
+func (jsonList *JsonList) GetLinesSubmatch(jsonLines, jsonPatterns string, desiredPatternIndex int) (matchIndex int, jsonSubmatch string, err error) {
 	lines, patterns, err := jsonList.prepareLinesAndPattern(jsonLines, jsonPatterns)
 	if err != nil {
 		return -1, "[]", err
 	}
-	matchIndex, submatch, err := strutil.StrGetLineSubmatch(lines, patterns)
+	matchIndex, submatch, err := strutil.StrGetLineSubmatch(lines, patterns, desiredPatternIndex)
 	if err != nil {
 		return -1, "[]", err
 	}

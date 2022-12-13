@@ -11,7 +11,7 @@ import (
 )
 
 var insertAfterCmd = &cobra.Command{
-	Use:   "insertAfter <jsonList> <index> <newLine>",
+	Use:   "insertAfter <lines> <index> <newLine>",
 	Short: "Insert newLine after lines[index]",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()

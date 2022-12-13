@@ -100,8 +100,11 @@ func StrReplace(s string, replacementMap map[string]string) (result string) {
 	return result
 }
 
-func StrGetLineSubmatch(lines, patterns []string) (matchIndex int, submatch []string, err error) {
+func StrGetLineSubmatch(lines, patterns []string, desiredPatternIndex int) (matchIndex int, submatch []string, err error) {
 	patternIndex := 0
+	if desiredPatternIndex == -1 {
+		desiredPatternIndex = len(patterns) - 1
+	}
 	rex, err := regexp.Compile(patterns[patternIndex])
 	if err != nil {
 		return -1, submatch, err
@@ -111,8 +114,12 @@ func StrGetLineSubmatch(lines, patterns []string) (matchIndex int, submatch []st
 		if len(match) == 0 {
 			continue
 		}
+		if patternIndex == desiredPatternIndex {
+			matchIndex = lineIndex
+			submatch = match
+		}
 		if patternIndex == len(patterns)-1 {
-			return lineIndex, match, nil
+			return matchIndex, submatch, nil
 		}
 		patternIndex++
 		rex, err = regexp.Compile(patterns[patternIndex])
