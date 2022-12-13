@@ -9,8 +9,9 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
+var getPrefix *string
 var getCmd = &cobra.Command{
-	Use:   "get [prefix]",
+	Use:   "get",
 	Short: "Get envmap from currently loaded environment variables",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
@@ -25,8 +26,7 @@ var getCmd = &cobra.Command{
 			fmt.Println(envMapStr)
 			return
 		}
-		prefix := args[0]
-		cascadedEnvMapStr, err := util.Json.Map.CascadePrefixKeys(envMapStr, prefix)
+		cascadedEnvMapStr, err := util.Json.Map.CascadePrefixKeys(envMapStr, *getPrefix)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}

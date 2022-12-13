@@ -9,9 +9,9 @@ _CONTROLLER_FILE_LOCATION="${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_
 _LINES="$("${ZARUBA_BIN}" lines read "${_CONTROLLER_FILE_LOCATION}")"
 
 # insert import
-_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" 0 "${_IMPORT_ROUTE_HANDLER_SCRIPT}")"
+_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" "${_IMPORT_ROUTE_HANDLER_SCRIPT}")"
 
 chmod 755 "${_CONTROLLER_FILE_LOCATION}"
-"${ZARUBA_BIN}" lines write "${_CONTROLLER_FILE_LOCATION}" "${_LINES}"
+"${ZARUBA_BIN}" lines write "${_LINES}" "${_CONTROLLER_FILE_LOCATION}"
 
 echo "Done importing internal route handler"

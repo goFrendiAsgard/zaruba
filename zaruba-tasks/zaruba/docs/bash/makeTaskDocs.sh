@@ -48,7 +48,7 @@ do
         DOC_LINES="[\"<!--startTocHeader-->\", \"[🏠](../README.md) > [🥝 Core Tasks](README.md)\", \"# ${TASK_ICON} ${TASK_NAME}\", \"<!--endTocHeader-->\"]"
         DOC_LINES=$(./zaruba list merge "${DOC_LINES}" "${TASK_EXPLANATION_LINES}")
         DOC_FILE="./docs/core-tasks/${KEBAB_TASK_NAME}.md"
-        ./zaruba lines write "${DOC_FILE}" "${DOC_LINES}"
+        ./zaruba lines write "${DOC_LINES}" "${DOC_FILE}"
         echo '* ['${TASK_NAME}'](./'${KEBAB_TASK_NAME}'.md)' >> ./docs/core-tasks/README.md
         TASK_ICON_MAP="$(./zaruba map set "${TASK_ICON_MAP}" "${TASK_NAME}" "${TASK_ICON}")"
         TASK_KEBAB_NAME_MAP="$(./zaruba map set "${TASK_KEBAB_NAME_MAP}" "${TASK_NAME}" "${KEBAB_TASK_NAME}")"

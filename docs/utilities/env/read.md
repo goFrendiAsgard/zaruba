@@ -17,10 +17,11 @@ zaruba env read --help
 Read envmap from file
 
 Usage:
-  zaruba env read <fileName> [prefix] [flags]
+  zaruba env read <fileName> [flags]
 
 Flags:
-  -h, --help   help for read
+  -h, --help            help for read
+  -p, --prefix string   environment prefix
 ```````
 </details>
 <!--endCode-->

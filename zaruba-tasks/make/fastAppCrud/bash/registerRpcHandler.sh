@@ -12,7 +12,7 @@ _CONTROLLER_FILE_LOCATION="${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_
 _LINES="$("${ZARUBA_BIN}" lines read "${_CONTROLLER_FILE_LOCATION}")"
 
 # insert import
-_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" 0 "${_IMPORT_RPC_HANDLER_SCRIPT}")"
+_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" "${_IMPORT_RPC_HANDLER_SCRIPT}")"
 
 # look for handler function
 _PATTERN="^(\s*)def register_${_ZRB_SNAKE_APP_MODULE_NAME}_rpc_handler\((.*)\)(.*)$"
@@ -38,9 +38,9 @@ _INDENTATION="    ${_FUNCTION_INDENTATION}"
 _INDENTED_HANDLE_RPC_SCRIPT="$("${ZARUBA_BIN}" str fullIndent "${_HANDLE_RPC_SCRIPT}" "${_INDENTATION}")"
 
 # insert handler
-_LINES="$("${ZARUBA_BIN}" lines insertAfter "${_LINES}" "${_FUNCTION_INDEX}" "${_INDENTED_HANDLE_RPC_SCRIPT}")"
+_LINES="$("${ZARUBA_BIN}" lines insertAfter "${_LINES}" "${_INDENTED_HANDLE_RPC_SCRIPT}" --index="${_FUNCTION_INDEX}")"
 
 chmod 755 "${_CONTROLLER_FILE_LOCATION}"
-"${ZARUBA_BIN}" lines write "${_CONTROLLER_FILE_LOCATION}" "${_LINES}"
+"${ZARUBA_BIN}" lines write "${_LINES}" "${_CONTROLLER_FILE_LOCATION}"
 
 echo "Done registering rpc handler"

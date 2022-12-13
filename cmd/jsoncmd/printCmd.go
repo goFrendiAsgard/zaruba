@@ -27,7 +27,7 @@ var printCmd = &cobra.Command{
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-		jsonString, err := getJsonString(obj, *printPretty)
+		jsonString, err := printCmdGetJsonString(obj, *printPretty)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
@@ -42,7 +42,7 @@ var printCmd = &cobra.Command{
 	},
 }
 
-func getJsonString(obj interface{}, printPretty bool) (jsonString string, err error) {
+func printCmdGetJsonString(obj interface{}, printPretty bool) (jsonString string, err error) {
 	var jsonBytes []byte
 	if !printPretty {
 		jsonBytes, err = json.Marshal(obj)

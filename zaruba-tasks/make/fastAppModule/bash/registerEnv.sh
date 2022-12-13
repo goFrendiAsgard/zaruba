@@ -18,7 +18,7 @@ _ENV_LINES="$("${ZARUBA_BIN}" list append "${_ENV_LINES}" "${_ENV_SCRIPT}")"
 # Overwrite existing repo
 
 chmod 755 "${_ENV_FILE_LOCATION}"
-"${ZARUBA_BIN}" lines write "${_ENV_FILE_LOCATION}" "${_ENV_LINES}"
+"${ZARUBA_BIN}" lines write "${_ENV_LINES}" "${_ENV_FILE_LOCATION}"
 
 #########################################################
 # sync env

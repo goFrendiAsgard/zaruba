@@ -18,7 +18,7 @@ _MAIN_LINES="$("${ZARUBA_BIN}" lines read "${_MAIN_FILE_LOCATION}")"
 ####################################################################
 # insert import
 
-_MAIN_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_MAIN_LINES}" 0 "${_IMPORT_SCRIPT}")"
+_MAIN_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_MAIN_LINES}" "${_IMPORT_SCRIPT}")"
 
 # init repo
 _PATTERN="if enable_${_ZRB_SNAKE_APP_MODULE_NAME}_module:"
@@ -31,7 +31,7 @@ fi
 
 _INIT_SCRIPT_INDENTATION="    "
 _INDENTED_INIT_SCRIPT="$("${ZARUBA_BIN}" str fullIndent "${_INIT_SCRIPT}" "${_INIT_SCRIPT_INDENTATION}")"
-_MAIN_LINES="$("${ZARUBA_BIN}" lines insertAfter "${_MAIN_LINES}" "${_ENGINE_DECLARATION_INDEX}" "${_INDENTED_INIT_SCRIPT}")"
+_MAIN_LINES="$("${ZARUBA_BIN}" lines insertAfter "${_MAIN_LINES}" "${_INDENTED_INIT_SCRIPT}" --index="${_ENGINE_DECLARATION_INDEX}")"
 
 ####################################################################
 # look for rpc call
@@ -55,6 +55,6 @@ _NEW_CALL_LINE="${_CALL_INDENTATION}register_${_ZRB_SNAKE_APP_MODULE_NAME}_rpc_h
 _MAIN_LINES="$("${ZARUBA_BIN}" list set "${_MAIN_LINES}" "${_CALL_INDEX}" "${_NEW_CALL_LINE}")"
 
 chmod 755 "${_MAIN_FILE_LOCATION}"
-"${ZARUBA_BIN}" lines write "${_MAIN_FILE_LOCATION}" "${_MAIN_LINES}"
+"${ZARUBA_BIN}" lines write "${_MAIN_LINES}" "${_MAIN_FILE_LOCATION}"
 
 echo "Done registering repo and service"

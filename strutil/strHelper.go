@@ -102,8 +102,8 @@ func StrReplace(s string, replacementMap map[string]string) (result string) {
 
 func StrGetLineSubmatch(lines, patterns []string, desiredPatternIndex int) (matchIndex int, submatch []string, err error) {
 	patternIndex := 0
-	if desiredPatternIndex == -1 {
-		desiredPatternIndex = len(patterns) - 1
+	if desiredPatternIndex < 0 {
+		desiredPatternIndex = len(patterns) + desiredPatternIndex
 	}
 	rex, err := regexp.Compile(patterns[patternIndex])
 	if err != nil {

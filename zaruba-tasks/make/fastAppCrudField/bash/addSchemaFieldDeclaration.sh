@@ -23,12 +23,12 @@ fi
 _SCHEMA_CLASS_LINE="$("${ZARUBA_BIN}" list get "${_LINES}" "${_SCHEMA_CLASS_INDEX}")"
 _INDENTATION="$("${ZARUBA_BIN}" str getIndentation "${_SCHEMA_CLASS_LINE}")"
 _INDENTED_FIELD_SCRIPT="$("${ZARUBA_BIN}" str fullIndent "${_FIELD_SCRIPT}" "${_INDENTATION}")"
-_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" "${_SCHEMA_CLASS_INDEX}" "${_INDENTED_FIELD_SCRIPT}")"
+_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" "${_INDENTED_FIELD_SCRIPT}" --index="${_SCHEMA_CLASS_INDEX}")"
 
 #########################################################
 # Overwrite existing schema
 
 chmod 755 "${_SCHEMA_LOCATION}"
-"${ZARUBA_BIN}" lines write "${_SCHEMA_LOCATION}" "${_LINES}"
+"${ZARUBA_BIN}" lines write "${_LINES}" "${_SCHEMA_LOCATION}"
 
 echo "Done updating schema field declaration"

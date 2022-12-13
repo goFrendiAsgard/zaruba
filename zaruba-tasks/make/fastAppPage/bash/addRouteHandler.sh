@@ -21,9 +21,9 @@ _INDENTATION="$("${ZARUBA_BIN}" str getIndentation "${_ADD_MENU_LINE}")"
 _INDENTED_HANDLE_ROUTE_SCRIPT="$("${ZARUBA_BIN}" str fullIndent "${_HANDLE_ROUTE_SCRIPT}" "${_INDENTATION}")"
 
 # insert handler
-_LINES="$("${ZARUBA_BIN}" lines insertAfter "${_LINES}" "${_ADD_MENU_INDEX}" "${_INDENTED_HANDLE_ROUTE_SCRIPT}")"
+_LINES="$("${ZARUBA_BIN}" lines insertAfter "${_LINES}" "${_INDENTED_HANDLE_ROUTE_SCRIPT}" --index="${_ADD_MENU_INDEX}")"
 
 chmod 755 "${_CONTROLLER_FILE_LOCATION}"
-"${ZARUBA_BIN}" lines write "${_CONTROLLER_FILE_LOCATION}" "${_LINES}"
+"${ZARUBA_BIN}" lines write "${_LINES}" "${_CONTROLLER_FILE_LOCATION}"
 
 echo "Done registering page route handler"

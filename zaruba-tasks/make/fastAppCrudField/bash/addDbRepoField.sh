@@ -32,7 +32,7 @@ fi
 _FIELD_DECLARATION_LINE="$("${ZARUBA_BIN}" list get "${_LINES}" "${_FIELD_DECLARATION_INDEX}")"
 _INDENTATION="$("${ZARUBA_BIN}" str getIndentation "${_FIELD_DECLARATION_LINE}")"
 _INDENTED_FIELD_DECLARATION_SCRIPT="$("${ZARUBA_BIN}" str fullIndent "${_FIELD_DECLARATION_SCRIPT}" "${_INDENTATION}")"
-_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" "${_FIELD_DECLARATION_INDEX}" "${_INDENTED_FIELD_DECLARATION_SCRIPT}")"
+_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" "${_INDENTED_FIELD_DECLARATION_SCRIPT}" --index="${_FIELD_DECLARATION_INDEX}")"
 
 
 #########################################################
@@ -51,7 +51,7 @@ fi
 _FIELD_INSERT_LINE="$("${ZARUBA_BIN}" list get "${_LINES}" "${_FIELD_INSERT_INDEX}")"
 _INDENTATION="$("${ZARUBA_BIN}" str getIndentation "${_FIELD_INSERT_LINE}")"
 _INDENTED_FIELD_INSERT_SCRIPT="$("${ZARUBA_BIN}" str fullIndent "${_FIELD_INSERT_SCRIPT}" "${_INDENTATION}")"
-_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" "${_FIELD_INSERT_INDEX}" "${_INDENTED_FIELD_INSERT_SCRIPT}")"
+_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" "${_INDENTED_FIELD_INSERT_SCRIPT}" --index="${_FIELD_INSERT_INDEX}")"
 
 
 #########################################################
@@ -70,13 +70,13 @@ fi
 _FIELD_UPDATE_LINE="$("${ZARUBA_BIN}" list get "${_LINES}" "${_FIELD_UPDATE_INDEX}")"
 _INDENTATION="$("${ZARUBA_BIN}" str getIndentation "${_FIELD_UPDATE_LINE}")"
 _INDENTED_FIELD_UPDATE_SCRIPT="$("${ZARUBA_BIN}" str fullIndent "${_FIELD_UPDATE_SCRIPT}" "${_INDENTATION}")"
-_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" "${_FIELD_UPDATE_INDEX}" "${_INDENTED_FIELD_UPDATE_SCRIPT}")"
+_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" "${_INDENTED_FIELD_UPDATE_SCRIPT}" --index="${_FIELD_UPDATE_INDEX}")"
 
 
 #########################################################
 # Overwrite existing repo
 
 chmod 755 "${_REPO_LOCATION}"
-"${ZARUBA_BIN}" lines write "${_REPO_LOCATION}" "${_LINES}"
+"${ZARUBA_BIN}" lines write "${_LINES}" "${_REPO_LOCATION}"
 
 echo "Done updating db repo"

@@ -24,13 +24,13 @@ fi
 _MOCK_ENTITY_DATA_LINE="$("${ZARUBA_BIN}" list get "${_LINES}" "${_MOCK_ENTITY_DATA_INDEX}")"
 _INDENTATION="$("${ZARUBA_BIN}" str getIndentation "${_MOCK_ENTITY_DATA_LINE}")"
 _INDENTED_MOCK_ENTITY_DATA_SCRIPT="    $("${ZARUBA_BIN}" str fullIndent "${_TEST_FIELD_SCRIPT}" "${_INDENTATION}")"
-_LINES="$("${ZARUBA_BIN}" lines insertAfter "${_LINES}" "${_MOCK_ENTITY_DATA_INDEX}" "${_INDENTED_MOCK_ENTITY_DATA_SCRIPT}")"
+_LINES="$("${ZARUBA_BIN}" lines insertAfter "${_LINES}" "${_INDENTED_MOCK_ENTITY_DATA_SCRIPT}" --index="${_MOCK_ENTITY_DATA_INDEX}")"
 
 
 #########################################################
 # Overwrite existing test
 
 chmod 755 "${_TEST_UTIL_LOCATION}"
-"${ZARUBA_BIN}" lines write "${_TEST_UTIL_LOCATION}" "${_LINES}"
+"${ZARUBA_BIN}" lines write "${_LINES}" "${_TEST_UTIL_LOCATION}"
 
 echo "Done updating test field"

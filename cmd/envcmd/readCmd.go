@@ -9,8 +9,9 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
+var readPrefix *string
 var readCmd = &cobra.Command{
-	Use:   "read <fileName> [prefix]",
+	Use:   "read <fileName>",
 	Short: "Read envmap from file",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
@@ -22,9 +23,8 @@ var readCmd = &cobra.Command{
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-		if len(args) > 1 {
-			prefix := args[1]
-			mapString, err = util.Json.Map.CascadePrefixKeys(mapString, prefix)
+		if *readPrefix != "" {
+			mapString, err = util.Json.Map.CascadePrefixKeys(mapString, *readPrefix)
 			if err != nil {
 				cmdHelper.Exit(cmd, args, logger, decoration, err)
 			}

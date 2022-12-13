@@ -43,7 +43,7 @@ then
     _FORM_INPUT_LINE="$("${ZARUBA_BIN}" list get "${_LINES}" "${_FORM_INPUT_INDEX}")"
     _INDENTATION="$("${ZARUBA_BIN}" str getIndentation "${_FORM_INPUT_LINE}")"
     _INDENTED_FORM_INPUT_SCRIPT="$("${ZARUBA_BIN}" str fullIndent "${_FORM_INPUT_SCRIPT}" "${_INDENTATION}")"
-    _LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" "${_FORM_INPUT_INDEX}" "${_INDENTED_FORM_INPUT_SCRIPT}")"
+    _LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" "${_INDENTED_FORM_INPUT_SCRIPT}" --index="${_FORM_INPUT_INDEX}")"
 fi
 
 
@@ -73,7 +73,7 @@ then
     _COLUMN_HEADER_LINE="$("${ZARUBA_BIN}" list get "${_LINES}" "${_COLUMN_HEADER_INDEX}")"
     _INDENTATION="$("${ZARUBA_BIN}" str getIndentation "${_COLUMN_HEADER_LINE}")"
     _INDENTED_COLUMN_HEADER_SCRIPT="$("${ZARUBA_BIN}" str fullIndent "${_COLUMN_HEADER_SCRIPT}" "${_INDENTATION}")"
-    _LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" "${_COLUMN_HEADER_INDEX}" "${_INDENTED_COLUMN_HEADER_SCRIPT}")"
+    _LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" "${_INDENTED_COLUMN_HEADER_SCRIPT}" --index="${_COLUMN_HEADER_INDEX}")"
 fi
 
 
@@ -103,13 +103,13 @@ then
     _COLUMN_VALUE_LINE="$("${ZARUBA_BIN}" list get "${_LINES}" "${_COLUMN_VALUE_INDEX}")"
     _INDENTATION="$("${ZARUBA_BIN}" str getIndentation "${_COLUMN_VALUE_LINE}")"
     _INDENTED_COLUMN_VALUE_SCRIPT="$("${ZARUBA_BIN}" str fullIndent "${_COLUMN_VALUE_SCRIPT}" "${_INDENTATION}")"
-    _LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" "${_COLUMN_VALUE_INDEX}" "${_INDENTED_COLUMN_VALUE_SCRIPT}")"
+    _LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" "${_INDENTED_COLUMN_VALUE_SCRIPT}" --index="${_COLUMN_VALUE_INDEX}")"
 fi
 
 #########################################################
 # Overwrite existing vue component
 
 chmod 755 "${_UI_COMPONENT_FILE_LOCATION}"
-"${ZARUBA_BIN}" lines write "${_UI_COMPONENT_FILE_LOCATION}" "${_LINES}"
+"${ZARUBA_BIN}" lines write "${_LINES}" "${_UI_COMPONENT_FILE_LOCATION}"
 
 echo "Done updating vue component"

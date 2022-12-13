@@ -14,6 +14,6 @@ _MAIN_LINES="$("${ZARUBA_BIN}" list append "${_MAIN_LINES}" "${_MAIN_SCRIPT}")"
 _MAIN_LINES="$("${ZARUBA_BIN}" list append "${_MAIN_LINES}" "${_LOAD_MODULE_SCRIPT}")"
 
 chmod 755 "${_MAIN_FILE_LOCATION}"
-"${ZARUBA_BIN}" lines write "${_MAIN_FILE_LOCATION}" "${_MAIN_LINES}"
+"${ZARUBA_BIN}" lines write "${_MAIN_LINES}" "${_MAIN_FILE_LOCATION}"
 
 echo "Done registering module"

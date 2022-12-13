@@ -21,9 +21,8 @@ Usage:
 
 Available Commands:
   get         Get envmap from currently loaded environment variables
-  print       Print environment
+  print       Print environment as json map
   read        Read envmap from file
-  write       Write envMap to file
 
 Flags:
   -h, --help   help for env
@@ -38,5 +37,4 @@ Use "zaruba env [command] --help" for more information about a command.
 * [Get](get.md)
 * [Print](print.md)
 * [Read](read.md)
-* [Write](write.md)
 <!--endTocSubTopic-->

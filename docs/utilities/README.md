@@ -24,7 +24,7 @@ M'   AMV                                 MM             ;MM:
 AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
 --.. .- .-. ..- -... .-    .--. .-.. . .- ... .    ... - .- .-. - 
                                     Task runner and CLI utility
-v0.9.0-alpha-2-494941704b77f95d27e88ddcf4cfeef5ef4e5da1
+v0.9.0-alpha-2-9644a1dd3e634126a9dc77c2af7b76cc3bb10a30
 
 Usage:
   zaruba [command]
@@ -158,7 +158,6 @@ To see how `lines` utitilites works, please visit [lines utilities documentation
   * [Get](env/get.md)
   * [Print](env/print.md)
   * [Read](env/read.md)
-  * [Write](env/write.md)
 * [🧩 Install](install.md)
 * [📁 File](file/README.md)
   * [Copy](file/copy.md)

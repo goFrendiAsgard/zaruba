@@ -84,7 +84,6 @@ Finally, you can visit our [end-to-end tutorial](use-cases/from-zero-to-cloud.md
         * [Get](utilities/env/get.md)
         * [Print](utilities/env/print.md)
         * [Read](utilities/env/read.md)
-        * [Write](utilities/env/write.md)
     * [🧩 Install](utilities/install.md)
     * [📁 File](utilities/file/README.md)
         * [Copy](utilities/file/copy.md)

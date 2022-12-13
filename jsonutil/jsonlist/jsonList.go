@@ -144,6 +144,9 @@ func (jsonList *JsonList) replaceLineAtIndex(jsonLines string, index int, jsonRe
 	if err != nil {
 		return "[]", err
 	}
+	if index < 0 {
+		index = len(lines) + index
+	}
 	switch mode {
 	case "BEFORE":
 		replacements = append(replacements, lines[index])

@@ -41,7 +41,7 @@ var submatchExample = `
 `
 var submatchDesiredPatternIndex *int
 var submatchCmd = &cobra.Command{
-	Use:     "submatch <jsonList> <patterns>",
+	Use:     "submatch <lines> <patterns>",
 	Short:   "Return submatch matching the pattern",
 	Example: submatchExample,
 	Run: func(cmd *cobra.Command, args []string) {

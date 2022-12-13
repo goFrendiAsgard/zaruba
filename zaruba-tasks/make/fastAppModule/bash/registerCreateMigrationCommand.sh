@@ -18,6 +18,6 @@ _CREATE_MIGRATION_LINES="$("${ZARUBA_BIN}" list append "${_CREATE_MIGRATION_LINE
 # Overwrite existing repo
 
 chmod 755 "${_CREATE_MIGRATION_FILE_LOCATION}"
-"${ZARUBA_BIN}" lines write "${_CREATE_MIGRATION_FILE_LOCATION}" "${_CREATE_MIGRATION_LINES}"
+"${ZARUBA_BIN}" lines write "${_CREATE_MIGRATION_LINES}" "${_CREATE_MIGRATION_FILE_LOCATION}"
 
 echo "Done registering create migration command"

@@ -18,6 +18,6 @@ _ALEMBIC_CONFIG_LINES="$("${ZARUBA_BIN}" list append "${_ALEMBIC_CONFIG_LINES}" 
 # Overwrite existing repo
 
 chmod 755 "${_ALEMBIC_CONFIG_FILE_LOCATION}"
-"${ZARUBA_BIN}" lines write "${_ALEMBIC_CONFIG_FILE_LOCATION}" "${_ALEMBIC_CONFIG_LINES}"
+"${ZARUBA_BIN}" lines write "${_ALEMBIC_CONFIG_LINES}" "${_ALEMBIC_CONFIG_FILE_LOCATION}"
 
 echo "Done registering alembic config"
