@@ -42,10 +42,8 @@ AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
 
 To use Zaruba properly, you need to know some basic CLI operations.
 
-Declaring a variable:
+Assigning and accessing a variable:
     > NAME="Kouga"
-
-Accessing a variable:
     > echo $NAME
     Kouga
 
@@ -53,7 +51,7 @@ Running a command:
     > zaruba version
     %s
 
-Assign command output into a variable:
+Assigning command output into a variable:
     > VERSION=$(zaruba version)
     > echo $VERSION
     %s
