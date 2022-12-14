@@ -66,11 +66,11 @@ func (fileUtil *FileUtil) WriteText(fileName string, text string, fileMode os.Fi
 	return ioutil.WriteFile(fileName, []byte(text), fileMode)
 }
 
-func (fileUtil *FileUtil) ReadStringList(fileName string) (lines []string, err error) {
-	lines = []string{}
+func (fileUtil *FileUtil) ReadStringList(fileName string) (stringList []string, err error) {
+	stringList = []string{}
 	content, err := fileUtil.ReadText(fileName)
 	if err != nil {
-		return lines, err
+		return stringList, err
 	}
 	return strings.Split(content, "\n"), nil
 }
@@ -83,8 +83,8 @@ func (fileUtil *FileUtil) ReadLines(fileName string) (jsonString string, err err
 	return fileUtil.json.FromStringList(stringList)
 }
 
-func (fileUtil *FileUtil) WriteStringList(fileName string, lines []string, fileMode os.FileMode) (err error) {
-	content := strings.Join(lines, "\n")
+func (fileUtil *FileUtil) WriteStringList(fileName string, stringList []string, fileMode os.FileMode) (err error) {
+	content := strings.Join(stringList, "\n")
 	return fileUtil.WriteText(fileName, content, fileMode)
 }
 

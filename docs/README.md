@@ -87,7 +87,12 @@ Finally, you can visit our [end-to-end tutorial](use-cases/from-zero-to-cloud.md
     * [🧩 Install](utilities/install.md)
     * [📁 File](utilities/file/README.md)
         * [Copy](utilities/file/copy.md)
+        * GetLineIndex
+        * InsertBefore
+        * InsertAfter
         * [List](utilities/file/list.md)
+        * Read
+        * Replace
         * [Walk](utilities/file/walk.md)
     * [🚈 Lines](utilities/lines/README.md)
         * [GetIndex](utilities/lines/getindex.md)

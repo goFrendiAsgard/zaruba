@@ -1,4 +1,4 @@
-package linescmd
+package filecmd
 
 import (
 	"fmt"
@@ -9,10 +9,18 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var getIndexExample = `
-> zaruba lines getIndex '["a", "a", "b", "c", "d", "e"]' '["a", "b", "d"]'
+var getLineIndexExample = `
+> zaruba file read myFile.txt
+a
+a
+b
+c
+d
+e
+
+> zaruba file getLineIndex myFile.txt '["a", "b", "d"]'
 4
-> zaruba lines getIndex '["a", "a", "b", "c", "d", "e"]' '["a", "b", "d"]' --index=-1
+> zaruba file getLineIndex myFile.txt '["a", "b", "d"]' --index=-1
 4
 
     Getting line index that match the last element of the pattern
@@ -26,7 +34,7 @@ var getIndexExample = `
                                         last index of the pattern
 
 
-> zaruba lines getIndex '["a", "a", "b", "c", "d", "e"]' '["a", "b", "d"]' --index=1
+> zaruba lines getLineIndex myFile.txt '["a", "b", "d"]' --index=1
 2
 
     Getting line index that match the desired index of the pattern
@@ -39,18 +47,22 @@ var getIndexExample = `
                               ^
                               desired index of the pattern
 `
-var getIndexDesiredPatternIndex *int
-var getIndexCmd = &cobra.Command{
-	Use:     "getIndex <jsonLines> <jsonLinesPattern>",
-	Short:   "Return index of lines matching the patterns at desiredPatternIndex",
-	Example: getIndexExample,
+var getLineIndexDesiredPatternIndex *int
+var getLineIndexCmd = &cobra.Command{
+	Use:     "getLineIndex <fileName> <jsonLinesPattern>",
+	Short:   "Return index of lines matching the patterns at the file",
+	Example: getLineIndexExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 2)
 		util := dsl.NewDSLUtil()
-		jsonLines, jsonPatterns := args[0], args[1]
-		matchIndex, _, err := util.Json.List.GetLinesSubmatch(jsonLines, jsonPatterns, *getIndexDesiredPatternIndex)
+		fileName, jsonPatterns := args[0], args[1]
+		jsonLines, err := util.File.ReadLines(fileName)
+		if err != nil {
+			cmdHelper.Exit(cmd, args, logger, decoration, err)
+		}
+		matchIndex, _, err := util.Json.List.GetLinesSubmatch(jsonLines, jsonPatterns, *getLineIndexDesiredPatternIndex)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}

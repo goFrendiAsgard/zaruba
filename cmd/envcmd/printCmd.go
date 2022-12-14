@@ -9,10 +9,33 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
+var printLong = `
+Print a jsonMap as environment variable declaration (key=value)
+
+You can cascade the environment variable using --prefix flag.
+This is useful if you have multiple environments (e.g., dev, staging, prod)
+`
+
+var printExample = `
+Print a jsonMap as environment variable declaration
+Get current environment variables as jsonMap.
+    > zaruba env print '{"SERVER": "localhost", "PORT": "3306"}'
+    SERVER="localhost"
+    PORT="3306"
+
+Using --prefix flag to cascade the environment.
+    > zaruba env print '{"SERVER": "localhost", "PORT": "3306", "STG_SERVER": "stg.stalchmst.com", "PROD_SERVER": "stalchmst.com"}' --prefix=STG
+    SERVER="stg.stalchmst.com"
+    PORT="3306"
+    STG_SERVER="stg.stalchmst.com"
+    PROD_SERVER="stalchmst.com"
+`
 var printPrefix *string
 var printCmd = &cobra.Command{
-	Use:     "print <envMap> [fileName]",
-	Short:   "Print environment as json map",
+	Use:     "print <jsonMap> [fileName]",
+	Short:   "Print a jsonMap as environment variable declarations",
+	Long:    printLong,
+	Example: printExample,
 	Aliases: []string{"write"},
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()

@@ -4,7 +4,7 @@ import "github.com/spf13/cobra"
 
 var Cmd = &cobra.Command{
 	Use:   "env",
-	Short: "Env utilities",
+	Short: "Environment related utilities",
 }
 
 func Init() {

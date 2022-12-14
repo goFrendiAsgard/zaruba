@@ -38,7 +38,30 @@ M'   AMV                                 MM             ;MM:
 AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
 --.. .- .-. ..- -... .-    .--. .-.. . .- ... .    ... - .- .-. - 
                                     Task runner and CLI utility
-%s`, ZarubaVersion),
+%s
+
+To use Zaruba as a CLI utility properly,
+you need to know some basic CLI operations.
+
+Declaring a variable:
+    > NAME="Kouga"
+
+Accessing a variable:
+    > echo $NAME
+    Kouga
+
+Running a command:
+    > zaruba version
+    %s
+
+Assign command output into a variable:
+    > VERSION=$(zaruba version)
+    > echo $VERSION
+    %s
+
+When in doubt, use --help flag:
+    > zaruba version --help
+`, ZarubaVersion, ZarubaVersion, ZarubaVersion),
 }
 
 func init() {

@@ -12,7 +12,7 @@ import (
 var readPrefix *string
 var readCmd = &cobra.Command{
 	Use:   "read <fileName>",
-	Short: "Read envmap from file",
+	Short: "Read environment variable declarations from environment file as a jsonMap",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
