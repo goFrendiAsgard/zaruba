@@ -40,8 +40,7 @@ AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
                                     Task runner and CLI utility
 %s
 
-To use Zaruba as a CLI utility properly,
-you need to know some basic CLI operations.
+To use Zaruba properly, you need to know some basic CLI operations.
 
 Declaring a variable:
     > NAME="Kouga"
