@@ -249,20 +249,33 @@ func (fileUtil *FileUtil) Generate(sourceTemplatePath, destinationPath string, r
 	)
 }
 
-func (fileUtil *FileUtil) ReplaceLineAtIndex(sourceTemplateFilePath, destinationFilePath string, replacementMapString string, index int) (err error) {
-	return fileUtil.replaceLineAtIndex(sourceTemplateFilePath, destinationFilePath, replacementMapString, index, "REPLACE")
+func (fileUtil *FileUtil) preparePathAndReplacementMap(sourceTemplatePath, destinationPath string, replacementMapString string) (replacementMap jsonHelper.StringDict, absSourceTemplatePath, absDestinationPath string, err error) {
+	replacementMap, err = fileUtil.json.ToStringDict(replacementMapString)
+	if err != nil {
+		return replacementMap, absSourceTemplatePath, absDestinationPath, err
+	}
+	absSourceTemplatePath, err = filepath.Abs(sourceTemplatePath)
+	if err != nil {
+		return replacementMap, absSourceTemplatePath, absDestinationPath, err
+	}
+	absDestinationPath, err = filepath.Abs(destinationPath)
+	return replacementMap, absSourceTemplatePath, absDestinationPath, err
 }
 
-func (fileUtil *FileUtil) InsertLineAfterIndex(sourceTemplateFilePath, destinationFilePath string, replacementMapString string, index int) (err error) {
-	return fileUtil.replaceLineAtIndex(sourceTemplateFilePath, destinationFilePath, replacementMapString, index, "AFTER")
+func (fileUtil *FileUtil) ReplaceLineAtIndex(destinationFilePath string, content string, index int) (err error) {
+	return fileUtil.replaceLineAtIndex(destinationFilePath, content, index, "REPLACE")
 }
 
-func (fileUtil *FileUtil) InsertLineBeforeIndex(sourceTemplateFilePath, destinationFilePath string, replacementMapString string, index int) (err error) {
-	return fileUtil.replaceLineAtIndex(sourceTemplateFilePath, destinationFilePath, replacementMapString, index, "BEFORE")
+func (fileUtil *FileUtil) InsertLineAfterIndex(destinationFilePath string, content string, index int) (err error) {
+	return fileUtil.replaceLineAtIndex(destinationFilePath, content, index, "AFTER")
 }
 
-func (fileUtil *FileUtil) replaceLineAtIndex(sourceTemplateFilePath, destinationFilePath string, replacementMapString string, index int, mode string) (err error) {
-	replacementMap, absSourceTemplatePath, absDestinationPath, err := fileUtil.preparePathAndReplacementMap(sourceTemplateFilePath, destinationFilePath, replacementMapString)
+func (fileUtil *FileUtil) InsertLineBeforeIndex(destinationFilePath string, content string, index int) (err error) {
+	return fileUtil.replaceLineAtIndex(destinationFilePath, content, index, "BEFORE")
+}
+
+func (fileUtil *FileUtil) replaceLineAtIndex(destinationFilePath string, content string, index int, mode string) (err error) {
+	absDestinationPath, err := filepath.Abs(destinationFilePath)
 	if err != nil {
 		return err
 	}
@@ -270,16 +283,11 @@ func (fileUtil *FileUtil) replaceLineAtIndex(sourceTemplateFilePath, destination
 	if err != nil {
 		return err
 	}
-	replacementTemplate, err := fileUtil.ReadText(absSourceTemplatePath)
-	if err != nil {
-		return err
-	}
 	destinationMode, err := fileUtil.getFileMode(destinationFilePath)
 	if err != nil {
 		return err
 	}
-	stringReplacement := strutil.StrReplace(replacementTemplate, replacementMap)
-	replacements := []string{stringReplacement}
+	replacements := []string{content}
 	switch mode {
 	case "BEFORE":
 		replacements = append(replacements, stringList[index])
@@ -302,17 +310,4 @@ func (fileUtil *FileUtil) getFileMode(filePath string) (fileMode fs.FileMode, er
 	}
 	fileMode = fileStat.Mode()
 	return fileMode, err
-}
-
-func (fileUtil *FileUtil) preparePathAndReplacementMap(sourceTemplatePath, destinationPath string, replacementMapString string) (replacementMap jsonHelper.StringDict, absSourceTemplatePath, absDestinationPath string, err error) {
-	replacementMap, err = fileUtil.json.ToStringDict(replacementMapString)
-	if err != nil {
-		return replacementMap, absSourceTemplatePath, absDestinationPath, err
-	}
-	absSourceTemplatePath, err = filepath.Abs(sourceTemplatePath)
-	if err != nil {
-		return replacementMap, absSourceTemplatePath, absDestinationPath, err
-	}
-	absDestinationPath, err = filepath.Abs(destinationPath)
-	return replacementMap, absSourceTemplatePath, absDestinationPath, err
 }
