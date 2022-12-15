@@ -13,8 +13,8 @@ import (
 var printPretty *bool
 
 var printCmd = &cobra.Command{
-	Use:     "print <mapOrList> [jsonFileName]",
-	Short:   "Print JSON map or list",
+	Use:     "print <jsonAny> [jsonFileName]",
+	Short:   "Print json",
 	Aliases: []string{"write"},
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()

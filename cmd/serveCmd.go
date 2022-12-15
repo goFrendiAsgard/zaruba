@@ -13,7 +13,7 @@ import (
 
 var serveCmd = &cobra.Command{
 	Use:   "serve [location [port]]",
-	Short: "Serve static files in location at a specified port",
+	Short: "Serve static website",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)

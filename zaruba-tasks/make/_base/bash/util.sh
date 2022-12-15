@@ -4,6 +4,73 @@ _setReplacementMap() {
     _ZRB_REPLACEMENT_MAP="$("${ZARUBA_BIN}" map set "${_ZRB_REPLACEMENT_MAP}" "${1}" "${2}")"
 }
 
+_indent() {
+    __ZRB_LINE="${1}"
+    __ZRB_INDENTATION="${2}"
+    "${ZARUBA_BIN}" str fullIndent "${__ZRB_LINE}" "${__ZRB_INDENTATION}"
+}
+
+_getIndentation() {
+    __ZRB_LINE="${1}"
+    "${ZARUBA_BIN}" str getIndentation "${__ZRB_LINE}"
+}
+
+_getLineFromFile() {
+    __ZRB_FILE_NAME="${1}"
+    __ZRB_INDEX="${2}"
+    "${ZARUBA_BIN}" file getLine "${__ZRB_FILE_NAME}" "${__ZRB_INDEX}"
+}
+
+_getLineIndexFromFile() {
+    __ZRB_FILE_NAME="${1}"
+    __ZRB_PATTERN="${2}"
+    if [ "$("${ZARUBA_BIN}" list validate "${__ZRB_PATTERN}")" = 0 ]
+    then
+        __ZRB_PATTERN="$("${ZARUBA_BIN}" list append "[]" "${__ZRB_PATTERN}")"
+    fi
+    "${ZARUBA_BIN}" file getLineIndex "${__ZRB_FILE_NAME}" "${__ZRB_PATTERN}"
+}
+
+_getPartialContent() {
+    __ZRB_TEMPLATE_FILE_NAME="${1}"
+    __ZRB_TEMPLATE="$("${ZARUBA_BIN}" file read "${__ZRB_TEMPLATE_FILE_NAME}")"
+    __ZRB_NEW_CONTENT="$("${ZARUBA_BIN}" str replace "${__ZRB_TEMPLATE}" "${_ZRB_REPLACEMENT_MAP}" )"
+    echo "${__ZRB_NEW_CONTENT}"
+}
+
+_insertPartialBefore() {
+    __ZRB_FILE_NAME="${1}"
+    __ZRB_CONTENT="${2}"
+    __ZRB_INDEX="${3}"
+    if [ -z "${__ZRB_INDEX}" ]
+    then
+        __ZRB_INDEX="0"
+    fi
+    "${ZARUBA_BIN}" file insertBefore "${__ZRB_FILE_NAME}" "${__ZRB_CONTENT}" --index="${__ZRB_INDEX}"
+}
+
+_insertPartialAfter() {
+    __ZRB_FILE_NAME="${1}"
+    __ZRB_CONTENT="${2}"
+    __ZRB_INDEX="${3}"
+    if [ -z "${__ZRB_INDEX}" ]
+    then
+        __ZRB_INDEX="-1"
+    fi
+    "${ZARUBA_BIN}" file insertAfter "${__ZRB_FILE_NAME}" "${__ZRB_CONTENT}" --index="${__ZRB_INDEX}"
+}
+
+_replacePartialAt() {
+    __ZRB_FILE_NAME="${1}"
+    __ZRB_CONTENT="${2}"
+    __ZRB_INDEX="${3}"
+    if [ -z "${__ZRB_INDEX}" ]
+    then
+        __ZRB_INDEX="0"
+    fi
+    "${ZARUBA_BIN}" file replace "${__ZRB_FILE_NAME}" "${__ZRB_CONTENT}" --index="${__ZRB_INDEX}"
+}
+
 _addConfigToReplacementMap() {
     # add config with prefix: 'ztplCfg'
     __ZRB_CONFIG_REPLACEMENT_MAP="$("${ZARUBA_BIN}" map transformKey "${_ZRB_CONFIG_MAP}" -t pascal -p ztplCfg)"

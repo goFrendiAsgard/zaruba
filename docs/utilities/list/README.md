@@ -16,7 +16,7 @@ zaruba list
 <summary>Output</summary>
  
 ```````
-List manipulation utilities
+JsonList manipulation utilities
 
 Usage:
   zaruba list [command]

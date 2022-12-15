@@ -16,7 +16,7 @@ zaruba map
 <summary>Output</summary>
  
 ```````
-Map manipulation utilities
+JsonMap manipulation utilities
 
 Usage:
   zaruba map [command]

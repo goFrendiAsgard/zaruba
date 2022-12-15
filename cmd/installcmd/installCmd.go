@@ -15,7 +15,7 @@ import (
 
 var Cmd = &cobra.Command{
 	Use:   "install",
-	Short: "Install external tools",
+	Short: "Install third party tools",
 }
 
 func Init() {

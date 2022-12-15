@@ -18,7 +18,7 @@ zaruba map get --help
 Get value from JSON map
 
 Usage:
-  zaruba map get <jsonMap> <key> [flags]
+  zaruba map get <jsonMap> <strKey> [flags]
 
 Flags:
   -h, --help   help for get

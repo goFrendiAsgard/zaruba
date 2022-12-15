@@ -4,7 +4,7 @@ import "github.com/spf13/cobra"
 
 var Cmd = &cobra.Command{
 	Use:   "map",
-	Short: "Map manipulation utilities",
+	Short: "JsonMap manipulation utilities",
 }
 
 func Init() {

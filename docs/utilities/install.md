@@ -16,7 +16,7 @@ zaruba install
 <summary>Output</summary>
  
 ```````
-Install external tools
+Install third party tools
 
 Usage:
   zaruba install [command]

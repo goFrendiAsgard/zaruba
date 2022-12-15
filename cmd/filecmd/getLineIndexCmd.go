@@ -30,7 +30,7 @@ lines:        ["a", "a", "b", "c", "d", "e"]
 patterns:     ["a",    , "b",      "d"]
                 0         1         2
                                     ^
-                                    last index of the pattern
+                                    last index of the pattern (-1)
 
 
 Getting line index that match the desired index of the pattern
@@ -44,12 +44,12 @@ lines:        ["a", "a", "b", "c", "d", "e"]
 patterns:     ["a",    , "b",      "d"]
                 0         1         2
                           ^
-                          desired index of the pattern
+                          desired index of the pattern (1)
 `
 var getLineIndexDesiredPatternIndex *int
 var getLineIndexCmd = &cobra.Command{
 	Use:     "getLineIndex <strFileName> <jsonStrListPatterns>",
-	Short:   "Return index of lines matching the patterns at the file",
+	Short:   "Get line index from a file content matching the pattern",
 	Example: getLineIndexExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()

@@ -1,60 +1,57 @@
 set -e
-echo "Registering repo and service"
+echo "Registering CRUD"
 
-_IMPORT_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrud/partials/import_repo_and_service.py")"
-_IMPORT_SCRIPT="$("${ZARUBA_BIN}" str replace "${_IMPORT_SCRIPT}" "${_ZRB_REPLACEMENT_MAP}" )"
+_importRepoAndService() {
+    _FILE_PATH="${_ZRB_APP_DIRECTORY}/main.py"
+    _NEW_CONTENT="$(_getPartialContent "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrud/partials/import_repo_and_service.py")"
+    _insertPartialBefore "${_FILE_PATH}" "${_NEW_CONTENT}" 0
+    chmod 755 "${_FILE_PATH}"
+}
 
-_INIT_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrud/partials/init_repo_and_service.py")"
-_INIT_SCRIPT="$("${ZARUBA_BIN}" str replace "${_INIT_SCRIPT}" "${_ZRB_REPLACEMENT_MAP}" )"
+_registerRepoAndService() {
+    _FILE_PATH="${_ZRB_APP_DIRECTORY}/main.py"
+    _PATTERN="if enable_${_ZRB_SNAKE_APP_MODULE_NAME}_module:"
+    _LINE_INDEX="$(_getLineIndexFromFile "${_FILE_PATH}" "${_PATTERN}")"
+    if [ "${_LINE_INDEX}" = "-1" ]
+    then
+        echo "Pattern not found: ${_PATTERN}"
+        exit 1
+    fi
+    _LINE="$(_getLineFromFile "${_FILE_PATH}" "${_LINE_INDEX}")"
+    _INDENTATION="$(_getIndentation "${_LINE}")"
 
+    _NEW_CONTENT="$(_getPartialContent "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrud/partials/init_repo_and_service.py")"
+    _NEW_CONTENT="$(_indent "${_NEW_CONTENT}" "    ${_INDENTATION}")"
 
-####################################################################
-## main.py
-####################################################################
+    _insertPartialAfter "${_FILE_PATH}" "${_NEW_CONTENT}" "${_LINE_INDEX}"
+    chmod 755 "${_FILE_PATH}"
+}
 
-_MAIN_FILE_LOCATION="${_ZRB_APP_DIRECTORY}/main.py"
-_MAIN_LINES="$("${ZARUBA_BIN}" lines read "${_MAIN_FILE_LOCATION}")"
+_updateRpcCall() {
+    _FILE_PATH="${_ZRB_APP_DIRECTORY}/main.py"
+    _PATTERN="^(\s*)register_${_ZRB_SNAKE_APP_MODULE_NAME}_rpc_handler\((.*)\)(.*)$"
+    _LINE_INDEX="$(_getLineIndexFromFile "${_FILE_PATH}" "${_PATTERN}")"
+    if [ "${_LINE_INDEX}" = "-1" ]
+    then
+        echo "Pattern not found: ${_PATTERN}"
+        exit 1
+    fi
+    _LINE="$(_getLineFromFile "${_FILE_PATH}" "${_LINE_INDEX}")"
 
-####################################################################
-# insert import
+    _SUBMATCH="$("${ZARUBA_BIN}" str submatch "${_LINE}" "${_PATTERN}")"
 
-_MAIN_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_MAIN_LINES}" "${_IMPORT_SCRIPT}")"
+    _INDENTATION="$("${ZARUBA_BIN}" list get "${_SUBMATCH}" 1)"
+    _PARAM="$("${ZARUBA_BIN}" list get "${_SUBMATCH}" 2)"
+    _SUFFIX="$("${ZARUBA_BIN}" list get "${_SUBMATCH}" 3)"
 
-# init repo
-_PATTERN="if enable_${_ZRB_SNAKE_APP_MODULE_NAME}_module:"
-_ENGINE_DECLARATION_INDEX="$("${ZARUBA_BIN}" lines getIndex "${_MAIN_LINES}" "${_PATTERN}")"
-if [ "${_ENGINE_DECLARATION_INDEX}" = "-1" ]
-then
-    echo "Pattern not found: ${_PATTERN}"
-    exit 1
-fi
+    _NEW_LINE="${_INDENTATION}register_${_ZRB_SNAKE_APP_MODULE_NAME}_rpc_handler(${_PARAM}, ${_ZRB_SNAKE_APP_CRUD_ENTITY}_service)${_SUFFIX}"
+    _replacePartialAt "${_FILE_PATH}" "${_NEW_LINE}" "${_LINE_INDEX}"
 
-_INIT_SCRIPT_INDENTATION="    "
-_INDENTED_INIT_SCRIPT="$("${ZARUBA_BIN}" str fullIndent "${_INIT_SCRIPT}" "${_INIT_SCRIPT_INDENTATION}")"
-_MAIN_LINES="$("${ZARUBA_BIN}" lines insertAfter "${_MAIN_LINES}" "${_INDENTED_INIT_SCRIPT}" --index="${_ENGINE_DECLARATION_INDEX}")"
+    chmod 755 "${_FILE_PATH}"
+}
 
-####################################################################
-# look for rpc call
+_importRepoAndService
+_registerRepoAndService
+_updateRpcCall
 
-_PATTERN="^(\s*)register_${_ZRB_SNAKE_APP_MODULE_NAME}_rpc_handler\((.*)\)(.*)$"
-_CALL_INDEX="$("${ZARUBA_BIN}" lines getIndex "${_MAIN_LINES}" "${_PATTERN}")"
-if [ "${_CALL_INDEX}" = "-1" ]
-then
-    echo "Pattern not found: ${_PATTERN}"
-    exit 1
-fi
-
-_CALL_LINE="$("${ZARUBA_BIN}" list get "${_MAIN_LINES}" "${_CALL_INDEX}")"
-_CALL_SUBMATCH="$("${ZARUBA_BIN}" lines submatch "${_MAIN_LINES}" "${_PATTERN}")"
-_CALL_INDENTATION="$("${ZARUBA_BIN}" list get "${_CALL_SUBMATCH}" 1)"
-_CALL_PARAM="$("${ZARUBA_BIN}" list get "${_CALL_SUBMATCH}" 2)"
-_CALL_SUFFIX="$("${ZARUBA_BIN}" list get "${_CALL_SUBMATCH}" 3)"
-_NEW_CALL_LINE="${_CALL_INDENTATION}register_${_ZRB_SNAKE_APP_MODULE_NAME}_rpc_handler(${_CALL_PARAM}, ${_ZRB_SNAKE_APP_CRUD_ENTITY}_service)${_CALL_SUFFIX}"
-
-# replace rpc call
-_MAIN_LINES="$("${ZARUBA_BIN}" list set "${_MAIN_LINES}" "${_CALL_INDEX}" "${_NEW_CALL_LINE}")"
-
-chmod 755 "${_MAIN_FILE_LOCATION}"
-"${ZARUBA_BIN}" lines write "${_MAIN_LINES}" "${_MAIN_FILE_LOCATION}"
-
-echo "Done registering repo and service"
+echo "Done registering CRUD"

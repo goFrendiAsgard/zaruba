@@ -14,10 +14,34 @@ zaruba env get --help
 <summary>Output</summary>
  
 ```````
-Get envmap from currently loaded environment variables
+Get current environment variables as jsonMap.
+
+You can cascade the environment variable using --prefix flag.
+This is useful if you have multiple environments (e.g., dev, staging, prod)
 
 Usage:
   zaruba env get [flags]
+
+Examples:
+
+Get current environment variables as jsonMap.
+    > export SERVER=localhost
+    > export PORT=3306
+    > zaruba env get
+    {"SERVER": "localhost", "PORT": "3306"}
+
+Using --prefix flag to cascade the environment.
+    > export SERVER=localhost
+    > export STG_SERVER=stg.stalchmst.com
+    > export PROD_SERVER=stalchmst.com
+    > export PORT=3306
+    > zaruba env get --prefix=STG
+    {"SERVER": "stg.stalchmst.com", "PORT": "3306", "STG_SERVER": "stg.stalchmst.com", "PROD_SERVER": "stalchmst.com"}
+    > zaruba env get --prefix=PROD
+    {"SERVER": "stalchmst.com", "PORT": "3306", "STG_SERVER": "stg.stalchmst.com", "PROD_SERVER": "stalchmst.com"}
+    > zaruba env get --prefix=DEV
+    {"SERVER": "localhost", "PORT": "3306", "STG_SERVER": "stg.stalchmst.com", "PROD_SERVER": "stalchmst.com"}
+
 
 Flags:
   -h, --help            help for get

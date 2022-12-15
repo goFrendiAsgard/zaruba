@@ -14,7 +14,6 @@ zaruba
 <summary>Output</summary>
  
 ```````
-,,                      
 MMM"""AMV                               *MM              db      
 M'   AMV                                 MM             ;MM:     
 '   AMV    ,6"Yb.  '7Mb,od8 '7MM  '7MM   MM,dMMb.      ,V^MM.    
@@ -23,33 +22,33 @@ M'   AMV                                 MM             ;MM:
  AMV   ,M 8M   MM    MM       MM    MM   MM.   ,M9   A'     VML  
 AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
 --.. .- .-. ..- -... .-    .--. .-.. . .- ... .    ... - .- .-. - 
-                                    Task runner and CLI utility
-v0.9.0-alpha-2-9644a1dd3e634126a9dc77c2af7b76cc3bb10a30
+                                      Task runner and CLI utility
+v0.9.0-alpha-2-fab8c24587b9967c4b830c19d715958e561d978f
 
 Usage:
   zaruba [command]
 
 Available Commands:
-  advertisement Advertisement utilities
+  advertisement Advertisement related utilities
   completion    Generate the autocompletion script for the specified shell
-  env           Env utilities
-  file          File utilities
-  generate      Make something based on template
+  env           Environment manipulation utilities
+  file          File manipulation utilities
+  generate      Generate a directory based on sourceTemplate and jsonMapReplacement
   help          Help about any command
-  install       Install external tools
-  json          JSON utilities
-  lines         Lines manipulation utilities
-  list          List manipulation utilities
-  map           Map manipulation utilities
+  install       Install third party tools
+  json          Json manipulation utilities
+  lines         JsonStrList manipulation utilities
+  list          JsonList manipulation utilities
+  map           JsonMap manipulation utilities
   num           Number manipulation utilities
   path          Path manipulation utilities
   please        Run Task(s)
   project       Project manipulation utilities
-  serve         Serve static files in location at a specified port
+  serve         Serve static website
   str           String manipulation utilities
   task          Task manipulation utilities
   version       Show current version
-  yaml          YAML utilities
+  yaml          Yaml manipulation utilities
 
 Flags:
   -h, --help   help for zaruba
@@ -161,7 +160,13 @@ To see how `lines` utitilites works, please visit [lines utilities documentation
 * [🧩 Install](install.md)
 * [📁 File](file/README.md)
   * [Copy](file/copy.md)
+  * [GetLine](file/getline.md)
+  * [GetLineIndex](file/getlineindex.md)
+  * [InsertBefore](file/insertbefore.md)
+  * [InsertAfter](file/insertafter.md)
   * [List](file/list.md)
+  * [Read](file/read.md)
+  * [Replace](file/replace.md)
   * [Walk](file/walk.md)
 * [🚈 Lines](lines/README.md)
   * [GetIndex](lines/getindex.md)

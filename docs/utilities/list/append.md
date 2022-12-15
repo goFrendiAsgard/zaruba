@@ -17,7 +17,7 @@ zaruba list append --help
 Append new values to jsonList
 
 Usage:
-  zaruba list append <jsonList> <newValues...> [flags]
+  zaruba list append <jsonStrList> <strNewValues...> [flags]
 
 Flags:
   -h, --help   help for append

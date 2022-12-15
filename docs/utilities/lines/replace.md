@@ -17,7 +17,7 @@ zaruba lines replace --help
 Replace lines[index] with replacements
 
 Usage:
-  zaruba lines replace <lines> <replacements> [flags]
+  zaruba lines replace <jsonStrList> <jsonStrListNewContent> [flags]
 
 Flags:
   -h, --help        help for replace

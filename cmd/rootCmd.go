@@ -23,12 +23,7 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-// rootCmd represents the base command when called without any subcommands
-var rootCmd = &cobra.Command{
-	Use:   "zaruba",
-	Short: "Task runner and CLI utility",
-	Long: fmt.Sprintf(`
-                                         ,,                      
+var rootLong = fmt.Sprintf(`
 MMM"""AMV                               *MM              db      
 M'   AMV                                 MM             ;MM:     
 '   AMV    ,6"Yb.  '7Mb,od8 '7MM  '7MM   MM,dMMb.      ,V^MM.    
@@ -37,80 +32,51 @@ M'   AMV                                 MM             ;MM:
  AMV   ,M 8M   MM    MM       MM    MM   MM.   ,M9   A'     VML  
 AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
 --.. .- .-. ..- -... .-    .--. .-.. . .- ... .    ... - .- .-. - 
-                                    Task runner and CLI utility
+                                      Task runner and CLI utility
 %s
+`, ZarubaVersion)
 
-To use Zaruba properly, you need to know some basic CLI operations.
-
-Assigning and accessing a variable:
-    > NAME="Kouga"
-    > echo $NAME
-    Kouga
-
-Running a command:
-    > zaruba version
-    %s
-
-Assigning command output into a variable:
-    > VERSION=$(zaruba version)
-    > echo $VERSION
-    %s
-
-When in doubt, use --help flag:
-    > zaruba version --help
-`, ZarubaVersion, ZarubaVersion, ZarubaVersion),
+// rootCmd represents the base command when called without any subcommands
+var rootCmd = &cobra.Command{
+	Use:   "zaruba",
+	Short: "Task runner and CLI utility",
+	Long:  rootLong,
 }
 
 func init() {
 	dsl.SetDefaultEnv()
-
 	rootCmd.AddCommand(generateCmd)
 	rootCmd.AddCommand(pleaseCmd)
 	rootCmd.AddCommand(serveCmd)
 	rootCmd.AddCommand(versionCmd)
-
 	rootCmd.AddCommand(advertisementcmd.Cmd)
 	advertisementcmd.Init()
-
 	rootCmd.AddCommand(envcmd.Cmd)
 	envcmd.Init()
-
 	rootCmd.AddCommand(filecmd.Cmd)
 	filecmd.Init()
-
 	rootCmd.AddCommand(installcmd.Cmd)
 	installcmd.Init()
-
 	rootCmd.AddCommand(jsoncmd.Cmd)
 	jsoncmd.Init()
-
 	rootCmd.AddCommand(linescmd.Cmd)
 	linescmd.Init()
-
 	rootCmd.AddCommand(listcmd.Cmd)
 	listcmd.Init()
-
 	rootCmd.AddCommand(mapcmd.Cmd)
 	mapcmd.Init()
-
 	rootCmd.AddCommand(numcmd.Cmd)
 	numcmd.Init()
-
 	rootCmd.AddCommand(pathcmd.Cmd)
 	pathcmd.Init()
-
 	rootCmd.AddCommand(projectcmd.Cmd)
 	projectcmd.Init()
-
 	rootCmd.AddCommand(strcmd.Cmd)
 	strcmd.Init()
-
 	rootCmd.AddCommand(taskcmd.Cmd)
 	taskcmd.Init()
-
 	rootCmd.AddCommand(yamlcmd.Cmd)
 	yamlcmd.Init()
-
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

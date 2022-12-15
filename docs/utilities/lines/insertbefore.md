@@ -17,7 +17,7 @@ zaruba lines insertBefore --help
 Insert newLine before lines[index]
 
 Usage:
-  zaruba lines insertBefore <lines> <newLine> [flags]
+  zaruba lines insertBefore <jsonStrList> <jsonStrListNewLines> [flags]
 
 Flags:
   -h, --help        help for insertBefore

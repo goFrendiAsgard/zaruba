@@ -14,13 +14,13 @@ zaruba lines write --help
 <summary>Output</summary>
  
 ```````
-Print lines
+Print lines as multiline string
 
 Usage:
-  zaruba lines print <lines> [fileName] [flags]
+  zaruba lines print <jsonStrList> [strFileName] [flags]
 
 Aliases:
-  print, write
+  print, write, join
 
 Flags:
   -h, --help   help for print

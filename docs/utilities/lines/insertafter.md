@@ -17,7 +17,7 @@ zaruba lines insertAfter --help
 Insert newLine after lines[index]
 
 Usage:
-  zaruba lines insertAfter <lines> <newLine> [flags]
+  zaruba lines insertAfter <jsonStrList> <jsonStrListNewLines> [flags]
 
 Flags:
   -h, --help        help for insertAfter

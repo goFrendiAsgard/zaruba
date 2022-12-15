@@ -14,10 +14,10 @@ zaruba json print --help
 <summary>Output</summary>
  
 ```````
-Print JSON map or list
+Print json
 
 Usage:
-  zaruba json print <mapOrList> [jsonFileName] [flags]
+  zaruba json print <jsonAny> [jsonFileName] [flags]
 
 Aliases:
   print, write

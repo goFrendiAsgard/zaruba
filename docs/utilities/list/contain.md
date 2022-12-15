@@ -17,7 +17,7 @@ zaruba list contain --help
 Find out whether jsonList contains string or not
 
 Usage:
-  zaruba list contain <jsonList> <element> [flags]
+  zaruba list contain <jsonList> <strElement> [flags]
 
 Flags:
   -h, --help   help for contain

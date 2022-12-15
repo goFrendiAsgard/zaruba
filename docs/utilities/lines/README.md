@@ -16,7 +16,7 @@ zaruba lines
 <summary>Output</summary>
  
 ```````
-Lines manipulation utilities
+JsonStrList manipulation utilities
 
 Usage:
   zaruba lines [command]
@@ -25,8 +25,8 @@ Available Commands:
   getIndex     Return index of lines matching the patterns at desiredPatternIndex
   insertAfter  Insert newLine after lines[index]
   insertBefore Insert newLine before lines[index]
-  print        Print lines
-  read         Read lines from file
+  print        Print lines as multiline string
+  read         Read lines from a file, return a jsonStrList
   replace      Replace lines[index] with replacements
   submatch     Return submatch matching the pattern
 

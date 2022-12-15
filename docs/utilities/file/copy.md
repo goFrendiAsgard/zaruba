@@ -17,7 +17,7 @@ zaruba file copy --help
 copy files/folders recursively
 
 Usage:
-  zaruba file copy <source> <destination> [flags]
+  zaruba file copy <strSourcePath> <strDestinationPath> [flags]
 
 Flags:
   -h, --help   help for copy

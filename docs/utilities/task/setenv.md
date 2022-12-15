@@ -17,7 +17,7 @@ zaruba task setEnvs --help
 Set task env
 
 Usage:
-  zaruba task setEnvs <taskName> {<jsonEnvMap> | <envKey> <envValue>} [projectFile] [flags]
+  zaruba task setEnvs <taskName> {<jsonMapEnv> | <envKey> <envValue>} [projectFile] [flags]
 
 Aliases:
   setEnvs, setEnv
