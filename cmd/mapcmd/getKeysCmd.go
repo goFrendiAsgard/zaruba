@@ -16,9 +16,9 @@ var getKeysCmd = &cobra.Command{
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 1)
-		mapString := args[0]
+		jsonMap := args[0]
 		util := dsl.NewDSLUtil()
-		keys, err := util.Json.Map.GetKeys(mapString)
+		keys, err := util.Json.Map.GetKeys(jsonMap)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}

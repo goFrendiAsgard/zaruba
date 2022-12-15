@@ -32,7 +32,7 @@ Using --prefix flag to cascade the environment.
 `
 var printPrefix *string
 var printCmd = &cobra.Command{
-	Use:     "print <jsonMap> [fileName]",
+	Use:     "print <jsonMap> [strFileName]",
 	Short:   "Print a jsonMap as environment variable declarations",
 	Long:    printLong,
 	Example: printExample,
@@ -41,25 +41,25 @@ var printCmd = &cobra.Command{
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 1)
-		mapString := args[0]
-		fileName := ""
+		jsonMap := args[0]
+		strFileName := ""
 		if len(args) > 1 {
-			fileName = args[1]
+			strFileName = args[1]
 		}
 		var err error
 		util := dsl.NewDSLUtil()
 		if *printPrefix != "" {
-			mapString, err = util.Json.Map.CascadePrefixKeys(mapString, *printPrefix)
+			jsonMap, err = util.Json.Map.CascadePrefixKeys(jsonMap, *printPrefix)
 			if err != nil {
 				cmdHelper.Exit(cmd, args, logger, decoration, err)
 			}
 		}
-		envString, err := util.Json.Map.ToEnvString(mapString)
+		envString, err := util.Json.Map.ToEnvString(jsonMap)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-		if fileName != "" {
-			if err := util.File.WriteText(fileName, envString, 0755); err != nil {
+		if strFileName != "" {
+			if err := util.File.WriteText(strFileName, envString, 0755); err != nil {
 				cmdHelper.Exit(cmd, args, logger, decoration, err)
 			}
 		}

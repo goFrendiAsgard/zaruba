@@ -10,7 +10,7 @@ import (
 )
 
 var lengthCmd = &cobra.Command{
-	Use:   "length <list>",
+	Use:   "length <jsonList>",
 	Short: "Get list's length",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()

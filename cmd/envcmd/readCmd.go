@@ -11,7 +11,7 @@ import (
 
 var readPrefix *string
 var readCmd = &cobra.Command{
-	Use:   "read <fileName>",
+	Use:   "read <strFileName>",
 	Short: "Read environment variable declarations from environment file as a jsonMap",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
@@ -19,16 +19,16 @@ var readCmd = &cobra.Command{
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 1)
 		fileName := args[0]
 		util := dsl.NewDSLUtil()
-		mapString, err := util.File.ReadEnv(fileName)
+		jsonMapEnv, err := util.File.ReadEnv(fileName)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
 		if *readPrefix != "" {
-			mapString, err = util.Json.Map.CascadePrefixKeys(mapString, *readPrefix)
+			jsonMapEnv, err = util.Json.Map.CascadePrefixKeys(jsonMapEnv, *readPrefix)
 			if err != nil {
 				cmdHelper.Exit(cmd, args, logger, decoration, err)
 			}
 		}
-		fmt.Println(mapString)
+		fmt.Println(jsonMapEnv)
 	},
 }

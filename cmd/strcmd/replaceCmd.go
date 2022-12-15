@@ -11,19 +11,19 @@ import (
 )
 
 var replaceCmd = &cobra.Command{
-	Use:   "replace <string> [replacementMap]",
-	Short: "Replace string by replacementMap",
+	Use:   "replace <string> [jsonMapReplacement]",
+	Short: "Replace string by jsonMapReplacement",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 1)
 		text := args[0]
-		mapString := "{}"
+		jsonMapReplacement := "{}"
 		if len(args) > 1 {
-			mapString = args[1]
+			jsonMapReplacement = args[1]
 		}
 		util := dsl.NewDSLUtil()
-		result, err := util.Json.Map.Replace(text, mapString)
+		result, err := util.Json.Map.Replace(text, jsonMapReplacement)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}

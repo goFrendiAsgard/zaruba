@@ -75,7 +75,7 @@ func (fileUtil *FileUtil) ReadStringList(fileName string) (stringList []string, 
 	return strings.Split(content, "\n"), nil
 }
 
-func (fileUtil *FileUtil) ReadLines(fileName string) (jsonString string, err error) {
+func (fileUtil *FileUtil) ReadLines(fileName string) (jsonStrList string, err error) {
 	stringList, err := fileUtil.ReadStringList(fileName)
 	if err != nil {
 		return "[]", err
@@ -88,15 +88,15 @@ func (fileUtil *FileUtil) WriteStringList(fileName string, stringList []string, 
 	return fileUtil.WriteText(fileName, content, fileMode)
 }
 
-func (fileUtil *FileUtil) WriteLines(fileName string, jsonString string, fileMode os.FileMode) (err error) {
-	lines, err := fileUtil.json.ToStringList(jsonString)
+func (fileUtil *FileUtil) WriteLines(fileName string, jsonStrList string, fileMode os.FileMode) (err error) {
+	lines, err := fileUtil.json.ToStringList(jsonStrList)
 	if err != nil {
 		return err
 	}
 	return fileUtil.WriteStringList(fileName, lines, fileMode)
 }
 
-func (fileUtil *FileUtil) ReadEnv(fileName string) (jsonString string, err error) {
+func (fileUtil *FileUtil) ReadEnv(fileName string) (jsonMap string, err error) {
 	envMap, err := godotenv.Read(fileName)
 	if err != nil {
 		return "", err
@@ -104,7 +104,7 @@ func (fileUtil *FileUtil) ReadEnv(fileName string) (jsonString string, err error
 	return fileUtil.json.FromStringDict(envMap)
 }
 
-func (fileUtil *FileUtil) ReadYaml(fileName string) (jsonString string, err error) {
+func (fileUtil *FileUtil) ReadYaml(fileName string) (jsonAny string, err error) {
 	yamlString, err := fileUtil.ReadText(fileName)
 	if err != nil {
 		return "", err
@@ -112,8 +112,8 @@ func (fileUtil *FileUtil) ReadYaml(fileName string) (jsonString string, err erro
 	return fileUtil.json.FromYaml(yamlString)
 }
 
-func (fileUtil *FileUtil) WriteYaml(fileName, jsonString string, fileMode os.FileMode) (err error) {
-	yamlString, err := fileUtil.json.ToYaml(jsonString)
+func (fileUtil *FileUtil) WriteYaml(fileName, jsonAny string, fileMode os.FileMode) (err error) {
+	yamlString, err := fileUtil.json.ToYaml(jsonAny)
 	if err != nil {
 		return err
 	}
@@ -218,8 +218,8 @@ func (fileUtil *FileUtil) Walk(dirPath string) (relativeChildPaths []string, err
 	return relativeChildPaths, err
 }
 
-func (fileUtil *FileUtil) Generate(sourceTemplatePath, destinationPath string, replacementMapString string) (err error) {
-	replacementMap, absSourceTemplatePath, absDestinationPath, err := fileUtil.preparePathAndReplacementMap(sourceTemplatePath, destinationPath, replacementMapString)
+func (fileUtil *FileUtil) Generate(sourceTemplatePath, destinationPath string, jsonMapReplacement string) (err error) {
+	replacementMap, absSourceTemplatePath, absDestinationPath, err := fileUtil.preparePathAndReplacementMap(sourceTemplatePath, destinationPath, jsonMapReplacement)
 	if err != nil {
 		return err
 	}

@@ -10,18 +10,18 @@ import (
 )
 
 var readCmd = &cobra.Command{
-	Use:   "read <fileName>",
+	Use:   "read <strFileName>",
 	Short: "Read text from file",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 1)
-		fileName := args[0]
+		strFileName := args[0]
 		util := dsl.NewDSLUtil()
-		txt, err := util.File.ReadText(fileName)
+		content, err := util.File.ReadText(strFileName)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-		fmt.Println(txt)
+		fmt.Println(content)
 	},
 }

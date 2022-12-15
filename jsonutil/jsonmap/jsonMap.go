@@ -12,40 +12,40 @@ import (
 	"github.com/state-alchemists/zaruba/strutil"
 )
 
-type JsonMap struct {
+type JsonMapUtil struct {
 	str *strutil.StrUtil
 }
 
-func NewJsonMap(strUtil *strutil.StrUtil) *JsonMap {
-	return &JsonMap{
+func NewJsonMapUtil(strUtil *strutil.StrUtil) *JsonMapUtil {
+	return &JsonMapUtil{
 		str: strUtil,
 	}
 }
 
-func (jsonMap *JsonMap) Validate(mapString string) (valid bool) {
-	_, err := jsonHelper.ToDict(mapString)
+func (jsonMapUtil *JsonMapUtil) Validate(jsonMap string) (valid bool) {
+	_, err := jsonHelper.ToDict(jsonMap)
 	return err == nil
 }
 
-func (jsonMap *JsonMap) GetValue(mapString, key string) (data interface{}, err error) {
-	dict, err := jsonHelper.ToDict(mapString)
+func (jsonMapUtil *JsonMapUtil) GetValue(jsonMap, key string) (data interface{}, err error) {
+	dict, err := jsonHelper.ToDict(jsonMap)
 	if err != nil {
 		return nil, err
 	}
 	return dict[key], nil
 }
 
-func (jsonMap *JsonMap) GetKeys(mapString string) (keys []string, err error) {
-	dict, err := jsonHelper.ToDict(mapString)
+func (jsonMapUtil *JsonMapUtil) GetKeys(jsonMap string) (keys []string, err error) {
+	dict, err := jsonHelper.ToDict(jsonMap)
 	if err != nil {
 		return nil, err
 	}
 	return dictutil.DictGetSortedKeys(dict)
 }
 
-func (jsonMap *JsonMap) Merge(mapStrings ...string) (mergedMapString string, err error) {
+func (jsonMapUtil *JsonMapUtil) Merge(jsonMaps ...string) (jsonMapMerged string, err error) {
 	mergedDict := jsonHelper.Dict{}
-	for _, mapString := range mapStrings {
+	for _, mapString := range jsonMaps {
 		dict, err := jsonHelper.ToDict(mapString)
 		if err != nil {
 			return "{}", err
@@ -63,13 +63,13 @@ func (jsonMap *JsonMap) Merge(mapStrings ...string) (mergedMapString string, err
 	return string(mergedMapBytes), nil
 }
 
-func (jsonMap *JsonMap) Set(mapString string, args ...string) (newMapString string, err error) {
-	dict, err := jsonHelper.ToDict(mapString)
+func (jsonMapUtil *JsonMapUtil) Set(jsonMap string, args ...string) (newJsonMap string, err error) {
+	dict, err := jsonHelper.ToDict(jsonMap)
 	if err != nil {
-		return mapString, err
+		return jsonMap, err
 	}
 	if len(args)%2 != 0 {
-		return mapString, fmt.Errorf("invalid number of arguments")
+		return jsonMap, fmt.Errorf("invalid number of arguments")
 	}
 	for index := 0; index < len(args); index += 2 {
 		newKey := args[index]
@@ -83,10 +83,10 @@ func (jsonMap *JsonMap) Set(mapString string, args ...string) (newMapString stri
 	return string(newMapBytes), nil
 }
 
-func (jsonMap *JsonMap) TransformKeys(mapString string, prefix string, suffix string, transformers ...func(string) string) (newMapString string, err error) {
-	dict, err := jsonHelper.ToDict(mapString)
+func (jsonMapUtil *JsonMapUtil) TransformKeys(jsonMap string, prefix string, suffix string, transformers ...func(string) string) (newJsonMap string, err error) {
+	dict, err := jsonHelper.ToDict(jsonMap)
 	if err != nil {
-		return mapString, err
+		return jsonMap, err
 	}
 	newDict := jsonHelper.Dict{}
 	for key, val := range dict {
@@ -104,10 +104,10 @@ func (jsonMap *JsonMap) TransformKeys(mapString string, prefix string, suffix st
 	return string(newMapBytes), nil
 }
 
-func (jsonMap *JsonMap) CascadePrefixKeys(mapString string, prefix string) (newMapString string, err error) {
-	dict, err := jsonHelper.ToDict(mapString)
+func (jsonMapUtil *JsonMapUtil) CascadePrefixKeys(jsonMap string, prefix string) (newJsonMap string, err error) {
+	dict, err := jsonHelper.ToDict(jsonMap)
 	if err != nil {
-		return mapString, err
+		return jsonMap, err
 	}
 	newDict := jsonHelper.Dict{}
 	for key, val := range dict {
@@ -131,7 +131,7 @@ func (jsonMap *JsonMap) CascadePrefixKeys(mapString string, prefix string) (newM
 	return string(newMapBytes), nil
 }
 
-func (jsonMap *JsonMap) GetFromEnv() (mapString string, err error) {
+func (jsonMapUtil *JsonMapUtil) GetFromEnv() (newJsonMap string, err error) {
 	stringDict := jsonHelper.StringDict{}
 	for _, pair := range os.Environ() {
 		pairParts := strings.SplitN(pair, "=", 2)
@@ -145,8 +145,8 @@ func (jsonMap *JsonMap) GetFromEnv() (mapString string, err error) {
 	return string(dictBytes), nil
 }
 
-func (jsonMap *JsonMap) ToStringMap(mapString string) (newMapString string, err error) {
-	stringDict, err := jsonHelper.ToStringDict(mapString)
+func (jsonMapUtil *JsonMapUtil) ToStringMap(jsonMap string) (newJsonMap string, err error) {
+	stringDict, err := jsonHelper.ToStringDict(jsonMap)
 	if err != nil {
 		return "{}", err
 	}
@@ -157,8 +157,8 @@ func (jsonMap *JsonMap) ToStringMap(mapString string) (newMapString string, err 
 	return string(newMapBytes), nil
 }
 
-func (jsonMap *JsonMap) ToVariedStringMap(mapString string, keys ...string) (newMapString string, err error) {
-	variedStringDict, err := jsonHelper.ToStringDict(mapString)
+func (jsonMapUtil *JsonMapUtil) ToVariedStringMap(jsonMap string, keys ...string) (newJsonMap string, err error) {
+	variedStringDict, err := jsonHelper.ToStringDict(jsonMap)
 	if err != nil {
 		return "{}", err
 	}
@@ -167,7 +167,7 @@ func (jsonMap *JsonMap) ToVariedStringMap(mapString string, keys ...string) (new
 			keys = append(keys, key)
 		}
 	}
-	strTransformators := []func(string) string{jsonMap.str.ToKebab, jsonMap.str.ToCamel, jsonMap.str.ToPascal, jsonMap.str.ToSnake, jsonMap.str.ToLower, jsonMap.str.ToUpper, jsonMap.str.ToUpperSnake, jsonMap.str.DoubleQuote, jsonMap.str.SingleQuote}
+	strTransformators := []func(string) string{jsonMapUtil.str.ToKebab, jsonMapUtil.str.ToCamel, jsonMapUtil.str.ToPascal, jsonMapUtil.str.ToSnake, jsonMapUtil.str.ToLower, jsonMapUtil.str.ToUpper, jsonMapUtil.str.ToUpperSnake, jsonMapUtil.str.DoubleQuote, jsonMapUtil.str.SingleQuote}
 	for _, key := range keys {
 		val := variedStringDict[key]
 		for _, strTransformator := range strTransformators {
@@ -186,16 +186,16 @@ func (jsonMap *JsonMap) ToVariedStringMap(mapString string, keys ...string) (new
 	return string(newMapBytes), nil
 }
 
-func (jsonMap *JsonMap) ToEnvString(mapString string) (envString string, err error) {
-	stringDict, err := jsonHelper.ToStringDict(mapString)
+func (jsonMapUtil *JsonMapUtil) ToEnvString(newJsonMap string) (envString string, err error) {
+	stringDict, err := jsonHelper.ToStringDict(newJsonMap)
 	if err != nil {
 		return "", err
 	}
 	return godotenv.Marshal(stringDict)
 }
 
-func (jsonMap *JsonMap) Replace(str string, replacementMapString string) (newStr string, err error) {
-	replacementMap, err := jsonHelper.ToStringDict(replacementMapString)
+func (jsonMapUtil *JsonMapUtil) Replace(str string, jsonMapReplacement string) (newStr string, err error) {
+	replacementMap, err := jsonHelper.ToStringDict(jsonMapReplacement)
 	if err != nil {
 		return str, err
 	}

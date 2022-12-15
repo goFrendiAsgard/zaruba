@@ -16,12 +16,12 @@ var joinCmd = &cobra.Command{
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 1)
-		listString, separator := args[0], "\n"
+		jsonList, separator := args[0], "\n"
 		if len(args) > 1 {
 			separator = args[1]
 		}
 		util := dsl.NewDSLUtil()
-		str, err := util.Json.List.Join(listString, separator)
+		str, err := util.Json.List.Join(jsonList, separator)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}

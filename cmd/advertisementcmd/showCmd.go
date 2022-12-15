@@ -27,7 +27,7 @@ var showExample = `
 `
 
 var showCmd = &cobra.Command{
-	Use:     "show <advertisementFile>",
+	Use:     "show <strAdvertisementFile>",
 	Short:   "Show advertisement based on advertisementFile",
 	Long:    showLong,
 	Example: showExample,
@@ -35,8 +35,8 @@ var showCmd = &cobra.Command{
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 1)
-		advertisementFile := args[0]
-		advs, err := advertisement.NewAdvs(advertisementFile)
+		strAdvertisementFile := args[0]
+		advs, err := advertisement.NewAdvs(strAdvertisementFile)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}

@@ -16,12 +16,12 @@ var mergeCmd = &cobra.Command{
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 2)
-		mapStrings := args
+		jsonMap := args
 		util := dsl.NewDSLUtil()
-		mergedMapString, err := util.Json.Map.Merge(mapStrings...)
+		jsonMapMerged, err := util.Json.Map.Merge(jsonMap...)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-		fmt.Println(mergedMapString)
+		fmt.Println(jsonMapMerged)
 	},
 }

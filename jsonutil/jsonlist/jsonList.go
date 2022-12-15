@@ -9,19 +9,19 @@ import (
 	"github.com/state-alchemists/zaruba/strutil"
 )
 
-type JsonList struct{}
+type JsonListUtil struct{}
 
-func NewJsonList() *JsonList {
-	return &JsonList{}
+func NewJsonListUtil() *JsonListUtil {
+	return &JsonListUtil{}
 }
 
-func (jsonList *JsonList) Validate(listString string) (valid bool) {
-	_, err := jsonHelper.ToList(listString)
+func (jsonListUtil *JsonListUtil) Validate(jsonList string) (valid bool) {
+	_, err := jsonHelper.ToList(jsonList)
 	return err == nil
 }
 
-func (jsonList *JsonList) GetValue(listString string, index int) (data interface{}, err error) {
-	list, err := jsonHelper.ToList(listString)
+func (jsonListUtil *JsonListUtil) GetValue(jsonList string, index int) (data interface{}, err error) {
+	list, err := jsonHelper.ToList(jsonList)
 	if err != nil {
 		return nil, err
 	}
@@ -31,16 +31,16 @@ func (jsonList *JsonList) GetValue(listString string, index int) (data interface
 	return list[index], nil
 }
 
-func (jsonList *JsonList) GetLength(listString string) (length int, err error) {
-	list, err := jsonHelper.ToList(listString)
+func (jsonListUtil *JsonListUtil) GetLength(jsonList string) (length int, err error) {
+	list, err := jsonHelper.ToList(jsonList)
 	if err != nil {
 		return -1, err
 	}
 	return len(list), nil
 }
 
-func (jsonList *JsonList) Append(listString string, value string) (newListString string, err error) {
-	list, err := jsonHelper.ToList(listString)
+func (jsonListUtil *JsonListUtil) Append(jsonList string, value string) (newJsonList string, err error) {
+	list, err := jsonHelper.ToList(jsonList)
 	if err != nil {
 		return "[]", err
 	}
@@ -52,8 +52,8 @@ func (jsonList *JsonList) Append(listString string, value string) (newListString
 	return string(newListBytes), nil
 }
 
-func (jsonList *JsonList) Set(listString string, index int, value string) (newListString string, err error) {
-	list, err := jsonHelper.ToList(listString)
+func (jsonListUtil *JsonListUtil) Set(jsonList string, index int, value string) (newJsonList string, err error) {
+	list, err := jsonHelper.ToList(jsonList)
 	if err != nil {
 		return "[]", err
 	}
@@ -68,10 +68,10 @@ func (jsonList *JsonList) Set(listString string, index int, value string) (newLi
 	return string(newListBytes), nil
 }
 
-func (jsonList *JsonList) Merge(listStrings ...string) (mergedListString string, err error) {
+func (jsonListUtil *JsonListUtil) Merge(jsonLists ...string) (jsonListMerged string, err error) {
 	mergedList := jsonHelper.List{}
-	for _, listString := range listStrings {
-		list, err := jsonHelper.ToList(listString)
+	for _, jsonList := range jsonLists {
+		list, err := jsonHelper.ToList(jsonList)
 		if err != nil {
 			return "[]", err
 		}
@@ -84,8 +84,8 @@ func (jsonList *JsonList) Merge(listStrings ...string) (mergedListString string,
 	return string(mergedListBytes), nil
 }
 
-func (jsonList *JsonList) Join(listString string, separator string) (str string, err error) {
-	lines, err := jsonHelper.ToStringList(listString)
+func (jsonListUtil *JsonListUtil) Join(jsonStrList string, separator string) (str string, err error) {
+	lines, err := jsonHelper.ToStringList(jsonStrList)
 	if err != nil {
 		return "", err
 	}
@@ -93,8 +93,8 @@ func (jsonList *JsonList) Join(listString string, separator string) (str string,
 	return str, nil
 }
 
-func (jsonList *JsonList) GetIndex(listString string, elementString string) (index int, err error) {
-	list, err := jsonHelper.ToStringList(listString)
+func (jsonListUtil *JsonListUtil) GetIndex(jsonStrList string, elementString string) (index int, err error) {
+	list, err := jsonHelper.ToStringList(jsonStrList)
 	if err != nil {
 		return -1, err
 	}
@@ -106,16 +106,16 @@ func (jsonList *JsonList) GetIndex(listString string, elementString string) (ind
 	return -1, nil
 }
 
-func (jsonList *JsonList) Contain(listString string, elementString string) (exist bool, err error) {
-	index, err := jsonList.GetIndex(listString, elementString)
+func (jsonListUtil *JsonListUtil) Contain(jsonStrList string, elementString string) (exist bool, err error) {
+	index, err := jsonListUtil.GetIndex(jsonStrList, elementString)
 	if err != nil {
 		return false, err
 	}
 	return index > -1, nil
 }
 
-func (jsonList *JsonList) GetLinesSubmatch(jsonLines, jsonPatterns string, desiredPatternIndex int) (matchIndex int, jsonSubmatch string, err error) {
-	lines, patterns, err := jsonList.prepareLinesAndPattern(jsonLines, jsonPatterns)
+func (jsonListutil *JsonListUtil) GetLinesSubmatch(jsonStrList, jsonStrListPattern string, desiredPatternIndex int) (matchIndex int, jsonSubmatch string, err error) {
+	lines, patterns, err := jsonListutil.prepareLinesAndPattern(jsonStrList, jsonStrListPattern)
 	if err != nil {
 		return -1, "[]", err
 	}
@@ -127,49 +127,49 @@ func (jsonList *JsonList) GetLinesSubmatch(jsonLines, jsonPatterns string, desir
 	return matchIndex, jsonSubmatch, err
 }
 
-func (jsonList *JsonList) ReplaceLineAtIndex(jsonLines string, index int, jsonReplacements string) (newJsonLines string, err error) {
-	return jsonList.replaceLineAtIndex(jsonLines, index, jsonReplacements, "REPLACE")
+func (jsonListUtil *JsonListUtil) ReplaceLineAtIndex(jsonStrList string, index int, jsonStrListReplacement string) (newJsonLines string, err error) {
+	return jsonListUtil.replaceLineAtIndex(jsonStrList, index, jsonStrListReplacement, "REPLACE")
 }
 
-func (jsonList *JsonList) InsertLineAfterIndex(jsonLines string, index int, jsonReplacements string) (newJsonLines string, err error) {
-	return jsonList.replaceLineAtIndex(jsonLines, index, jsonReplacements, "AFTER")
+func (jsonListUtil *JsonListUtil) InsertLineAfterIndex(jsonStrList string, index int, jsonStrListReplacement string) (newJsonLines string, err error) {
+	return jsonListUtil.replaceLineAtIndex(jsonStrList, index, jsonStrListReplacement, "AFTER")
 }
 
-func (jsonList *JsonList) InsertLineBeforeIndex(jsonLines string, index int, jsonReplacements string) (newJsonLines string, err error) {
-	return jsonList.replaceLineAtIndex(jsonLines, index, jsonReplacements, "BEFORE")
+func (jsonListUtil *JsonListUtil) InsertLineBeforeIndex(jsonStrList string, index int, jsonStrListReplacement string) (newJsonLines string, err error) {
+	return jsonListUtil.replaceLineAtIndex(jsonStrList, index, jsonStrListReplacement, "BEFORE")
 }
 
-func (jsonList *JsonList) replaceLineAtIndex(jsonLines string, index int, jsonReplacements string, mode string) (newJsonLines string, err error) {
-	lines, replacements, err := jsonList.prepareLinesAndPattern(jsonLines, jsonReplacements)
+func (jsonListUtil *JsonListUtil) replaceLineAtIndex(jsonStrList string, index int, jsonStrListReplacement string, mode string) (newJsonLines string, err error) {
+	strList, replacements, err := jsonListUtil.prepareLinesAndPattern(jsonStrList, jsonStrListReplacement)
 	if err != nil {
 		return "[]", err
 	}
 	if index < 0 {
-		index = len(lines) + index
+		index = len(strList) + index
 	}
 	switch mode {
 	case "BEFORE":
-		replacements = append(replacements, lines[index])
+		replacements = append(replacements, strList[index])
 	case "AFTER":
-		replacements = append([]string{lines[index]}, replacements...)
+		replacements = append([]string{strList[index]}, replacements...)
 	case "REPLACE":
 	default:
 	}
-	newLines, err := strutil.StrReplaceLineAtIndex(lines, index, replacements)
+	newLines, err := strutil.StrReplaceLineAtIndex(strList, index, replacements)
 	if err != nil {
-		return jsonLines, err
+		return jsonStrList, err
 	}
 	return jsonHelper.FromStringList(newLines)
 }
 
-func (jsonList *JsonList) prepareLinesAndPattern(jsonLines, jsonPatterns string) (lines jsonHelper.StringList, patterns jsonHelper.StringList, err error) {
-	lines, err = jsonHelper.ToStringList(jsonLines)
+func (jsonListUtil *JsonListUtil) prepareLinesAndPattern(jsonStrList, jsonStrListPattern string) (strList jsonHelper.StringList, patterns jsonHelper.StringList, err error) {
+	strList, err = jsonHelper.ToStringList(jsonStrList)
 	if err != nil {
-		return lines, patterns, err
+		return strList, patterns, err
 	}
-	patterns, patternErr := jsonHelper.ToStringList(jsonPatterns)
+	patterns, patternErr := jsonHelper.ToStringList(jsonStrListPattern)
 	if patternErr != nil {
-		patterns = []string{jsonPatterns}
+		patterns = []string{jsonStrListPattern}
 	}
-	return lines, patterns, err
+	return strList, patterns, err
 }

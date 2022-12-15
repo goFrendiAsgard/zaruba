@@ -20,7 +20,7 @@ var transformKeyCmd = &cobra.Command{
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 1)
-		mapString, prefix, suffix := args[0], transformKeyPrefix, transformKeySuffix
+		jsonMap, prefix, suffix := args[0], transformKeyPrefix, transformKeySuffix
 		transformers := []func(string) string{}
 		util := dsl.NewDSLUtil()
 		for _, alias := range transformKeyTransformation {
@@ -43,11 +43,11 @@ var transformKeyCmd = &cobra.Command{
 				cmdHelper.Exit(cmd, args, logger, decoration, fmt.Errorf("invalid transformer %s", alias))
 			}
 		}
-		newMapString, err := util.Json.Map.TransformKeys(mapString, prefix, suffix, transformers...)
+		newJsonMap, err := util.Json.Map.TransformKeys(jsonMap, prefix, suffix, transformers...)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-		fmt.Println(newMapString)
+		fmt.Println(newJsonMap)
 	},
 }
 

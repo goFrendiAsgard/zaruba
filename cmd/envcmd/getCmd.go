@@ -47,15 +47,15 @@ var getCmd = &cobra.Command{
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 0)
 		util := dsl.NewDSLUtil()
-		envMapStr, err := util.Json.Map.GetFromEnv()
+		jsonMapEnv, err := util.Json.Map.GetFromEnv()
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
 		if *getPrefix == "" {
-			fmt.Println(envMapStr)
+			fmt.Println(jsonMapEnv)
 			return
 		}
-		cascadedEnvMapStr, err := util.Json.Map.CascadePrefixKeys(envMapStr, *getPrefix)
+		cascadedEnvMapStr, err := util.Json.Map.CascadePrefixKeys(jsonMapEnv, *getPrefix)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}

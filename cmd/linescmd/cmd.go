@@ -4,7 +4,7 @@ import "github.com/spf13/cobra"
 
 var Cmd = &cobra.Command{
 	Use:   "lines",
-	Short: "Lines manipulation utilities",
+	Short: "jsonStrList manipulation utilities",
 }
 
 func Init() {
