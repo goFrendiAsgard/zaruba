@@ -11,7 +11,7 @@ import (
 )
 
 var setConfigsCmd = &cobra.Command{
-	Use:     "setConfigs <taskName> {<jsonConfigMap> | <configKey> <configValue>} [projectFile]",
+	Use:     "setConfigs <taskName> {<jsonMapConfig> | <configKey> <configValue>} [projectFile]",
 	Short:   "Set task configs",
 	Aliases: []string{"setConfig"},
 	Run: func(cmd *cobra.Command, args []string) {

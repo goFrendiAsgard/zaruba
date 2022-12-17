@@ -17,7 +17,7 @@ zaruba yaml print --help
 Print JSON map or list as YAML
 
 Usage:
-  zaruba yaml print <mapOrList> [yamlFileName] [flags]
+  zaruba yaml print <jsonAny> [yamlFileName] [flags]
 
 Aliases:
   print, write

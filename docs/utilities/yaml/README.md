@@ -14,7 +14,7 @@ zaruba yaml
 <summary>Output</summary>
  
 ```````
-YAML utilities
+Yaml manipulation utilities
 
 Usage:
   zaruba yaml [command]

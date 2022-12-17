@@ -11,15 +11,15 @@ import (
 )
 
 var walkCmd = &cobra.Command{
-	Use:   "walk <path>",
+	Use:   "walk <strDirPath>",
 	Short: "list files/folder in a path, recursively",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 1)
-		dirPath := args[0]
+		strDirPath := args[0]
 		util := dsl.NewDSLUtil()
-		fileNames, err := util.File.Walk(dirPath)
+		fileNames, err := util.File.Walk(strDirPath)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}

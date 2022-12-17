@@ -18,7 +18,7 @@ zaruba list merge --help
 Merge JSON lists
 
 Usage:
-  zaruba list merge <jsonList> <otherList...> [flags]
+  zaruba list merge <jsonList> <jsonListOther...> [flags]
 
 Flags:
   -h, --help   help for merge

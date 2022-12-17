@@ -17,10 +17,11 @@ zaruba lines insertBefore --help
 Insert newLine before lines[index]
 
 Usage:
-  zaruba lines insertBefore <lines> <index> <newLine> [flags]
+  zaruba lines insertBefore <jsonStrList> <jsonStrListNewLines> [flags]
 
 Flags:
-  -h, --help   help for insertBefore
+  -h, --help        help for insertBefore
+  -i, --index int   desired pattern index
 ```````
 </details>
 <!--endCode-->

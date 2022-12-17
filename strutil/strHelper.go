@@ -100,8 +100,11 @@ func StrReplace(s string, replacementMap map[string]string) (result string) {
 	return result
 }
 
-func StrGetLineSubmatch(lines, patterns []string) (matchIndex int, submatch []string, err error) {
+func StrGetLineSubmatch(lines, patterns []string, desiredPatternIndex int) (matchIndex int, submatch []string, err error) {
 	patternIndex := 0
+	if desiredPatternIndex < 0 {
+		desiredPatternIndex = len(patterns) + desiredPatternIndex
+	}
 	rex, err := regexp.Compile(patterns[patternIndex])
 	if err != nil {
 		return -1, submatch, err
@@ -111,8 +114,12 @@ func StrGetLineSubmatch(lines, patterns []string) (matchIndex int, submatch []st
 		if len(match) == 0 {
 			continue
 		}
+		if patternIndex == desiredPatternIndex {
+			matchIndex = lineIndex
+			submatch = match
+		}
 		if patternIndex == len(patterns)-1 {
-			return lineIndex, match, nil
+			return matchIndex, submatch, nil
 		}
 		patternIndex++
 		rex, err = regexp.Compile(patterns[patternIndex])
@@ -144,36 +151,6 @@ func StrReplaceLineAtIndex(lines []string, index int, replacements []string) (re
 	content := strings.Join(tmpLines, "\n")
 	result = strings.Split(content, "\n")
 	return result, nil
-}
-
-func StrCompleteLines(lines, patterns, suplements []string) (newLines []string, err error) {
-	if len(patterns) != len(suplements) {
-		return newLines, fmt.Errorf("patterns and suplements length doesn't match")
-	}
-	for index, pattern := range patterns {
-		suplement := suplements[index]
-		match, err := regexp.MatchString(pattern, suplement)
-		if err != nil {
-			return newLines, err
-		}
-		if !match {
-			return newLines, fmt.Errorf("pattern[%d], %s doesn't match %s", index, pattern, suplement)
-		}
-	}
-	newLines = append([]string{}, lines...)
-	lastMatchIndex := len(newLines) - 1
-	for index, suplement := range suplements {
-		matchIndex, _, _ := StrGetLineSubmatch(newLines, patterns[:index+1])
-		if matchIndex > -1 {
-			lastMatchIndex = matchIndex
-			continue
-		}
-		newLines, _ = StrReplaceLineAtIndex(newLines, lastMatchIndex, []string{newLines[lastMatchIndex], suplement})
-		lastMatchIndex, _, _ = StrGetLineSubmatch(newLines, patterns[:index+1])
-	}
-	content := strings.Join(newLines, "\n")
-	newLines = strings.Split(content, "\n")
-	return newLines, nil
 }
 
 func StrSubmatch(s string, pattern string) (result []string, err error) {

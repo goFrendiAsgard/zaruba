@@ -10,18 +10,17 @@ import (
 )
 
 var mergeCmd = &cobra.Command{
-	Use:   "merge <jsonList> <otherList...>",
+	Use:   "merge <jsonList> <jsonListOther...>",
 	Short: "Merge JSON lists",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 2)
-		listStrings := args
 		util := dsl.NewDSLUtil()
-		newListString, err := util.Json.List.Merge(listStrings...)
+		newJsonList, err := util.Json.List.Merge(args...)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-		fmt.Println(newListString)
+		fmt.Println(newJsonList)
 	},
 }

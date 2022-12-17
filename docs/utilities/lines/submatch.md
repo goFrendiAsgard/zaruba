@@ -18,10 +18,42 @@ zaruba lines submatch --help
 Return submatch matching the pattern
 
 Usage:
-  zaruba lines submatch <jsonList> <patterns> [flags]
+  zaruba lines submatch <jsonStrList> <jsonStrListPatterns> [flags]
+
+Examples:
+
+Getting line index that match the last element of the pattern
+    > zaruba lines submatch '["a", "a", "b", "c", "d", "e"]' '["a", "b", "d"]'
+    ["d"]
+    > zaruba lines submatch '["a", "a", "b", "c", "d", "e"]' '["a", "b", "d"]' --index=-1
+    ["d"]
+
+lines:        ["a", "a", "b", "c", "d", "e"]
+                0    1    2    3    4    5
+                                    ^
+                                    line index that match the last index of the pattern
+patterns:     ["a",    , "b",      "d"]
+                0         1         2
+                                    ^
+                                    last index of the pattern
+
+Getting line index that match the desired index of the pattern
+    > zaruba lines submatch '["a", "a", "b", "c", "d", "e"]' '["a", "b", "d"]' --index=1
+    ["b"]
+
+lines:        ["a", "a", "b", "c", "d", "e"]
+                0    1    2    3    4    5
+                          ^
+                          line index that match the desired index of the pattern
+patterns:     ["a",    , "b",      "d"]
+                0         1         2
+                          ^
+                          desired index of the pattern
+
 
 Flags:
-  -h, --help   help for submatch
+  -h, --help        help for submatch
+  -i, --index int   desired pattern index (default -1)
 ```````
 </details>
 <!--endCode-->

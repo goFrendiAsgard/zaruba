@@ -17,14 +17,14 @@ var setCmd = &cobra.Command{
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 3)
-		listString := args[0]
+		jsonList := args[0]
 		util := dsl.NewDSLUtil()
 		index, err := strconv.Atoi(args[1])
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
 		value := args[2]
-		newListString, err := util.Json.List.Set(listString, index, value)
+		newListString, err := util.Json.List.Set(jsonList, index, value)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}

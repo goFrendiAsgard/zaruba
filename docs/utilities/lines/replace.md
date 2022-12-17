@@ -17,10 +17,11 @@ zaruba lines replace --help
 Replace lines[index] with replacements
 
 Usage:
-  zaruba lines replace <jsonList> <index> <replacements> [flags]
+  zaruba lines replace <jsonStrList> <jsonStrListNewContent> [flags]
 
 Flags:
-  -h, --help   help for replace
+  -h, --help        help for replace
+  -i, --index int   desired pattern index
 ```````
 </details>
 <!--endCode-->

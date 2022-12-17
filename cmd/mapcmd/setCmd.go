@@ -16,12 +16,12 @@ var setCmd = &cobra.Command{
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 3)
-		mapString, setArgs := args[0], args[1:]
+		jsonMap, setArgs := args[0], args[1:]
 		util := dsl.NewDSLUtil()
-		newMapString, err := util.Json.Map.Set(mapString, setArgs...)
+		newJsonMap, err := util.Json.Map.Set(jsonMap, setArgs...)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-		fmt.Println(newMapString)
+		fmt.Println(newJsonMap)
 	},
 }

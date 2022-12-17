@@ -15,7 +15,7 @@ zaruba str split --help
 <summary>Output</summary>
  
 ```````
-Split string into JSON list
+Split string into a jsonList
 
 Usage:
   zaruba str split <string> [separator] [flags]

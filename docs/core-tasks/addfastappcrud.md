@@ -178,10 +178,8 @@ Value:
 
 Value:
 
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrud/bash/importInternalRouteHandler.sh"
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrud/bash/registerApiRouteHandler.sh"
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrud/bash/registerUiRouteHandler.sh"
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrud/bash/registerRpcHandler.sh"
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrud/bash/registerCrudRouteHandler.sh"
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrud/bash/registerCrudRpcHandler.sh"
     . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrud/bash/registerCrud.sh"
     . "{{ .ZarubaHome }}/zaruba-tasks/make/fastAppCrud/bash/registerMigration.sh"
 

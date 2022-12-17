@@ -31,9 +31,9 @@ Available Commands:
   padLeft        fill from left
   padRight       fill from left
   repeat         Repeat string for repetition times
-  replace        Replace string by replacementMap
+  replace        Replace string by jsonMapReplacement
   singleQuote    Single quote string
-  split          Split string into JSON list
+  split          Split string into a jsonList
   submatch       Return submatch of string based on pattern
   toCamel        Turn string into camelCase
   toKebab        Turn string into kebab-case

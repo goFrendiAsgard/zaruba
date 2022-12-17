@@ -16,9 +16,9 @@ var validateCmd = &cobra.Command{
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 1)
-		listString := args[0]
+		jsonList := args[0]
 		util := dsl.NewDSLUtil()
-		if util.Json.List.Validate(listString) {
+		if util.Json.List.Validate(jsonList) {
 			fmt.Println(1)
 			return
 		}

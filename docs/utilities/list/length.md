@@ -18,7 +18,7 @@ zaruba list length --help
 Get list's length
 
 Usage:
-  zaruba list length <list> [flags]
+  zaruba list length <jsonList> [flags]
 
 Flags:
   -h, --help   help for length

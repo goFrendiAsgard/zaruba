@@ -14,13 +14,38 @@ zaruba env get --help
 <summary>Output</summary>
  
 ```````
-Get envmap from currently loaded environment variables
+Get current environment variables as jsonMap.
+
+You can cascade the environment variable using --prefix flag.
+This is useful if you have multiple environments (e.g., dev, staging, prod)
 
 Usage:
-  zaruba env get [prefix] [flags]
+  zaruba env get [flags]
+
+Examples:
+
+Get current environment variables as jsonMap.
+    > export SERVER=localhost
+    > export PORT=3306
+    > zaruba env get
+    {"SERVER": "localhost", "PORT": "3306"}
+
+Using --prefix flag to cascade the environment.
+    > export SERVER=localhost
+    > export STG_SERVER=stg.stalchmst.com
+    > export PROD_SERVER=stalchmst.com
+    > export PORT=3306
+    > zaruba env get --prefix=STG
+    {"SERVER": "stg.stalchmst.com", "PORT": "3306", "STG_SERVER": "stg.stalchmst.com", "PROD_SERVER": "stalchmst.com"}
+    > zaruba env get --prefix=PROD
+    {"SERVER": "stalchmst.com", "PORT": "3306", "STG_SERVER": "stg.stalchmst.com", "PROD_SERVER": "stalchmst.com"}
+    > zaruba env get --prefix=DEV
+    {"SERVER": "localhost", "PORT": "3306", "STG_SERVER": "stg.stalchmst.com", "PROD_SERVER": "stalchmst.com"}
+
 
 Flags:
-  -h, --help   help for get
+  -h, --help            help for get
+  -p, --prefix string   environment prefix
 ```````
 </details>
 <!--endCode-->
@@ -119,13 +144,13 @@ zaruba map get "${ENV_DICT}" APP_PLATFORM
  
 ```````
 💀 Environment:
-{"APP_CONTEXT":"gcp","APP_PLATFORM":"kubernetes","APP_VERSION":"1.1.1","DEV_APP_CONTEXT":"gcp","DEV_APP_VERSION":"1.1.1","PATH":"/home/gofrendi/zaruba","STAG_APP_CONTEXT":"azure","STAG_APP_VERSION":"1.1.0","ZARUBA_BIN":"/home/gofrendi/zaruba/zaruba","ZARUBA_DECORATION":"default","ZARUBA_ENV":"","ZARUBA_HOME":"/home/gofrendi/zaruba","ZARUBA_LOG_STATUS_LINE_INTERVAL":"40","ZARUBA_LOG_STATUS_TIME_INTERVAL":"5m","ZARUBA_LOG_TIME":"true","ZARUBA_MAX_LOG_FILE_SIZE":"5242880","ZARUBA_SCRIPTS":"","ZARUBA_SHELL":"bash"}
+{"APP_CONTEXT":"aws","APP_PLATFORM":"kubernetes","APP_VERSION":"1.0.0","DEV_APP_CONTEXT":"gcp","DEV_APP_VERSION":"1.1.1","PATH":"/home/gofrendi/zaruba","STAG_APP_CONTEXT":"azure","STAG_APP_VERSION":"1.1.0","ZARUBA_BIN":"/home/gofrendi/zaruba/zaruba","ZARUBA_DECORATION":"default","ZARUBA_ENV":"","ZARUBA_HOME":"/home/gofrendi/zaruba","ZARUBA_LOG_STATUS_LINE_INTERVAL":"40","ZARUBA_LOG_STATUS_TIME_INTERVAL":"5m","ZARUBA_LOG_TIME":"true","ZARUBA_MAX_LOG_FILE_SIZE":"5242880","ZARUBA_SCRIPTS":"","ZARUBA_SHELL":"bash"}
 
 💀 APP_CONTEXT:
-gcp
+aws
 
 💀 APP_VERSION:
-1.1.1
+1.0.0
 
 💀 APP_PLATFORM:
 kubernetes

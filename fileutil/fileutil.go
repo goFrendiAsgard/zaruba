@@ -2,6 +2,7 @@ package fileutil
 
 import (
 	"io"
+	"io/fs"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -9,6 +10,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/state-alchemists/zaruba/jsonutil"
+	jsonHelper "github.com/state-alchemists/zaruba/jsonutil/helper"
 	"github.com/state-alchemists/zaruba/strutil"
 	"github.com/state-alchemists/zaruba/yamlstyler"
 	"gopkg.in/yaml.v3"
@@ -64,24 +66,37 @@ func (fileUtil *FileUtil) WriteText(fileName string, text string, fileMode os.Fi
 	return ioutil.WriteFile(fileName, []byte(text), fileMode)
 }
 
-func (fileUtil *FileUtil) ReadLines(fileName string) (jsonString string, err error) {
+func (fileUtil *FileUtil) ReadStringList(fileName string) (stringList []string, err error) {
+	stringList = []string{}
 	content, err := fileUtil.ReadText(fileName)
+	if err != nil {
+		return stringList, err
+	}
+	return strings.Split(content, "\n"), nil
+}
+
+func (fileUtil *FileUtil) ReadLines(fileName string) (jsonStrList string, err error) {
+	stringList, err := fileUtil.ReadStringList(fileName)
 	if err != nil {
 		return "[]", err
 	}
-	return fileUtil.json.FromStringList(strings.Split(content, "\n"))
+	return fileUtil.json.FromStringList(stringList)
 }
 
-func (fileUtil *FileUtil) WriteLines(fileName string, jsonString string, fileMode os.FileMode) (err error) {
-	lines, err := fileUtil.json.ToStringList(jsonString)
-	if err != nil {
-		return err
-	}
-	content := strings.Join(lines, "\n")
+func (fileUtil *FileUtil) WriteStringList(fileName string, stringList []string, fileMode os.FileMode) (err error) {
+	content := strings.Join(stringList, "\n")
 	return fileUtil.WriteText(fileName, content, fileMode)
 }
 
-func (fileUtil *FileUtil) ReadEnv(fileName string) (jsonString string, err error) {
+func (fileUtil *FileUtil) WriteLines(fileName string, jsonStrList string, fileMode os.FileMode) (err error) {
+	lines, err := fileUtil.json.ToStringList(jsonStrList)
+	if err != nil {
+		return err
+	}
+	return fileUtil.WriteStringList(fileName, lines, fileMode)
+}
+
+func (fileUtil *FileUtil) ReadEnv(fileName string) (jsonMap string, err error) {
 	envMap, err := godotenv.Read(fileName)
 	if err != nil {
 		return "", err
@@ -89,7 +104,7 @@ func (fileUtil *FileUtil) ReadEnv(fileName string) (jsonString string, err error
 	return fileUtil.json.FromStringDict(envMap)
 }
 
-func (fileUtil *FileUtil) ReadYaml(fileName string) (jsonString string, err error) {
+func (fileUtil *FileUtil) ReadYaml(fileName string) (jsonAny string, err error) {
 	yamlString, err := fileUtil.ReadText(fileName)
 	if err != nil {
 		return "", err
@@ -97,8 +112,8 @@ func (fileUtil *FileUtil) ReadYaml(fileName string) (jsonString string, err erro
 	return fileUtil.json.FromYaml(yamlString)
 }
 
-func (fileUtil *FileUtil) WriteYaml(fileName, jsonString string, fileMode os.FileMode) (err error) {
-	yamlString, err := fileUtil.json.ToYaml(jsonString)
+func (fileUtil *FileUtil) WriteYaml(fileName, jsonAny string, fileMode os.FileMode) (err error) {
+	yamlString, err := fileUtil.json.ToYaml(jsonAny)
 	if err != nil {
 		return err
 	}
@@ -203,16 +218,8 @@ func (fileUtil *FileUtil) Walk(dirPath string) (relativeChildPaths []string, err
 	return relativeChildPaths, err
 }
 
-func (fileUtil *FileUtil) Generate(sourceTemplatePath, destinationPath string, replacementMapString string) (err error) {
-	replacementMap, err := fileUtil.json.ToStringDict(replacementMapString)
-	if err != nil {
-		return err
-	}
-	absSourceTemplatePath, err := filepath.Abs(sourceTemplatePath)
-	if err != nil {
-		return err
-	}
-	absDestinationPath, err := filepath.Abs(destinationPath)
+func (fileUtil *FileUtil) Generate(sourceTemplatePath, destinationPath string, jsonMapReplacement string) (err error) {
+	replacementMap, absSourceTemplatePath, absDestinationPath, err := fileUtil.preparePathAndReplacementMap(sourceTemplatePath, destinationPath, jsonMapReplacement)
 	if err != nil {
 		return err
 	}
@@ -240,4 +247,70 @@ func (fileUtil *FileUtil) Generate(sourceTemplatePath, destinationPath string, r
 			return fileUtil.WriteText(absDestinationLocation, newContent, fileMode)
 		},
 	)
+}
+
+func (fileUtil *FileUtil) preparePathAndReplacementMap(sourceTemplatePath, destinationPath string, replacementMapString string) (replacementMap jsonHelper.StringDict, absSourceTemplatePath, absDestinationPath string, err error) {
+	replacementMap, err = fileUtil.json.ToStringDict(replacementMapString)
+	if err != nil {
+		return replacementMap, absSourceTemplatePath, absDestinationPath, err
+	}
+	absSourceTemplatePath, err = filepath.Abs(sourceTemplatePath)
+	if err != nil {
+		return replacementMap, absSourceTemplatePath, absDestinationPath, err
+	}
+	absDestinationPath, err = filepath.Abs(destinationPath)
+	return replacementMap, absSourceTemplatePath, absDestinationPath, err
+}
+
+func (fileUtil *FileUtil) ReplaceLineAtIndex(destinationFilePath string, content string, index int) (err error) {
+	return fileUtil.replaceLineAtIndex(destinationFilePath, content, index, "REPLACE")
+}
+
+func (fileUtil *FileUtil) InsertLineAfterIndex(destinationFilePath string, content string, index int) (err error) {
+	return fileUtil.replaceLineAtIndex(destinationFilePath, content, index, "AFTER")
+}
+
+func (fileUtil *FileUtil) InsertLineBeforeIndex(destinationFilePath string, content string, index int) (err error) {
+	return fileUtil.replaceLineAtIndex(destinationFilePath, content, index, "BEFORE")
+}
+
+func (fileUtil *FileUtil) replaceLineAtIndex(destinationFilePath string, content string, index int, mode string) (err error) {
+	absDestinationPath, err := filepath.Abs(destinationFilePath)
+	if err != nil {
+		return err
+	}
+	stringList, err := fileUtil.ReadStringList(absDestinationPath)
+	if err != nil {
+		return err
+	}
+	destinationMode, err := fileUtil.getFileMode(destinationFilePath)
+	if err != nil {
+		return err
+	}
+	if index < 0 {
+		index = len(stringList) + index
+	}
+	replacements := []string{content}
+	switch mode {
+	case "BEFORE":
+		replacements = append(replacements, stringList[index])
+	case "AFTER":
+		replacements = append([]string{stringList[index]}, replacements...)
+	case "REPLACE":
+	default:
+	}
+	newStringList, err := strutil.StrReplaceLineAtIndex(stringList, index, replacements)
+	if err != nil {
+		return err
+	}
+	return fileUtil.WriteStringList(absDestinationPath, newStringList, destinationMode)
+}
+
+func (fileUtil *FileUtil) getFileMode(filePath string) (fileMode fs.FileMode, err error) {
+	fileStat, err := os.Stat(filePath)
+	if err != nil {
+		return fileMode, err
+	}
+	fileMode = fileStat.Mode()
+	return fileMode, err
 }
