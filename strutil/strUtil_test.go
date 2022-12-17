@@ -161,21 +161,21 @@ func TestGetSingleIndentationValidIndentation(t *testing.T) {
 }
 
 func TestGetFirstMatchInvalidFirstPattern(t *testing.T) {
-	if _, _, err := StrGetLineSubmatch([]string{}, []string{"[[^"}); err == nil {
+	if _, _, err := StrGetLineSubmatch([]string{}, []string{"[[^"}, 0); err == nil {
 		t.Errorf("error expected")
 	}
 }
 
 func TestGetFirstMatchInvalidNonFirstPattern(t *testing.T) {
 	lines := []string{"something", "really", "interesting", "", ""}
-	if _, _, err := StrGetLineSubmatch(lines, []string{"something", "interesting", "[[^"}); err == nil {
+	if _, _, err := StrGetLineSubmatch(lines, []string{"something", "interesting", "[[^"}, 2); err == nil {
 		t.Errorf("error expected")
 	}
 }
 
 func TestGetFirstMatchFound(t *testing.T) {
 	lines := []string{"something", "really", "interesting", "", "name: garo", ""}
-	actualIndex, actualSubmatch, err := StrGetLineSubmatch(lines, []string{"something", "interesting", "^name: (.+)$"})
+	actualIndex, actualSubmatch, err := StrGetLineSubmatch(lines, []string{"something", "interesting", "^name: (.+)$"}, 2)
 	if err != nil {
 		t.Error(err)
 	}
@@ -198,7 +198,7 @@ func TestGetFirstMatchFound(t *testing.T) {
 
 func TestGetFirstMatchNotFound(t *testing.T) {
 	lines := []string{"something", "really", "interesting", "", "", ""}
-	actualIndex, actualSubmatch, err := StrGetLineSubmatch(lines, []string{"something", "interesting", "^name: (.+)$"})
+	actualIndex, actualSubmatch, err := StrGetLineSubmatch(lines, []string{"something", "interesting", "^name: (.+)$"}, 2)
 	if err != nil {
 		t.Error(err)
 	}
@@ -271,132 +271,6 @@ func TestReplaceLineLast(t *testing.T) {
 		t.Error(err)
 	}
 	expected := []string{"something", "new", "and interesting"}
-	if len(actual) != len(expected) {
-		t.Errorf("expected: %#v, actual: %#v", expected, actual)
-		return
-	}
-	for i := 0; i < len(expected); i++ {
-		if actual[i] != expected[i] {
-			t.Errorf("expected: %#v, actual: %#v", expected, actual)
-			return
-		}
-	}
-}
-
-func TestCompleteLinesDifferentPatternAndSuplementLength(t *testing.T) {
-	_, err := StrCompleteLines(
-		[]string{},
-		[]string{
-			"^task:(.*)$",
-		},
-		[]string{},
-	)
-	if err == nil {
-		t.Errorf("error expected")
-	}
-}
-
-func TestCompleteLinesInvalidPattern(t *testing.T) {
-	_, err := StrCompleteLines(
-		[]string{},
-		[]string{
-			"[[^",
-		},
-		[]string{
-			"something",
-		},
-	)
-	if err == nil {
-		t.Errorf("error expected")
-	}
-}
-
-func TestCompleteLinesUnmatchPattern(t *testing.T) {
-	_, err := StrCompleteLines(
-		[]string{},
-		[]string{
-			"ab",
-		},
-		[]string{
-			"something",
-		},
-	)
-	if err == nil {
-		t.Errorf("error expected")
-	}
-}
-
-func TestCompleteLinesNoMatchAtAll(t *testing.T) {
-	actual, err := StrCompleteLines(
-		[]string{"includes: []"},
-		[]string{
-			"^tasks:(.*)$",
-			"^ +myTask:(.*$)",
-			"^ +configs:(.*$)",
-			"^ +ports:(.*$)",
-		},
-		[]string{
-			"tasks:",
-			"  myTask:",
-			"    configs:",
-			"      ports: 8080",
-		},
-	)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	expected := []string{
-		"includes: []",
-		"tasks:",
-		"  myTask:",
-		"    configs:",
-		"      ports: 8080",
-	}
-	if len(actual) != len(expected) {
-		t.Errorf("expected: %#v, actual: %#v", expected, actual)
-		return
-	}
-	for i := 0; i < len(expected); i++ {
-		if actual[i] != expected[i] {
-			t.Errorf("expected: %#v, actual: %#v", expected, actual)
-			return
-		}
-	}
-}
-
-func TestCompleteLinesNoMatchPartial(t *testing.T) {
-	actual, err := StrCompleteLines(
-		[]string{
-			"includes: []",
-			"tasks: # list of task",
-			"  someTask: {}",
-		},
-		[]string{
-			"^tasks:(.*)$",
-			"^ +myTask:(.*)$",
-			"^ +configs:(.*)$",
-			"^ +ports:(.*)$",
-		},
-		[]string{
-			"tasks:",
-			"  myTask:",
-			"    configs:",
-			"      ports: 8080",
-		},
-	)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	expected := []string{
-		"includes: []",
-		"tasks: # list of task",
-		"  myTask:",
-		"    configs:",
-		"      ports: 8080",
-		"  someTask: {}",
-	}
 	if len(actual) != len(expected) {
 		t.Errorf("expected: %#v, actual: %#v", expected, actual)
 		return

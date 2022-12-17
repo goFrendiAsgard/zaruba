@@ -10,16 +10,15 @@ import (
 )
 
 var containCmd = &cobra.Command{
-	Use:   "contain <jsonList> <element>",
+	Use:   "contain <jsonList> <strElement>",
 	Short: "Find out whether jsonList contains string or not",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 2)
-		listString := args[0]
-		elementStr := args[1]
+		jsonList, strElement := args[0], args[1]
 		util := dsl.NewDSLUtil()
-		exist, err := util.Json.List.Contain(listString, elementStr)
+		exist, err := util.Json.List.Contain(jsonList, strElement)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}

@@ -13,8 +13,8 @@ import (
 var printPretty *bool
 
 var printCmd = &cobra.Command{
-	Use:     "print <mapOrList> [jsonFileName]",
-	Short:   "Print JSON map or list",
+	Use:     "print <jsonAny> [jsonFileName]",
+	Short:   "Print json",
 	Aliases: []string{"write"},
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
@@ -27,7 +27,7 @@ var printCmd = &cobra.Command{
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-		jsonString, err := getJsonString(obj, *printPretty)
+		jsonString, err := printCmdGetJsonString(obj, *printPretty)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
@@ -42,7 +42,7 @@ var printCmd = &cobra.Command{
 	},
 }
 
-func getJsonString(obj interface{}, printPretty bool) (jsonString string, err error) {
+func printCmdGetJsonString(obj interface{}, printPretty bool) (jsonString string, err error) {
 	var jsonBytes []byte
 	if !printPretty {
 		jsonBytes, err = json.Marshal(obj)

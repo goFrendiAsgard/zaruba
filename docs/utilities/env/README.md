@@ -14,16 +14,15 @@ zaruba env
 <summary>Output</summary>
  
 ```````
-Env utilities
+Environment manipulation utilities
 
 Usage:
   zaruba env [command]
 
 Available Commands:
-  get         Get envmap from currently loaded environment variables
-  print       Print environment
-  read        Read envmap from file
-  write       Write envMap to file
+  get         Get current environment variables as jsonMap
+  print       Print a jsonMap as environment variable declarations
+  read        Read environment variable declarations from environment file as a jsonMap
 
 Flags:
   -h, --help   help for env
@@ -38,5 +37,4 @@ Use "zaruba env [command] --help" for more information about a command.
 * [Get](get.md)
 * [Print](print.md)
 * [Read](read.md)
-* [Write](write.md)
 <!--endTocSubTopic-->

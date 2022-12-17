@@ -1,7 +1,7 @@
 set -e
 echo "Set schema field declaration"
 
-_FIELD_SCRIPT_TEMPLATE="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrud/partials/schema_field_declaration.py")"
+_FIELD_SCRIPT_TEMPLATE="$(_readText "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrud/partials/schema_field_declaration.py")"
 _FIELD_SCRIPT_LINES='["$1"]'
 for _INDEX in $("${ZARUBA_BIN}" list rangeIndex "${_ZRB_APP_CRUD_FIELDS}")
 do

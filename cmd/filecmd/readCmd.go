@@ -1,4 +1,4 @@
-package linescmd
+package filecmd
 
 import (
 	"fmt"
@@ -9,19 +9,19 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var fillCmd = &cobra.Command{
-	Use:   "fill <jsonList> <patterns> <suplements>",
-	Short: "Insert suplements to lines if patterns is not found",
+var readCmd = &cobra.Command{
+	Use:   "read <strFileName>",
+	Short: "Read text from file",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 3)
+		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 1)
+		strFileName := args[0]
 		util := dsl.NewDSLUtil()
-		jsonLines, jsonPatterns, jsonSuplements := args[0], args[1], args[2]
-		jsonNewLines, err := util.Json.List.CompleteLines(jsonLines, jsonPatterns, jsonSuplements)
+		content, err := util.File.ReadText(strFileName)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-		fmt.Println(jsonNewLines)
+		fmt.Println(content)
 	},
 }

@@ -10,15 +10,15 @@ import (
 )
 
 var listCmd = &cobra.Command{
-	Use:   "list <path>",
+	Use:   "list <strDirPath>",
 	Short: "list files/folders in a path",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 1)
-		dirPath := args[0]
+		strDirPath := args[0]
 		util := dsl.NewDSLUtil()
-		fileNames, err := util.File.List(dirPath)
+		fileNames, err := util.File.List(strDirPath)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}

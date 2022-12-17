@@ -10,23 +10,23 @@ import (
 )
 
 var printCmd = &cobra.Command{
-	Use:     "print <mapOrList> [yamlFileName]",
+	Use:     "print <jsonAny> [yamlFileName]",
 	Short:   "Print JSON map or list as YAML",
 	Aliases: []string{"write"},
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 1)
-		jsonString := args[0]
+		jsonAny := args[0]
 		util := dsl.NewDSLUtil()
 		if len(args) > 1 {
 			yamlFileName := args[1]
-			if err := util.File.WriteYaml(yamlFileName, jsonString, 0755); err != nil {
+			if err := util.File.WriteYaml(yamlFileName, jsonAny, 0755); err != nil {
 				cmdHelper.Exit(cmd, args, logger, decoration, err)
 			}
 			return
 		}
-		yamlString, err := util.Json.ToYaml(jsonString)
+		yamlString, err := util.Json.ToYaml(jsonAny)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}

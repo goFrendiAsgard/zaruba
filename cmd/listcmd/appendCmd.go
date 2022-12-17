@@ -10,18 +10,18 @@ import (
 )
 
 var appendCmd = &cobra.Command{
-	Use:   "append <jsonList> <newValues...>",
+	Use:   "append <jsonStrList> <strNewValues...>",
 	Short: "Append new values to jsonList",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 2)
-		listString, value := args[0], args[1]
+		jsonStrList, strNewValue := args[0], args[1]
 		util := dsl.NewDSLUtil()
-		newListString, err := util.Json.List.Append(listString, value)
+		newValues, err := util.Json.List.Append(jsonStrList, strNewValue)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-		fmt.Println(newListString)
+		fmt.Println(newValues)
 	},
 }

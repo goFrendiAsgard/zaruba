@@ -13,14 +13,14 @@ import (
 )
 
 type JsonUtil struct {
-	Map  *jsonmap.JsonMap
-	List *jsonlist.JsonList
+	Map  *jsonmap.JsonMapUtil
+	List *jsonlist.JsonListUtil
 }
 
 func NewJsonUtil(strUtil *strutil.StrUtil) *JsonUtil {
 	return &JsonUtil{
-		Map:  jsonmap.NewJsonMap(strUtil),
-		List: jsonlist.NewJsonList(),
+		Map:  jsonmap.NewJsonMapUtil(strUtil),
+		List: jsonlist.NewJsonListUtil(),
 	}
 }
 

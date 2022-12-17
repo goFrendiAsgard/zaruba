@@ -14,10 +14,10 @@ zaruba str replace --help
 <summary>Output</summary>
  
 ```````
-Replace string by replacementMap
+Replace string by jsonMapReplacement
 
 Usage:
-  zaruba str replace <string> <replacementMap> [flags]
+  zaruba str replace <string> [jsonMapReplacement] [flags]
 
 Flags:
   -h, --help   help for replace

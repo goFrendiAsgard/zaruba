@@ -17,7 +17,7 @@ zaruba task setConfigs --help
 Set task configs
 
 Usage:
-  zaruba task setConfigs <taskName> {<jsonConfigMap> | <configKey> <configValue>} [projectFile] [flags]
+  zaruba task setConfigs <taskName> {<jsonMapConfig> | <configKey> <configValue>} [projectFile] [flags]
 
 Aliases:
   setConfigs, setConfig

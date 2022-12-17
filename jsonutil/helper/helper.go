@@ -26,7 +26,7 @@ func NormalizeObj(i interface{}) interface{} {
 	return i
 }
 
-func FromInterface(obj interface{}) (jsonString string) {
+func FromInterface(obj interface{}) (jsonAny string) {
 	if obj == nil {
 		return ""
 	}
@@ -40,14 +40,14 @@ func FromInterface(obj interface{}) (jsonString string) {
 	return fmt.Sprintf("%v", obj)
 }
 
-func ToInterface(jsonString string) (obj interface{}) {
-	if err := json.Unmarshal([]byte(jsonString), &obj); err != nil {
-		return jsonString
+func ToInterface(jsonAny string) (obj interface{}) {
+	if err := json.Unmarshal([]byte(jsonAny), &obj); err != nil {
+		return jsonAny
 	}
 	return obj
 }
 
-func FromDict(dict Dict) (jsonString string, err error) {
+func FromDict(dict Dict) (jsonMap string, err error) {
 	jsonByte, err := json.Marshal(dict)
 	if err != nil {
 		return "{}", err
@@ -55,13 +55,13 @@ func FromDict(dict Dict) (jsonString string, err error) {
 	return string(jsonByte), err
 }
 
-func ToDict(jsonString string) (dict Dict, err error) {
+func ToDict(jsonMap string) (dict Dict, err error) {
 	dict = Dict{}
-	err = json.Unmarshal([]byte(jsonString), &dict)
+	err = json.Unmarshal([]byte(jsonMap), &dict)
 	return dict, err
 }
 
-func FromStringDict(stringDict StringDict) (jsonString string, err error) {
+func FromStringDict(stringDict StringDict) (jsonMap string, err error) {
 	jsonByte, err := json.Marshal(stringDict)
 	if err != nil {
 		return "{}", err
@@ -69,13 +69,13 @@ func FromStringDict(stringDict StringDict) (jsonString string, err error) {
 	return string(jsonByte), err
 }
 
-func ToStringDict(jsonString string) (stringDict StringDict, err error) {
+func ToStringDict(jsonMap string) (stringDict StringDict, err error) {
 	stringDict = StringDict{}
-	err = json.Unmarshal([]byte(jsonString), &stringDict)
+	err = json.Unmarshal([]byte(jsonMap), &stringDict)
 	if err == nil {
 		return stringDict, nil
 	}
-	dict, err := ToDict(jsonString)
+	dict, err := ToDict(jsonMap)
 	if err != nil {
 		return stringDict, err
 	}
@@ -86,7 +86,7 @@ func ToStringDict(jsonString string) (stringDict StringDict, err error) {
 	return stringDict, err
 }
 
-func FromList(list List) (jsonString string, err error) {
+func FromList(list List) (jsonList string, err error) {
 	jsonByte, err := json.Marshal(list)
 	if err != nil {
 		return "[]", err
@@ -94,13 +94,13 @@ func FromList(list List) (jsonString string, err error) {
 	return string(jsonByte), err
 }
 
-func ToList(jsonString string) (list List, err error) {
+func ToList(jsonList string) (list List, err error) {
 	list = List{}
-	err = json.Unmarshal([]byte(jsonString), &list)
+	err = json.Unmarshal([]byte(jsonList), &list)
 	return list, err
 }
 
-func FromStringList(stringList StringList) (jsonString string, err error) {
+func FromStringList(stringList StringList) (jsonList string, err error) {
 	jsonByte, err := json.Marshal(stringList)
 	if err != nil {
 		return "[]", err
@@ -108,19 +108,19 @@ func FromStringList(stringList StringList) (jsonString string, err error) {
 	return string(jsonByte), err
 }
 
-func ToStringList(jsonString string) (stringList StringList, err error) {
-	stringList = StringList{}
-	err = json.Unmarshal([]byte(jsonString), &stringList)
+func ToStringList(jsonString string) (jsonList StringList, err error) {
+	jsonList = StringList{}
+	err = json.Unmarshal([]byte(jsonString), &jsonList)
 	if err == nil {
-		return stringList, nil
+		return jsonList, nil
 	}
 	list, err := ToList(jsonString)
 	if err != nil {
-		return stringList, err
+		return jsonList, err
 	}
-	stringList = StringList{}
+	jsonList = StringList{}
 	for _, val := range list {
-		stringList = append(stringList, FromInterface(val))
+		jsonList = append(jsonList, FromInterface(val))
 	}
-	return stringList, err
+	return jsonList, err
 }

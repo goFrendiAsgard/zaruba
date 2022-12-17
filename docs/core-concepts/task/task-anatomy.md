@@ -451,12 +451,12 @@ zaruba please serveHttp -t -w 2s
  
 ```````
 💀 🔎 Job Starting...
-         Elapsed Time: 2.237µs
-         Current Time: 10:54:53
+         Elapsed Time: 1.164µs
+         Current Time: 16:11:44
 💀 🏁 Running 🔗 updateProjectLinks runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs
 💀    🚀 🔗 updateProjectLinks   🎉🎉🎉
-💀    🚀 🔗 updateProjectLinks   Links updated
 💀 🎉 Successfully running 🔗 updateProjectLinks runner (Attempt 1 of 3)
+💀    🚀 🔗 updateProjectLinks   Links updated
 💀 🏁 Running 🌐 serveHttp starter (Attempt 1 of 3) on /home/gofrendi/zaruba/docs
 💀    🚀 🌐 serveHttp            Serving /home/gofrendi/zaruba/docs on HTTP port 8080
 💀    🚀 🌐 serveHttp            You can open http://localhost:8080
@@ -467,18 +467,18 @@ zaruba please serveHttp -t -w 2s
 💀    🔎 🌐 serveHttp            📜 Task 'serveHttp' is ready
 💀 🎉 Successfully running 🌐 serveHttp readiness checker (Attempt 1 of infinite)
 💀 🔎 Job Running...
-         Elapsed Time: 25.322938ms
-         Current Time: 10:54:53
+         Elapsed Time: 22.092995ms
+         Current Time: 16:11:44
          Active Process:
-           * (PID=20179) 🌐 serveHttp starter (Attempt 1 of 3)
+           * (PID=15677) 🌐 serveHttp starter (Attempt 1 of 3)
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
-💀 🔪 Kill 🌐 serveHttp starter (PID=20179)
+💀 🔪 Kill 🌐 serveHttp starter (PID=15677)
 💀 🔥 Exit 🌐 serveHttp starter (Attempt 1 of 3): signal: interrupt
 💀 🔎 Job Ended...
-         Elapsed Time: 3.229977048s
-         Current Time: 10:54:56
+         Elapsed Time: 3.22677364s
+         Current Time: 16:11:47
 💀 🔥 🌐 serveHttp starter exited: signal: interrupt
 zaruba please serveHttp   -t -w 2s
 ```````

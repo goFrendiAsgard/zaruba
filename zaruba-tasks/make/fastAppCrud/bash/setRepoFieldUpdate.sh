@@ -1,7 +1,7 @@
 set -e
 echo "Set repo field update"
 
-_DB_FIELD_SCRIPT_TEMPLATE="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrud/partials/repo_field_update.py")"
+_DB_FIELD_SCRIPT_TEMPLATE="$(_readText "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrud/partials/repo_field_update.py")"
 _DB_FIELD_SCRIPT_LINES='[]'
 for _INDEX in $("${ZARUBA_BIN}" list rangeIndex "${_ZRB_APP_CRUD_FIELDS}")
 do

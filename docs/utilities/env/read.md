@@ -14,13 +14,14 @@ zaruba env read --help
 <summary>Output</summary>
  
 ```````
-Read envmap from file
+Read environment variable declarations from environment file as a jsonMap
 
 Usage:
-  zaruba env read <fileName> [prefix] [flags]
+  zaruba env read <strFileName> [flags]
 
 Flags:
-  -h, --help   help for read
+  -h, --help            help for read
+  -p, --prefix string   environment prefix
 ```````
 </details>
 <!--endCode-->

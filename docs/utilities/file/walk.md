@@ -17,7 +17,7 @@ zaruba file walk --help
 list files/folder in a path, recursively
 
 Usage:
-  zaruba file walk <path> [flags]
+  zaruba file walk <strDirPath> [flags]
 
 Flags:
   -h, --help   help for walk

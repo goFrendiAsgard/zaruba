@@ -2,7 +2,6 @@ package linescmd
 
 import (
 	"fmt"
-	"strconv"
 
 	"github.com/spf13/cobra"
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
@@ -10,23 +9,20 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
+var insertAfterIndex *int
 var insertAfterCmd = &cobra.Command{
-	Use:   "insertAfter <jsonList> <index> <newLine>",
+	Use:   "insertAfter <jsonStrList> <jsonStrListNewLines>",
 	Short: "Insert newLine after lines[index]",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
-		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 3)
+		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 2)
 		util := dsl.NewDSLUtil()
-		jsonLines, jsonReplacements := args[0], args[2]
-		index, err := strconv.Atoi(args[1])
+		jsonStrList, jsonStrListNewLines := args[0], args[1]
+		newJsonStrList, err := util.Json.List.InsertLineAfterIndex(jsonStrList, *insertAfterIndex, jsonStrListNewLines)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
-		newJsonLines, err := util.Json.List.InsertLineAfterIndex(jsonLines, index, jsonReplacements)
-		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
-		}
-		fmt.Println(newJsonLines)
+		fmt.Println(newJsonStrList)
 	},
 }

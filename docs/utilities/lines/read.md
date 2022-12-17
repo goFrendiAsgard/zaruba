@@ -14,10 +14,10 @@ zaruba lines read --help
 <summary>Output</summary>
  
 ```````
-Read lines from file
+Read lines from a file, return a jsonStrList
 
 Usage:
-  zaruba lines read <fileName> [flags]
+  zaruba lines read <strFileName> [flags]
 
 Flags:
   -h, --help   help for read

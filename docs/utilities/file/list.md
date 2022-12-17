@@ -17,7 +17,7 @@ zaruba file list --help
 list files/folders in a path
 
 Usage:
-  zaruba file list <path> [flags]
+  zaruba file list <strDirPath> [flags]
 
 Flags:
   -h, --help   help for list

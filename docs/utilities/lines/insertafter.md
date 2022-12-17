@@ -17,10 +17,11 @@ zaruba lines insertAfter --help
 Insert newLine after lines[index]
 
 Usage:
-  zaruba lines insertAfter <jsonList> <index> <newLine> [flags]
+  zaruba lines insertAfter <jsonStrList> <jsonStrListNewLines> [flags]
 
 Flags:
-  -h, --help   help for insertAfter
+  -h, --help        help for insertAfter
+  -i, --index int   desired pattern index (default -1)
 ```````
 </details>
 <!--endCode-->

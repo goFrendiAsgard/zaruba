@@ -12,7 +12,7 @@ import (
 
 var splitCmd = &cobra.Command{
 	Use:   "split <string> [separator]",
-	Short: "Split string into JSON list",
+	Short: "Split string into a jsonList",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)

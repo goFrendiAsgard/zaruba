@@ -16,20 +16,19 @@ zaruba lines
 <summary>Output</summary>
  
 ```````
-Lines manipulation utilities
+JsonStrList manipulation utilities
 
 Usage:
   zaruba lines [command]
 
 Available Commands:
-  fill         Insert suplements to lines if patterns is not found
-  getIndex     Return index of matching the pattern
+  getIndex     Return index of lines matching the patterns at desiredPatternIndex
   insertAfter  Insert newLine after lines[index]
   insertBefore Insert newLine before lines[index]
-  read         Read lines from file
+  print        Print lines as multiline string
+  read         Read lines from a file, return a jsonStrList
   replace      Replace lines[index] with replacements
   submatch     Return submatch matching the pattern
-  write        Write list to file
 
 Flags:
   -h, --help   help for lines
@@ -41,7 +40,6 @@ Use "zaruba lines [command] --help" for more information about a command.
 
 <!--startTocSubTopic-->
 # Sub-topics
-* [Fill](fill.md)
 * [GetIndex](getindex.md)
 * [InsertAfter](insertafter.md)
 * [InsertBefore](insertbefore.md)
