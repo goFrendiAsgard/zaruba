@@ -4,6 +4,16 @@ _setReplacementMap() {
     _ZRB_REPLACEMENT_MAP="$("${ZARUBA_BIN}" map set "${_ZRB_REPLACEMENT_MAP}" "${1}" "${2}")"
 }
 
+_readText() {
+    __ZRB_FILE_NAME="${1}"
+    "${ZARUBA_BIN}" file read "${__ZRB_FILE_NAME}"
+}
+
+_readLines() {
+    __ZRB_FILE_NAME="${1}"
+    "${ZARUBA_BIN}" lines read "${__ZRB_FILE_NAME}"
+}
+
 _indent() {
     __ZRB_LINE="${1}"
     __ZRB_INDENTATION="${2}"
@@ -33,7 +43,7 @@ _getLineIndexFromFile() {
 
 _getPartialContent() {
     __ZRB_TEMPLATE_FILE_NAME="${1}"
-    __ZRB_TEMPLATE="$("${ZARUBA_BIN}" file read "${__ZRB_TEMPLATE_FILE_NAME}")"
+    __ZRB_TEMPLATE="$(_readText "${__ZRB_TEMPLATE_FILE_NAME}")"
     __ZRB_NEW_CONTENT="$("${ZARUBA_BIN}" str replace "${__ZRB_TEMPLATE}" "${_ZRB_REPLACEMENT_MAP}" )"
     echo "${__ZRB_NEW_CONTENT}"
 }

@@ -1,13 +1,13 @@
 echo "Registering alembic config"
 
-_ALEMBIC_CONFIG_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppModule/partials/alembic.ini")"
+_ALEMBIC_CONFIG_SCRIPT="$(_readText "${ZARUBA_HOME}/zaruba-tasks/make/fastAppModule/partials/alembic.ini")"
 _ALEMBIC_CONFIG_SCRIPT="$("${ZARUBA_BIN}" str replace "${_ALEMBIC_CONFIG_SCRIPT}" "${_ZRB_REPLACEMENT_MAP}" )"
 
 #########################################################
 # Read existing env
 
 _ALEMBIC_CONFIG_FILE_LOCATION="${_ZRB_APP_DIRECTORY}/alembic.ini"
-_ALEMBIC_CONFIG_LINES="$("${ZARUBA_BIN}" lines read "${_ALEMBIC_CONFIG_FILE_LOCATION}")"
+_ALEMBIC_CONFIG_LINES="$(_readLines "${_ALEMBIC_CONFIG_FILE_LOCATION}")"
 
 #########################################################
 # Add new env

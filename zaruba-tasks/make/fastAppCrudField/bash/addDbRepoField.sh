@@ -1,20 +1,20 @@
 set -e
 echo "Updating db repo"
 
-_FIELD_DECLARATION_SCRIPT_TEMPLATE="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/repo_field_declaration_db.py")"
+_FIELD_DECLARATION_SCRIPT_TEMPLATE="$(_readText "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/repo_field_declaration_db.py")"
 _FIELD_DECLARATION_SCRIPT="$("${ZARUBA_BIN}" str replace "${_FIELD_DECLARATION_SCRIPT_TEMPLATE}" "${_ZRB_REPLACEMENT_MAP}")"
 
-_FIELD_INSERT_SCRIPT_TEMPLATE="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/repo_field_insert.py")"
+_FIELD_INSERT_SCRIPT_TEMPLATE="$(_readText "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/repo_field_insert.py")"
 _FIELD_INSERT_SCRIPT="$("${ZARUBA_BIN}" str replace "${_FIELD_INSERT_SCRIPT_TEMPLATE}" "${_ZRB_REPLACEMENT_MAP}")"
 
-_FIELD_UPDATE_SCRIPT_TEMPLATE="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/repo_field_update_db.py")"
+_FIELD_UPDATE_SCRIPT_TEMPLATE="$(_readText "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/repo_field_update_db.py")"
 _FIELD_UPDATE_SCRIPT="$("${ZARUBA_BIN}" str replace "${_FIELD_UPDATE_SCRIPT_TEMPLATE}" "${_ZRB_REPLACEMENT_MAP}")"
 
 #########################################################
 # Read existing repo
 
 _REPO_LOCATION="${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_NAME}/${_ZRB_APP_CRUD_ENTITY}/repo/db_${_ZRB_SNAKE_APP_CRUD_ENTITY}_repo.py"
-_LINES="$("${ZARUBA_BIN}" lines read "${_REPO_LOCATION}")"
+_LINES="$(_readLines "${_REPO_LOCATION}")"
 
 
 #########################################################

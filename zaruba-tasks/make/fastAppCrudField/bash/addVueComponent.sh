@@ -1,12 +1,12 @@
 echo "Updating vue component"
 
-_FORM_INPUT_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/vue/form_input.html")"
+_FORM_INPUT_SCRIPT="$(_readText "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/vue/form_input.html")"
 _FORM_INPUT_SCRIPT="$("${ZARUBA_BIN}" str replace "${_FORM_INPUT_SCRIPT}" "${_ZRB_REPLACEMENT_MAP}" )"
 
-_COLUMN_HEADER_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/vue/column_header.html")"
+_COLUMN_HEADER_SCRIPT="$(_readText "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/vue/column_header.html")"
 _COLUMN_HEADER_SCRIPT="$("${ZARUBA_BIN}" str replace "${_COLUMN_HEADER_SCRIPT}" "${_ZRB_REPLACEMENT_MAP}" )"
 
-_COLUMN_VALUE_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/vue/column_value.html")"
+_COLUMN_VALUE_SCRIPT="$(_readText "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/vue/column_value.html")"
 _COLUMN_VALUE_SCRIPT="$("${ZARUBA_BIN}" str replace "${_COLUMN_VALUE_SCRIPT}" "${_ZRB_REPLACEMENT_MAP}" )"
 
 #########################################################
@@ -14,7 +14,7 @@ _COLUMN_VALUE_SCRIPT="$("${ZARUBA_BIN}" str replace "${_COLUMN_VALUE_SCRIPT}" "$
 
 _UI_COMPONENT_FILE_LOCATION="${_ZRB_APP_DIRECTORY}/public/vue/modules/${_ZRB_APP_MODULE_NAME}/crud/${_ZRB_APP_CRUD_ENTITIES}Crud.vue"
 
-_LINES="$("${ZARUBA_BIN}" lines read "${_UI_COMPONENT_FILE_LOCATION}")"
+_LINES="$(_readLines "${_UI_COMPONENT_FILE_LOCATION}")"
 
 #########################################################
 # FORM_INPUT

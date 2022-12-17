@@ -1,13 +1,13 @@
 echo "Registering env"
 
-_ENV_SCRIPT="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppModule/partials/template.env")"
+_ENV_SCRIPT="$(_readText "${ZARUBA_HOME}/zaruba-tasks/make/fastAppModule/partials/template.env")"
 _ENV_SCRIPT="$("${ZARUBA_BIN}" str replace "${_ENV_SCRIPT}" "${_ZRB_REPLACEMENT_MAP}" )"
 
 #########################################################
 # Read existing env
 
 _ENV_FILE_LOCATION="${_ZRB_APP_DIRECTORY}/template.env"
-_ENV_LINES="$("${ZARUBA_BIN}" lines read "${_ENV_FILE_LOCATION}")"
+_ENV_LINES="$(_readLines "${_ENV_FILE_LOCATION}")"
 
 #########################################################
 # Add new env

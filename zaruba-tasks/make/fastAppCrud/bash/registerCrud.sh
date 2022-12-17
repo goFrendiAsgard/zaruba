@@ -50,8 +50,11 @@ _updateRpcCall() {
     chmod 755 "${_FILE_PATH}"
 }
 
+echo "Import repo and service"
 _importRepoAndService
+echo "Register repo and service"
 _registerRepoAndService
+echo "Update RPC call"
 _updateRpcCall
 
 echo "Done registering CRUD"

@@ -1,14 +1,14 @@
 set -e
 echo "Updating schema field declaration"
 
-_FIELD_SCRIPT_TEMPLATE="$(cat "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/schema_field_declaration.py")"
+_FIELD_SCRIPT_TEMPLATE="$(_readText "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/schema_field_declaration.py")"
 _FIELD_SCRIPT="$("${ZARUBA_BIN}" str replace "${_FIELD_SCRIPT_TEMPLATE}" "${_ZRB_REPLACEMENT_MAP}")"
 
 #########################################################
 # Read existing schema
 
 _SCHEMA_LOCATION="${_ZRB_APP_DIRECTORY}/schema/${_ZRB_SNAKE_APP_CRUD_ENTITY}.py"
-_LINES="$("${ZARUBA_BIN}" lines read "${_SCHEMA_LOCATION}")"
+_LINES="$(_readLines "${_SCHEMA_LOCATION}")"
 
 
 _PATTERN="$("${ZARUBA_BIN}" list append '[]' "class[\t ]*${_ZRB_PASCAL_APP_CRUD_ENTITY}Data\(")"
