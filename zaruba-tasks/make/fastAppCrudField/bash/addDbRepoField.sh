@@ -1,82 +1,76 @@
 set -e
 echo "Updating db repo"
 
-_FIELD_DECLARATION_SCRIPT_TEMPLATE="$(_readText "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/repo_field_declaration_db.py")"
-_FIELD_DECLARATION_SCRIPT="$("${ZARUBA_BIN}" str replace "${_FIELD_DECLARATION_SCRIPT_TEMPLATE}" "${_ZRB_REPLACEMENT_MAP}")"
+_addFieldDeclaration() {
+    _DESTINATION="${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_NAME}/${_ZRB_APP_CRUD_ENTITY}/repo/db_${_ZRB_SNAKE_APP_CRUD_ENTITY}_repo.py"
+    _PATTERN="$("${ZARUBA_BIN}" list append '[]' "class[\t ]+DB${_ZRB_PASCAL_APP_CRUD_ENTITY}Entity\(")"
+    _PATTERN="$("${ZARUBA_BIN}" list append "${_PATTERN}" "created_at[\t ]*=[\t ]*Column\(")"
+    _LINE_INDEX="$(_getLineIndexFromFile "${_DESTINATION}" "${_PATTERN}" --index=-1)"
+    if [ "${_LINE_INDEX}" = "-1" ]
+    then
+        echo "Pattern not found: ${_PATTERN}"
+        exit 1
+    fi
+    _LINE="$(_getLineFromFile "${_DESTINATION}" "${_LINE_INDEX}")"
 
-_FIELD_INSERT_SCRIPT_TEMPLATE="$(_readText "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/repo_field_insert.py")"
-_FIELD_INSERT_SCRIPT="$("${ZARUBA_BIN}" str replace "${_FIELD_INSERT_SCRIPT_TEMPLATE}" "${_ZRB_REPLACEMENT_MAP}")"
+    _INDENTATION="$("${ZARUBA_BIN}" str getIndentation "${_LINE}")"
 
-_FIELD_UPDATE_SCRIPT_TEMPLATE="$(_readText "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/repo_field_update_db.py")"
-_FIELD_UPDATE_SCRIPT="$("${ZARUBA_BIN}" str replace "${_FIELD_UPDATE_SCRIPT_TEMPLATE}" "${_ZRB_REPLACEMENT_MAP}")"
+    _NEW_CONTENT="$(_getPartialContent "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/repo_field_declaration.py")"
+    _NEW_CONTENT="$(_indent "${_NEW_CONTENT}" "${_INDENTATION}")"
 
-#########################################################
-# Read existing repo
+    _insertPartialBefore "${_DESTINATION}" "${_NEW_CONTENT}" "${_LINE_INDEX}"
+    chmod 755 "${_DESTINATION}"
+}
 
-_REPO_LOCATION="${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_NAME}/${_ZRB_APP_CRUD_ENTITY}/repo/db_${_ZRB_SNAKE_APP_CRUD_ENTITY}_repo.py"
-_LINES="$(_readLines "${_REPO_LOCATION}")"
+_addInsertField() {
+    _DESTINATION="${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_NAME}/${_ZRB_APP_CRUD_ENTITY}/repo/db_${_ZRB_SNAKE_APP_CRUD_ENTITY}_repo.py"
+    _PATTERN="$("${ZARUBA_BIN}" list append '[]' "class[\t ]+DB${_ZRB_PASCAL_APP_CRUD_ENTITY}Repo\(")"
+    _PATTERN="$("${ZARUBA_BIN}" list append "${_PATTERN}" "def[ \t]+insert\(")"
+    _PATTERN="$("${ZARUBA_BIN}" list append "${_PATTERN}" "created_at[\t ]*=[\t ]*datetime\.datetime\.utcnow")"
+    _LINE_INDEX="$(_getLineIndexFromFile "${_DESTINATION}" "${_PATTERN}" --index=-1)"
+    if [ "${_LINE_INDEX}" = "-1" ]
+    then
+        echo "Pattern not found: ${_PATTERN}"
+        exit 1
+    fi
+    _LINE="$(_getLineFromFile "${_DESTINATION}" "${_LINE_INDEX}")"
 
+    _INDENTATION="$("${ZARUBA_BIN}" str getIndentation "${_LINE}")"
 
-#########################################################
-# Declaration
+    _NEW_CONTENT="$(_getPartialContent "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/repo_field_insert.py")"
+    _NEW_CONTENT="$(_indent "${_NEW_CONTENT}" "${_INDENTATION}")"
 
-_PATTERN="$("${ZARUBA_BIN}" list append '[]' "class[\t ]+DB${_ZRB_PASCAL_APP_CRUD_ENTITY}Entity\(")"
-_PATTERN="$("${ZARUBA_BIN}" list append "${_PATTERN}" "created_at[\t ]*=[\t ]*Column\(")"
-_FIELD_DECLARATION_INDEX="$("${ZARUBA_BIN}" lines getIndex "${_LINES}" "${_PATTERN}")"
-if [ "${_FIELD_DECLARATION_INDEX}" = "-1" ]
-then
-    echo "Pattern not found: ${_PATTERN}"
-    exit 1
-fi
+    _insertPartialBefore "${_DESTINATION}" "${_NEW_CONTENT}" "${_LINE_INDEX}"
+    chmod 755 "${_DESTINATION}"
+}
 
-_FIELD_DECLARATION_LINE="$("${ZARUBA_BIN}" list get "${_LINES}" "${_FIELD_DECLARATION_INDEX}")"
-_INDENTATION="$("${ZARUBA_BIN}" str getIndentation "${_FIELD_DECLARATION_LINE}")"
-_INDENTED_FIELD_DECLARATION_SCRIPT="$("${ZARUBA_BIN}" str fullIndent "${_FIELD_DECLARATION_SCRIPT}" "${_INDENTATION}")"
-_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" "${_INDENTED_FIELD_DECLARATION_SCRIPT}" --index="${_FIELD_DECLARATION_INDEX}")"
+_addUpdateField() {
+    _DESTINATION="${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_NAME}/${_ZRB_APP_CRUD_ENTITY}/repo/db_${_ZRB_SNAKE_APP_CRUD_ENTITY}_repo.py"
+    _PATTERN="$("${ZARUBA_BIN}" list append '[]' "class[\t ]*DB${_ZRB_PASCAL_APP_CRUD_ENTITY}Repo\(")"
+    _PATTERN="$("${ZARUBA_BIN}" list append "${_PATTERN}" "def[ \t]+update\(")"
+    _PATTERN="$("${ZARUBA_BIN}" list append "${_PATTERN}" "db_${_ZRB_SNAKE_APP_CRUD_ENTITY}\.updated_at[ \t]*=[ \t]*datetime\.datetime\.utcnow")"
+    _LINE_INDEX="$(_getLineIndexFromFile "${_DESTINATION}" "${_PATTERN}" --index=-1)"
+    if [ "${_LINE_INDEX}" = "-1" ]
+    then
+        echo "Pattern not found: ${_PATTERN}"
+        exit 1
+    fi
+    _LINE="$(_getLineFromFile "${_DESTINATION}" "${_LINE_INDEX}")"
 
+    _INDENTATION="$("${ZARUBA_BIN}" str getIndentation "${_LINE}")"
 
-#########################################################
-# Insert
+    _NEW_CONTENT="$(_getPartialContent "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/repo_field_update.py")"
+    _NEW_CONTENT="$(_indent "${_NEW_CONTENT}" "${_INDENTATION}")"
 
-_PATTERN="$("${ZARUBA_BIN}" list append '[]' "class[\t ]+DB${_ZRB_PASCAL_APP_CRUD_ENTITY}Repo\(")"
-_PATTERN="$("${ZARUBA_BIN}" list append "${_PATTERN}" "def[ \t]+insert\(")"
-_PATTERN="$("${ZARUBA_BIN}" list append "${_PATTERN}" "created_at[\t ]*=[\t ]*datetime\.datetime\.utcnow")"
-_FIELD_INSERT_INDEX="$("${ZARUBA_BIN}" lines getIndex "${_LINES}" "${_PATTERN}")"
-if [ "${_FIELD_INSERT_INDEX}" = "-1" ]
-then
-    echo "Pattern not found: ${_PATTERN}"
-    exit 1
-fi
+    _insertPartialBefore "${_DESTINATION}" "${_NEW_CONTENT}" "${_LINE_INDEX}"
+    chmod 755 "${_DESTINATION}"
+}
 
-_FIELD_INSERT_LINE="$("${ZARUBA_BIN}" list get "${_LINES}" "${_FIELD_INSERT_INDEX}")"
-_INDENTATION="$("${ZARUBA_BIN}" str getIndentation "${_FIELD_INSERT_LINE}")"
-_INDENTED_FIELD_INSERT_SCRIPT="$("${ZARUBA_BIN}" str fullIndent "${_FIELD_INSERT_SCRIPT}" "${_INDENTATION}")"
-_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" "${_INDENTED_FIELD_INSERT_SCRIPT}" --index="${_FIELD_INSERT_INDEX}")"
-
-
-#########################################################
-# Update
-
-_PATTERN="$("${ZARUBA_BIN}" list append '[]' "class[\t ]*DB${_ZRB_PASCAL_APP_CRUD_ENTITY}Repo\(")"
-_PATTERN="$("${ZARUBA_BIN}" list append "${_PATTERN}" "def[ \t]+update\(")"
-_PATTERN="$("${ZARUBA_BIN}" list append "${_PATTERN}" "db_${_ZRB_SNAKE_APP_CRUD_ENTITY}\.updated_at[ \t]*=[ \t]*datetime\.datetime\.utcnow")"
-_FIELD_UPDATE_INDEX="$("${ZARUBA_BIN}" lines getIndex "${_LINES}" "${_PATTERN}")"
-if [ "${_FIELD_UPDATE_INDEX}" = "-1" ]
-then
-    echo "Pattern not found: ${_PATTERN}"
-    exit 1
-fi
-
-_FIELD_UPDATE_LINE="$("${ZARUBA_BIN}" list get "${_LINES}" "${_FIELD_UPDATE_INDEX}")"
-_INDENTATION="$("${ZARUBA_BIN}" str getIndentation "${_FIELD_UPDATE_LINE}")"
-_INDENTED_FIELD_UPDATE_SCRIPT="$("${ZARUBA_BIN}" str fullIndent "${_FIELD_UPDATE_SCRIPT}" "${_INDENTATION}")"
-_LINES="$("${ZARUBA_BIN}" lines insertBefore "${_LINES}" "${_INDENTED_FIELD_UPDATE_SCRIPT}" --index="${_FIELD_UPDATE_INDEX}")"
-
-
-#########################################################
-# Overwrite existing repo
-
-chmod 755 "${_REPO_LOCATION}"
-"${ZARUBA_BIN}" lines write "${_LINES}" "${_REPO_LOCATION}"
+echo "Add field declaration"
+_addFieldDeclaration
+echo "Add insert field"
+_addInsertField
+echo "Add update field"
+_addUpdateField
 
 echo "Done updating db repo"

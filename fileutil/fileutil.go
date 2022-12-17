@@ -287,6 +287,9 @@ func (fileUtil *FileUtil) replaceLineAtIndex(destinationFilePath string, content
 	if err != nil {
 		return err
 	}
+	if index < 0 {
+		index = len(stringList) + index
+	}
 	replacements := []string{content}
 	switch mode {
 	case "BEFORE":

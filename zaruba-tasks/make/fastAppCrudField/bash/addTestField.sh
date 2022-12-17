@@ -1,36 +1,27 @@
 set -e
 echo "Updating test field"
 
-_TEST_FIELD_SCRIPT_TEMPLATE="$(_readText "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/test_field.py")"
-_TEST_FIELD_SCRIPT="$("${ZARUBA_BIN}" str replace "${_TEST_FIELD_SCRIPT_TEMPLATE}" "${_ZRB_REPLACEMENT_MAP}")"
 
-#########################################################
-# Read existing test
-_TEST_UTIL_LOCATION="${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_NAME}/${_ZRB_SNAKE_APP_CRUD_ENTITY}/test_${_ZRB_SNAKE_APP_CRUD_ENTITY}_service_util.py"
-_LINES="$(_readLines "${_TEST_UTIL_LOCATION}")"
+_addTestFieldDeclaration() {
+    _DESTINATION="${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_NAME}/${_ZRB_SNAKE_APP_CRUD_ENTITY}/test_${_ZRB_SNAKE_APP_CRUD_ENTITY}_service_util.py"
+    _PATTERN="[\t ]*(dummy_${_ZRB_SNAKE_APP_CRUD_ENTITY}_data[\t ]*=[\t ]*${_ZRB_PASCAL_APP_CRUD_ENTITY}Data\([\t ]*)"
+    _LINE_INDEX="$(_getLineIndexFromFile "${_DESTINATION}" "${_PATTERN}")"
+    if [ "${_LINE_INDEX}" = "-1" ]
+    then
+        echo "Pattern not found: ${_PATTERN}"
+        exit 1
+    fi
+    _LINE="$(_getLineFromFile "${_DESTINATION}" "${_LINE_INDEX}")"
 
+    _INDENTATION="$("${ZARUBA_BIN}" str getIndentation "${_LINE}")"
 
-#########################################################
-# Mock entity data
+    _NEW_CONTENT="$(_getPartialContent "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrudField/partials/test_field.py")"
+    _NEW_CONTENT="$(_indent "${_NEW_CONTENT}" "    ${_INDENTATION}")"
 
-_PATTERN="[\t ]*(dummy_${_ZRB_SNAKE_APP_CRUD_ENTITY}_data[\t ]*=[\t ]*${_ZRB_PASCAL_APP_CRUD_ENTITY}Data\([\t ]*)"
-_MOCK_ENTITY_DATA_INDEX="$("${ZARUBA_BIN}" lines getIndex "${_LINES}" "${_PATTERN}")"
-if [ "${_MOCK_ENTITY_DATA_INDEX}" = "-1" ]
-then
-    echo "Pattern not found: ${_PATTERN}"
-    exit 1
-fi
+    _insertPartialAfter "${_DESTINATION}" "${_NEW_CONTENT}" "${_LINE_INDEX}"
+    chmod 755 "${_DESTINATION}"
+}
 
-_MOCK_ENTITY_DATA_LINE="$("${ZARUBA_BIN}" list get "${_LINES}" "${_MOCK_ENTITY_DATA_INDEX}")"
-_INDENTATION="$("${ZARUBA_BIN}" str getIndentation "${_MOCK_ENTITY_DATA_LINE}")"
-_INDENTED_MOCK_ENTITY_DATA_SCRIPT="    $("${ZARUBA_BIN}" str fullIndent "${_TEST_FIELD_SCRIPT}" "${_INDENTATION}")"
-_LINES="$("${ZARUBA_BIN}" lines insertAfter "${_LINES}" "${_INDENTED_MOCK_ENTITY_DATA_SCRIPT}" --index="${_MOCK_ENTITY_DATA_INDEX}")"
-
-
-#########################################################
-# Overwrite existing test
-
-chmod 755 "${_TEST_UTIL_LOCATION}"
-"${ZARUBA_BIN}" lines write "${_LINES}" "${_TEST_UTIL_LOCATION}"
+_addTestFieldDeclaration
 
 echo "Done updating test field"
