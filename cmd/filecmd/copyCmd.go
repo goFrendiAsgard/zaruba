@@ -8,9 +8,20 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
+var copyExample = `
+> ls myDir
+main.py    module
+
+> zaruba file copy myDir otherDir
+
+> ls otherDir
+main.py    module
+`
+
 var copyCmd = &cobra.Command{
-	Use:   "copy <strSourcePath> <strDestinationPath>",
-	Short: "copy files/folders recursively",
+	Use:     "copy <strSourcePath> <strDestinationPath>",
+	Short:   "copy files/folders recursively",
+	Example: copyExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)

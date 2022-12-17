@@ -11,7 +11,7 @@ import (
 )
 
 var showLong = `
-Show advertisement based on advertisementFile.
+Show advertisement based on time-pattern in an advertisementFile.
 
 An advertisementFile is a YAML file containing some key-value configurations:
 

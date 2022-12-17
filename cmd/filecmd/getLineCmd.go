@@ -10,25 +10,33 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
+var getLineLong = `
+Getting line that match the last element of the pattern.
+Index is started from 0. You can use negative index to count from the end of the file.
+`
+
 var getLineExample = `
-Getting line index that match the last element of the pattern
-    > zaruba file read myFile.txt
-    a
-    a
-    b
-    c
-    d
-    e
-    > zaruba file getLine myFile.txt 0
-    a
-    > zaruba file getLine myFile.txt 2
-    b
-    > zaruba file getLine myFile.txt -1
-    e
+> cat myFile.txt
+a
+a
+b
+c
+d
+e
+
+> zaruba file getLine myFile.txt 0
+a
+
+> zaruba file getLine myFile.txt 2
+b
+
+> zaruba file getLine myFile.txt -1
+e
 `
 var getLineCmd = &cobra.Command{
 	Use:     "getLine <strFileName> <index>",
 	Short:   "Return desired line of a file content",
+	Long:    getLineLong,
 	Example: getLineExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()

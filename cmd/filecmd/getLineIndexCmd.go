@@ -9,47 +9,31 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
+var getLineIndexLong = `
+Getting line index of a line that match the last element of the pattern.
+Index is started from 0. You can use negative index to count from the end of the file.
+`
+
 var getLineIndexExample = `
-Getting line index that match the last element of the pattern
-    > zaruba file read myFile.txt
-    a
-    a
-    b
-    c
-    d
-    e
-    > zaruba file getLineIndex myFile.txt '["a", "b", "d"]'
-    4
-    > zaruba file getLineIndex myFile.txt '["a", "b", "d"]' --index=-1
-    4
+> cat myFile.txt
+a
+a
+b
+c
+d
+e
 
-lines:        ["a", "a", "b", "c", "d", "e"]
-                0    1    2    3    4    5
-                                    ^
-                                    line index that match the last index of the pattern
-patterns:     ["a",    , "b",      "d"]
-                0         1         2
-                                    ^
-                                    last index of the pattern (-1)
+> zaruba file getLineIndex myFile.txt '["a", "b", "d"]'
+4
 
-
-Getting line index that match the desired index of the pattern
-    > zaruba lines getLineIndex myFile.txt '["a", "b", "d"]' --index=1
-    2
-
-lines:        ["a", "a", "b", "c", "d", "e"]
-                0    1    2    3    4    5
-                          ^
-                          line index that match the desired index of the pattern
-patterns:     ["a",    , "b",      "d"]
-                0         1         2
-                          ^
-                          desired index of the pattern (1)
+> zaruba file getLineIndex myFile.txt '["a", "b", "d"]' --index=-1
+4
 `
 var getLineIndexDesiredPatternIndex *int
 var getLineIndexCmd = &cobra.Command{
 	Use:     "getLineIndex <strFileName> <jsonStrListPatterns>",
 	Short:   "Get line index from a file content matching the pattern",
+	Long:    getLineIndexLong,
 	Example: getLineIndexExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()

@@ -9,10 +9,24 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
+var readLong = `
+Read environment variable from env file and return a jsonMap.
+`
+
+var readExample = `
+> cat .env
+SERVER=localhost
+PORT=3306
+> zaruba env read .env
+{"SERVER": "localhost", "PORT": "3306"}
+`
+
 var readPrefix *string
 var readCmd = &cobra.Command{
-	Use:   "read <strFileName>",
-	Short: "Read environment variable declarations from environment file as a jsonMap",
+	Use:     "read <strFileName>",
+	Short:   "Read environment variable from env file and return a jsonMap",
+	Long:    readLong,
+	Example: readExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)

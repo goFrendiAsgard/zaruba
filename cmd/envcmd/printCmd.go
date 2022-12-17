@@ -17,18 +17,15 @@ This is useful if you have multiple environments (e.g., dev, staging, prod)
 `
 
 var printExample = `
-Print a jsonMap as environment variable declaration
-Get current environment variables as jsonMap.
-    > zaruba env print '{"SERVER": "localhost", "PORT": "3306"}'
-    SERVER="localhost"
-    PORT="3306"
+> zaruba env print '{"SERVER": "localhost", "PORT": "3306"}'
+SERVER="localhost"
+PORT="3306"
 
-Using --prefix flag to cascade the environment.
-    > zaruba env print '{"SERVER": "localhost", "PORT": "3306", "STG_SERVER": "stg.stalchmst.com", "PROD_SERVER": "stalchmst.com"}' --prefix=STG
-    SERVER="stg.stalchmst.com"
-    PORT="3306"
-    STG_SERVER="stg.stalchmst.com"
-    PROD_SERVER="stalchmst.com"
+> zaruba env print '{"SERVER": "localhost", "PORT": "3306", "STG_SERVER": "stg.stalchmst.com", "PROD_SERVER": "stalchmst.com"}' --prefix=STG
+SERVER="stg.stalchmst.com"
+PORT="3306"
+STG_SERVER="stg.stalchmst.com"
+PROD_SERVER="stalchmst.com"
 `
 var printPrefix *string
 var printCmd = &cobra.Command{

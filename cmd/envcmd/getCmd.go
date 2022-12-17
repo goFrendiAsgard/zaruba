@@ -17,23 +17,25 @@ This is useful if you have multiple environments (e.g., dev, staging, prod)
 `
 
 var getExample = `
-Get current environment variables as jsonMap.
-    > export SERVER=localhost
-    > export PORT=3306
-    > zaruba env get
-    {"SERVER": "localhost", "PORT": "3306"}
+> export SERVER=localhost
+> export PORT=3306
 
-Using --prefix flag to cascade the environment.
-    > export SERVER=localhost
-    > export STG_SERVER=stg.stalchmst.com
-    > export PROD_SERVER=stalchmst.com
-    > export PORT=3306
-    > zaruba env get --prefix=STG
-    {"SERVER": "stg.stalchmst.com", "PORT": "3306", "STG_SERVER": "stg.stalchmst.com", "PROD_SERVER": "stalchmst.com"}
-    > zaruba env get --prefix=PROD
-    {"SERVER": "stalchmst.com", "PORT": "3306", "STG_SERVER": "stg.stalchmst.com", "PROD_SERVER": "stalchmst.com"}
-    > zaruba env get --prefix=DEV
-    {"SERVER": "localhost", "PORT": "3306", "STG_SERVER": "stg.stalchmst.com", "PROD_SERVER": "stalchmst.com"}
+> zaruba env get
+{"SERVER": "localhost", "PORT": "3306"}
+
+> export SERVER=localhost
+> export STG_SERVER=stg.stalchmst.com
+> export PROD_SERVER=stalchmst.com
+> export PORT=3306
+
+> zaruba env get --prefix=STG
+{"SERVER": "stg.stalchmst.com", "PORT": "3306", "STG_SERVER": "stg.stalchmst.com", "PROD_SERVER": "stalchmst.com"}
+
+> zaruba env get --prefix=PROD
+{"SERVER": "stalchmst.com", "PORT": "3306", "STG_SERVER": "stg.stalchmst.com", "PROD_SERVER": "stalchmst.com"}
+
+> zaruba env get --prefix=DEV
+{"SERVER": "localhost", "PORT": "3306", "STG_SERVER": "stg.stalchmst.com", "PROD_SERVER": "stalchmst.com"}
 `
 
 var getPrefix *string
