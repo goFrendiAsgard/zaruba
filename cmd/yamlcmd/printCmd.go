@@ -9,9 +9,21 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
+var printExample = `
+> zaruba yaml print '{"id": 1, "title": "Doraemon"}'
+id: 1
+title: Doraemon
+
+> zaruba yaml print '{"id": 1, "title": "Doraemon"}' book.yaml
+> cat book.yaml
+id: 1
+title: Doraemon
+
+`
 var printCmd = &cobra.Command{
 	Use:     "print <jsonAny> [yamlFileName]",
 	Short:   "Print JSON map or list as YAML",
+	Example: printExample,
 	Aliases: []string{"write"},
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()

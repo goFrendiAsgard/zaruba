@@ -9,9 +9,19 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
+var readExample = `
+> cat book.yaml
+id: 1
+title: Doraemon
+
+> zaruba yaml read book.yaml
+{"id":1,"title":"Doraemon"}
+`
+
 var readCmd = &cobra.Command{
-	Use:   "read <yamlFileName>",
-	Short: "Read YAML file as JSON map or list",
+	Use:     "read <yamlFileName>",
+	Short:   "Read YAML file as JSON map or list",
+	Example: readExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)

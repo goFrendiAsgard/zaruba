@@ -10,8 +10,17 @@ import (
 )
 
 var getLineIndexLong = `
-Getting line index of a line that match the last element of the pattern.
+Getting line index of a a line that match the last element of the pattern.
 Index is started from 0. You can use negative index to count from the end of the file.
+
+Line  | Index
+-------------
+a     | 0/-6
+a     | 1/-5
+b     | 2/-4
+c     | 3/-3
+d     | 4/-2
+e     | 5/-1
 `
 
 var getLineIndexExample = `
@@ -23,8 +32,14 @@ c
 d
 e
 
+> zaruba file getLineIndex myFile.txt d
+4
+
 > zaruba file getLineIndex myFile.txt '["a", "b", "d"]'
 4
+
+> zaruba file getLineIndex myFile.txt '["a", "b", "d"]' --index=1
+2
 
 > zaruba file getLineIndex myFile.txt '["a", "b", "d"]' --index=-1
 4

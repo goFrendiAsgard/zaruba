@@ -124,7 +124,11 @@ Finally, you can visit our [end-to-end tutorial](use-cases/from-zero-to-cloud.md
         * [TransformKey](utilities/map/transformkey.md)
         * [Validate](utilities/map/validate.md)
     * [🔢 Num](utilities/num/README.md)
+        * Add
+        * Divide
+        * Multiply
         * [Range](utilities/num/range.md)
+        * Subtract
         * [ValidateFloat](utilities/num/validatefloat.md)
         * [ValidateInt](utilities/num/validateint.md)
     * [🛣️ Path](utilities/path/README.md)

@@ -10,11 +10,36 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var printPretty *bool
+var printLong = `
+Print json.
+You can print the output into stdout or a file.
+You can also define whether you want to "pretty print" or not (It is pretty print by default).
+`
 
+var printExample = `
+> zaruba json print '{"id": 1, "title": "Doraemon"}'
+{
+  "id": 1,
+  "title": "Doraemon"
+}
+
+> zaruba json print '{"id": 1, "title": "Doraemon"}' --pretty=false
+{"id":1,"title":"Doraemon"}
+
+> zaruba json print '{"id": 1, "title": "Doraemon"}' book.json
+> cat book.json
+{
+  "id": 1,
+  "title": "Doraemon"
+}
+`
+
+var printPretty *bool
 var printCmd = &cobra.Command{
 	Use:     "print <jsonAny> [jsonFileName]",
 	Short:   "Print json",
+	Long:    printLong,
+	Example: printExample,
 	Aliases: []string{"write"},
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()

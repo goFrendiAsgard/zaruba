@@ -13,9 +13,20 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
+var cmdExample = `
+> zaruba install ubuntu-essentials
+> zaruba install aws-cli
+> zaruba install gcloud
+> zaruba install nvm
+> zaruba install pulumi
+> zaruba install sdkman
+> zaruba install scala-on-sdkman
+`
+
 var Cmd = &cobra.Command{
-	Use:   "install",
-	Short: "Install third party tools",
+	Use:     "install",
+	Short:   "Install third party tools",
+	Example: cmdExample,
 }
 
 func Init() {

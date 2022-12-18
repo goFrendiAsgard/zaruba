@@ -9,9 +9,22 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
+var readExample = `
+> cat myFile.txt
+a
+b
+c
+
+> zaruba file read myFile.txt
+a
+b
+c
+`
+
 var readCmd = &cobra.Command{
-	Use:   "read <strFileName>",
-	Short: "Read text from file",
+	Use:     "read <strFileName>",
+	Short:   "Read text from file",
+	Example: readExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)

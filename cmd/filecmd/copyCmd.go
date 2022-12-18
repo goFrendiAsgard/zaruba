@@ -20,7 +20,7 @@ main.py    module
 
 var copyCmd = &cobra.Command{
 	Use:     "copy <strSourcePath> <strDestinationPath>",
-	Short:   "copy files/folders recursively",
+	Short:   "Copy files/folders recursively",
 	Example: copyExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
