@@ -23,7 +23,7 @@ M'   AMV                                 MM             ;MM:
 AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
 --.. .- .-. ..- -... .-    .--. .-.. . .- ... .    ... - .- .-. - 
                                       Task runner and CLI utility
-v0.9.0-alpha-2-95bfadc92cd810c7ee563144b4ea514637f15d10
+v0.9.0-alpha-2-aec3ea203e401789ff8f060599daf3f98047b763
 
 Usage:
   zaruba [command]
@@ -197,7 +197,11 @@ To see how `lines` utitilites works, please visit [lines utilities documentation
   * [TransformKey](map/transformkey.md)
   * [Validate](map/validate.md)
 * [🔢 Num](num/README.md)
+  * [Add](num/add.md)
+  * [Divide](num/divide.md)
+  * [Multiply](num/multiply.md)
   * [Range](num/range.md)
+  * [Subtract](num/subtract.md)
   * [ValidateFloat](num/validatefloat.md)
   * [ValidateInt](num/validateint.md)
 * [🛣️ Path](path/README.md)

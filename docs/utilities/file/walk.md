@@ -14,7 +14,7 @@ zaruba file walk --help
 <summary>Output</summary>
  
 ```````
-list files/folder in a path, recursively
+List files/folder in a path, recursively
 
 Usage:
   zaruba file walk <strDirPath> [flags]

@@ -15,40 +15,51 @@ zaruba lines submatch --help
 <summary>Output</summary>
  
 ```````
-Return submatch matching the pattern
+Getting line index of a a line that match the last element of the pattern.
+Index is started from 0. You can use negative index to count from the end of line
+
+Line                          | Index
+-------------------------------------------
+class Num:                    | 0/-5
+    def __init__(self, num):  | 1/-4
+        self.num = num        | 2/-3
+    def add(self, addition):  | 3/-2
+        self.num += addition  | 4/-1
 
 Usage:
   zaruba lines submatch <jsonStrList> <jsonStrListPatterns> [flags]
 
 Examples:
 
-Getting line index that match the last element of the pattern
-    > zaruba lines submatch '["a", "a", "b", "c", "d", "e"]' '["a", "b", "d"]'
-    ["d"]
-    > zaruba lines submatch '["a", "a", "b", "c", "d", "e"]' '["a", "b", "d"]' --index=-1
-    ["d"]
+> CONTENT='[
+"class Num:",
+"    def __init__(self, num):",
+"        self.num = num",
+"    def add(self, addition):",
+"        self.num += addition"
+]'
 
-lines:        ["a", "a", "b", "c", "d", "e"]
-                0    1    2    3    4    5
-                                    ^
-                                    line index that match the last index of the pattern
-patterns:     ["a",    , "b",      "d"]
-                0         1         2
-                                    ^
-                                    last index of the pattern
+> PATTERN='[
+"class Num:",
+"( *)def add\\(self, (.*)\\):",
+"( *)self\\.num \\+= (.*)"
+]'
 
-Getting line index that match the desired index of the pattern
-    > zaruba lines submatch '["a", "a", "b", "c", "d", "e"]' '["a", "b", "d"]' --index=1
-    ["b"]
+> zaruba lines submatch $CONTENT $PATTERN
+["        self.num += addition","        ","addition"]
 
-lines:        ["a", "a", "b", "c", "d", "e"]
-                0    1    2    3    4    5
-                          ^
-                          line index that match the desired index of the pattern
-patterns:     ["a",    , "b",      "d"]
-                0         1         2
-                          ^
-                          desired index of the pattern
+> zaruba lines submatch $CONTENT $PATTERN --index=-1
+["        self.num += addition","        ","addition"]
+
+> zaruba list get $PATTERN 0
+class Num:
+> zaruba lines submatch $CONTENT $PATTERN --index=0
+["class Num:"]
+
+> zaruba list get $PATTERN 1
+( *)def add\(self, (.*)\):
+> zaruba lines submatch $CONTENT $PATTERN --index=1
+["    def add(self, addition):","    ","addition"]
 
 
 Flags:

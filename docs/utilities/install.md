@@ -21,6 +21,17 @@ Install third party tools
 Usage:
   zaruba install [command]
 
+Examples:
+
+> zaruba install ubuntu-essentials
+> zaruba install aws-cli
+> zaruba install gcloud
+> zaruba install nvm
+> zaruba install pulumi
+> zaruba install sdkman
+> zaruba install scala-on-sdkman
+
+
 Available Commands:
   4-essentials      
   4-essentials      

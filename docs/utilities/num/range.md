@@ -17,7 +17,7 @@ zaruba num range --help
 Print numbers sequentially
 
 Usage:
-  zaruba num range [start] <end> [step] [flags]
+  zaruba num range [intStart] <intEnd> [intStep] [flags]
 
 Flags:
   -h, --help   help for range

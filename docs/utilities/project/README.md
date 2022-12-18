@@ -20,15 +20,15 @@ Usage:
   zaruba file [command]
 
 Available Commands:
-  copy         copy files/folders recursively
+  copy         Copy files/folders recursively
   getLine      Return desired line of a file content
   getLineIndex Get line index from a file content matching the pattern
-  insertAfter  Insert newContent to fileName after index
-  insertBefore Insert newContent to fileName before index
-  list         list files/folders in a path
+  insertAfter  Insert a new content at a file name after a particular index
+  insertBefore Insert a new content at a file name before a particular index
+  list         List files/folders in a path
   read         Read text from file
-  replace      Replace fileName content at line index with newContent
-  walk         list files/folder in a path, recursively
+  replace      Replace a new content at a file name at a particular index
+  walk         List files/folder in a path, recursively
 
 Flags:
   -h, --help   help for file

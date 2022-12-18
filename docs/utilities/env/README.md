@@ -22,7 +22,7 @@ Usage:
 Available Commands:
   get         Get current environment variables as jsonMap
   print       Print a jsonMap as environment variable declarations
-  read        Read environment variable declarations from environment file as a jsonMap
+  read        Read environment variable from env file and return a jsonMap
 
 Flags:
   -h, --help   help for env

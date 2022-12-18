@@ -22,13 +22,13 @@ Usage:
   zaruba lines [command]
 
 Available Commands:
-  getIndex     Return index of lines matching the patterns at desiredPatternIndex
+  getIndex     Return index of lines matching the patterns at desired pattern index
   insertAfter  Insert newLine after lines[index]
   insertBefore Insert newLine before lines[index]
   print        Print lines as multiline string
   read         Read lines from a file, return a jsonStrList
   replace      Replace lines[index] with replacements
-  submatch     Return submatch matching the pattern
+  submatch     Return submatch matching the pattern at desired pattern index
 
 Flags:
   -h, --help   help for lines
