@@ -14,33 +14,31 @@ var getLineLong = `
 Getting a line that match the last element of the pattern.
 Index is started from 0. You can use negative index to count from the end of the file.
 
-Line  | Index
--------------
-a     | 0/-6
-a     | 1/-5
-b     | 2/-4
-c     | 3/-3
-d     | 4/-2
-e     | 5/-1
+Line                          | Index
+-------------------------------------------
+class Num:                    | 0/-5
+    def __init__(self, num):  | 1/-4
+        self.num = num        | 2/-3
+    def add(self, addition):  | 3/-2
+        self.num += addition  | 4/-1
 `
 
 var getLineExample = `
-> cat myFile.txt
-a
-a
-b
-c
-d
-e
+> cat num.py
+class Num:
+    def __init__(self, num):
+        self.num = num
+    def add(self, addition):
+        self.num += addition
 
-> zaruba file getLine myFile.txt 0
-a
+> zaruba file getLine num.py 0
+class Num:
 
-> zaruba file getLine myFile.txt 2
-b
+> zaruba file getLine num.py 2
+        self.num = num
 
-> zaruba file getLine myFile.txt -1
-e
+> zaruba file getLine num.py -1
+        self.num += addition
 `
 var getLineCmd = &cobra.Command{
 	Use:     "getLine <strFileName> <index>",

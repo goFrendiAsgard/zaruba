@@ -13,36 +13,45 @@ var getLineIndexLong = `
 Getting line index of a a line that match the last element of the pattern.
 Index is started from 0. You can use negative index to count from the end of the file.
 
-Line  | Index
--------------
-a     | 0/-6
-a     | 1/-5
-b     | 2/-4
-c     | 3/-3
-d     | 4/-2
-e     | 5/-1
+Line                          | Index
+-------------------------------------------
+class Num:                    | 0/-5
+    def __init__(self, num):  | 1/-4
+        self.num = num        | 2/-3
+    def add(self, addition):  | 3/-2
+        self.num += addition  | 4/-1
 `
 
 var getLineIndexExample = `
-> cat myFile.txt
-a
-a
-b
-c
-d
-e
+> cat num.py
+class Num:
+    def __init__(self, num):
+        self.num = num
+    def add(self, addition):
+        self.num += addition
 
-> zaruba file getLineIndex myFile.txt d
+
+> PATTERN='[
+"class Num:",
+"    def add(self, addition):",
+"        self.num += addition"
+]'
+
+> zaruba file getLineIndex num.py $PATTERN
 4
 
-> zaruba file getLineIndex myFile.txt '["a", "b", "d"]'
+> zaruba lines getIndex $CONTENT $PATTERN --index=-1
 4
 
-> zaruba file getLineIndex myFile.txt '["a", "b", "d"]' --index=1
-2
+> zaruba list get $PATTERN 0
+class Num:
+> zaruba file getLineIndex $CONTENT $PATTERN --index=0
+0
 
-> zaruba file getLineIndex myFile.txt '["a", "b", "d"]' --index=-1
-4
+> zaruba list get $PATTERN 1
+    def add(self, addition):
+> zaruba file getLineIndex $CONTENT $PATTERN --index=1
+3
 `
 var getLineIndexDesiredPatternIndex *int
 var getLineIndexCmd = &cobra.Command{

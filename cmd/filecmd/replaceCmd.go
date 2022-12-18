@@ -12,30 +12,39 @@ Replace a new content at a file name at a particular index.
 Index is started from 0. You can use negative index to count from the end of the file.
 If not specified, default index is 0.
 
-Line  | Index
--------------
-a     | 0/-3
-b     | 1/-2
-c     | 2/-1
+Line                          | Index
+-------------------------------------------
+class Num:                    | 0/-5
+    def __init__(self, num):  | 1/-4
+        self.num = num        | 2/-3
+    def add(self, addition):  | 3/-2
+        self.num += addition  | 4/-1
 `
 
 var replaceExample = `
-> cat myFile.txt
-a
-b
-c
+> cat num.py
+class Num:
+    def __init__(self, num):
+        self.num = num
+    def add(self, addition):
+        self.num += addition
 
-> zaruba file replace myFile.txt d
+> zaruba file replace num.py 'class Number:"
+> cat num.py
+class Number:
+    def __init__(self, num):
+        self.num = num
+    def add(self, addition):
+        self.num += addition
 
-> cat myFile.txt
-d
-b
-c
-
-> zaruba file replace myFile.txt e --index=2
-d
-b
-e
+> zaruba file replace num.py "    def __init__(self, num: int):" --index=1
+> zaruba file replace num.py "    def add(self, addition: int):" --index=3
+> cat num.py
+class Num:
+    def __init__(self, num: int):
+        self.num = num
+    def add(self, addition: int):
+        self.num += addition
 `
 
 var replaceIndex *int
