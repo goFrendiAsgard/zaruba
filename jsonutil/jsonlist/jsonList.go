@@ -39,12 +39,14 @@ func (jsonListUtil *JsonListUtil) GetLength(jsonList string) (length int, err er
 	return len(list), nil
 }
 
-func (jsonListUtil *JsonListUtil) Append(jsonList string, value string) (newJsonList string, err error) {
+func (jsonListUtil *JsonListUtil) Append(jsonList string, values ...string) (newJsonList string, err error) {
 	list, err := jsonHelper.ToList(jsonList)
 	if err != nil {
 		return "[]", err
 	}
-	list = append(list, jsonHelper.ToInterface(value))
+	for _, value := range values {
+		list = append(list, jsonHelper.ToInterface(value))
+	}
 	newListBytes, err := json.Marshal(list)
 	if err != nil {
 		return "[]", err
