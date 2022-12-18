@@ -16,9 +16,10 @@ var appendCmd = &cobra.Command{
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 2)
-		jsonStrList, strNewValue := args[0], args[1]
+		jsonStrList := args[0]
+		strNewValues := args[1:]
 		util := dsl.NewDSLUtil()
-		newValues, err := util.Json.List.Append(jsonStrList, strNewValue)
+		newValues, err := util.Json.List.Append(jsonStrList, strNewValues...)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}
