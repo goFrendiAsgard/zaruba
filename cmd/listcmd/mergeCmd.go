@@ -9,9 +9,15 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
+var mergeExample = `
+> zaruba list contain '["strawberry", "orange", "apple"]' '["grape", "melon"]'
+["strawberry", "orange", "apple", "grape", "melon"]
+`
+
 var mergeCmd = &cobra.Command{
-	Use:   "merge <jsonList> <jsonListOther...>",
-	Short: "Merge JSON lists",
+	Use:     "merge <jsonList> <jsonListOther...>",
+	Short:   "Merge JSON lists",
+	Example: mergeExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)

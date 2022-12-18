@@ -9,10 +9,56 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
+var insertAfterLong = `
+Insert a new content to jsonStringList after a particular index.
+Index is started from 0. You can use negative index to count from the end of the list.
+If not specified, default index is -1.
+
+Line                          | Index
+-------------------------------------------
+class Num:                    | 0/-5
+    def __init__(self, num):  | 1/-4
+        self.num = num        | 2/-3
+    def add(self, addition):  | 3/-2
+        self.num += addition  | 4/-1
+`
+
+var insertAfterExample = `
+> CONTENT='[
+"class Num:",
+"    def __init__(self, num):",
+"        self.num = num",
+"    def add(self, addition):",
+"        self.num += addition"
+]'
+
+> zaruba file insertAfter $CONTENT '# EOF"
+[
+"class Num:",
+"    def __init__(self, num):",
+"        self.num = num",
+"    def add(self, addition):",
+"        self.num += addition",
+"# EOF"
+]
+
+> zaruba file insertAfter $CONTENT "    '''A numeric class'''" --index=0
+[
+"class Num:",
+"    '''A numeric class'''
+"    def __init__(self, num):",
+"        self.num = num",
+"    def add(self, addition):",
+"        self.num += addition"
+]
+`
+
 var insertAfterIndex *int
 var insertAfterCmd = &cobra.Command{
-	Use:   "insertAfter <jsonStrList> <jsonStrListNewLines>",
-	Short: "Insert newLine after lines[index]",
+	Use:     "insertAfter <jsonStrList> <jsonStrListNewLines>",
+	Short:   "Insert a new content to jsonStringList after a particular index",
+	Long:    insertAfterLong,
+	Example: insertAfterExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)

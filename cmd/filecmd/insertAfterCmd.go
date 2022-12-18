@@ -8,7 +8,7 @@ import (
 )
 
 var insertAfterLong = `
-Insert a new content at a file name after a particular index.
+Insert a new content into a file after a particular index.
 Index is started from 0. You can use negative index to count from the end of the file.
 If not specified, default index is -1.
 
@@ -51,7 +51,7 @@ class Num:
 var insertAfterIndex *int
 var insertAfterCmd = &cobra.Command{
 	Use:     "insertAfter <strFileName> <strNewContent>",
-	Short:   "Insert a new content at a file name after a particular index",
+	Short:   "Insert a new content into a file after a particular index",
 	Long:    insertAfterLong,
 	Example: insertAfterExample,
 	Run: func(cmd *cobra.Command, args []string) {

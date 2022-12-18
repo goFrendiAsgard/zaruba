@@ -9,9 +9,18 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
+var validateExample = `
+> zaruba list validate '["strawberry", "orange", "apple"]'
+1
+
+> zaruba list validate 'not a list'
+0
+`
+
 var validateCmd = &cobra.Command{
-	Use:   "validate <jsonList>",
-	Short: "Check whether jsonList is valid JSON list or not",
+	Use:     "validate <jsonList>",
+	Short:   "Check whether a jsonList is valid or not",
+	Example: validateExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)

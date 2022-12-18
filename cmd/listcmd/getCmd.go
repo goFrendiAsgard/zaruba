@@ -10,9 +10,18 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
+var getExample = `
+> zaruba list get '["strawberry", "orange", "apple"]' 0
+strawberry
+
+> zaruba list contain '["strawberry", "orange", "apple"]' 2
+apple
+`
+
 var getCmd = &cobra.Command{
-	Use:   "get <jsonList> <index>",
-	Short: "Get jsonList[index]",
+	Use:     "get <jsonList> <index>",
+	Short:   "Get jsonList element at an index",
+	Example: getExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)

@@ -8,7 +8,7 @@ import (
 )
 
 var insertBeforeLong = `
-Insert a new content at a file name before a particular index.
+Insert a new content into a file before a particular index.
 Index is started from 0. You can use negative index to count from the end of the file.
 If not specified, default index is 0.
 
@@ -51,7 +51,7 @@ class Num:
 var insertBeforeIndex *int
 var insertBeforeCmd = &cobra.Command{
 	Use:     "insertBefore <strFileName> <strNewContent>",
-	Short:   "Insert a new content at a file name before a particular index",
+	Short:   "Insert a new content into a file before a particular index",
 	Long:    insertBeforeLong,
 	Example: insertBeforeExample,
 	Run: func(cmd *cobra.Command, args []string) {

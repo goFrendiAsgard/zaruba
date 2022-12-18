@@ -9,9 +9,15 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
+var appendExample = `
+> zaruba list append '[]' strawberry orange apple
+["strawberry", "orange", "apple"]
+`
+
 var appendCmd = &cobra.Command{
-	Use:   "append <jsonStrList> <strNewValues...>",
-	Short: "Append new values to jsonList",
+	Use:     "append <jsonStrList> <strNewValues...>",
+	Short:   "Append new values to jsonList",
+	Example: appendExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)

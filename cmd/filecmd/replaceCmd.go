@@ -8,7 +8,7 @@ import (
 )
 
 var replaceLong = `
-Replace a new content at a file name at a particular index.
+Replace a file at a particular index with a new content.
 Index is started from 0. You can use negative index to count from the end of the file.
 If not specified, default index is 0.
 
@@ -50,7 +50,7 @@ class Num:
 var replaceIndex *int
 var replaceCmd = &cobra.Command{
 	Use:     "replace <strFileName> <strNewContent>",
-	Short:   "Replace a new content at a file name at a particular index",
+	Short:   "Replace a file at a particular index with a new content",
 	Long:    replaceLong,
 	Example: replaceExample,
 	Run: func(cmd *cobra.Command, args []string) {

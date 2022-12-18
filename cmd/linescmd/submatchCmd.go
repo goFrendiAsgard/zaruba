@@ -10,8 +10,8 @@ import (
 )
 
 var submatchLong = `
-Getting line index of a a line that match the last element of the pattern.
-Index is started from 0. You can use negative index to count from the end of line
+Return submatch matching the pattern at a desired pattern index.
+Index is started from 0. You can use negative index to count from the end of line.
 
 Line                          | Index
 -------------------------------------------
@@ -57,7 +57,7 @@ class Num:
 var submatchDesiredPatternIndex *int
 var submatchCmd = &cobra.Command{
 	Use:     "submatch <jsonStrList> <jsonStrListPatterns>",
-	Short:   "Return submatch matching the pattern at desired pattern index",
+	Short:   "Return submatch matching the pattern at a desired pattern index",
 	Long:    submatchLong,
 	Example: submatchExample,
 	Run: func(cmd *cobra.Command, args []string) {

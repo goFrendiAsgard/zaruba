@@ -10,9 +10,15 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
+var setExample = `
+> zaruba list set '["strawberry", "orange", "apple"]' 1 lemon
+["strawberry", "lemon", "apple"]
+`
+
 var setCmd = &cobra.Command{
-	Use:   "set <jsonList> <index> <value>",
-	Short: "Set list[index] to value and return new JSON list",
+	Use:     "set <jsonList> <index> <value>",
+	Short:   "Set jsonList at index into a value",
+	Example: setExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)

@@ -9,9 +9,15 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
+var joinExample = `
+> zaruba list contain '["strawberry", "orange", "apple"]' ", "
+strawberry, orange, apple
+`
+
 var joinCmd = &cobra.Command{
-	Use:   "join <jsonList> [separator]",
-	Short: "Transform JSON list into single string",
+	Use:     "join <jsonList> [separator]",
+	Short:   "Transform a jsonList into single string",
+	Example: joinExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)

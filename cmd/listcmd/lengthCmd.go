@@ -9,9 +9,15 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
+var lengthExample = `
+> zaruba list length '["strawberry", "orange", "apple"]'
+3
+`
+
 var lengthCmd = &cobra.Command{
-	Use:   "length <jsonList>",
-	Short: "Get list's length",
+	Use:     "length <jsonList>",
+	Short:   "Get list's length",
+	Example: lengthExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)

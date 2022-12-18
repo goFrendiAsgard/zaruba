@@ -9,10 +9,56 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
+var insertBeforeLong = `
+Insert a new content to a jsonStringList before a particular index.
+Index is started from 0. You can use negative index to count from the end of the file.
+If not specified, default index is 0.
+
+Line                          | Index
+-------------------------------------------
+class Num:                    | 0/-5
+    def __init__(self, num):  | 1/-4
+        self.num = num        | 2/-3
+    def add(self, addition):  | 3/-2
+        self.num += addition  | 4/-1
+`
+
+var insertBeforeExample = `
+> CONTENT='[
+"class Num:",
+"    def __init__(self, num):",
+"        self.num = num",
+"    def add(self, addition):",
+"        self.num += addition"
+]'
+
+> zaruba file insertBefore $CONTENT '# The beginning"
+[
+"# The beginning",
+"class Num:",
+"    def __init__(self, num):",
+"        self.num = num",
+"    def add(self, addition):",
+"        self.num += addition"
+]
+
+> zaruba file insertBefore $CONTENT "    '''A numeric class'''" --index=1
+[
+"class Num:",
+"    '''A numeric class'''",
+"    def __init__(self, num):",
+"        self.num = num",
+"    def add(self, addition):",
+"        self.num += addition"
+]
+`
+
 var insertBeforeIndex *int
 var insertBeforeCmd = &cobra.Command{
-	Use:   "insertBefore <jsonStrList> <jsonStrListNewLines>",
-	Short: "Insert newLine before lines[index]",
+	Use:     "insertBefore <jsonStrList> <jsonStrListNewLines>",
+	Short:   "Insert a new content to a jsonStringList before a particular index",
+	Long:    insertBeforeLong,
+	Example: insertBeforeExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
