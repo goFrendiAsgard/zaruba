@@ -10,7 +10,7 @@ import (
 )
 
 var validateExample = `
-> zaruba list validate '["strawberry", "orange", "apple"]'
+> zaruba list validate '["🍊", "🍓", "🍇"]'
 1
 
 > zaruba list validate 'not a list'

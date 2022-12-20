@@ -13,9 +13,15 @@ var transformKeyPrefix string
 var transformKeySuffix string
 var transformKeyTransformation []string
 
+var transformKeyExample = `
+> zaruba map transformKey '{"server": "localhost", "port": 3306}' -p=DB_ -s=_DEV -t=upperSnake
+{"DB_PORT_DEV":3306,"DB_SERVER_DEV":"localhost"}
+`
+
 var transformKeyCmd = &cobra.Command{
-	Use:   "transformKey <jsonMap>",
-	Short: "Transform map keys",
+	Use:     "transformKey <jsonMap>",
+	Short:   "Transform map keys",
+	Example: transformKeyExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
@@ -49,12 +55,4 @@ var transformKeyCmd = &cobra.Command{
 		}
 		fmt.Println(newJsonMap)
 	},
-}
-
-func init() {
-	dsl.SetDefaultEnv()
-	transformKeyCmd.Flags().StringVarP(&transformKeyPrefix, "prefix", "p", "", "key prefix")
-	transformKeyCmd.Flags().StringVarP(&transformKeySuffix, "suffix", "s", "", "key suffix")
-	transformKeyCmd.Flags().StringArrayVarP(&transformKeyTransformation, "transformation", "t", []string{}, "transformation (e.g., '-t upper', '-t lower', '-t upperSnake', -t 'camel', '-t kebab', '-t pascal', '-t snake')")
-
 }

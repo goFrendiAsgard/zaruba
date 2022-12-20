@@ -10,8 +10,8 @@ import (
 )
 
 var mergeExample = `
-> zaruba list contain '["strawberry", "orange", "apple"]' '["grape", "melon"]'
-["strawberry", "orange", "apple", "grape", "melon"]
+> zaruba list merge '["🍊","🍓","🍇"]' '["🍎","🍏"]' '["🍕"]'
+'["🍊","🍓","🍇","🍎","🍏","🍕"]'
 `
 
 var mergeCmd = &cobra.Command{

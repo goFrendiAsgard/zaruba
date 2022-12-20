@@ -10,9 +10,31 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
+var submatchLong = `
+Return submatch of a string matching the pattern.
+
+Example:
+
+String   : 'abcddefghi'
+Pattern  : 'abc(d+)(.*)'
+
+Submatch : [
+"abcdefghi",   # match the whole pattern
+"dd",          # match 'd+'
+"efghi"        # match '.*'
+]
+`
+
+var submatchExample = `
+> zaruba str submatch 'abcdefghi' 'abc(d+)(.*)'
+["abcdefghi","dd","efghi"]
+`
+
 var submatchCmd = &cobra.Command{
-	Use:   "submatch <string> <pattern>",
-	Short: "Return submatch of string based on pattern",
+	Use:     "submatch <string> <pattern>",
+	Short:   "Return submatch matching the pattern",
+	Long:    submatchLong,
+	Example: submatchExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)

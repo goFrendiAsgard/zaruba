@@ -15,10 +15,16 @@ zaruba list set --help
 <summary>Output</summary>
  
 ```````
-Set list[index] to value and return new JSON list
+Replace jsonList element at a particular index with a value
 
 Usage:
   zaruba list set <jsonList> <index> <value> [flags]
+
+Examples:
+
+> zaruba list set '["🍊", "🍓", "🍇"]' 1 🍕
+["🍊","🍕","🍇"]
+
 
 Flags:
   -h, --help   help for set

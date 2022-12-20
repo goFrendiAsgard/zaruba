@@ -8,50 +8,66 @@ import (
 )
 
 var insertAfterLong = `
-Insert a new content into a file after a particular index.
-Index is started from 0. You can use negative index to count from the end of the file.
-If not specified, default index is -1.
+Insert a new content into a text file after a particular index.
+The index is started from 0. You can use a negative index to count from the end of the file.
+If not specified, the default index will be -1.
 
-Line                          | Index
--------------------------------------------
-class Num:                    | 0/-5
-    def __init__(self, num):  | 1/-4
-        self.num = num        | 2/-3
-    def add(self, addition):  | 3/-2
-        self.num += addition  | 4/-1
+For example, you have a file named "fruits.txt" containing the following text:
+🍊
+🍓
+🍇
+, and you want to insert a 🍕 after 🍓.
+
+------------------------------------------------
+Elements | Index  | Note
+------------------------------------------------
+🍊       | 0/-3   |
+🍓       | 1/-2   | <-- insert a 🍕 after this
+🍇       | 2/-1   |
+
+Then, you need to invoke the following command:
+> zaruba file insertAfter \
+  fruits.txt \
+  🍕 \
+  --index=1
+
+The content of "fruits.txt" will be updated into:
+🍊
+🍓
+🍕
+🍇
 `
 
 var insertAfterExample = `
-> cat num.py
-class Num:
-    def __init__(self, num):
-        self.num = num
-    def add(self, addition):
-        self.num += addition
+> cat fruits.txt
+🍊
+🍓
+🍇
 
-> zaruba file insertAfter num.py '# EOF"
-> cat num.py
-class Num:
-    def __init__(self, num):
-        self.num = num
-    def add(self, addition):
-        self.num += addition
-# EOF
+> zaruba file insertAfter \
+  fruits.txt \
+  '🍕'
+> cat fruits.txt
+🍊
+🍓
+🍇
+🍕
 
-> zaruba file insertAfter num.py "    '''A numeric class'''" --index=0
-> cat num.py
-class Num:
-	'''A numeric class'''
-    def __init__(self, num):
-        self.num = num
-    def add(self, addition):
-        self.num += addition
+> zaruba file insertAfter \
+  fruits.txt \
+  '🍕' \
+  --index=1
+> cat fruits.txt
+🍊
+🍓
+🍕
+🍇
 `
 
 var insertAfterIndex *int
 var insertAfterCmd = &cobra.Command{
 	Use:     "insertAfter <strFileName> <strNewContent>",
-	Short:   "Insert a new content into a file after a particular index",
+	Short:   "Insert a new content into a text file after a particular index",
 	Long:    insertAfterLong,
 	Example: insertAfterExample,
 	Run: func(cmd *cobra.Command, args []string) {

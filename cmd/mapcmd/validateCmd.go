@@ -9,9 +9,17 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
+var validateExample = `
+> zaruba map validate '{"server": "localhost", "port": 3306}'
+1
+
+> zaruba map validate 'not a map'
+0
+`
 var validateCmd = &cobra.Command{
-	Use:   "validate <jsonMap>",
-	Short: "Check whether jsonMap is valid JSON map or not",
+	Use:     "validate <jsonMap>",
+	Short:   "Check whether jsonMap is valid JSON map or not",
+	Example: validateExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)

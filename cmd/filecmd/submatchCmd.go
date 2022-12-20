@@ -1,4 +1,4 @@
-package linescmd
+package filecmd
 
 import (
 	"fmt"
@@ -48,14 +48,9 @@ var submatchExample = `
   '["🍊", "🍊", "(.*)🍓(.*)", "🍇"]' \
   --index=2
 ["🥑🍓🍎🍏","🥑","🍎🍏"]
-
-> zaruba lines submatch \
-  '["🍊", "🍌🍓🍈", "🍇","🍊", "🥑🍓🍎🍏","🍇"]' \
-  "(.*)🍓(.*)"
-["🍌🍓🍈","🍌","🍈"]
 `
 
-var submatchDesiredPatternIndex *int
+var submatchPatternIndex *int
 var submatchCmd = &cobra.Command{
 	Use:     "submatch <jsonStrList> <jsonStrListPatterns>",
 	Short:   "Return submatch matching the pattern at a desired pattern index",
@@ -67,7 +62,7 @@ var submatchCmd = &cobra.Command{
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 2)
 		util := dsl.NewDSLUtil()
 		jsonStrList, jsonStrListPatterns := args[0], args[1]
-		matchIndex, jsonSubmatch, err := util.Json.List.GetLinesSubmatch(jsonStrList, jsonStrListPatterns, *submatchDesiredPatternIndex)
+		matchIndex, jsonSubmatch, err := util.File.GetLinesSubmatch(jsonStrList, jsonStrListPatterns, *submatchPatternIndex)
 		if err != nil {
 			cmdHelper.Exit(cmd, args, logger, decoration, err)
 		}

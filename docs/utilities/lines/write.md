@@ -14,13 +14,27 @@ zaruba lines write --help
 <summary>Output</summary>
  
 ```````
-Print lines as multiline string
+Print jsontStrList as a multiline string
 
 Usage:
   zaruba lines print <jsonStrList> [strFileName] [flags]
 
 Aliases:
   print, write, join
+
+Examples:
+
+> zaruba lines print '["🍊", "🍓", "🍇"]'
+🍊
+🍓
+🍇
+
+> zaruba lines print '["🍊", "🍓", "🍇"]' fruits.txt
+> cat fruits.txt
+🍊
+🍓
+🍇
+
 
 Flags:
   -h, --help   help for print

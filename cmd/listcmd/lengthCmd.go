@@ -10,13 +10,13 @@ import (
 )
 
 var lengthExample = `
-> zaruba list length '["strawberry", "orange", "apple"]'
+> zaruba list length '["🍊","🍓","🍇"]'
 3
 `
 
 var lengthCmd = &cobra.Command{
 	Use:     "length <jsonList>",
-	Short:   "Get list's length",
+	Short:   "Get length of a jsonList",
 	Example: lengthExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()

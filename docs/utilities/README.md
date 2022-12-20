@@ -23,7 +23,7 @@ M'   AMV                                 MM             ;MM:
 AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
 --.. .- .-. ..- -... .-    .--. .-.. . .- ... .    ... - .- .-. - 
                                       Task runner and CLI utility
-v0.9.0-alpha-2-aec3ea203e401789ff8f060599daf3f98047b763
+v0.9.0-alpha-2-5b337180bbee6e8be18b932d28e8d0f85c5d3297
 
 Usage:
   zaruba [command]
@@ -167,6 +167,7 @@ To see how `lines` utitilites works, please visit [lines utilities documentation
   * [List](file/list.md)
   * [Read](file/read.md)
   * [Replace](file/replace.md)
+  * [Submatch](file/submatch.md)
   * [Walk](file/walk.md)
 * [🚈 Lines](lines/README.md)
   * [GetIndex](lines/getindex.md)

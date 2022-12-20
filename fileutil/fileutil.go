@@ -249,6 +249,27 @@ func (fileUtil *FileUtil) Generate(sourceTemplatePath, destinationPath string, j
 	)
 }
 
+func (fileUtil *FileUtil) GetLinesSubmatch(filePath, jsonStrListPattern string, desiredPatternIndex int) (matchIndex int, jsonSubmatch string, err error) {
+	absDestinationPath, err := filepath.Abs(filePath)
+	if err != nil {
+		return -1, "[]", err
+	}
+	stringList, err := fileUtil.ReadStringList(absDestinationPath)
+	if err != nil {
+		return -1, "[]", err
+	}
+	patterns, patternErr := jsonHelper.ToStringList(jsonStrListPattern)
+	if patternErr != nil {
+		patterns = []string{jsonStrListPattern}
+	}
+	matchIndex, submatch, err := strutil.StrGetLineSubmatch(stringList, patterns, desiredPatternIndex)
+	if err != nil {
+		return -1, "[]", err
+	}
+	jsonSubmatch, err = jsonHelper.FromStringList(submatch)
+	return matchIndex, jsonSubmatch, err
+}
+
 func (fileUtil *FileUtil) preparePathAndReplacementMap(sourceTemplatePath, destinationPath string, replacementMapString string) (replacementMap jsonHelper.StringDict, absSourceTemplatePath, absDestinationPath string, err error) {
 	replacementMap, err = fileUtil.json.ToStringDict(replacementMapString)
 	if err != nil {

@@ -10,51 +10,54 @@ import (
 )
 
 var replaceLong = `
-Replace a jsonStringList at a particular index with a new content.
-Index is started from 0. You can use negative index to count from the end of the file.
-If not specified, default index is 0.
+Replace a jsonStringList at a particular index with a new lines.
+The Index is started from 0. You can use a negative index to count from the end of the jsonStringList.
+If not specified, the default index will be 0.
 
-Line                          | Index
--------------------------------------------
-class Num:                    | 0/-5
-    def __init__(self, num):  | 1/-4
-        self.num = num        | 2/-3
-    def add(self, addition):  | 3/-2
-        self.num += addition  | 4/-1
+For example, you have a jsonStringList ["🍊", "🍓", "🍇"]
+, and you want to replace 🍓 with two 🍕.
+
+-------------------------------------------------
+Elements | Index  | Note
+-------------------------------------------------
+🍊       | 0/-3   |
+🍓       | 1/-2   | <-- replace this with two🍕
+🍇       | 2/-1   |
+
+Then, you need to invoke the following command:
+> zaruba lines replace \
+  '["🍊", "🍓", "🍇"]' \
+  '["🍕", "🍕"]' \
+  --index=1
+
+The result will be:
+["🍊","🍕","🍕","🍇"]
 `
 
 var replaceExample = `
-> CONTENT='[
-"class Num:",
-"    def __init__(self, num):",
-"        self.num = num",
-"    def add(self, addition):",
-"        self.num += addition"
-]'
+> zaruba lines replace \
+  '["🍊", "🍓", "🍇"]' \
+  '🍕'
+["🍕","🍓","🍇"]
 
-> zaruba file replace $CONTENT 'class Number:"
-[
-"class Number:",
-"    def __init__(self, num):",
-"        self.num = num",
-"    def add(self, addition):",
-"        self.num += addition"
-]
+> zaruba lines replace \
+  '["🍊", "🍓", "🍇"]' \
+  '["🍕", "🍕"]' \
+  --index=1
+["🍊","🍕","🍕","🍇"]
 
-> CONTENT="$(zaruba file replace $CONTENT "    def __init__(self, num: int):" --index=1)"
-> zaruba file replace $CONTENT "    def add(self, addition: int):" --index=3
-"class Num:",
-"    def __init__(self, num: int):",
-"        self.num = num",
-"    def add(self, addition: int):",
-"        self.num += addition"
-]'
+> zaruba lines replace \
+  '["🍊", "🍓", "🍇"]' \
+  '["🍕"]' \
+  --index=-1
+["🍊","🍓","🍕"]
+
 `
 
 var replaceIndex *int
 var replaceCmd = &cobra.Command{
-	Use:     "replace <jsonStrList> <jsonStrListNewContent>",
-	Short:   "Replace a jsonStringList at a particular index with a new content",
+	Use:     "replace <jsonStrList> <jsonStrListNewLines | strNewLine>",
+	Short:   "Replace a jsonStringList at a particular index with new lines",
 	Long:    replaceLong,
 	Example: replaceExample,
 	Run: func(cmd *cobra.Command, args []string) {

@@ -15,52 +15,53 @@ zaruba lines getIndex --help
 <summary>Output</summary>
  
 ```````
-Getting line index of a a line that match the last element of the pattern.
-Index is started from 0. You can use negative index to count from the end of the file.
+Return the index of a line matching a particular index at a specified patterns.
+Index is started from 0. You can use a negative index to count from the end of the jsonStringList.
+If not specified, the default index will be -1.
 
-Line                          | Index
--------------------------------------------
-class Num:                    | 0/-5
-    def __init__(self, num):  | 1/-4
-        self.num = num        | 2/-3
-    def add(self, addition):  | 3/-2
-        self.num += addition  | 4/-1
+For example, you have a jsonStringList ["🍊", "🍓", "🍇","🍊", "🍓","🍇"].
+You want to get the index of an 🍓 that is located after two 🍊 and before a 🍇.
+
+---------------------------------------------------------------------------------
+Elements | Element index  | Patterns | Pattern Index | Note
+---------------------------------------------------------------------------------
+🍊       | 0              | 🍊       | 0/-4          |
+🍓       | 1              |          |               |
+🍇       | 2              |          |               |
+🍊       | 3              | 🍊       | 1/-3          |
+🍓       | 4              | 🍓       | 2/-2          | <-- We want this 🍓
+🍇       | 5              | 🍇       | 3/-1          |
+
+
+Then, you need to invoke the following command:
+> zaruba lines getIndex \
+  '["🍊", "🍓", "🍇","🍊", "🍓","🍇"]' \
+  '["🍊", "🍊", "🍓","🍇"]' \
+  --index=2
+
+The result will be: 4
 
 Usage:
   zaruba lines getIndex <jsonStrList> <jsonStrListPatterns> [flags]
 
 Examples:
 
-> CONTENT='[
-"class Num:",
-"    def __init__(self, num):",
-"        self.num = num",
-"    def add(self, addition):",
-"        self.num += addition"
-]'
+> zaruba lines getIndex \
+  '["🍊", "🍓", "🍇","🍊", "🍓","🍇"]' \
+  '🍓'
+1
 
-
-> PATTERN='[
-"class Num:",
-"    def add(self, addition):",
-"        self.num += addition"
-]'
-
-> zaruba lines getIndex $CONTENT $PATTERN
-4
-
-> zaruba lines getIndex $CONTENT $PATTERN --index=-1
-4
-
-> zaruba list get $PATTERN 0
-class Num:
-> zaruba lines getIndex $CONTENT $PATTERN --index=0
-0
-
-> zaruba list get $PATTERN 1
-    def add(self, addition):
-> zaruba lines getIndex $CONTENT $PATTERN --index=1
+> zaruba lines getIndex \
+  '["🍊", "🍓", "🍇","🍊", "🍓","🍇"]' \
+  '["🍊", "🍊", "🍓","🍇"]' \
+  --index=1
 3
+
+> zaruba lines getIndex \
+  '["🍊", "🍓", "🍇","🍊", "🍓","🍇"]' \
+  '["🍊", "🍊", "🍓","🍇"]' \
+  --index=-1
+5
 
 
 Flags:

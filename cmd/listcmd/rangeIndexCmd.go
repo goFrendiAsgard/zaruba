@@ -10,26 +10,26 @@ import (
 )
 
 var rangeIndexExample = `
-> zaruba list rangeIndex '["strawberry", "orange", "apple"]'
+> zaruba list rangeIndex '["🍊","🍓","🍇"]'
 0
 1
 2
 
-> LIST=["strawberry", "orange", "apple"]
+> LIST='["🍊","🍓","🍇"]'
 > for INDEX in $(zaruba list rangeIndex "$LIST")
   do
 	VALUE=$(zaruba list get "$LIST" $INDEX)
 	echo "$INDEX $VALUE"
   done
 
-0 strawberry
-1 orange
-2 apple
+0 🍊
+1 🍓
+2 🍇
 `
 
 var rangeIndexCmd = &cobra.Command{
 	Use:     "rangeIndex <jsonList>",
-	Short:   "Print list indexes",
+	Short:   "Print jsonList indexes",
 	Example: rangeIndexExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()

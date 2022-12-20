@@ -10,53 +10,53 @@ import (
 )
 
 var insertBeforeLong = `
-Insert a new content to a jsonStringList before a particular index.
-Index is started from 0. You can use negative index to count from the end of the file.
-If not specified, default index is 0.
+Insert new lines into a jsonStringList before a particular index.
+The Index is started from 0. You can use a negative index to count from the end of the jsonStringList.
+If not specified, the default index will be 0.
 
-Line                          | Index
--------------------------------------------
-class Num:                    | 0/-5
-    def __init__(self, num):  | 1/-4
-        self.num = num        | 2/-3
-    def add(self, addition):  | 3/-2
-        self.num += addition  | 4/-1
+For example, you have a jsonStringList ["🍊", "🍓", "🍇"]
+, and you want to insert two 🍕 before 🍓.
+
+--------------------------------------------------
+Elements | Index  | Note
+--------------------------------------------------
+🍊       | 0/-3   |
+🍓       | 1/-2   | <-- insert two🍕 before this
+🍇       | 2/-1   |
+
+Then, you need to invoke the following command:
+> zaruba lines insertBefore \
+  '["🍊", "🍓", "🍇"]' \
+  '["🍕", "🍕"]' \
+  --index=1
+
+The result will be:
+["🍊","🍕","🍕","🍓","🍇"]
 `
 
 var insertBeforeExample = `
-> CONTENT='[
-"class Num:",
-"    def __init__(self, num):",
-"        self.num = num",
-"    def add(self, addition):",
-"        self.num += addition"
-]'
+> zaruba lines insertBefore \
+  '["🍊", "🍓", "🍇"]' \
+  '🍕'
+["🍕","🍊","🍓","🍇"]
 
-> zaruba file insertBefore $CONTENT '# The beginning"
-[
-"# The beginning",
-"class Num:",
-"    def __init__(self, num):",
-"        self.num = num",
-"    def add(self, addition):",
-"        self.num += addition"
-]
+> zaruba lines insertBefore \
+  '["🍊", "🍓", "🍇"]' \
+  '["🍕", "🍕"]' \
+  --index=1
+["🍊","🍕","🍕","🍓","🍇"]
 
-> zaruba file insertBefore $CONTENT "    '''A numeric class'''" --index=1
-[
-"class Num:",
-"    '''A numeric class'''",
-"    def __init__(self, num):",
-"        self.num = num",
-"    def add(self, addition):",
-"        self.num += addition"
-]
+> zaruba lines insertBefore \
+  '["🍊", "🍓", "🍇"]' \
+  '["🍕"]' \
+  --index=-1
+["🍊","🍓","🍕","🍇"]
 `
 
 var insertBeforeIndex *int
 var insertBeforeCmd = &cobra.Command{
-	Use:     "insertBefore <jsonStrList> <jsonStrListNewLines>",
-	Short:   "Insert a new content to a jsonStringList before a particular index",
+	Use:     "insertBefore <jsonStrList> <jsonStrListNewLines | strNewLine>",
+	Short:   "Insert new lines into a jsonStringList before a particular index",
 	Long:    insertBeforeLong,
 	Example: insertBeforeExample,
 	Run: func(cmd *cobra.Command, args []string) {

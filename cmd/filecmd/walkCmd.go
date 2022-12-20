@@ -25,8 +25,9 @@ d.txt   e.txt
 `
 
 var walkCmd = &cobra.Command{
-	Use:   "walk <strDirPath>",
-	Short: "List files/folder in a path, recursively",
+	Use:     "walk <strDirPath>",
+	Short:   "List files/folder in a path, recursively",
+	Example: walkExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)

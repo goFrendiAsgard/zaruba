@@ -10,53 +10,69 @@ import (
 )
 
 var getLineIndexLong = `
-Getting line index of a a line that match the last element of the pattern.
-Index is started from 0. You can use negative index to count from the end of the file.
+Return the index of a line matching a particular index at a specified patterns.
+Index is started from 0. You can use a negative index to count from the end of the file.
+If not specified, the default index will be -1.
 
-Line                          | Index
--------------------------------------------
-class Num:                    | 0/-5
-    def __init__(self, num):  | 1/-4
-        self.num = num        | 2/-3
-    def add(self, addition):  | 3/-2
-        self.num += addition  | 4/-1
+For example, you have a file named "fruits.txt" containing the following text:
+🍊
+🍓
+🍇
+🍊
+🍓
+🍇
+You want to get the index of an 🍓 that is located after two 🍊 and before a 🍇.
+
+---------------------------------------------------------------------------------
+Elements | Element index  | Patterns | Pattern Index | Note
+---------------------------------------------------------------------------------
+🍊       | 0              | 🍊       | 0/-4          |
+🍓       | 1              |          |               |
+🍇       | 2              |          |               |
+🍊       | 3              | 🍊       | 1/-3          |
+🍓       | 4              | 🍓       | 2/-2          | <-- We want this 🍓
+🍇       | 5              | 🍇       | 3/-1          |
+
+
+Then, you need to invoke the following command:
+> zaruba file getLineIndex \
+  fruits.txt \
+  '["🍊", "🍊", "🍓","🍇"]' \
+  --index=2
+
+The result will be: 4
 `
 
 var getLineIndexExample = `
-> cat num.py
-class Num:
-    def __init__(self, num):
-        self.num = num
-    def add(self, addition):
-        self.num += addition
+> cat fruits.txt
+🍊
+🍓
+🍇
+🍊
+🍓
+🍇
 
+> zaruba file getLineIndex \
+  fruits.txt \
+  '🍓'
+1
 
-> PATTERN='[
-"class Num:",
-"    def add(self, addition):",
-"        self.num += addition"
-]'
-
-> zaruba file getLineIndex num.py $PATTERN
-4
-
-> zaruba lines getIndex $CONTENT $PATTERN --index=-1
-4
-
-> zaruba list get $PATTERN 0
-class Num:
-> zaruba file getLineIndex $CONTENT $PATTERN --index=0
-0
-
-> zaruba list get $PATTERN 1
-    def add(self, addition):
-> zaruba file getLineIndex $CONTENT $PATTERN --index=1
+> zaruba file getLineIndex \
+  fruits.txt \
+  '["🍊", "🍊", "🍓","🍇"]' \
+  --index=1
 3
+
+> zaruba file getLineIndex \
+  fruits.txt \
+  '["🍊", "🍊", "🍓","🍇"]' \
+  --index=-1
+5
 `
 var getLineIndexDesiredPatternIndex *int
 var getLineIndexCmd = &cobra.Command{
 	Use:     "getLineIndex <strFileName> <jsonStrListPatterns>",
-	Short:   "Get line index from a file content matching the pattern",
+	Short:   "Return the index of a line matching a particular index at a specified patterns",
 	Long:    getLineIndexLong,
 	Example: getLineIndexExample,
 	Run: func(cmd *cobra.Command, args []string) {

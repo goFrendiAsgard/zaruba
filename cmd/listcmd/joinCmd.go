@@ -10,8 +10,8 @@ import (
 )
 
 var joinExample = `
-> zaruba list contain '["strawberry", "orange", "apple"]' ", "
-strawberry, orange, apple
+> zaruba list join '["🍊","🍓","🍇"]' ";"
+🍊;🍓;🍇
 `
 
 var joinCmd = &cobra.Command{

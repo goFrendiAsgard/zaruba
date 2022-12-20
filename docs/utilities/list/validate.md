@@ -15,10 +15,19 @@ zaruba list validate --help
 <summary>Output</summary>
  
 ```````
-Check whether jsonList is valid JSON list or not
+Check whether a jsonList is valid or not
 
 Usage:
   zaruba list validate <jsonList> [flags]
+
+Examples:
+
+> zaruba list validate '["🍊", "🍓", "🍇"]'
+1
+
+> zaruba list validate 'not a list'
+0
+
 
 Flags:
   -h, --help   help for validate

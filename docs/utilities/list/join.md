@@ -14,10 +14,16 @@ zaruba list join --help
 <summary>Output</summary>
  
 ```````
-Transform JSON list into single string
+Transform a jsonList into single string
 
 Usage:
   zaruba list join <jsonList> [separator] [flags]
+
+Examples:
+
+> zaruba list join '["🍊","🍓","🍇"]' ";"
+🍊;🍓;🍇
+
 
 Flags:
   -h, --help   help for join

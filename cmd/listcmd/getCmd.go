@@ -11,11 +11,11 @@ import (
 )
 
 var getExample = `
-> zaruba list get '["strawberry", "orange", "apple"]' 0
-strawberry
+> zaruba list get '["🍊","🍓","🍇"]' 0
+🍓
 
-> zaruba list contain '["strawberry", "orange", "apple"]' 2
-apple
+> zaruba list contain '["🍊","🍓","🍇"]' 2
+🍇
 `
 
 var getCmd = &cobra.Command{

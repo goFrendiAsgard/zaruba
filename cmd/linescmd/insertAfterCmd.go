@@ -10,53 +10,53 @@ import (
 )
 
 var insertAfterLong = `
-Insert a new content to jsonStringList after a particular index.
-Index is started from 0. You can use negative index to count from the end of the list.
-If not specified, default index is -1.
+Insert new lines into a jsonStringList after a particular index.
+The index is started from 0. You can use a negative index to count from the end of the jsonStringList.
+If not specified, the default index will be -1.
 
-Line                          | Index
--------------------------------------------
-class Num:                    | 0/-5
-    def __init__(self, num):  | 1/-4
-        self.num = num        | 2/-3
-    def add(self, addition):  | 3/-2
-        self.num += addition  | 4/-1
+For example, you have a jsonStringList ["🍊", "🍓", "🍇"]
+, and you want to insert two 🍕 after 🍓.
+
+------------------------------------------------
+Elements | Index  | Note
+------------------------------------------------
+🍊       | 0/-3   |
+🍓       | 1/-2   | <-- insert two🍕 after this
+🍇       | 2/-1   |
+
+Then, you need to invoke the following command:
+> zaruba lines insertAfter \
+  '["🍊", "🍓", "🍇"]' \
+  '["🍕", "🍕"]' \
+  --index=1
+
+The result will be:
+["🍊","🍓","🍕","🍕","🍇"]
 `
 
 var insertAfterExample = `
-> CONTENT='[
-"class Num:",
-"    def __init__(self, num):",
-"        self.num = num",
-"    def add(self, addition):",
-"        self.num += addition"
-]'
+> zaruba lines insertAfter \
+  '["🍊", "🍓", "🍇"]' \
+  '🍕'
+["🍊","🍓","🍇", "🍕"]
 
-> zaruba file insertAfter $CONTENT '# EOF"
-[
-"class Num:",
-"    def __init__(self, num):",
-"        self.num = num",
-"    def add(self, addition):",
-"        self.num += addition",
-"# EOF"
-]
+> zaruba lines insertAfter \
+  '["🍊", "🍓", "🍇"]' \
+  '["🍕", "🍕"]' \
+  --index=1
+["🍊","🍓","🍕","🍕","🍇"]
 
-> zaruba file insertAfter $CONTENT "    '''A numeric class'''" --index=0
-[
-"class Num:",
-"    '''A numeric class'''
-"    def __init__(self, num):",
-"        self.num = num",
-"    def add(self, addition):",
-"        self.num += addition"
-]
+> zaruba lines insertAfter \
+  '["🍊", "🍓", "🍇"]' \
+  '["🍕"]' \
+  --index=-1
+["🍊","🍓","🍇","🍕"]
 `
 
 var insertAfterIndex *int
 var insertAfterCmd = &cobra.Command{
-	Use:     "insertAfter <jsonStrList> <jsonStrListNewLines>",
-	Short:   "Insert a new content to jsonStringList after a particular index",
+	Use:     "insertAfter <jsonStrList> <jsonStrListNewLines | strNewLine>",
+	Short:   "Insert a new lines into jsonStringList after a particular index",
 	Long:    insertAfterLong,
 	Example: insertAfterExample,
 	Run: func(cmd *cobra.Command, args []string) {

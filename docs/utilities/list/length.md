@@ -15,10 +15,16 @@ zaruba list length --help
 <summary>Output</summary>
  
 ```````
-Get list's length
+Get length of a jsonList
 
 Usage:
   zaruba list length <jsonList> [flags]
+
+Examples:
+
+> zaruba list length '["🍊","🍓","🍇"]'
+3
+
 
 Flags:
   -h, --help   help for length

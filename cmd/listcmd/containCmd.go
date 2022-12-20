@@ -10,16 +10,16 @@ import (
 )
 
 var containExample = `
-> zaruba list contain '["strawberry", "orange", "apple"]' strawberry
+> zaruba list contain '["🍊","🍓","🍇"]' 🍓
 1
 
-> zaruba list contain '["strawberry", "orange", "apple"]' grape
+> zaruba list contain '["🍊","🍓","🍇"]' 🍕
 0
 `
 
 var containCmd = &cobra.Command{
 	Use:     "contain <jsonList> <strElement>",
-	Short:   "Find out whether jsonList contains an element or not",
+	Short:   "Find out whether a jsonList contains an element or not",
 	Example: containExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()

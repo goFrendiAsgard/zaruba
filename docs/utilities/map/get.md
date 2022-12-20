@@ -15,10 +15,16 @@ zaruba map get --help
 <summary>Output</summary>
  
 ```````
-Get value from JSON map
+Get value from jsonMap at a particular key
 
 Usage:
   zaruba map get <jsonMap> <strKey> [flags]
+
+Examples:
+
+> zaruba map get '{"server": "localhost", "port": 3306}' server
+localhost
+
 
 Flags:
   -h, --help   help for get

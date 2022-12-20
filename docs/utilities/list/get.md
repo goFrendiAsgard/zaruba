@@ -14,10 +14,19 @@ zaruba list get --help
 <summary>Output</summary>
  
 ```````
-Get jsonList[index]
+Get jsonList element at an index
 
 Usage:
   zaruba list get <jsonList> <index> [flags]
+
+Examples:
+
+> zaruba list get '["🍊","🍓","🍇"]' 0
+🍓
+
+> zaruba list contain '["🍊","🍓","🍇"]' 2
+🍇
+
 
 Flags:
   -h, --help   help for get

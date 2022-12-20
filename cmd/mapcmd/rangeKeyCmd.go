@@ -9,9 +9,26 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
+var rangeKeyExample = `
+> zaruba map rangeKey '{"server": "localhost", "port": 3306}'
+server
+port
+
+> MAP={"server": "localhost", "port": 3306}
+> for KEY in $(zaruba map rangeKey "$MAP")
+  do
+	VALUE=$(zaruba map get "$MAP" $KEY)
+	echo "$KEY $VALUE"
+  done
+
+server localhost
+port 3306
+`
+
 var rangeKeyCmd = &cobra.Command{
-	Use:   "rangeKey <jsonMap>",
-	Short: "Print map keys",
+	Use:     "rangeKey <jsonMap>",
+	Short:   "Print jsonMap keys",
+	Example: rangeKeyExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)

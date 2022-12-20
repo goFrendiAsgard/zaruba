@@ -34,7 +34,7 @@ Available Commands:
   replace        Replace string by jsonMapReplacement
   singleQuote    Single quote string
   split          Split string into a jsonList
-  submatch       Return submatch of string based on pattern
+  submatch       Return submatch matching the pattern
   toCamel        Turn string into camelCase
   toKebab        Turn string into kebab-case
   toLower        Turn string into lower case

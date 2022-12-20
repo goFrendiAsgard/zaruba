@@ -10,13 +10,13 @@ import (
 )
 
 var appendExample = `
-> zaruba list append '[]' strawberry orange apple
-["strawberry", "orange", "apple"]
+> zaruba list append '[]' 🍊 🍓 🍇
+["🍊","🍓","🍇"] 
 `
 
 var appendCmd = &cobra.Command{
 	Use:     "append <jsonStrList> <strNewValues...>",
-	Short:   "Append new values to jsonList",
+	Short:   "Append new values to a jsonList",
 	Example: appendExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()

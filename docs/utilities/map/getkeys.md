@@ -14,10 +14,16 @@ zaruba map getKeys --help
 <summary>Output</summary>
  
 ```````
-Return JSON string list containing keys of JSON map
+Return a jsonStringList containing all keys in a jsonMap
 
 Usage:
   zaruba map getKeys <jsonMap> [flags]
+
+Examples:
+
+> zaruba map getKeys '{"server": "localhost", "port": 3306}' server
+["server", "port"]
+
 
 Flags:
   -h, --help   help for getKeys

@@ -10,26 +10,17 @@ import (
 )
 
 var readExample = `
-> cat num.py
-class Num:
-    def __init__(self, num):
-        self.num = num
-    def add(self, addition):
-        self.num += addition
-
-> zaruba please read num.py
-[
-"class Num:",
-"    def __init__(self, num):",
-"        self.num = num",
-"    def add(self, addition):",
-"        self.num += addition"
-]
+> cat fruits.txt
+🍊
+🍓
+🍇
+> zaruba lines read fruits.txt
+["🍊","🍓","🍇"] 
 `
 
 var readCmd = &cobra.Command{
 	Use:     "read <strFileName>",
-	Short:   "Read lines from a file, return a jsonStrList",
+	Short:   "Read a text file and return a jsonStrList",
 	Example: readExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()

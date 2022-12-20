@@ -9,9 +9,15 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
+var getExample = `
+> zaruba map get '{"server": "localhost", "port": 3306}' server
+localhost
+`
+
 var getCmd = &cobra.Command{
-	Use:   "get <jsonMap> <strKey>",
-	Short: "Get value from JSON map",
+	Use:     "get <jsonMap> <strKey>",
+	Short:   "Get value from jsonMap at a particular key",
+	Example: getExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)

@@ -14,10 +14,16 @@ zaruba map merge --help
 <summary>Output</summary>
  
 ```````
-Merge JSON maps, in case of duplicate keys, the first ocurrance is going to be used
+Merge multiple jsonMaps
 
 Usage:
   zaruba map merge <jsonMap> <otherJsonMaps...> [flags]
+
+Examples:
+
+> zaruba map merge '{"server": "localhost", "port": 3306}' '{"protocol": "mysql"}'
+{"server": "localhost", "port": 3306, "protocol": "mysql"}
+
 
 Flags:
   -h, --help   help for merge

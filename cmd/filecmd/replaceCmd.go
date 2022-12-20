@@ -9,42 +9,57 @@ import (
 
 var replaceLong = `
 Replace a file at a particular index with a new content.
-Index is started from 0. You can use negative index to count from the end of the file.
-If not specified, default index is 0.
+The index is started from 0. You can use a negative index to count from the end of the file.
+If not specified, the default index will be 0.
 
-Line                          | Index
--------------------------------------------
-class Num:                    | 0/-5
-    def __init__(self, num):  | 1/-4
-        self.num = num        | 2/-3
-    def add(self, addition):  | 3/-2
-        self.num += addition  | 4/-1
+For example, you have a file named "fruits.txt" containing the following text:
+🍊
+🍓
+🍇
+, and you want to replace 🍓 with a 🍕 before .
+
+------------------------------------------------
+Elements | Index  | Note
+------------------------------------------------
+🍊       | 0/-3   |
+🍓       | 1/-2   | <-- replace this with 🍕
+🍇       | 2/-1   |
+
+Then, you need to invoke the following command:
+> zaruba file replace \
+  fruits.txt \
+  🍕 \
+  --index=1
+
+The content of "fruits.txt" will be updated into:
+🍊
+🍕
+🍇
+
 `
 
 var replaceExample = `
-> cat num.py
-class Num:
-    def __init__(self, num):
-        self.num = num
-    def add(self, addition):
-        self.num += addition
+> cat fruits.txt
+🍊
+🍓
+🍇
 
-> zaruba file replace num.py 'class Number:"
-> cat num.py
-class Number:
-    def __init__(self, num):
-        self.num = num
-    def add(self, addition):
-        self.num += addition
+> zaruba file replace \
+  fruits.txt \
+  '🍕'
+> cat fruits.txt
+🍕
+🍓
+🍇
 
-> zaruba file replace num.py "    def __init__(self, num: int):" --index=1
-> zaruba file replace num.py "    def add(self, addition: int):" --index=3
-> cat num.py
-class Num:
-    def __init__(self, num: int):
-        self.num = num
-    def add(self, addition: int):
-        self.num += addition
+> zaruba file replace \
+  fruits.txt \
+  '🍕' \
+  --index=1
+> cat fruits.txt
+🍊
+🍕
+🍇
 `
 
 var replaceIndex *int

@@ -14,10 +14,16 @@ zaruba map toVariedStringMap --help
 <summary>Output</summary>
  
 ```````
-Transform to string map with various combination (original, kebab-case, camelCase, PascalCase, snake_case, lower case, UPPER CASE, UPPER_SNAKE_CASE, "double quoted", 'single quoted')
+Transform a jsonMap into a jsonStringMap, every keys and values are transformed into multiple variations
 
 Usage:
   zaruba map toVariedStringMap <jsonMap> [keys...] [flags]
+
+Examples:
+
+zaruba map toVariedStringMap '{"server": "localhost", "port": 3306}'
+{"\"port\"":"\"3306\"","\"server\"":"\"localhost\"","'port'":"'3306'","'server'":"'localhost'","PORT":"3306","Port":"3306","SERVER":"LOCALHOST","Server":"Localhost","port":"3306","server":"localhost"}
+
 
 Flags:
   -h, --help   help for toVariedStringMap

@@ -11,13 +11,13 @@ import (
 )
 
 var setExample = `
-> zaruba list set '["strawberry", "orange", "apple"]' 1 lemon
-["strawberry", "lemon", "apple"]
+> zaruba list set '["🍊", "🍓", "🍇"]' 1 🍕
+["🍊","🍕","🍇"]
 `
 
 var setCmd = &cobra.Command{
 	Use:     "set <jsonList> <index> <value>",
-	Short:   "Set jsonList at index into a value",
+	Short:   "Replace jsonList element at a particular index with a value",
 	Example: setExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()

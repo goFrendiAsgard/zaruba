@@ -15,51 +15,52 @@ zaruba lines submatch --help
 <summary>Output</summary>
  
 ```````
-Getting line index of a a line that match the last element of the pattern.
-Index is started from 0. You can use negative index to count from the end of line
+Return submatch matching the pattern at a desired pattern index.
+Index is started from 0. You can use negative index to count from the end of line.
 
-Line                          | Index
--------------------------------------------
-class Num:                    | 0/-5
-    def __init__(self, num):  | 1/-4
-        self.num = num        | 2/-3
-    def add(self, addition):  | 3/-2
-        self.num += addition  | 4/-1
+For example, you have a jsonStringList ["🍊", "🍌🍓🍈", "🍇","🍊", "🥑🍓🍎🍏","🍇"].
+First, you want to get a line containing a 🍓 that is located after two 🍊 and before a 🍇.
+Then you want to get what characters are preceeding/following the 🍓 at that particular line.
+
+---------------------------------------------------------------------------------------------
+Elements   | Element index  | Patterns   | Pattern Index | Note
+---------------------------------------------------------------------------------------------
+🍊         | 0              | 🍊         | 0/-4          |
+🍌🍓🍈     | 1              |            |               |
+🍇         | 2              |            |               |
+🍊         | 3              | 🍊         | 1/-3          |
+🥑🍓🍎🍏   | 4              | (.*)🍓(.*) | 2/-2          | <-- We want "🥑" and "🍎🍏"
+🍇         | 5              | 🍇         | 3/-1          |
+
+To do this, you need to invoke the following command:
+> zaruba lines submatch \
+  '["🍊", "🍌🍓🍈", "🍇","🍊", "🥑🍓🍎🍏","🍇"]' \
+  '["🍊", "🍊", "(.*)🍓(.*)", "🍇"]' \
+  --index=2
+
+The result will be:
+["🥑🍓🍎🍏","🥑","🍎🍏"]
+
+You can see that there are three elements of the result:
+- The whole line : 🥑🍓🍎🍏
+- The characters preceding 🍓: 🥑
+- The characters following 🍓: 🍎🍏
 
 Usage:
   zaruba lines submatch <jsonStrList> <jsonStrListPatterns> [flags]
 
 Examples:
 
-> CONTENT='[
-"class Num:",
-"    def __init__(self, num):",
-"        self.num = num",
-"    def add(self, addition):",
-"        self.num += addition"
-]'
+> zaruba lines submatch \
+  '["🍊", "🍌🍓🍈", "🍇","🍊", "🥑🍓🍎🍏","🍇"]' \
+  '["🍊", "🍊", "(.*)🍓(.*)", "🍇"]' \
+  --index=2
+["🥑🍓🍎🍏","🥑","🍎🍏"]
 
-> PATTERN='[
-"class Num:",
-"( *)def add\\(self, (.*)\\):",
-"( *)self\\.num \\+= (.*)"
-]'
-
-> zaruba lines submatch $CONTENT $PATTERN
-["        self.num += addition","        ","addition"]
-
-> zaruba lines submatch $CONTENT $PATTERN --index=-1
-["        self.num += addition","        ","addition"]
-
-> zaruba list get $PATTERN 0
-class Num:
-> zaruba lines submatch $CONTENT $PATTERN --index=0
-["class Num:"]
-
-> zaruba list get $PATTERN 1
-( *)def add\(self, (.*)\):
-> zaruba lines submatch $CONTENT $PATTERN --index=1
-["    def add(self, addition):","    ","addition"]
+> zaruba lines submatch \
+  '["🍊", "🍌🍓🍈", "🍇","🍊", "🥑🍓🍎🍏","🍇"]' \
+  "(.*)🍓(.*)"
+["🍌🍓🍈","🍌","🍈"]
 
 
 Flags:

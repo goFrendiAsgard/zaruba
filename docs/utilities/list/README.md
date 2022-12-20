@@ -22,15 +22,15 @@ Usage:
   zaruba list [command]
 
 Available Commands:
-  append      Append new values to jsonList
-  contain     Find out whether jsonList contains string or not
-  get         Get jsonList[index]
-  join        Transform JSON list into single string
-  length      Get list's length
+  append      Append new values to a jsonList
+  contain     Find out whether a jsonList contains an element or not
+  get         Get jsonList element at an index
+  join        Transform a jsonList into single string
+  length      Get length of a jsonList
   merge       Merge JSON lists
-  rangeIndex  Print list indexes
-  set         Set list[index] to value and return new JSON list
-  validate    Check whether jsonList is valid JSON list or not
+  rangeIndex  Print jsonList indexes
+  set         Replace jsonList element at a particular index with a value
+  validate    Check whether a jsonList is valid or not
 
 Flags:
   -h, --help   help for list

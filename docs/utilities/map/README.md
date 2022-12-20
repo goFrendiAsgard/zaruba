@@ -22,13 +22,13 @@ Usage:
   zaruba map [command]
 
 Available Commands:
-  get               Get value from JSON map
-  getKeys           Return JSON string list containing keys of JSON map
-  merge             Merge JSON maps, in case of duplicate keys, the first ocurrance is going to be used
-  rangeKey          Print map keys
-  set               Set map[key] to value
-  toStringMap       Transform to string map
-  toVariedStringMap Transform to string map with various combination (original, kebab-case, camelCase, PascalCase, snake_case, lower case, UPPER CASE, UPPER_SNAKE_CASE, "double quoted", 'single quoted')
+  get               Get value from jsonMap at a particular key
+  getKeys           Return a jsonStringList containing all keys in a jsonMap
+  merge             Merge multiple jsonMaps
+  rangeKey          Print jsonMap keys
+  set               Set a value of a jsonMap on a particular key
+  toStringMap       Transform a jsonMap into a jsonStringMap
+  toVariedStringMap Transform a jsonMap into a jsonStringMap, every keys and values are transformed into multiple variations
   transformKey      Transform map keys
   validate          Check whether jsonMap is valid JSON map or not
 

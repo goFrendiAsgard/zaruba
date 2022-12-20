@@ -9,9 +9,15 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
+var mergeExample = `
+> zaruba map merge '{"server": "localhost", "port": 3306}' '{"protocol": "mysql"}'
+{"server": "localhost", "port": 3306, "protocol": "mysql"}
+`
+
 var mergeCmd = &cobra.Command{
-	Use:   "merge <jsonMap> <otherJsonMaps...>",
-	Short: "Merge JSON maps, in case of duplicate keys, the first ocurrance is going to be used",
+	Use:     "merge <jsonMap> <otherJsonMaps...>",
+	Short:   "Merge multiple jsonMaps",
+	Example: mergeExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)

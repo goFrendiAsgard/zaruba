@@ -14,10 +14,16 @@ zaruba list append --help
 <summary>Output</summary>
  
 ```````
-Append new values to jsonList
+Append new values to a jsonList
 
 Usage:
   zaruba list append <jsonStrList> <strNewValues...> [flags]
+
+Examples:
+
+> zaruba list append '[]' 🍊 🍓 🍇
+["🍊","🍓","🍇"] 
+
 
 Flags:
   -h, --help   help for append

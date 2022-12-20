@@ -94,6 +94,7 @@ Finally, you can visit our [end-to-end tutorial](use-cases/from-zero-to-cloud.md
         * [List](utilities/file/list.md)
         * [Read](utilities/file/read.md)
         * [Replace](utilities/file/replace.md)
+        * [Submatch](utilities/file/submatch.md)
         * [Walk](utilities/file/walk.md)
     * [🚈 Lines](utilities/lines/README.md)
         * [GetIndex](utilities/lines/getindex.md)
