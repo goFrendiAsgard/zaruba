@@ -47,7 +47,13 @@ Search: █
     🧰 addContainerRegistry
     🐳 addDockerAppRunner
     🐳 addDockerComposeAppRunner
+Search: printHelloWorld█
+? 💀 Please select task: 
 ✔ 🍎 printHelloWorld
+Search: printHelloWorld█
+? 💀 Please select task: 
+✔ 🍎 printHelloWorld
+  ▸ 🍎 printHelloWorld
 💀 Action
 Search: █
 ? 💀 What do you want to do with printHelloWorld?: 
@@ -58,39 +64,32 @@ Search: █
 ? Do you want to load additional value file?: 
   ▸ 🏁 No
 ✔ 🏁 No
-    📝 Yes
+💀 Load additional env
 Search: █
 ? Do you want to load additional env?: 
   ▸ 🏁 No
     📝 Yes, from file
-  ▸ 🏁 No
-    📝 Yes, from file
-  ▸ 🏁 No
-    📝 Yes, from file
-    📝 Yes, manually
 ✔ 🏁 No
 💀 Auto terminate
 Search: █
 ? 💀 Do you want to terminate tasks once completed?: 
   ▸ 🏁 No
 ✔ 🏁 No
-  ▸ 🏁 No
-    🔪 Yes
 💀 🔎 Job Starting...
-         Elapsed Time: 3.836µs
-         Current Time: 23:22:07
+         Elapsed Time: 1.661µs
+         Current Time: 07:52:03
 💀 🏁 Running 🍎 printHelloWorld runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
-💀 🎉 Successfully running 🍎 printHelloWorld runner (Attempt 1 of 3)
 💀    🚀 🍎 printHelloWorld      hello world
+💀 🎉 Successfully running 🍎 printHelloWorld runner (Attempt 1 of 3)
 💀 🔎 Job Running...
-         Elapsed Time: 5.16763ms
-         Current Time: 23:22:07
+         Elapsed Time: 1.534918ms
+         Current Time: 07:52:03
 💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 💀 🎉 Job Complete!!! 🎉🎉🎉
 💀 🔥 Terminating
 💀 🔎 Job Ended...
-         Elapsed Time: 408.058912ms
-         Current Time: 23:22:08
+         Elapsed Time: 404.323635ms
+         Current Time: 07:52:03
 zaruba please printHelloWorld
 ```````
 </details>

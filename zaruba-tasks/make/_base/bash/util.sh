@@ -31,6 +31,21 @@ _getLineFromFile() {
     "${ZARUBA_BIN}" file getLine "${__ZRB_FILE_NAME}" "${__ZRB_INDEX}"
 }
 
+_getSubmatchFromFile() {
+    __ZRB_FILE_NAME="${1}"
+    __ZRB_PATTERN="${2}"
+    __ZRB_INDEX="${3}"
+    if [ "$("${ZARUBA_BIN}" list validate "${__ZRB_PATTERN}")" = 0 ]
+    then
+        __ZRB_PATTERN="$("${ZARUBA_BIN}" list append "[]" "${__ZRB_PATTERN}")"
+    fi
+    if [ -z "${__ZRB_INDEX}" ]
+    then
+        __ZRB_INDEX="-1"
+    fi
+    "${ZARUBA_BIN}" file submatch "${__ZRB_FILE_NAME}" "${__ZRB_PATTERN}" --index="${__ZRB_INDEX}"
+}
+
 _getLineIndexFromFile() {
     __ZRB_FILE_NAME="${1}"
     __ZRB_PATTERN="${2}"

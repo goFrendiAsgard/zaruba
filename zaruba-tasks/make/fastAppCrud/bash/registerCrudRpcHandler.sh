@@ -36,10 +36,8 @@ _updateCrudRpcCall() {
         echo "Pattern not found: ${_PATTERN}"
         exit 1
     fi
-    _LINE="$(_getLineFromFile "${_DESTINATION}" "${_LINE_INDEX}")"
 
-    _SUBMATCH="$("${ZARUBA_BIN}" str submatch "${_LINE}" "${_PATTERN}")"
-
+    _SUBMATCH="$(_getSubmatchFromFile "${_DESTINATION}" "${_PATTERN}")"
     _INDENTATION="$("${ZARUBA_BIN}" list get "${_SUBMATCH}" 1)"
     _PARAM="$("${ZARUBA_BIN}" list get "${_SUBMATCH}" 2)"
     _SUFFIX="$("${ZARUBA_BIN}" list get "${_SUBMATCH}" 3)"
