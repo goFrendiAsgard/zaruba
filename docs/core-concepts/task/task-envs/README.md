@@ -56,39 +56,39 @@ zaruba please startServer -t -w 500ms
 <summary>Output</summary>
  
 ```````
-💀 🔎 Job Starting...
+🤖 🔎 Job Starting...
          Elapsed Time: 2.185µs
          Current Time: 07:52:36
-💀 🏁 Running 🔗 updateProjectLinks runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/task-envs
-💀    🚀 🔗 updateProjectLinks   🎉🎉🎉
-💀 🎉 Successfully running 🔗 updateProjectLinks runner (Attempt 1 of 3)
-💀    🚀 🔗 updateProjectLinks   Links updated
-💀 🏁 Running 🍏 startServer starter (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/task-envs
-💀 🏁 Running 🍏 startServer readiness checker (Attempt 1 of infinite) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/task-envs
-💀    🔎 🍏 startServer          🔎 Waiting for port '3000'
-💀    🚀 🍏 startServer          Serving HTTP on 0.0.0.0 port 3000 (http://0.0.0.0:3000/) ...
-💀    🔎 🍏 startServer          🔎 Port '3000' is ready
-💀    🔎 🍏 startServer          🎉🎉🎉
-💀    🔎 🍏 startServer          📜 Task 'startServer' is ready
-💀 🎉 Successfully running 🍏 startServer readiness checker (Attempt 1 of infinite)
-💀 🔎 Job Running...
+🤖 🏁 Running 🔗 updateProjectLinks runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/task-envs
+🤖    🚀 🔗 updateProjectLinks   🎉🎉🎉
+🤖 🎉 Successfully running 🔗 updateProjectLinks runner (Attempt 1 of 3)
+🤖    🚀 🔗 updateProjectLinks   Links updated
+🤖 🏁 Running 🍏 startServer starter (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/task-envs
+🤖 🏁 Running 🍏 startServer readiness checker (Attempt 1 of infinite) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/task-envs
+🤖    🔎 🍏 startServer          🔎 Waiting for port '3000'
+🤖    🚀 🍏 startServer          Serving HTTP on 0.0.0.0 port 3000 (http://0.0.0.0:3000/) ...
+🤖    🔎 🍏 startServer          🔎 Port '3000' is ready
+🤖    🔎 🍏 startServer          🎉🎉🎉
+🤖    🔎 🍏 startServer          📜 Task 'startServer' is ready
+🤖 🎉 Successfully running 🍏 startServer readiness checker (Attempt 1 of infinite)
+🤖 🔎 Job Running...
          Elapsed Time: 11.048126499s
          Current Time: 07:52:47
          Active Process:
            * (PID=670) 🍏 startServer starter (Attempt 1 of 3)
-💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
-💀 🎉 Job Complete!!! 🎉🎉🎉
-💀 🔥 Terminating
-💀 🔪 Kill 🍏 startServer starter (PID=670)
-💀    🚀 🍏 startServer          
-💀    🚀 🍏 startServer          Keyboard interrupt received, exiting.
-💀    🚀 🍏 startServer          🎉🎉🎉
-💀    🚀 🍏 startServer          📜 Task 'startServer' is started
-💀 🎉 Successfully running 🍏 startServer starter (Attempt 1 of 3)
-💀 🔎 Job Ended...
+🤖 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
+🤖 🎉 Job Complete!!! 🎉🎉🎉
+🤖 🔥 Terminating
+🤖 🔪 Kill 🍏 startServer starter (PID=670)
+🤖    🚀 🍏 startServer          
+🤖    🚀 🍏 startServer          Keyboard interrupt received, exiting.
+🤖    🚀 🍏 startServer          🎉🎉🎉
+🤖    🚀 🍏 startServer          📜 Task 'startServer' is started
+🤖 🎉 Successfully running 🍏 startServer starter (Attempt 1 of 3)
+🤖 🔎 Job Ended...
          Elapsed Time: 12.753308143s
          Current Time: 07:52:49
-💀 🔥 🍏 startServer starter exited without any error message
+🤖 🔥 🍏 startServer starter exited without any error message
 zaruba please startServer   -t -w 500ms
 ```````
 </details>

@@ -11,7 +11,7 @@ from sqlalchemy import create_engine
 
 
 def create_user_data() -> UserData:
-    # Note: 💀 Don't delete the following line; Zaruba uses it for pattern matching
+    # Note: 🤖 Don't delete the following line; Zaruba uses it for pattern matching
     dummy_user_data = UserData(
         username='',
         email='',

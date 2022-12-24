@@ -9,7 +9,7 @@ from sqlalchemy import create_engine
 from transport import AppMessageBus, AppRPC
 
 def create_activity_data():
-    # Note: 💀 Don't delete the following line; Zaruba uses it for pattern matching
+    # Note: 🤖 Don't delete the following line; Zaruba uses it for pattern matching
     dummy_activity_data = ActivityData(
         activity='',
         user_id='',

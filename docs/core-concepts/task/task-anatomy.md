@@ -450,36 +450,36 @@ zaruba please serveHttp -t -w 2s
 <summary>Output</summary>
  
 ```````
-💀 🔎 Job Starting...
+🤖 🔎 Job Starting...
          Elapsed Time: 1.23µs
          Current Time: 07:52:08
-💀 🏁 Running 🔗 updateProjectLinks runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs
-💀    🚀 🔗 updateProjectLinks   🎉🎉🎉
-💀    🚀 🔗 updateProjectLinks   Links updated
-💀 🎉 Successfully running 🔗 updateProjectLinks runner (Attempt 1 of 3)
-💀 🏁 Running 🌐 serveHttp starter (Attempt 1 of 3) on /home/gofrendi/zaruba/docs
-💀    🚀 🌐 serveHttp            Serving /home/gofrendi/zaruba/docs on HTTP port 8080
-💀    🚀 🌐 serveHttp            You can open http://localhost:8080
-💀 🏁 Running 🌐 serveHttp readiness checker (Attempt 1 of infinite) on /home/gofrendi/zaruba/docs
-💀    🔎 🌐 serveHttp            🔎 Waiting for port '8080'
-💀    🔎 🌐 serveHttp            🔎 Port '8080' is ready
-💀    🔎 🌐 serveHttp            🎉🎉🎉
-💀    🔎 🌐 serveHttp            📜 Task 'serveHttp' is ready
-💀 🎉 Successfully running 🌐 serveHttp readiness checker (Attempt 1 of infinite)
-💀 🔎 Job Running...
+🤖 🏁 Running 🔗 updateProjectLinks runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs
+🤖    🚀 🔗 updateProjectLinks   🎉🎉🎉
+🤖    🚀 🔗 updateProjectLinks   Links updated
+🤖 🎉 Successfully running 🔗 updateProjectLinks runner (Attempt 1 of 3)
+🤖 🏁 Running 🌐 serveHttp starter (Attempt 1 of 3) on /home/gofrendi/zaruba/docs
+🤖    🚀 🌐 serveHttp            Serving /home/gofrendi/zaruba/docs on HTTP port 8080
+🤖    🚀 🌐 serveHttp            You can open http://localhost:8080
+🤖 🏁 Running 🌐 serveHttp readiness checker (Attempt 1 of infinite) on /home/gofrendi/zaruba/docs
+🤖    🔎 🌐 serveHttp            🔎 Waiting for port '8080'
+🤖    🔎 🌐 serveHttp            🔎 Port '8080' is ready
+🤖    🔎 🌐 serveHttp            🎉🎉🎉
+🤖    🔎 🌐 serveHttp            📜 Task 'serveHttp' is ready
+🤖 🎉 Successfully running 🌐 serveHttp readiness checker (Attempt 1 of infinite)
+🤖 🔎 Job Running...
          Elapsed Time: 18.389219ms
          Current Time: 07:52:08
          Active Process:
            * (PID=864) 🌐 serveHttp starter (Attempt 1 of 3)
-💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
-💀 🎉 Job Complete!!! 🎉🎉🎉
-💀 🔥 Terminating
-💀 🔪 Kill 🌐 serveHttp starter (PID=864)
-💀 🔥 Exit 🌐 serveHttp starter (Attempt 1 of 3): signal: interrupt
-💀 🔎 Job Ended...
+🤖 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
+🤖 🎉 Job Complete!!! 🎉🎉🎉
+🤖 🔥 Terminating
+🤖 🔪 Kill 🌐 serveHttp starter (PID=864)
+🤖 🔥 Exit 🌐 serveHttp starter (Attempt 1 of 3): signal: interrupt
+🤖 🔎 Job Ended...
          Elapsed Time: 3.224116837s
          Current Time: 07:52:12
-💀 🔥 🌐 serveHttp starter exited: signal: interrupt
+🤖 🔥 🌐 serveHttp starter exited: signal: interrupt
 zaruba please serveHttp   -t -w 2s
 ```````
 </details>

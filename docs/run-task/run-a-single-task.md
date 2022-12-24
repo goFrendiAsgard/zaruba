@@ -29,23 +29,23 @@ zaruba please showSolidPrinciple
 <summary>Output</summary>
  
 ```````
-💀 🔎 Job Starting...
+🤖 🔎 Job Starting...
          Elapsed Time: 1.376µs
          Current Time: 07:51:51
-💀 🏁 Running 🦉 showSolidPrinciple runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs
-💀    🚀 🦉 showSolidPrinciple    S  Single Responsibility Principle 
-💀    🚀 🦉 showSolidPrinciple    O  Open/Closed Principle 
-💀    🚀 🦉 showSolidPrinciple    L  Liskov's Substitution Principle 
-💀    🚀 🦉 showSolidPrinciple    I  Interface Segregation Principle 
-💀    🚀 🦉 showSolidPrinciple    D  Dependency Inversion Principle 
-💀 🎉 Successfully running 🦉 showSolidPrinciple runner (Attempt 1 of 3)
-💀 🔎 Job Running...
+🤖 🏁 Running 🦉 showSolidPrinciple runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs
+🤖    🚀 🦉 showSolidPrinciple    S  Single Responsibility Principle 
+🤖    🚀 🦉 showSolidPrinciple    O  Open/Closed Principle 
+🤖    🚀 🦉 showSolidPrinciple    L  Liskov's Substitution Principle 
+🤖    🚀 🦉 showSolidPrinciple    I  Interface Segregation Principle 
+🤖    🚀 🦉 showSolidPrinciple    D  Dependency Inversion Principle 
+🤖 🎉 Successfully running 🦉 showSolidPrinciple runner (Attempt 1 of 3)
+🤖 🔎 Job Running...
          Elapsed Time: 7.159247ms
          Current Time: 07:51:51
-💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
-💀 🎉 Job Complete!!! 🎉🎉🎉
-💀 🔥 Terminating
-💀 🔎 Job Ended...
+🤖 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
+🤖 🎉 Job Complete!!! 🎉🎉🎉
+🤖 🔥 Terminating
+🤖 🔎 Job Ended...
          Elapsed Time: 310.849266ms
          Current Time: 07:51:52
 zaruba please showSolidPrinciple
@@ -80,19 +80,19 @@ zaruba please printHelloWorld
 <summary>Output</summary>
  
 ```````
-💀 🔎 Job Starting...
+🤖 🔎 Job Starting...
          Elapsed Time: 1.671µs
          Current Time: 07:51:52
-💀 🏁 Running 🍎 printHelloWorld runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
-💀    🚀 🍎 printHelloWorld      hello world
-💀 🎉 Successfully running 🍎 printHelloWorld runner (Attempt 1 of 3)
-💀 🔎 Job Running...
+🤖 🏁 Running 🍎 printHelloWorld runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
+🤖    🚀 🍎 printHelloWorld      hello world
+🤖 🎉 Successfully running 🍎 printHelloWorld runner (Attempt 1 of 3)
+🤖 🔎 Job Running...
          Elapsed Time: 2.033111ms
          Current Time: 07:51:52
-💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
-💀 🎉 Job Complete!!! 🎉🎉🎉
-💀 🔥 Terminating
-💀 🔎 Job Ended...
+🤖 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
+🤖 🎉 Job Complete!!! 🎉🎉🎉
+🤖 🔥 Terminating
+🤖 🔎 Job Ended...
          Elapsed Time: 406.981908ms
          Current Time: 07:51:52
 zaruba please printHelloWorld

@@ -4,7 +4,7 @@
 
 > ⚠️ We didn't reach `v.1.0.0` yet, but the API is pretty much stable. Please open [an issue](https://github.com/state-alchemists/zaruba/issues) if you find any problem using Zaruba.
 
-# 💀 Zaruba 
+# 🤖 Zaruba 
 
 Zaruba is a [task](docs/core-concepts/task/README.md) runner and [CLI utility](docs/utilities/README.md). It helps you __prepare__, __run__, __deploy__, and __debug__ your applications.
 

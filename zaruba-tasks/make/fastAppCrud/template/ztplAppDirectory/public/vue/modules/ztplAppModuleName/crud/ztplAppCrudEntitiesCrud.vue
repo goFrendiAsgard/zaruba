@@ -25,7 +25,7 @@
                 <th>#</th>
                 <th>Id</th>
                 <!-- CRUD column headers -->
-                <!-- Put column header here, Note: 💀 Don't delete this line; Zaruba uses it for pattern matching --> 
+                <!-- Put column header here, Note: 🤖 Don't delete this line; Zaruba uses it for pattern matching --> 
                 <th id="th-action">Actions</th>
             </tr>
         </thead>
@@ -34,7 +34,7 @@
                 <td>{{ index+1 }}</td>
                 <td>{{ row.id }}</td>
                 <!-- CRUD column values -->
-                <!-- Put column value here, Note: 💀 Don't delete this line; Zaruba uses it for pattern matching -->
+                <!-- Put column value here, Note: 🤖 Don't delete this line; Zaruba uses it for pattern matching -->
                 <td id="td-action">
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#form-crud" @click="showUpdateForm(row.id)"><i class="bi bi-pencil-square"></i> Edit</button>
@@ -71,7 +71,7 @@
                 </div>
                 <div class="modal-body">
                     <!-- CRUD form inputs -->
-                    <!-- Put form input here, Note: 💀 Don't delete this line; Zaruba uses it for pattern matching -->
+                    <!-- Put form input here, Note: 🤖 Don't delete this line; Zaruba uses it for pattern matching -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>

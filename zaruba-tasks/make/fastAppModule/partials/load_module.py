@@ -3,7 +3,7 @@
 # -- 🧩 ZtplAppModuleName module
 ################################################
 enable_ztpl_app_module_name_module = get_boolean_env('APP_ENABLE_ZTPL_APP_MODULE_NAME_MODULE', True)
-# Note: 💀 Don't delete the following line; Zaruba uses it for pattern matching
+# Note: 🤖 Don't delete the following line; Zaruba uses it for pattern matching
 if enable_ztpl_app_module_name_module:
     # API route
     if enable_route_handler and enable_api:
@@ -16,5 +16,5 @@ if enable_ztpl_app_module_name_module:
         register_ztpl_app_module_name_event_handler(mb, rpc, auth_service)
     # serve RPC
     if enable_rpc_handler:
-        # Note: 💀 Don't delete the following line; Zaruba uses it for pattern matching
+        # Note: 🤖 Don't delete the following line; Zaruba uses it for pattern matching
         register_ztpl_app_module_name_rpc_handler(mb, rpc, auth_service)

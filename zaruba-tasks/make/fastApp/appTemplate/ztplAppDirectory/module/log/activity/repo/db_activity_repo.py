@@ -10,7 +10,7 @@ import uuid
 import datetime
 import jsons
 
-# Note: 💀 Don't delete the following line; Zaruba uses it for pattern matching
+# Note: 🤖 Don't delete the following line; Zaruba uses it for pattern matching
 class DBActivityEntity(Base):
     __tablename__ = "activities"
     id = Column(String(36), primary_key=True, index=True)
@@ -19,13 +19,13 @@ class DBActivityEntity(Base):
     object = Column(String(255), index=True, nullable=True)
     row_id = Column(String(255), index=True, nullable=True)
     json_row = Column(Text(), index=False, nullable=True)
-    created_at = Column(DateTime, default=datetime.datetime.utcnow) # Note: 💀 Don't delete this line; Zaruba uses it for pattern matching
+    created_at = Column(DateTime, default=datetime.datetime.utcnow) # Note: 🤖 Don't delete this line; Zaruba uses it for pattern matching
     created_by = Column(String(36), nullable=True)
     updated_at = Column(DateTime, nullable=True)
     updated_by = Column(String(36), nullable=True)
 
 
-# Note: 💀 Don't delete the following line; Zaruba uses it for pattern matching
+# Note: 🤖 Don't delete the following line; Zaruba uses it for pattern matching
 class DBActivityRepo(ActivityRepo):
 
     def __init__(self, engine: Engine, create_all: bool):
@@ -81,7 +81,7 @@ class DBActivityRepo(ActivityRepo):
         return activity_count
 
 
-    # Note: 💀 Don't delete the following line; Zaruba uses it for pattern matching
+    # Note: 🤖 Don't delete the following line; Zaruba uses it for pattern matching
     def insert(self, activity_data: ActivityData) -> Optional[Activity]:
         db = Session(self.engine, expire_on_commit=False)
         activity: Activity
@@ -94,7 +94,7 @@ class DBActivityRepo(ActivityRepo):
                 object=activity_data.object,
                 row_id=activity_data.row_id,
                 json_row=jsons.dumps(activity_data.row),
-                created_at=datetime.datetime.utcnow(), # Note: 💀 Don't delete this line; Zaruba uses it for pattern matching
+                created_at=datetime.datetime.utcnow(), # Note: 🤖 Don't delete this line; Zaruba uses it for pattern matching
                 created_by=activity_data.created_by,
                 updated_at=datetime.datetime.utcnow(),
                 updated_by=activity_data.updated_by,
@@ -108,7 +108,7 @@ class DBActivityRepo(ActivityRepo):
         return activity
 
 
-    # Note: 💀 Don't delete the following line; Zaruba uses it for pattern matching
+    # Note: 🤖 Don't delete the following line; Zaruba uses it for pattern matching
     def update(self, id: str, activity_data: ActivityData) -> Optional[Activity]:
         db = Session(self.engine, expire_on_commit=False)
         activity: Activity
@@ -121,7 +121,7 @@ class DBActivityRepo(ActivityRepo):
             db_activity.object = activity_data.object
             db_activity.row_id = activity_data.row_id
             db_activity.row = jsons.dumps(activity_data.row)
-            db_activity.updated_at = datetime.datetime.utcnow() # Note: 💀 Don't delete this line; Zaruba uses it for pattern matching
+            db_activity.updated_at = datetime.datetime.utcnow() # Note: 🤖 Don't delete this line; Zaruba uses it for pattern matching
             db_activity.updated_by = activity_data.updated_by
             db.add(db_activity)
             db.commit()

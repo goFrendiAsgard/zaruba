@@ -25,7 +25,7 @@
                 <th>#</th>
                 <th>Content Type</th>
                 <th>Markdown Template (Jinja)</th>
-                <!-- Put column header here, Note: 💀 Don't delete this line; Zaruba uses it for pattern matching --> 
+                <!-- Put column header here, Note: 🤖 Don't delete this line; Zaruba uses it for pattern matching --> 
                 <th id="th-action">Actions</th>
             </tr>
         </thead>
@@ -48,7 +48,7 @@
                 <td>
                     <textarea class="form-control-plaintext" readonly rows="10" cols="80">{{ row.template }}</textarea>
                 </td>
-                <!-- Put column value here, Note: 💀 Don't delete this line; Zaruba uses it for pattern matching -->
+                <!-- Put column value here, Note: 🤖 Don't delete this line; Zaruba uses it for pattern matching -->
                 <td id="td-action">
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#form-crud" @click="showUpdateForm(row.id)"><i class="bi bi-pencil-square"></i> Edit</button>
@@ -96,7 +96,7 @@
                         <label for="form-input-attributes" class="col-form-label">Attributes:</label>
                         <JsonInput class="form-control" id="form-input-attributes" v-model="formData.attributes" rows="10" />
                     </div>
-                    <!-- Put form input here, Note: 💀 Don't delete this line; Zaruba uses it for pattern matching -->
+                    <!-- Put form input here, Note: 🤖 Don't delete this line; Zaruba uses it for pattern matching -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>

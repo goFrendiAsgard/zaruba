@@ -25,7 +25,7 @@ cd examples/playground/myProjectFromScratch
 git init
 touch index.zaruba.yaml
 
-echo 💀 Project structure
+echo 🤖 Project structure
 tree
 ```
  
@@ -34,7 +34,7 @@ tree
  
 ```````
 Initialized empty Git repository in /home/gofrendi/zaruba/docs/examples/playground/myProjectFromScratch/.git/
-💀 Project structure
+🤖 Project structure
 .
 └── index.zaruba.yaml
 
@@ -60,7 +60,7 @@ mkdir -p examples/playground/myGeneratedProject
 cd examples/playground/myGeneratedProject
 zaruba please initProject
 
-echo 💀 Project structure
+echo 🤖 Project structure
 tree
 ```
  
@@ -68,25 +68,25 @@ tree
 <summary>Output</summary>
  
 ```````
-💀 🔎 Job Starting...
+🤖 🔎 Job Starting...
          Elapsed Time: 1.419µs
          Current Time: 07:52:04
-💀 🏁 Running 🚧 initProject runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/playground/myGeneratedProject
-💀    🚀 🚧 initProject          Initialized empty Git repository in /home/gofrendi/zaruba/docs/examples/playground/myGeneratedProject/.git/
-💀    🚀 🚧 initProject          🎉🎉🎉
-💀    🚀 🚧 initProject          Project created
-💀 🎉 Successfully running 🚧 initProject runner (Attempt 1 of 3)
-💀 🔎 Job Running...
+🤖 🏁 Running 🚧 initProject runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/playground/myGeneratedProject
+🤖    🚀 🚧 initProject          Initialized empty Git repository in /home/gofrendi/zaruba/docs/examples/playground/myGeneratedProject/.git/
+🤖    🚀 🚧 initProject          🎉🎉🎉
+🤖    🚀 🚧 initProject          Project created
+🤖 🎉 Successfully running 🚧 initProject runner (Attempt 1 of 3)
+🤖 🔎 Job Running...
          Elapsed Time: 18.125491ms
          Current Time: 07:52:04
-💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
-💀 🎉 Job Complete!!! 🎉🎉🎉
-💀 🔥 Terminating
-💀 🔎 Job Ended...
+🤖 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
+🤖 🎉 Job Complete!!! 🎉🎉🎉
+🤖 🔥 Terminating
+🤖 🔎 Job Ended...
          Elapsed Time: 321.522384ms
          Current Time: 07:52:04
 zaruba please initProject  
-💀 Project structure
+🤖 Project structure
 .
 ├── default.values.yaml
 └── index.zaruba.yaml
@@ -114,7 +114,7 @@ cd examples/playground
 git clone git@github.com:state-alchemists/zaruba-project myClonedProject
 cd myClonedProject
 
-echo 💀 Project structure
+echo 🤖 Project structure
 tree
 ```
  
@@ -123,7 +123,7 @@ tree
  
 ```````
 Cloning into 'myClonedProject'...
-💀 Project structure
+🤖 Project structure
 .
 ├── default.values.yaml
 └── index.zaruba.yaml

@@ -40,36 +40,36 @@ cd examples/run-tasks
 <summary>Output</summary>
  
 ```````
-💀 Load additional value file
+🤖 Load additional value file
 Search: █
 ? Do you want to load additional value file?: 
   ▸ 🏁 No
 ✔ 🏁 No
-💀 Load additional env
+🤖 Load additional env
 Search: █
 ? Do you want to load additional env?: 
   ▸ 🏁 No
     📝 Yes, from file
 ✔ 🏁 No
-💀 1 of 1) humanName
+🤖 1 of 1) humanName
 Search: █
 ? Your name: 
   ▸ human
 ✔ Let me type it!
 Your name: 
-💀 🔎 Job Starting...
+🤖 🔎 Job Starting...
          Elapsed Time: 1.976µs
          Current Time: 07:51:58
-💀 🏁 Running 🍏 printHelloHuman runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
-💀    🚀 🍏 printHelloHuman      hello
-💀 🎉 Successfully running 🍏 printHelloHuman runner (Attempt 1 of 3)
-💀 🔎 Job Running...
+🤖 🏁 Running 🍏 printHelloHuman runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
+🤖    🚀 🍏 printHelloHuman      hello
+🤖 🎉 Successfully running 🍏 printHelloHuman runner (Attempt 1 of 3)
+🤖 🔎 Job Running...
          Elapsed Time: 1.792582ms
          Current Time: 07:51:58
-💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
-💀 🎉 Job Complete!!! 🎉🎉🎉
-💀 🔥 Terminating
-💀 🔎 Job Ended...
+🤖 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
+🤖 🎉 Job Complete!!! 🎉🎉🎉
+🤖 🔥 Terminating
+🤖 🔎 Job Ended...
          Elapsed Time: 404.750269ms
          Current Time: 07:51:58
 zaruba please printHelloHuman  -v 'humanName='

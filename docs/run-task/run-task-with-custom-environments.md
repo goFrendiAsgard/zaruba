@@ -21,19 +21,19 @@ zaruba please printHelloHuman -e GREETINGS=はじめまして
 <summary>Output</summary>
  
 ```````
-💀 🔎 Job Starting...
+🤖 🔎 Job Starting...
          Elapsed Time: 1.411µs
          Current Time: 07:51:53
-💀 🏁 Running 🍏 printHelloHuman runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
-💀    🚀 🍏 printHelloHuman      はじめまして human
-💀 🎉 Successfully running 🍏 printHelloHuman runner (Attempt 1 of 3)
-💀 🔎 Job Running...
+🤖 🏁 Running 🍏 printHelloHuman runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
+🤖    🚀 🍏 printHelloHuman      はじめまして human
+🤖 🎉 Successfully running 🍏 printHelloHuman runner (Attempt 1 of 3)
+🤖 🔎 Job Running...
          Elapsed Time: 1.807169ms
          Current Time: 07:51:53
-💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
-💀 🎉 Job Complete!!! 🎉🎉🎉
-💀 🔥 Terminating
-💀 🔎 Job Ended...
+🤖 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
+🤖 🎉 Job Complete!!! 🎉🎉🎉
+🤖 🔥 Terminating
+🤖 🔎 Job Ended...
          Elapsed Time: 405.304939ms
          Current Time: 07:51:54
 zaruba please printHelloHuman -e 'GREETINGS=はじめまして'
@@ -64,19 +64,19 @@ zaruba please printHelloHuman -e sample.env
 <summary>Output</summary>
  
 ```````
-💀 🔎 Job Starting...
+🤖 🔎 Job Starting...
          Elapsed Time: 1.739µs
          Current Time: 07:51:54
-💀 🏁 Running 🍏 printHelloHuman runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
-💀    🚀 🍏 printHelloHuman      Hola human
-💀 🎉 Successfully running 🍏 printHelloHuman runner (Attempt 1 of 3)
-💀 🔎 Job Running...
+🤖 🏁 Running 🍏 printHelloHuman runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
+🤖    🚀 🍏 printHelloHuman      Hola human
+🤖 🎉 Successfully running 🍏 printHelloHuman runner (Attempt 1 of 3)
+🤖 🔎 Job Running...
          Elapsed Time: 2.534483ms
          Current Time: 07:51:54
-💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
-💀 🎉 Job Complete!!! 🎉🎉🎉
-💀 🔥 Terminating
-💀 🔎 Job Ended...
+🤖 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
+🤖 🎉 Job Complete!!! 🎉🎉🎉
+🤖 🔥 Terminating
+🤖 🔎 Job Ended...
          Elapsed Time: 406.438532ms
          Current Time: 07:51:54
 zaruba please printHelloHuman -e 'sample.env'

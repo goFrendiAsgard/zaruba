@@ -35,9 +35,9 @@ cd examples/run-tasks
 <summary>Output</summary>
  
 ```````
-💀 Task Name
+🤖 Task Name
 Search: █
-? 💀 Please select task: 
+? 🤖 Please select task: 
   ▸ 🪂 addAirbyte
     🎐 addAirflow
     🚢 addAppHelmDeployment
@@ -48,46 +48,46 @@ Search: █
     🐳 addDockerAppRunner
     🐳 addDockerComposeAppRunner
 Search: printHelloWorld█
-? 💀 Please select task: 
+? 🤖 Please select task: 
 ✔ 🍎 printHelloWorld
 Search: printHelloWorld█
-? 💀 Please select task: 
+? 🤖 Please select task: 
 ✔ 🍎 printHelloWorld
   ▸ 🍎 printHelloWorld
-💀 Action
+🤖 Action
 Search: █
-? 💀 What do you want to do with printHelloWorld?: 
+? 🤖 What do you want to do with printHelloWorld?: 
   ▸ 🏁 Run
 ✔ 🏁 Run
-💀 Load additional value file
+🤖 Load additional value file
 Search: █
 ? Do you want to load additional value file?: 
   ▸ 🏁 No
 ✔ 🏁 No
-💀 Load additional env
+🤖 Load additional env
 Search: █
 ? Do you want to load additional env?: 
   ▸ 🏁 No
     📝 Yes, from file
 ✔ 🏁 No
-💀 Auto terminate
+🤖 Auto terminate
 Search: █
-? 💀 Do you want to terminate tasks once completed?: 
+? 🤖 Do you want to terminate tasks once completed?: 
   ▸ 🏁 No
 ✔ 🏁 No
-💀 🔎 Job Starting...
+🤖 🔎 Job Starting...
          Elapsed Time: 1.661µs
          Current Time: 07:52:03
-💀 🏁 Running 🍎 printHelloWorld runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
-💀    🚀 🍎 printHelloWorld      hello world
-💀 🎉 Successfully running 🍎 printHelloWorld runner (Attempt 1 of 3)
-💀 🔎 Job Running...
+🤖 🏁 Running 🍎 printHelloWorld runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/run-tasks
+🤖    🚀 🍎 printHelloWorld      hello world
+🤖 🎉 Successfully running 🍎 printHelloWorld runner (Attempt 1 of 3)
+🤖 🔎 Job Running...
          Elapsed Time: 1.534918ms
          Current Time: 07:52:03
-💀 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
-💀 🎉 Job Complete!!! 🎉🎉🎉
-💀 🔥 Terminating
-💀 🔎 Job Ended...
+🤖 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
+🤖 🎉 Job Complete!!! 🎉🎉🎉
+🤖 🔥 Terminating
+🤖 🔎 Job Ended...
          Elapsed Time: 404.323635ms
          Current Time: 07:52:03
 zaruba please printHelloWorld
