@@ -57,12 +57,12 @@ zaruba please startServer -t -w 500ms
  
 ```````
 🤖 🔎 Job Starting...
-         Elapsed Time: 2.185µs
-         Current Time: 07:52:36
+         Elapsed Time: 1.657µs
+         Current Time: 07:24:54
 🤖 🏁 Running 🔗 updateProjectLinks runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/task-envs
 🤖    🚀 🔗 updateProjectLinks   🎉🎉🎉
-🤖 🎉 Successfully running 🔗 updateProjectLinks runner (Attempt 1 of 3)
 🤖    🚀 🔗 updateProjectLinks   Links updated
+🤖 🎉 Successfully running 🔗 updateProjectLinks runner (Attempt 1 of 3)
 🤖 🏁 Running 🍏 startServer starter (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/task-envs
 🤖 🏁 Running 🍏 startServer readiness checker (Attempt 1 of infinite) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/task-envs
 🤖    🔎 🍏 startServer          🔎 Waiting for port '3000'
@@ -72,22 +72,22 @@ zaruba please startServer -t -w 500ms
 🤖    🔎 🍏 startServer          📜 Task 'startServer' is ready
 🤖 🎉 Successfully running 🍏 startServer readiness checker (Attempt 1 of infinite)
 🤖 🔎 Job Running...
-         Elapsed Time: 11.048126499s
-         Current Time: 07:52:47
+         Elapsed Time: 11.048660576s
+         Current Time: 07:25:05
          Active Process:
-           * (PID=670) 🍏 startServer starter (Attempt 1 of 3)
+           * (PID=6525) 🍏 startServer starter (Attempt 1 of 3)
 🤖 🎉 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
 🤖 🎉 Job Complete!!! 🎉🎉🎉
 🤖 🔥 Terminating
-🤖 🔪 Kill 🍏 startServer starter (PID=670)
+🤖 🔪 Kill 🍏 startServer starter (PID=6525)
 🤖    🚀 🍏 startServer          
 🤖    🚀 🍏 startServer          Keyboard interrupt received, exiting.
 🤖    🚀 🍏 startServer          🎉🎉🎉
 🤖    🚀 🍏 startServer          📜 Task 'startServer' is started
 🤖 🎉 Successfully running 🍏 startServer starter (Attempt 1 of 3)
 🤖 🔎 Job Ended...
-         Elapsed Time: 12.753308143s
-         Current Time: 07:52:49
+         Elapsed Time: 12.754746857s
+         Current Time: 07:25:06
 🤖 🔥 🍏 startServer starter exited without any error message
 zaruba please startServer   -t -w 500ms
 ```````

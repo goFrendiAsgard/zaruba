@@ -23,7 +23,7 @@ M'   AMV                                 MM             ;MM:
 AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
 --.. .- .-. ..- -... .-    .--. .-.. . .- ... .    ... - .- .-. - 
                                       Task runner and CLI utility
-v0.9.0-alpha-2-57633ce70fe6509c153644290f0b27b71e2449e2
+v0.9.0-alpha-2-e1ae4dfa6b96a2a5f3f7c2cca383bab56df24f0c
 
 Usage:
   zaruba [command]
@@ -220,7 +220,9 @@ To see how `lines` utitilites works, please visit [lines utilities documentation
 * [🔠 Str](str/README.md)
   * [AddPrefix](str/addprefix.md)
   * [CurrentTime](str/currenttime.md)
+  * [DecodeBase64](str/decodebase64.md)
   * [DoubleQuote](str/doublequote.md)
+  * [EncodeBase64](str/encodebase64.md)
   * [FullIndent](str/fullindent.md)
   * [GetIndentation](str/getindentation.md)
   * [Indent](str/indent.md)

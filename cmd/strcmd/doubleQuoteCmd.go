@@ -10,15 +10,15 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var singleQuote = &cobra.Command{
-	Use:   "singleQuote <string>",
-	Short: "Single quote string",
+var doubleQuoteCmd = &cobra.Command{
+	Use:   "doubleQuote <string>",
+	Short: "Double quote string",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 1)
 		text := args[0]
 		util := dsl.NewDSLUtil()
-		fmt.Println(util.Str.SingleQuote(text))
+		fmt.Println(util.Str.DoubleQuote(text))
 	},
 }

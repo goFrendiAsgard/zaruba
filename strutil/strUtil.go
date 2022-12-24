@@ -1,6 +1,7 @@
 package strutil
 
 import (
+	"encoding/base64"
 	"fmt"
 	"regexp"
 	"strings"
@@ -208,4 +209,13 @@ func (strUtil *StrUtil) NewName() (randomName string) {
 func (strUtil *StrUtil) CurrentTime() (currentTimeStr string) {
 	now := time.Now()
 	return now.Format("20060102150405")
+}
+
+func (strUtil *StrUtil) EncodeBase64(str string) (result string) {
+	return base64.StdEncoding.EncodeToString([]byte(str))
+}
+
+func (strUtil *StrUtil) DecodeBase64(str string) (result string, err error) {
+	sd, err := base64.StdEncoding.DecodeString(str)
+	return string(sd), err
 }

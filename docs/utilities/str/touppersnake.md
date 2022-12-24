@@ -22,7 +22,9 @@ Usage:
 Available Commands:
   addPrefix      Add prefix to string or do nothing if string already has that prefix
   currentTime    Print current time
+  decodeBase64   Decode base64 a string
   doubleQuote    Double quote string
+  encodeBase64   Encode base64 a string
   fullIndent     indent multi-line string, include first line
   getIndentation Get indentation of string
   indent         indent multi-line string, exclude first line
