@@ -13,7 +13,7 @@ import (
 
 var padRightCmd = &cobra.Command{
 	Use:   "padRight <string> <length> [char]",
-	Short: "fill from left",
+	Short: "Fill from right",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
