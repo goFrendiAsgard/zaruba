@@ -3,7 +3,13 @@
 # GetLineIndex
 <!--endTocHeader-->
 
-TODO: Write about `GetLineIndex`
+# Usage
+
+<!--startCode-->
+```bash
+zaruba file getLineIndex --help
+```
+<!--endCode-->
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

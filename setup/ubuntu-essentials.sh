@@ -1,1 +1,1 @@
-. "${ZARUBA_HOME}/setup/ubuntu-22.4-essentials.sh"
+. "${ZARUBA_HOME}/setup/ubuntu-22-4-essentials.sh"

@@ -123,7 +123,7 @@ We don't plan to create [APT](https://en.wikipedia.org/wiki/APT_(software)) or p
 
 Before installing Zaruba from the source, you need to install some prerequisites:
 
-* `go 1.13` or newer (To install `go`, you can visit its [official website](https://golang.org/doc/install))
+* `go 1.16` or newer (To install `go`, you can visit its [official website](https://golang.org/doc/install))
 * `wget` or `curl`
 * `git`
 
@@ -227,7 +227,7 @@ To perform the test, you need to have:
 * kubectl
 * helm
 * pulumi
-* go 1.13
+* go 1.16
 * make
 
 Once you meet all the prerequisites, you can perform:

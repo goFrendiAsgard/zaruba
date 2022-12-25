@@ -6,6 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/cmd/advertisementcmd"
+	"github.com/state-alchemists/zaruba/cmd/base64cmd"
 	"github.com/state-alchemists/zaruba/cmd/envcmd"
 	"github.com/state-alchemists/zaruba/cmd/filecmd"
 	"github.com/state-alchemists/zaruba/cmd/installcmd"
@@ -51,6 +52,8 @@ func init() {
 	rootCmd.AddCommand(versionCmd)
 	rootCmd.AddCommand(advertisementcmd.Cmd)
 	advertisementcmd.Init()
+	rootCmd.AddCommand(base64cmd.Cmd)
+	base64cmd.Init()
 	rootCmd.AddCommand(envcmd.Cmd)
 	envcmd.Init()
 	rootCmd.AddCommand(filecmd.Cmd)

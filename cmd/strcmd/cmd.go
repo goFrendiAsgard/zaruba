@@ -10,9 +10,7 @@ var Cmd = &cobra.Command{
 func Init() {
 	Cmd.AddCommand(addPrefixCmd)
 	Cmd.AddCommand(currentTimeCmd)
-	Cmd.AddCommand(decodeBase64Cmd)
 	Cmd.AddCommand(doubleQuoteCmd)
-	Cmd.AddCommand(encodeBase64Cmd)
 	Cmd.AddCommand(fullIndentCmd)
 	Cmd.AddCommand(getIndentationCmd)
 	Cmd.AddCommand(indentCmd)

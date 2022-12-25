@@ -3,7 +3,13 @@
 # InsertAfter
 <!--endTocHeader-->
 
-TODO: Write about `InsertAfter`
+# Usage
+
+<!--startCode-->
+```bash
+zaruba file insertAfter --help
+```
+<!--endCode-->
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

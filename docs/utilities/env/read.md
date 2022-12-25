@@ -35,24 +35,5 @@ Flags:
 </details>
 <!--endCode-->
 
-# Examples
-
-## Print Environment
-
-<!--startCode-->
-```bash
-cd examples/run-tasks
-zaruba env read sample.env
-```
- 
-<details>
-<summary>Output</summary>
- 
-```````
-{"GREETINGS":"Hola"}
-```````
-</details>
-<!--endCode-->
-
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

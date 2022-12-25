@@ -1,19 +1,18 @@
 <!--startTocHeader-->
 [🏠](../../README.md) > [🔧 Utilities](../README.md)
-# 🍠 Json
+# Base64
 <!--endTocHeader-->
 
 # Usage
 
 <!--startCode-->
 ```bash
-zaruba json --help
+zaruba base64 --help
 ```
 <!--endCode-->
 
-
-
 <!--startTocSubTopic-->
 # Sub-topics
-* [Print](print.md)
+* [Decode](decode.md)
+* [Encode](encode.md)
 <!--endTocSubTopic-->

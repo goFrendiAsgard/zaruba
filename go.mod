@@ -1,6 +1,6 @@
 module github.com/state-alchemists/zaruba
 
-go 1.13
+go 1.16
 
 require (
 	github.com/chzyer/readline v1.5.0 // indirect

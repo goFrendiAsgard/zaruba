@@ -1,4 +1,4 @@
-package strcmd
+package base64cmd
 
 import (
 	"fmt"
@@ -10,9 +10,9 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var decodeBase64Cmd = &cobra.Command{
-	Use:   "decodeBase64 <string>",
-	Short: "Decode base64 a string",
+var decodeCmd = &cobra.Command{
+	Use:   "decode <string>",
+	Short: "Decode a base64 string",
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)

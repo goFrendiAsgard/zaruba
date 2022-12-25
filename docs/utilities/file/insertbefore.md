@@ -3,7 +3,13 @@
 # InsertBefore
 <!--endTocHeader-->
 
-TODO: Write about `InsertBefore`
+# Usage
+
+<!--startCode-->
+```bash
+zaruba file insertBefore --help
+```
+<!--endCode-->
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

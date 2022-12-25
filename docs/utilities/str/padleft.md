@@ -14,7 +14,7 @@ zaruba str padLeft --help
 <summary>Output</summary>
  
 ```````
-fill from left
+Fill from left
 
 Usage:
   zaruba str padLeft <string> <length> [char] [flags]

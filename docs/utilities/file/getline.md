@@ -3,7 +3,13 @@
 # GetLine
 <!--endTocHeader-->
 
-TODO: Write about `GetLine`
+# Usage
+
+<!--startCode-->
+```bash
+zaruba file getLine --help
+```
+<!--endCode-->
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

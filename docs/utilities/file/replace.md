@@ -3,7 +3,14 @@
 # Replace
 <!--endTocHeader-->
 
-TODO: Write about `Replace`
+# Usage
+
+<!--startCode-->
+```bash
+zaruba file replace --help
+```
+<!--endCode-->
+
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->

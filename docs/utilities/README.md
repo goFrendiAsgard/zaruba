@@ -23,13 +23,14 @@ M'   AMV                                 MM             ;MM:
 AMVmmmmMM 'Moo9^Yo..JMML.     'Mbod"YML. P^YbmdP'  .AMA.   .AMMA.
 --.. .- .-. ..- -... .-    .--. .-.. . .- ... .    ... - .- .-. - 
                                       Task runner and CLI utility
-v0.9.0-alpha-2-e1ae4dfa6b96a2a5f3f7c2cca383bab56df24f0c
+v0.9.0-alpha-2-00cddc3987ef0dec6d5e534993a25901bcd9e3f0
 
 Usage:
   zaruba [command]
 
 Available Commands:
   advertisement Advertisement related utilities
+  base64        Base64 manipulation utilities
   completion    Generate the autocompletion script for the specified shell
   env           Environment manipulation utilities
   file          File manipulation utilities
@@ -153,6 +154,9 @@ To see how `lines` utitilites works, please visit [lines utilities documentation
 
 <!--startTocSubTopic-->
 # Sub-topics
+* [Base64](base64/README.md)
+  * [Decode](base64/decode.md)
+  * [Encode](base64/encode.md)
 * [🏝️ Env](env/README.md)
   * [Get](env/get.md)
   * [Print](env/print.md)

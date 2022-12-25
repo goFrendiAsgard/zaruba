@@ -50,8 +50,6 @@ Flags:
 </details>
 <!--endCode-->
 
-# Examples
-
 
 <!--startTocSubTopic-->
 <!--endTocSubTopic-->
