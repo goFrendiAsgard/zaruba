@@ -5,6 +5,7 @@ node_modules
 /coverage
 /zaruba
 /playground
+/test-resources/toc/playground
 /init.sh
 
 # temporary directory
