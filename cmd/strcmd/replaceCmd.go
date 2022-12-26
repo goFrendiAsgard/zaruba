@@ -25,7 +25,7 @@ var replaceCmd = &cobra.Command{
 		util := dsl.NewDSLUtil()
 		result, err := util.Json.Map.Replace(text, jsonMapReplacement)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(result)
 	},

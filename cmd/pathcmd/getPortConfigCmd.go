@@ -21,7 +21,7 @@ var getPortConfigCmd = &cobra.Command{
 		location := args[0]
 		jsonList, err := util.Path.GetPortConfigByLocation(location)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(jsonList)
 	},

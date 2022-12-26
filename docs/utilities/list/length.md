@@ -3,38 +3,7 @@
 # Length
 <!--endTocHeader-->
 
-
-# Usage
-
-<!--startCode-->
-```bash
-zaruba list length --help
-```
- 
-<details>
-<summary>Output</summary>
- 
-```````
-Get length of a jsonList
-
-Usage:
-  zaruba list length <jsonList> [flags]
-
-Examples:
-
-> zaruba list length '["🍊","🍓","🍇"]'
-3
-
-
-Flags:
-  -h, --help   help for length
-```````
-</details>
-<!--endCode-->
-
-# Examples
-
-
+> TODO: Write about `Length`.
 
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

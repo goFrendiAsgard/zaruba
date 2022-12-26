@@ -67,7 +67,7 @@ var insertAfterCmd = &cobra.Command{
 		jsonStrList, jsonStrListNewLines := args[0], args[1]
 		newJsonStrList, err := util.Json.List.InsertLineAfterIndex(jsonStrList, *insertAfterIndex, jsonStrListNewLines)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(newJsonStrList)
 	},

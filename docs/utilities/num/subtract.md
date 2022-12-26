@@ -3,7 +3,7 @@
 # Subtract
 <!--endTocHeader-->
 
-TODO: Write about `Subtract`
+> TODO: Write about `Subtract`.
 
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

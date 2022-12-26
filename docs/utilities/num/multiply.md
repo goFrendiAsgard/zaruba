@@ -3,7 +3,7 @@
 # Multiply
 <!--endTocHeader-->
 
-TODO: Write about `Multiply`
+> TODO: Write about `Multiply`.
 
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

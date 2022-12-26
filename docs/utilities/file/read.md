@@ -3,15 +3,7 @@
 # Read
 <!--endTocHeader-->
 
-# Usage
-
-<!--startCode-->
-```bash
-zaruba file read --help
-```
-<!--endCode-->
-
-
+> TODO: Write about `Read`.
 
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

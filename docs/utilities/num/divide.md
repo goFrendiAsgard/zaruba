@@ -3,7 +3,7 @@
 # Divide
 <!--endTocHeader-->
 
-TODO: Write about `Divide`
+> TODO: Write about `Divide`.
 
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

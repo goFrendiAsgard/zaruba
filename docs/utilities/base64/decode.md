@@ -3,13 +3,7 @@
 # Decode
 <!--endTocHeader-->
 
-# Usage
-
-<!--startCode-->
-```bash
-zaruba base64 decode --help
-```
-<!--endCode-->
+> TODO: Write about `Decode`.
 
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

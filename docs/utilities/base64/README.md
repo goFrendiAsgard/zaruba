@@ -3,16 +3,9 @@
 # Base64
 <!--endTocHeader-->
 
-# Usage
-
-<!--startCode-->
-```bash
-zaruba base64 --help
-```
-<!--endCode-->
+> TODO: Write about `Base64`.
 
 <!--startTocSubtopic-->
-# Sub-topics
-* [Decode](decode.md)
-* [Encode](encode.md)
+- [Decode](decode.md)
+- [Encode](encode.md)
 <!--endTocSubtopic-->

@@ -3,37 +3,7 @@
 # Merge
 <!--endTocHeader-->
 
-
-# Usage
-
-<!--startCode-->
-```bash
-zaruba list merge --help
-```
- 
-<details>
-<summary>Output</summary>
- 
-```````
-Merge JSON lists
-
-Usage:
-  zaruba list merge <jsonList> <jsonListOther...> [flags]
-
-Examples:
-
-> zaruba list merge '["🍊","🍓","🍇"]' '["🍎","🍏"]' '["🍕"]'
-'["🍊","🍓","🍇","🍎","🍏","🍕"]'
-
-
-Flags:
-  -h, --help   help for merge
-```````
-</details>
-<!--endCode-->
-
-# Examples
-
+> TODO: Write about `Merge`.
 
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

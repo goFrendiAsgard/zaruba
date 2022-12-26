@@ -21,7 +21,7 @@ var getAppNameCmd = &cobra.Command{
 		util := dsl.NewDSLUtil()
 		defaultAppName, err := util.Path.GetDefaultAppName(args[0])
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(defaultAppName)
 	},

@@ -3,17 +3,8 @@
 # 🍠 Json
 <!--endTocHeader-->
 
-# Usage
-
-<!--startCode-->
-```bash
-zaruba json --help
-```
-<!--endCode-->
-
-
+> TODO: Write about `🍠 Json`.
 
 <!--startTocSubtopic-->
-# Sub-topics
-* [Print](print.md)
+- [Print](print.md)
 <!--endTocSubtopic-->

@@ -3,13 +3,7 @@
 # Encode
 <!--endTocHeader-->
 
-# Usage
-
-<!--startCode-->
-```bash
-zaruba base64 encode --help
-```
-<!--endCode-->
+> TODO: Write about `Encode`.
 
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

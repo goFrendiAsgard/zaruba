@@ -46,6 +46,7 @@ var rootCmd = &cobra.Command{
 
 func init() {
 	dsl.SetDefaultEnv()
+	rootCmd.AddCommand(tocCmd)
 	rootCmd.AddCommand(generateCmd)
 	rootCmd.AddCommand(pleaseCmd)
 	rootCmd.AddCommand(serveCmd)

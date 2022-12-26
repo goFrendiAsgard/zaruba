@@ -37,7 +37,7 @@ var rangeKeyCmd = &cobra.Command{
 		util := dsl.NewDSLUtil()
 		keys, err := util.Json.Map.GetKeys(jsonMap)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		for _, key := range keys {
 			fmt.Println(key)

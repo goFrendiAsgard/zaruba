@@ -25,11 +25,11 @@ var addTaskCmd = &cobra.Command{
 		var err error
 		taskFilePath, err = filepath.Abs(taskFilePath)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		util := dsl.NewDSLUtil()
 		if err = util.Project.AddTaskIfNotExist(taskName, taskFilePath); err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 	},
 }

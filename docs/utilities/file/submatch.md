@@ -3,15 +3,7 @@
 # Submatch
 <!--endTocHeader-->
 
-# Usage
-
-<!--startCode-->
-```bash
-zaruba file submatch --help
-```
-<!--endCode-->
-
-
+> TODO: Write about `Submatch`.
 
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

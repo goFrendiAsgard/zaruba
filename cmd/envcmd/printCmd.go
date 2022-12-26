@@ -48,16 +48,16 @@ var printCmd = &cobra.Command{
 		if *printPrefix != "" {
 			jsonMap, err = util.Json.Map.CascadePrefixKeys(jsonMap, *printPrefix)
 			if err != nil {
-				cmdHelper.Exit(cmd, args, logger, decoration, err)
+				cmdHelper.Exit(cmd, logger, decoration, err)
 			}
 		}
 		envString, err := util.Json.Map.ToEnvString(jsonMap)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		if strFileName != "" {
 			if err := util.File.WriteText(strFileName, envString, 0755); err != nil {
-				cmdHelper.Exit(cmd, args, logger, decoration, err)
+				cmdHelper.Exit(cmd, logger, decoration, err)
 			}
 		}
 		fmt.Println(envString)
