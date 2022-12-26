@@ -47,5 +47,5 @@ zaruba please printHelloWorld printHelloHuman
 <!--endCode-->
 
 
-<!--startTocSubTopic-->
-<!--endTocSubTopic-->
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

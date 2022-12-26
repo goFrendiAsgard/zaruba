@@ -5,5 +5,5 @@
 
 TODO: Write about `Subtract`
 
-<!--startTocSubTopic-->
-<!--endTocSubTopic-->
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

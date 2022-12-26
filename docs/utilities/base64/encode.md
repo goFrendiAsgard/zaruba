@@ -11,5 +11,5 @@ zaruba base64 encode --help
 ```
 <!--endCode-->
 
-<!--startTocSubTopic-->
-<!--endTocSubTopic-->
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

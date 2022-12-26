@@ -152,7 +152,7 @@ The following is a valid `lines`:
 
 To see how `lines` utitilites works, please visit [lines utilities documentation](lines/README.md). 
 
-<!--startTocSubTopic-->
+<!--startTocSubtopic-->
 # Sub-topics
 * [Base64](base64/README.md)
   * [Decode](base64/decode.md)
@@ -261,4 +261,4 @@ To see how `lines` utitilites works, please visit [lines utilities documentation
   * [Read](yaml/read.md)
 * [🍠 Json](json/README.md)
   * [Print](json/print.md)
-<!--endTocSubTopic-->
+<!--endTocSubtopic-->

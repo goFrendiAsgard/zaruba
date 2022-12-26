@@ -41,7 +41,7 @@ Use "zaruba list [command] --help" for more information about a command.
 <!--endCode-->
 
 
-<!--startTocSubTopic-->
+<!--startTocSubtopic-->
 # Sub-topics
 * [Append](append.md)
 * [Contain](contain.md)
@@ -52,4 +52,4 @@ Use "zaruba list [command] --help" for more information about a command.
 * [RangeIndex](rangeindex.md)
 * [Set](set.md)
 * [Validate](validate.md)
-<!--endTocSubTopic-->
+<!--endTocSubtopic-->

@@ -5,5 +5,5 @@
 
 TODO: Write about `Jinja templates`
 
-<!--startTocSubTopic-->
-<!--endTocSubTopic-->
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

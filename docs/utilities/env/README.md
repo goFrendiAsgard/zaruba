@@ -32,9 +32,9 @@ Use "zaruba env [command] --help" for more information about a command.
 </details>
 <!--endCode-->
 
-<!--startTocSubTopic-->
+<!--startTocSubtopic-->
 # Sub-topics
 * [Get](get.md)
 * [Print](print.md)
 * [Read](read.md)
-<!--endTocSubTopic-->
+<!--endTocSubtopic-->

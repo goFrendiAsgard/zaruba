@@ -5,5 +5,5 @@
 
 TODO: Write about `Adding a RPC handler`
 
-<!--startTocSubTopic-->
-<!--endTocSubTopic-->
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

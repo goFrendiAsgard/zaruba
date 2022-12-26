@@ -3,5 +3,5 @@
 # 🥉 Add Third Party Service
 <!--endTocHeader-->
 TODO: Write about `Add Third Party Service`
-<!--startTocSubTopic-->
-<!--endTocSubTopic-->
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

@@ -40,7 +40,7 @@ Use "zaruba map [command] --help" for more information about a command.
 </details>
 <!--endCode-->
 
-<!--startTocSubTopic-->
+<!--startTocSubtopic-->
 # Sub-topics
 * [Get](get.md)
 * [GetKeys](getkeys.md)
@@ -51,4 +51,4 @@ Use "zaruba map [command] --help" for more information about a command.
 * [ToVariedStringMap](tovariedstringmap.md)
 * [TransformKey](transformkey.md)
 * [Validate](validate.md)
-<!--endTocSubTopic-->
+<!--endTocSubtopic-->

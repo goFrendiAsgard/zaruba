@@ -40,7 +40,7 @@ Use "zaruba file [command] --help" for more information about a command.
 <!--endCode-->
 
 
-<!--startTocSubTopic-->
+<!--startTocSubtopic-->
 # Sub-topics
 * [AddTask](addtask.md)
 * [Include](include.md)
@@ -48,4 +48,4 @@ Use "zaruba file [command] --help" for more information about a command.
 * [ShowLog](showlog.md)
 * [SyncEnv](syncenv.md)
 * [SyncEnvFiles](syncenvfiles.md)
-<!--endTocSubTopic-->
+<!--endTocSubtopic-->

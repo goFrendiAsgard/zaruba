@@ -5,7 +5,7 @@
 
 TODO: Write about `Adding Resources`
 
-<!--startTocSubTopic-->
+<!--startTocSubtopic-->
 # Sub-topics
 * [🧩 Integration](integration/README.md)
   * [📦 External Repository](integration/external-repository.md)
@@ -30,4 +30,4 @@ TODO: Write about `Adding Resources`
   * [🚢 Add Application Deployment](from-scratch/add-application-deployment.md)
   * [🥉 Add Third Party Service](from-scratch/add-third-party-service.md)
 * [⚙️ Resource Configurations](resource-configurations.md)
-<!--endTocSubTopic-->
+<!--endTocSubtopic-->

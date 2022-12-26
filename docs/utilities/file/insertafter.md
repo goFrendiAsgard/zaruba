@@ -11,5 +11,5 @@ zaruba file insertAfter --help
 ```
 <!--endCode-->
 
-<!--startTocSubTopic-->
-<!--endTocSubTopic-->
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

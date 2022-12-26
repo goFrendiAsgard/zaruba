@@ -133,11 +133,11 @@ Cloning into 'myClonedProject'...
 </details>
 <!--endCode-->
 
-<!--startTocSubTopic-->
+<!--startTocSubtopic-->
 # Sub-topics
 * [🧬 Project Anatomy](project-anatomy.md)
 * [🧳 Includes](includes.md)
 * [🔤 Project Inputs](project-inputs.md)
 * [⚙️ Project Configs](project-configs.md)
 * [🏝️ Project Envs](project-envs.md)
-<!--endTocSubTopic-->
+<!--endTocSubtopic-->

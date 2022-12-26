@@ -11,5 +11,5 @@ zaruba file getLineIndex --help
 ```
 <!--endCode-->
 
-<!--startTocSubTopic-->
-<!--endTocSubTopic-->
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

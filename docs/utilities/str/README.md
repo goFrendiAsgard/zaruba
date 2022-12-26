@@ -54,7 +54,7 @@ Use "zaruba str [command] --help" for more information about a command.
 </details>
 <!--endCode-->
 
-<!--startTocSubTopic-->
+<!--startTocSubtopic-->
 # Sub-topics
 * [AddPrefix](addprefix.md)
 * [CurrentTime](currenttime.md)
@@ -82,4 +82,4 @@ Use "zaruba str [command] --help" for more information about a command.
 * [ToSnake](tosnake.md)
 * [ToUpper](toupper.md)
 * [ToUpperSnake](touppersnake.md)
-<!--endTocSubTopic-->
+<!--endTocSubtopic-->

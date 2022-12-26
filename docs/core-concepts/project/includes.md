@@ -116,5 +116,5 @@ includes:
 By following this convention, you will make your project more predictable and manageable.
 
 
-<!--startTocSubTopic-->
-<!--endTocSubTopic-->
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

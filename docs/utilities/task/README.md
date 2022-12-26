@@ -36,7 +36,7 @@ Use "zaruba task [command] --help" for more information about a command.
 </details>
 <!--endCode-->
 
-<!--startTocSubTopic-->
+<!--startTocSubtopic-->
 # Sub-topics
 * [AddDependencies](adddependencies.md)
 * [AddParents](addparents.md)
@@ -45,4 +45,4 @@ Use "zaruba task [command] --help" for more information about a command.
 * [SetConfig](setconfig.md)
 * [SetEnv](setenv.md)
 * [SyncEnv](syncenv.md)
-<!--endTocSubTopic-->
+<!--endTocSubtopic-->

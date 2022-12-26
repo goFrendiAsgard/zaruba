@@ -5,5 +5,5 @@
 
 TODO: Write about `Divide`
 
-<!--startTocSubTopic-->
-<!--endTocSubTopic-->
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

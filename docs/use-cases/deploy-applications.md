@@ -5,5 +5,5 @@
 
 TODO: Write about `Deploy Applications`
 
-<!--startTocSubTopic-->
-<!--endTocSubTopic-->
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

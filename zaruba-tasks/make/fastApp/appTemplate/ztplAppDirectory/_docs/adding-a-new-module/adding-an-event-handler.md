@@ -5,5 +5,5 @@
 
 TODO: Write about `Adding an event handler`
 
-<!--startTocSubTopic-->
-<!--endTocSubTopic-->
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

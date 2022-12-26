@@ -45,5 +45,5 @@ Feature flag mechanism is very simple. It will run a feature only if the corresp
 
 Next, you can continue to read about [interface and layers](interface-and-layers.md).
 
-<!--startTocSubTopic-->
-<!--endTocSubTopic-->
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

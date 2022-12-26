@@ -92,7 +92,7 @@ In some cases, you might need to share your configuration among tasks. To do thi
 Please have a look at [shared config documentation](./shared-configs.md) for more information.
 
 
-<!--startTocSubTopic-->
+<!--startTocSubtopic-->
 # Sub-topics
 * [Shared Configs](shared-configs.md)
-<!--endTocSubTopic-->
+<!--endTocSubtopic-->

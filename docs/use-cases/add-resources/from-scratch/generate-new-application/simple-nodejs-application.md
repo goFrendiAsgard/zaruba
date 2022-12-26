@@ -28,5 +28,5 @@ zaruba please addSimpleNodeJsApp \
   [appEnvs='{"APP_HTTP_PORT":"3000"}']
 ```
 
-<!--startTocSubTopic-->
-<!--endTocSubTopic-->
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

@@ -5,7 +5,7 @@
 
 TODO: Write about `From Scratch`
 
-<!--startTocSubTopic-->
+<!--startTocSubtopic-->
 # Sub-topics
 * [🏃 Add Runner for Existing Application](add-runner-for-existing-application/README.md)
   * [Go Application Runner](add-runner-for-existing-application/go-application-runner.md)
@@ -23,4 +23,4 @@ TODO: Write about `From Scratch`
     * [Crud](generate-new-application/fastapi-application/crud.md)
 * [🚢 Add Application Deployment](add-application-deployment.md)
 * [🥉 Add Third Party Service](add-third-party-service.md)
-<!--endTocSubTopic-->
+<!--endTocSubtopic-->

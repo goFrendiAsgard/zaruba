@@ -40,7 +40,7 @@ Use "zaruba file [command] --help" for more information about a command.
 <!--endCode-->
 
 
-<!--startTocSubTopic-->
+<!--startTocSubtopic-->
 # Sub-topics
 * [Copy](copy.md)
 * [GetLine](getline.md)
@@ -52,4 +52,4 @@ Use "zaruba file [command] --help" for more information about a command.
 * [Replace](replace.md)
 * [Submatch](submatch.md)
 * [Walk](walk.md)
-<!--endTocSubTopic-->
+<!--endTocSubtopic-->

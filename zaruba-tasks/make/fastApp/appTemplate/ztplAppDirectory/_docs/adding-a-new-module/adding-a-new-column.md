@@ -5,5 +5,5 @@
 
 TODO: Write about `Adding a new column`
 
-<!--startTocSubTopic-->
-<!--endTocSubTopic-->
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

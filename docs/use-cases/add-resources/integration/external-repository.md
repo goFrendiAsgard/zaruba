@@ -273,7 +273,12 @@ zaruba please pushSubrepos
 🤖    🚀 🔼 pushSubrepos         On branch master
 🤖    🚀 🔼 pushSubrepos         nothing to commit, working tree clean
 🤖    🚀 🔼 pushSubrepos         git push using:  fibo master
-🤖 🔥 🚀 🔼 pushSubrepos         1/3 (0) [0]2/3 (0) [0]3/3 (0) [0]3/3 (1) [1]3/3 (1) [2]Everything up-to-date
+🤖 🔥 🚀 🔼 pushSubrepos         1/3 (0) [0]
+2/3 (0) [0]
+3/3 (0) [0]
+3/3 (1) [1]
+3/3 (1) [2]
+Everything up-to-date
 🤖    🚀 🔼 pushSubrepos         🎉🎉🎉
 🤖    🚀 🔼 pushSubrepos         Subrepos pushed
 🤖 🎉 Successfully running 🔼 pushSubrepos runner (Attempt 1 of 3)
@@ -288,9 +293,9 @@ zaruba please pushSubrepos
          Current Time: 09:11:36
 zaruba please pushSubrepos  -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/externalRepositories/default.values.yaml'
 ```````
-</details>
+<!--endTocSubtopic-->
 <!--endCode-->
 
 
-<!--startTocSubTopic-->
+<!--startTocSubtopic-->
 <!--endTocSubTopic-->

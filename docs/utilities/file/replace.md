@@ -12,5 +12,5 @@ zaruba file replace --help
 <!--endCode-->
 
 
-<!--startTocSubTopic-->
-<!--endTocSubTopic-->
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

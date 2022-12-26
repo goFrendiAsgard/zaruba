@@ -38,7 +38,7 @@ Use "zaruba lines [command] --help" for more information about a command.
 </details>
 <!--endCode-->
 
-<!--startTocSubTopic-->
+<!--startTocSubtopic-->
 # Sub-topics
 * [GetIndex](getindex.md)
 * [InsertAfter](insertafter.md)
@@ -47,4 +47,4 @@ Use "zaruba lines [command] --help" for more information about a command.
 * [Replace](replace.md)
 * [Submatch](submatch.md)
 * [Write](write.md)
-<!--endTocSubTopic-->
+<!--endTocSubtopic-->

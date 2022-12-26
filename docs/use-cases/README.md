@@ -8,7 +8,7 @@ If you don't have any Zaruba project, you can either clone an existing one or [c
 
 Once you have a project in your computer, you can start [adding resources](add-resources/README.md) and [run tasks](../run-task/README.md).
 
-<!--startTocSubTopic-->
+<!--startTocSubtopic-->
 # Sub-topics
 * [❇️ From Zero to Cloud](from-zero-to-cloud.md)
 * [🏗️ Create a Project](create-a-project.md)
@@ -41,4 +41,4 @@ Once you have a project in your computer, you can start [adding resources](add-r
 * [🚌 Run Applications Locally](run-applications-locally.md)
 * [🏃‍♂️ Run Some Applications Locally](run-some-applications-locally.md)
 * [🚀 Deploy Applications](deploy-applications.md)
-<!--endTocSubTopic-->
+<!--endTocSubtopic-->

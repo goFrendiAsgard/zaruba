@@ -2,7 +2,7 @@
 [🏠](../README.md)
 # 🥝 Core Tasks
 <!--endTocHeader-->
-<!--startTocSubTopic-->
+<!--startTocSubtopic-->
 # Sub-topics
 * [🪂 addAirbyte](addairbyte.md)
 * [🎐 addAirflow](addairflow.md)
@@ -178,4 +178,4 @@
 * [🐳 zrbStopDockerCompose](zrbstopdockercompose.md)
 * [🐳 zrbStopDockerContainer](zrbstopdockercontainer.md)
 * [🌯 zrbWrapper](zrbwrapper.md)
-<!--endTocSubTopic-->
+<!--endTocSubtopic-->

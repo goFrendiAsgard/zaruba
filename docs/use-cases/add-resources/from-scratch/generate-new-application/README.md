@@ -25,7 +25,7 @@ For more detail information please visit any of the following documentations:
 * [Add Fast API Application](./fast-api-application/README.md)
 
 
-<!--startTocSubTopic-->
+<!--startTocSubtopic-->
 # Sub-topics
 * [Simple Go Application](simple-go-application.md)
 * [Simple NodeJs Application](simple-nodejs-application.md)
@@ -36,4 +36,4 @@ For more detail information please visit any of the following documentations:
   * [Event Handler](fastapi-application/event-handler.md)
   * [Rpc Handler](fastapi-application/rpc-handler.md)
   * [Crud](fastapi-application/crud.md)
-<!--endTocSubTopic-->
+<!--endTocSubtopic-->

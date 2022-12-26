@@ -107,5 +107,5 @@ def register_book_ui_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, menu_se
 
 `menu_service.has_access` will return `MenuContext` that you can use to render jinja page template in `pages/modules/library/crud/books.html`.
 
-<!--startTocSubTopic-->
-<!--endTocSubTopic-->
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

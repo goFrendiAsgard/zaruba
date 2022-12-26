@@ -27,5 +27,5 @@ Flags:
 
 # Examples
 
-<!--startTocSubTopic-->
-<!--endTocSubTopic-->
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

@@ -3,10 +3,10 @@
 # FastApi Application
 <!--endTocHeader-->
 TODO: Write about `FastAPI Application`
-<!--startTocSubTopic-->
+<!--startTocSubtopic-->
 # Sub-topics
 * [Route](route.md)
 * [Event Handler](event-handler.md)
 * [Rpc Handler](rpc-handler.md)
 * [Crud](crud.md)
-<!--endTocSubTopic-->
+<!--endTocSubtopic-->

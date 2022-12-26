@@ -33,10 +33,10 @@ Use "zaruba path [command] --help" for more information about a command.
 </details>
 <!--endCode-->
 
-<!--startTocSubTopic-->
+<!--startTocSubtopic-->
 # Sub-topics
 * [GetAppName](getappname.md)
 * [GetEnv](getenv.md)
 * [GetPortConfig](getportconfig.md)
 * [GetRelativePath](getrelativepath.md)
-<!--endTocSubTopic-->
+<!--endTocSubtopic-->

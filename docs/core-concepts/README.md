@@ -13,7 +13,7 @@ Tasks and configurations are written in [YAML](https://en.wikipedia.org/wiki/YAM
 
 Please visit the subtopics to learn more about tasks and anything related to it.
 
-<!--startTocSubTopic-->
+<!--startTocSubtopic-->
 # Sub-topics
 * [🏗️ Project](project/README.md)
   * [🧬 Project Anatomy](project/project-anatomy.md)
@@ -33,4 +33,4 @@ Please visit the subtopics to learn more about tasks and anything related to it.
   * [🧒 Extend task](task/extend-task.md)
   * [🍲 Define task dependencies](task/define-task-dependencies.md)
 * [🐹 Use Go Template](use-go-template.md)
-<!--endTocSubTopic-->
+<!--endTocSubtopic-->

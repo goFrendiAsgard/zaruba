@@ -13,7 +13,7 @@ zaruba json --help
 
 
 
-<!--startTocSubTopic-->
+<!--startTocSubtopic-->
 # Sub-topics
 * [Print](print.md)
-<!--endTocSubTopic-->
+<!--endTocSubtopic-->

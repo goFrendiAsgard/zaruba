@@ -31,8 +31,8 @@ Use "zaruba yaml [command] --help" for more information about a command.
 </details>
 <!--endCode-->
 
-<!--startTocSubTopic-->
+<!--startTocSubtopic-->
 # Sub-topics
 * [Print](print.md)
 * [Read](read.md)
-<!--endTocSubTopic-->
+<!--endTocSubtopic-->

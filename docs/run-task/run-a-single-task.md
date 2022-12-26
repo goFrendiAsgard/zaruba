@@ -101,5 +101,5 @@ zaruba please printHelloWorld
 <!--endCode-->
 
 
-<!--startTocSubTopic-->
-<!--endTocSubTopic-->
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

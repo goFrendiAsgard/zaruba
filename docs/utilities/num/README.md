@@ -37,7 +37,7 @@ Use "zaruba num [command] --help" for more information about a command.
 </details>
 <!--endCode-->
 
-<!--startTocSubTopic-->
+<!--startTocSubtopic-->
 # Sub-topics
 * [Add](add.md)
 * [Divide](divide.md)
@@ -46,4 +46,4 @@ Use "zaruba num [command] --help" for more information about a command.
 * [Subtract](subtract.md)
 * [ValidateFloat](validatefloat.md)
 * [ValidateInt](validateint.md)
-<!--endTocSubTopic-->
+<!--endTocSubtopic-->
