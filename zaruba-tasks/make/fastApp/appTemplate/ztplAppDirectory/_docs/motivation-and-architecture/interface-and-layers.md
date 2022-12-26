@@ -286,5 +286,5 @@ class DBBookRepo(BookRepo):
 
 Next, you can continue to [connecting components guide](connecting-components.md).
 
-<!--startTocSubTopic-->
-<!--endTocSubTopic-->
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

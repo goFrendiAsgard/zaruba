@@ -51,7 +51,7 @@ var getCmd = &cobra.Command{
 		util := dsl.NewDSLUtil()
 		jsonMapEnv, err := util.Json.Map.GetFromEnv()
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		if *getPrefix == "" {
 			fmt.Println(jsonMapEnv)
@@ -59,7 +59,7 @@ var getCmd = &cobra.Command{
 		}
 		cascadedEnvMapStr, err := util.Json.Map.CascadePrefixKeys(jsonMapEnv, *getPrefix)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(cascadedEnvMapStr)
 	},

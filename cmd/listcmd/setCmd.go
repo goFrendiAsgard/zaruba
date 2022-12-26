@@ -27,12 +27,12 @@ var setCmd = &cobra.Command{
 		util := dsl.NewDSLUtil()
 		index, err := strconv.Atoi(args[1])
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		value := args[2]
 		newListString, err := util.Json.List.Set(jsonList, index, value)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(newListString)
 	},

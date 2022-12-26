@@ -24,16 +24,16 @@ var randomCmd = &cobra.Command{
 		case 1:
 			intEnd, err = strconv.Atoi(args[0])
 			if err != nil {
-				cmdHelper.Exit(cmd, args, logger, decoration, err)
+				cmdHelper.Exit(cmd, logger, decoration, err)
 			}
 		case 2:
 			intStart, err = strconv.Atoi(args[0])
 			if err != nil {
-				cmdHelper.Exit(cmd, args, logger, decoration, err)
+				cmdHelper.Exit(cmd, logger, decoration, err)
 			}
 			intEnd, err = strconv.Atoi(args[1])
 			if err != nil {
-				cmdHelper.Exit(cmd, args, logger, decoration, err)
+				cmdHelper.Exit(cmd, logger, decoration, err)
 			}
 		}
 		rand.Seed(time.Now().UnixNano())

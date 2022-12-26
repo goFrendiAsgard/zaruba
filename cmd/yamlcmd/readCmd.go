@@ -30,7 +30,7 @@ var readCmd = &cobra.Command{
 		util := dsl.NewDSLUtil()
 		jsonString, err := util.File.ReadYaml(fileName)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(jsonString)
 	},

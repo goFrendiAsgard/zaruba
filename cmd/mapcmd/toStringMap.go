@@ -26,7 +26,7 @@ var toStringMapCmd = &cobra.Command{
 		util := dsl.NewDSLUtil()
 		newJsonMap, err := util.Json.Map.ToStringMap(jsonMap)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(newJsonMap)
 	},

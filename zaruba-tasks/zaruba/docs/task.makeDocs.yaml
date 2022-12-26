@@ -11,4 +11,4 @@ tasks:
     configs:
       start: |
         . "{{ .GetTaskPath "./bash/makeTaskDocs.sh" }}"
-        cd docs && . .adjustDocs.sh
+        "${ZARUBA_BIN}" toc docs/README.md

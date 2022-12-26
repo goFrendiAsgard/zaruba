@@ -83,11 +83,11 @@ var getLineIndexCmd = &cobra.Command{
 		strFileName, jsonStrListPatterns := args[0], args[1]
 		jsonLines, err := util.File.ReadLines(strFileName)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		matchIndex, _, err := util.Json.List.GetLinesSubmatch(jsonLines, jsonStrListPatterns, *getLineIndexDesiredPatternIndex)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(matchIndex)
 	},

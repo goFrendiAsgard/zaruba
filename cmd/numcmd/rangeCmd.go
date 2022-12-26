@@ -22,29 +22,29 @@ var rangeCmd = &cobra.Command{
 		case 1:
 			intEnd, err = strconv.Atoi(args[0])
 			if err != nil {
-				cmdHelper.Exit(cmd, args, logger, decoration, err)
+				cmdHelper.Exit(cmd, logger, decoration, err)
 			}
 		case 2:
 			intStart, err = strconv.Atoi(args[0])
 			if err != nil {
-				cmdHelper.Exit(cmd, args, logger, decoration, err)
+				cmdHelper.Exit(cmd, logger, decoration, err)
 			}
 			intEnd, err = strconv.Atoi(args[1])
 			if err != nil {
-				cmdHelper.Exit(cmd, args, logger, decoration, err)
+				cmdHelper.Exit(cmd, logger, decoration, err)
 			}
 		case 3:
 			intStart, err = strconv.Atoi(args[0])
 			if err != nil {
-				cmdHelper.Exit(cmd, args, logger, decoration, err)
+				cmdHelper.Exit(cmd, logger, decoration, err)
 			}
 			intEnd, err = strconv.Atoi(args[1])
 			if err != nil {
-				cmdHelper.Exit(cmd, args, logger, decoration, err)
+				cmdHelper.Exit(cmd, logger, decoration, err)
 			}
 			intStep, err = strconv.Atoi(args[2])
 			if err != nil {
-				cmdHelper.Exit(cmd, args, logger, decoration, err)
+				cmdHelper.Exit(cmd, logger, decoration, err)
 			}
 		}
 		for i := intStart; i < intEnd; i += intStep {

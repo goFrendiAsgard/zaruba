@@ -56,7 +56,9 @@ func (tocItem *TocItem) RenderNewContentFromOldFile(tocHeader, tocSubtopic strin
 	if err := util.File.WriteText(tocItem.NewFileLocation, newFileContent, 0755); err != nil {
 		return err
 	}
-	return os.Remove(tocItem.OldFileLocation)
+	if tocItem.OldFileLocation != tocItem.NewFileLocation {
+		return os.Remove(tocItem.OldFileLocation)
+	}
 }
 
 func (tocItem *TocItem) RenderNewContentToNewFile(tocHeader, tocSubtopic string) (err error) {

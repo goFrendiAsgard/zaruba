@@ -38,7 +38,7 @@ var rangeIndexCmd = &cobra.Command{
 		util := dsl.NewDSLUtil()
 		length, err := util.Json.List.GetLength(args[0])
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		for i := 0; i < length; i++ {
 			fmt.Println(i)

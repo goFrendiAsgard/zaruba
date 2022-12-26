@@ -5,9 +5,9 @@
 
 TODO: Write about `User interface`
 
-<!--startTocSubTopic-->
+<!--startTocSubtopic-->
 # Sub-topics
 * [Menu](menu.md)
 * [Jinja templates](jinja-templates.md)
 * [Vue.js](vue-js.md)
-<!--endTocSubTopic-->
+<!--endTocSubtopic-->

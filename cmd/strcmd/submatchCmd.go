@@ -43,11 +43,11 @@ var submatchCmd = &cobra.Command{
 		util := dsl.NewDSLUtil()
 		submatch, err := util.Str.Submatch(text, pattern)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		jsonSubmatch, err := util.Json.FromStringList(submatch)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(jsonSubmatch)
 	},

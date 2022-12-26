@@ -165,7 +165,7 @@ Done.
 
 You can set `APP_ENABLE_LIBRARY_MODULE` to `0` or `1` to disable/enable the module.
 
-<!--startTocSubTopic-->
+<!--startTocSubtopic-->
 # Sub-topics
 * [Adding a CRUD handler](adding-a-crud-handler.md)
 * [Adding a new column](adding-a-new-column.md)
@@ -173,4 +173,4 @@ You can set `APP_ENABLE_LIBRARY_MODULE` to `0` or `1` to disable/enable the modu
 * [Adding a page](adding-a-page.md)
 * [Adding an event handler](adding-an-event-handler.md)
 * [Adding an RPC handler](adding-an-rpc-handler.md)
-<!--endTocSubTopic-->
+<!--endTocSubtopic-->

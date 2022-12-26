@@ -21,7 +21,7 @@ var padLeftCmd = &cobra.Command{
 		text := args[0]
 		length, err := strconv.Atoi(args[1])
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		pad := " "
 		if len(args) > 2 {

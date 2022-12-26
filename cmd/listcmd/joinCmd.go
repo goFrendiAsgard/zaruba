@@ -29,7 +29,7 @@ var joinCmd = &cobra.Command{
 		util := dsl.NewDSLUtil()
 		str, err := util.Json.List.Join(jsonList, separator)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(str)
 	},

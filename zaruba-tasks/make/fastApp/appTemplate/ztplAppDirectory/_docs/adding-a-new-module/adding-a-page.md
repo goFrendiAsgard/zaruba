@@ -73,5 +73,5 @@ Then you need to create `pages/modules/library/blog.html`
 </p>
 ```
 
-<!--startTocSubTopic-->
-<!--endTocSubTopic-->
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

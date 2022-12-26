@@ -22,7 +22,7 @@ var setValueCmd = &cobra.Command{
 		}
 		util := dsl.NewDSLUtil()
 		if err := util.Project.SetValue(key, value, projectFile); err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 	},
 }

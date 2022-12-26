@@ -29,7 +29,7 @@ var copyCmd = &cobra.Command{
 		strSourcePath, strDestinationPath := args[0], args[1]
 		util := dsl.NewDSLUtil()
 		if err := util.File.Copy(strSourcePath, strDestinationPath); err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 	},
 }

@@ -24,7 +24,7 @@ var setConfigsCmd = &cobra.Command{
 		configMap, err := util.Json.ToStringDict(jsonConfigMap)
 		if err != nil {
 			if len(args) <= 2 {
-				cmdHelper.Exit(cmd, args, logger, decoration, err)
+				cmdHelper.Exit(cmd, logger, decoration, err)
 			}
 			configMap = common.StringDict{}
 			configMap[args[1]] = args[2]
@@ -36,10 +36,10 @@ var setConfigsCmd = &cobra.Command{
 		}
 		projectFile, err = filepath.Abs(projectFile)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		if err = util.Project.Task.Config.Set(taskName, configMap, projectFile); err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 	},
 }

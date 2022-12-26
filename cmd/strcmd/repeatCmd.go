@@ -21,7 +21,7 @@ var repeatCmd = &cobra.Command{
 		text := args[0]
 		repetition, err := strconv.Atoi(args[1])
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		util := dsl.NewDSLUtil()
 		fmt.Println(util.Str.Repeat(text, repetition))

@@ -25,7 +25,7 @@ var lengthCmd = &cobra.Command{
 		util := dsl.NewDSLUtil()
 		length, err := util.Json.List.GetLength(args[0])
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(length)
 	},

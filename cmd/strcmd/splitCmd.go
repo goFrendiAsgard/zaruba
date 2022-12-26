@@ -26,7 +26,7 @@ var splitCmd = &cobra.Command{
 		list := util.Str.Split(text, separator)
 		jsonList, err := util.Json.FromStringList(list)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(jsonList)
 

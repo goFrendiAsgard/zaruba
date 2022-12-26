@@ -75,7 +75,7 @@ var replaceCmd = &cobra.Command{
 		util := dsl.NewDSLUtil()
 		strFileName, strNewContent := args[0], args[1]
 		if err := util.File.ReplaceLineAtIndex(strFileName, strNewContent, *replaceIndex); err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 	},
 }

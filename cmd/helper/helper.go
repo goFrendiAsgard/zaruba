@@ -13,7 +13,7 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-func Exit(cmd *cobra.Command, args []string, logger output.Logger, decoration *output.Decoration, err error) {
+func Exit(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, err error) {
 	if err != nil {
 		// get nodeCmd and commandName
 		nodeCmd := cmd
@@ -53,7 +53,7 @@ func CheckMinArgCount(cmd *cobra.Command, logger output.Logger, decoration *outp
 		usage := cmd.UsageString()
 		argsJsonBytes, _ := json.Marshal(args)
 		err := fmt.Errorf("expecting %d arguments, get %d: %s\n%s", minArgCount, len(args), string(argsJsonBytes), usage)
-		Exit(cmd, args, logger, decoration, err)
+		Exit(cmd, logger, decoration, err)
 	}
 }
 

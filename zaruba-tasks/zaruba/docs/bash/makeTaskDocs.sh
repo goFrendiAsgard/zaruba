@@ -28,7 +28,7 @@ done
 export ZARUBA_DECORATION=plain
 
 # Get explanations and write to files
-echo '<!--startTocSubTopic-->' >> ./docs/core-tasks/README.md
+echo '<!--startTocSubtopic-->' >> ./docs/core-tasks/README.md
 echo '# Sub-topics' >> ./docs/core-tasks/README.md
 TASK_ICON_MAP={}
 TASK_KEBAB_NAME_MAP={}
@@ -54,7 +54,7 @@ do
         TASK_KEBAB_NAME_MAP="$(./zaruba map set "${TASK_KEBAB_NAME_MAP}" "${TASK_NAME}" "${KEBAB_TASK_NAME}")"
     fi
 done
-echo '<!--endTocSubTopic-->' >> ./docs/core-tasks/README.md
+echo '<!--endTocSubtopic-->' >> ./docs/core-tasks/README.md
 
 echo "Updating task TOC"
 python ./zaruba-tasks/zaruba/docs/python/update-task-toc.py "${TASK_ICON_MAP}" "${TASK_KEBAB_NAME_MAP}"
