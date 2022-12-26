@@ -6,5 +6,4 @@
 TODO: Write about `📝 Design Documents`
 
 <!--startTocSubtopic-->
-
 <!--endTocSubtopic-->

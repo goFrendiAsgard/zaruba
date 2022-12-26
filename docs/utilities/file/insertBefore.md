@@ -10,6 +10,9 @@
 zaruba file insertBefore --help
 ```
 
+<<<<<<< HEAD
 
+<!--startTocSubtopic-->
+=======
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

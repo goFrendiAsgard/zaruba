@@ -10,6 +10,9 @@
 zaruba file getLineIndex --help
 ```
 
+<<<<<<< HEAD
 
+<!--startTocSubtopic-->
+=======
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

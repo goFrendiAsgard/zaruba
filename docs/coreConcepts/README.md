@@ -5,7 +5,11 @@
 
 At its core, Zaruba is a [task](task/README.md) runner.
 
+<<<<<<< HEAD
 Some tasks (like a [builtin ones](../coreTasks/README.md)) are globally accessible. But most of the tasks are [project-specific](project/README.md). Project-specific tasks are only accessible from the project directory.
+=======
+Some tasks (like a [builtin ones](../core-tasks/README.md)) are globally accessible. But most of the tasks are [project-specific](project/README.md). Project-specific tasks are only accessible from the project directory.
+>>>>>>> master
 
 You can think of a project as a container of your tasks and any related resources. In most cases, a project is also a git repository or a mono-repo.
 

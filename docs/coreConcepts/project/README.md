@@ -132,7 +132,10 @@ Cloning into 'myClonedProject'...
 ```````
 </details>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 <!--startTocSubtopic-->
 - [🧬 Project Anatomy](projectAnatomy.md)
 - [🧳 Includes](includes.md)

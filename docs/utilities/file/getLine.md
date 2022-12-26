@@ -10,6 +10,9 @@
 zaruba file getLine --help
 ```
 
+<<<<<<< HEAD
 
+<!--startTocSubtopic-->
+=======
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->
