@@ -4,7 +4,7 @@
 
 Welcome to Zaruba Documentation.
 
-Zaruba is a [task](core-concepts/task/README.md) runner and [CLI utility](utilities/README.md). It helps you __prepare__, __run__, __deploy__, and __debug__ your applications.
+Zaruba is a [task](coreConcepts/task/README.md) runner and [CLI utility](utilities/README.md). It helps you __prepare__, __run__, __deploy__, and __debug__ your applications.
 
 To start working with Zaruba, you need to [create a project](use-cases/create-a-project.md) and [add some resources](use-cases/add-resources/README.md). Once your project is ready, you can start [running some tasks](run-tasks/README.md). 
 
@@ -12,7 +12,7 @@ In Zaruba, you can define your tasks as YAML.
 
 ![](images/solution-example.png)
 
-You can [visit the core concepts](core-concepts/README.md) to know more about the detail.
+You can [visit the core concepts](coreConcepts/README.md) to know more about the detail.
 
 Finally, you can visit our [end-to-end tutorial](use-cases/from-zero-to-cloud.md) to get a better glimpse.
 

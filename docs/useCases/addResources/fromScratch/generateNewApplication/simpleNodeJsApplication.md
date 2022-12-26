@@ -3,7 +3,7 @@
 # Simple NodeJs Application
 <!--endTocHeader-->
 
-To add simple node.js application, you can invoke [addSimpleNodeJsApp](../../core-tasks/addSimpleNodeJsApp)
+To add simple node.js application, you can invoke [addSimpleNodeJsApp](../../coreTasks/addSimpleNodeJsApp)
 
 
 # How to

@@ -20,10 +20,10 @@ All external repo will be treated as subrepo.
 
 There are several builtin tasks you can use to manage subrepo:
 
-* [initSubrepos](../../../core-tasks/initSubrepos.md)
-* [addSubrepo](../../../core-tasks/addSubrepo.md)
-* [pullSubrepos](../../../core-tasks/pullSubrepos.md)
-* [pushSubrepos](../../../core-tasks/pushSubrepos.md)
+* [initSubrepos](../../../coreTasks/initSubrepos.md)
+* [addSubrepo](../../../coreTasks/addSubrepo.md)
+* [pullSubrepos](../../../coreTasks/pullSubrepos.md)
+* [pushSubrepos](../../../coreTasks/pushSubrepos.md)
 
 
 # Add Subrepo

@@ -28,7 +28,7 @@ cd myProject
 zaruba please initProject
 ```
 
-A [project](../core-concepts/project/README.md) is a container for your tasks and resources. In order to create task/applications with Zaruba, you need to create a project first.
+A [project](../coreConcepts/project/README.md) is a container for your tasks and resources. In order to create task/applications with Zaruba, you need to create a project first.
 
 # Create an application
 

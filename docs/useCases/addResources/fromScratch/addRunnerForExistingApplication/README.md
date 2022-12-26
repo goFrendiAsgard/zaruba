@@ -4,7 +4,7 @@
 <!--endTocHeader-->
 
 
-There are several builtin tasks to create application runner for your existing applications. One of them is [`addAppRunner`](../../core-tasks/addAppRunner.md)
+There are several builtin tasks to create application runner for your existing applications. One of them is [`addAppRunner`](../../coreTasks/addAppRunner.md)
 
 Please note that `addAppRunner` will make you a generic application runner. This will work in most cases.
 

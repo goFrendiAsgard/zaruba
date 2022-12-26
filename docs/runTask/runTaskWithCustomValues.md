@@ -3,7 +3,7 @@
 # 🔤 Run task with custom values
 <!--endTocHeader-->
 
-Some tasks might depend on [task inputs](../core-concepts/task/task-inputs.md).
+Some tasks might depend on [task inputs](../coreConcepts/task/task-inputs.md).
 
 To set input values for your tasks, you can invoke:
 

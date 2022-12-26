@@ -53,7 +53,7 @@ __Example:__
 
 
 ```bash
-cd examples/core-concepts/task/simple-command/low-level
+cd examples/coreConcepts/task/simple-command/low-level
 zaruba please printHello
 ```
  
@@ -64,7 +64,7 @@ zaruba please printHello
 🤖 🔎 Job Starting...
          Elapsed Time: 1.217µs
          Current Time: 09:10:38
-🤖 🏁 Running 🍏 printHello runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/simple-command/low-level
+🤖 🏁 Running 🍏 printHello runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/coreConcepts/task/simple-command/low-level
 🤖    🚀 🍏 printHello           hello
 🤖 🎉 Successfully running 🍏 printHello runner (Attempt 1 of 3)
 🤖 🔎 Job Running...
@@ -83,7 +83,7 @@ zaruba please printHello
 
 ## Higher Level Approach
 
-Instead of accessing `start` property directly, you can [extend](./extend-task.md) [zrbRunShellScript](../../core-tasks/zrb-run-shell-script.md) as follows:
+Instead of accessing `start` property directly, you can [extend](./extend-task.md) [zrbRunShellScript](../../coreTasks/zrb-run-shell-script.md) as follows:
 
 ```yaml
 tasks:
@@ -98,7 +98,7 @@ __Example:__
 
 
 ```bash
-cd examples/core-concepts/task/simple-command/high-level-shell
+cd examples/coreConcepts/task/simple-command/high-level-shell
 zaruba please printHello
 ```
  
@@ -109,7 +109,7 @@ zaruba please printHello
 🤖 🔎 Job Starting...
          Elapsed Time: 1.126µs
          Current Time: 09:10:38
-🤖 🏁 Running 🍏 printHello runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/simple-command/high-level-shell
+🤖 🏁 Running 🍏 printHello runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/coreConcepts/task/simple-command/high-level-shell
 🤖    🚀 🍏 printHello           hello
 🤖 🎉 Successfully running 🍏 printHello runner (Attempt 1 of 3)
 🤖 🔎 Job Running...
@@ -127,7 +127,7 @@ zaruba please printHello
 
 
 
-Another way to do this is by extending [zrbRunPythonScript](../../core-tasks/zrb-run-python-script.md)
+Another way to do this is by extending [zrbRunPythonScript](../../coreTasks/zrb-run-python-script.md)
 
 ```yaml
 tasks:
@@ -142,7 +142,7 @@ __Example:__
 
 
 ```bash
-cd examples/core-concepts/task/simple-command/high-level-python
+cd examples/coreConcepts/task/simple-command/high-level-python
 zaruba please printHello
 ```
  
@@ -153,7 +153,7 @@ zaruba please printHello
 🤖 🔎 Job Starting...
          Elapsed Time: 1.201µs
          Current Time: 09:10:39
-🤖 🏁 Running 🍏 printHello runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/simple-command/high-level-python
+🤖 🏁 Running 🍏 printHello runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/coreConcepts/task/simple-command/high-level-python
 🤖    🚀 🍏 printHello           hello
 🤖 🎉 Successfully running 🍏 printHello runner (Attempt 1 of 3)
 🤖 🔎 Job Running...
@@ -173,10 +173,10 @@ zaruba please printHello
 
 Here are some of the tasks you can extend when you want to run simple commands:
 
-* [zrbRunScript](../../core-tasks/zrb-run-script.md): Lowest level
-* [zrbRunShellScript](../../core-tasks/zrb-run-shell-script.md): Preferable for common use cases
-* [zrbRunPythonScript](../../core-tasks/zrb-run-python-script.md): Run Python script instead of shell script
-* [zrbRunNodeJsScript](../../core-tasks/zrb-run-node-js-script.md): Run Node.Js script instead of shell script
+* [zrbRunScript](../../coreTasks/zrb-run-script.md): Lowest level
+* [zrbRunShellScript](../../coreTasks/zrb-run-shell-script.md): Preferable for common use cases
+* [zrbRunPythonScript](../../coreTasks/zrb-run-python-script.md): Run Python script instead of shell script
+* [zrbRunNodeJsScript](../../coreTasks/zrb-run-node-js-script.md): Run Node.Js script instead of shell script
 
 <!--startTocSubtopic-->
 

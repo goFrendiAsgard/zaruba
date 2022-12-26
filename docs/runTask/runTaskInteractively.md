@@ -3,7 +3,7 @@
 # 🏓 Run task interactively
 <!--endTocHeader-->
 
-When you run tasks in interactive mode, Zaruba will ask you to fill in some [inputs](../core-concepts/task/task-inputs.md) and [environments](../core-concepts/task/task-envs/README.md).
+When you run tasks in interactive mode, Zaruba will ask you to fill in some [inputs](../coreConcepts/task/task-inputs.md) and [environments](../coreConcepts/task/task-envs/README.md).
 
 To run a task in interactive mode you can invoke:
 

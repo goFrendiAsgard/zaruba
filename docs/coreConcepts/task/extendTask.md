@@ -36,7 +36,7 @@ tasks:
 That's exactly what it looks like. `startServer` inherit properties from `zrbStartApp` and override some of them.
 
 
-Now let's see the definition of [zrbStartApp](../../core-tasks/zrb-start-app.md):
+Now let's see the definition of [zrbStartApp](../../coreTasks/zrb-start-app.md):
 
 ```yaml
 tasks:

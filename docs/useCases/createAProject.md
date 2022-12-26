@@ -47,7 +47,7 @@ zaruba please initProject
 </details>
 
 
-Aside from generating a project using `zaruba please initProject`, you can also clone/fork existing project from Github or other Git server. Please see [../core-concepts/projects/README.md] for more information.
+Aside from generating a project using `zaruba please initProject`, you can also clone/fork existing project from Github or other Git server. Please see [../coreConcepts/projects/README.md] for more information.
 
 # Initial Project Structure
 

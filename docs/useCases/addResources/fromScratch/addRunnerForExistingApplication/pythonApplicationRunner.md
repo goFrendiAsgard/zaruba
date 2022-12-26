@@ -4,7 +4,7 @@
 <!--endTocHeader-->
 
 
-To create application runner for your existing python applications, you can use [`addPythonAppRunner`](../../core-tasks/addPythonAppRunner.md)
+To create application runner for your existing python applications, you can use [`addPythonAppRunner`](../../coreTasks/addPythonAppRunner.md)
 
 # How to Add Python Application Runner
 

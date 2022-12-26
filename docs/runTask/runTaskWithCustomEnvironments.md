@@ -3,7 +3,7 @@
 # 🏝️ Run Task with Custom Environments
 <!--endTocHeader-->
 
-To set [task's environment](../core-concepts/task/task-envs/README.md) you can use `-e` flag as follow:
+To set [task's environment](../coreConcepts/task/task-envs/README.md) you can use `-e` flag as follow:
 
 ```bash
 zaruba please <task-name> -e <first-key=first-value> -e <second-key=second-value>

@@ -4,7 +4,7 @@
 <!--endTocHeader-->
 
 
-To add simple go application, you can invoke [addSimpleGoApp](../../core-tasks/addSimpleGoApp)
+To add simple go application, you can invoke [addSimpleGoApp](../../coreTasks/addSimpleGoApp)
 
 
 # How to

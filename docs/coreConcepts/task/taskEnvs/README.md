@@ -47,7 +47,7 @@ Let's set `SERVER_HTTP_PORT` to `3000` and start the server:
 
 
 ```bash
-cd examples/core-concepts/task/task-envs
+cd examples/coreConcepts/task/task-envs
 export SERVER_HTTP_PORT=3000
 zaruba please startServer -t -w 500ms
 ```
@@ -59,12 +59,12 @@ zaruba please startServer -t -w 500ms
 🤖 🔎 Job Starting...
          Elapsed Time: 1.159µs
          Current Time: 09:11:01
-🤖 🏁 Running 🔗 updateProjectLinks runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/task-envs
+🤖 🏁 Running 🔗 updateProjectLinks runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/coreConcepts/task/task-envs
 🤖    🚀 🔗 updateProjectLinks   🎉🎉🎉
 🤖    🚀 🔗 updateProjectLinks   Links updated
 🤖 🎉 Successfully running 🔗 updateProjectLinks runner (Attempt 1 of 3)
-🤖 🏁 Running 🍏 startServer starter (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/task-envs
-🤖 🏁 Running 🍏 startServer readiness checker (Attempt 1 of infinite) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/task-envs
+🤖 🏁 Running 🍏 startServer starter (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/coreConcepts/task/task-envs
+🤖 🏁 Running 🍏 startServer readiness checker (Attempt 1 of infinite) on /home/gofrendi/zaruba/docs/examples/coreConcepts/task/task-envs
 🤖    🔎 🍏 startServer          🔎 Waiting for port '3000'
 🤖    🚀 🍏 startServer          Serving HTTP on 0.0.0.0 port 3000 (http://0.0.0.0:3000/) ...
 🤖    🔎 🍏 startServer          🔎 Port '3000' is ready

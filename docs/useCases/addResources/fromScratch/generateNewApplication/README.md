@@ -5,15 +5,15 @@
 
 There are several tasks you can use to create new application and application component:
 
-* [addSimpleGoApp](../../core-tasks/addSimpleGoApp)
-* [addSimpleNodeJsApp](../../core-tasks/addSimpleNodeJsApp)
-* [addSimpleTypeScriptApp](../../core-tasks/addSimpleTypeScriptApp)
-* [addSimplePythonApp](../../core-tasks/addSimplePythonApp)
-* [addFastApi](../../core-tasks/addFastApi)
-    * [addFastApiModule](../../core-tasks/addFastApiModule)
-    * [addFastApiRouteHandler](../../core-tasks/addFastApiRouteHandler)
-    * [addFastApiEventHandler](../../core-tasks/addFastApiEventHandler)
-    * [addFastApiCrud](../../core-tasks/addFastApiCrud)
+* [addSimpleGoApp](../../coreTasks/addSimpleGoApp)
+* [addSimpleNodeJsApp](../../coreTasks/addSimpleNodeJsApp)
+* [addSimpleTypeScriptApp](../../coreTasks/addSimpleTypeScriptApp)
+* [addSimplePythonApp](../../coreTasks/addSimplePythonApp)
+* [addFastApi](../../coreTasks/addFastApi)
+    * [addFastApiModule](../../coreTasks/addFastApiModule)
+    * [addFastApiRouteHandler](../../coreTasks/addFastApiRouteHandler)
+    * [addFastApiEventHandler](../../coreTasks/addFastApiEventHandler)
+    * [addFastApiCrud](../../coreTasks/addFastApiCrud)
 
 
 For more detail information please visit any of the following documentations:
