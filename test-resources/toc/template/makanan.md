@@ -1,6 +1,8 @@
-# Fruits
+<!--startTocHeader-->
+# Makanan
+<!--endTocHeader-->
 
 Article about food
 
-<!--startToc-->
-<!--endToc-->
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

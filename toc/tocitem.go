@@ -2,6 +2,7 @@ package toc
 
 import (
 	"fmt"
+	"os"
 	"path/filepath"
 	"strings"
 )
@@ -10,7 +11,7 @@ type TocItem struct {
 	Level           int
 	Title           string
 	CamelCaseTitle  string
-	FileLocation    string
+	OldFileLocation string
 	NewFileLocation string
 	Children        TocItems
 	Parent          *TocItem
@@ -27,32 +28,50 @@ func (tocItem *TocItem) RenderNewContent() (err error) {
 	if err != nil {
 		return err
 	}
-	if tocItem.FileLocation == "" {
-		return tocItem.RenderNewContentToNewFile(tocHeader, tocSubtopic)
+	// old file location is not defined
+	if tocItem.OldFileLocation == "" {
+		if err := tocItem.RenderNewContentToNewFile(tocHeader, tocSubtopic); err != nil {
+			return err
+		}
 	}
-	return tocItem.RenderNewContentFromOldFile(tocHeader, tocSubtopic)
+	// old file location is defined
+	if tocItem.OldFileLocation != "" {
+		if err := tocItem.RenderNewContentFromOldFile(tocHeader, tocSubtopic); err != nil {
+			return err
+		}
+	}
+	// also render children
+	return tocItem.Children.RenderNewContent()
 }
 
 func (tocItem *TocItem) RenderNewContentFromOldFile(tocHeader, tocSubtopic string) (err error) {
-	return nil
+	util := tocItem.Toc.Util
+	fmt.Println(tocItem.OldFileLocation)
+	oldFileContent, err := util.File.ReadText(tocItem.OldFileLocation)
+	if err != nil {
+		return err
+	}
+	newFileContent := replaceTag(util, startTocHeaderTag, endTocHeaderTag, oldFileContent, tocHeader)
+	newFileContent = replaceTag(util, startTocSubtopicTag, endTocSubtopicTag, newFileContent, tocSubtopic)
+	if err := util.File.WriteText(tocItem.NewFileLocation, newFileContent, 0755); err != nil {
+		return err
+	}
+	return os.Remove(tocItem.OldFileLocation)
 }
 
 func (tocItem *TocItem) RenderNewContentToNewFile(tocHeader, tocSubtopic string) (err error) {
-	content := strings.Join([]string{
-		"<!--startTocHeader-->",
+	newFileContent := strings.Join([]string{
+		startTocHeaderTag,
 		tocHeader,
-		"<!--endTocHeader-->",
+		endTocHeaderTag,
 		"",
 		fmt.Sprintf("> TODO: Write about `%s`.", tocItem.Title),
 		"",
-		"<!--startTocSubtopic-->",
+		startTocSubtopicTag,
 		tocSubtopic,
-		"<!--endTocSubtopic-->",
+		endTocSubtopicTag,
 	}, "\n")
-	if err := tocItem.Toc.Util.File.WriteText(tocItem.NewFileLocation, content, 0755); err != nil {
-		return err
-	}
-	return tocItem.Children.RenderNewContent()
+	return tocItem.Toc.Util.File.WriteText(tocItem.NewFileLocation, newFileContent, 0755)
 }
 
 func (tocItem *TocItem) GetTocHeader() (tocHeader string, err error) {
@@ -120,7 +139,7 @@ func (tocItem *TocItem) GetParentLinksAsString() (str string, err error) {
 func (tocItem *TocItem) SetNewFileLocation() {
 	tocFileLocation := tocItem.Toc.FileLocation
 	tocDirPath := filepath.Dir(tocFileLocation)
-	pathList := []string{tocItem.getFileName()}
+	pathList := []string{tocItem.getNewFileName()}
 	parent := tocItem.Parent
 	for parent != nil {
 		pathList = append([]string{parent.CamelCaseTitle}, pathList...)
@@ -130,21 +149,26 @@ func (tocItem *TocItem) SetNewFileLocation() {
 	tocItem.NewFileLocation = filepath.Join(pathList...)
 }
 
-func (tocItem *TocItem) getFileName() (fileName string) {
+func (tocItem *TocItem) getNewFileName() (fileName string) {
 	if len(tocItem.Children) == 0 {
 		return fmt.Sprintf("%s.md", tocItem.CamelCaseTitle)
 	}
 	return filepath.Join(tocItem.CamelCaseTitle, "README.md")
 }
 
-func NewTocItem(toc *Toc, parent *TocItem, level int, title, fileLocation string) (tocItem *TocItem) {
+func NewTocItem(toc *Toc, parent *TocItem, level int, title, oldFileLocation string) (tocItem *TocItem) {
+	if oldFileLocation != "" && !filepath.IsAbs(oldFileLocation) {
+		tocFileLocation := toc.FileLocation
+		tocDirPath := filepath.Dir(tocFileLocation)
+		oldFileLocation = filepath.Join(tocDirPath, oldFileLocation)
+	}
 	tocItem = &TocItem{
-		Level:          level,
-		Title:          title,
-		CamelCaseTitle: toc.Util.Str.ToCamel(title),
-		FileLocation:   fileLocation,
-		Parent:         parent,
-		Toc:            toc,
+		Level:           level,
+		Title:           title,
+		CamelCaseTitle:  toc.Util.Str.ToCamel(title),
+		OldFileLocation: oldFileLocation,
+		Parent:          parent,
+		Toc:             toc,
 	}
 	return tocItem
 }
