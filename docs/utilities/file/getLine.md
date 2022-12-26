@@ -12,5 +12,4 @@ zaruba file getLine --help
 
 
 <!--startTocSubtopic-->
-
 <!--endTocSubtopic-->

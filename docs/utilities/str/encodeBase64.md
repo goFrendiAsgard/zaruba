@@ -6,5 +6,4 @@
 TODO: Write about `EncodeBase64`
 
 <!--startTocSubtopic-->
-
 <!--endTocSubtopic-->

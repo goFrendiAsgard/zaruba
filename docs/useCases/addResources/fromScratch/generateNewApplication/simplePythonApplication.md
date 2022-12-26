@@ -31,5 +31,4 @@ zaruba please addSimplePythonApp \
 
 
 <!--startTocSubtopic-->
-
 <!--endTocSubtopic-->

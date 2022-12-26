@@ -28,8 +28,10 @@ func (tocItem *TocItem) RenderNewContent() (err error) {
 	if err != nil {
 		return err
 	}
-	// old file location is not defined
-	if tocItem.OldFileLocation == "" {
+	util := tocItem.Toc.Util
+	oldFileExist, oldFileExistErr := util.File.IsExist(tocItem.OldFileLocation)
+	// old file location is not defined or not exist
+	if tocItem.OldFileLocation == "" || !oldFileExist || oldFileExistErr != nil {
 		if err := tocItem.RenderNewContentToNewFile(tocHeader, tocSubtopic); err != nil {
 			return err
 		}
@@ -46,7 +48,6 @@ func (tocItem *TocItem) RenderNewContent() (err error) {
 
 func (tocItem *TocItem) RenderNewContentFromOldFile(tocHeader, tocSubtopic string) (err error) {
 	util := tocItem.Toc.Util
-	fmt.Println(tocItem.OldFileLocation)
 	oldFileContent, err := util.File.ReadText(tocItem.OldFileLocation)
 	if err != nil {
 		return err

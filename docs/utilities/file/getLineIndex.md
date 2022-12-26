@@ -12,5 +12,4 @@ zaruba file getLineIndex --help
 
 
 <!--startTocSubtopic-->
-
 <!--endTocSubtopic-->

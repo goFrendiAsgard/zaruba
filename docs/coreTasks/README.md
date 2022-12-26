@@ -171,10 +171,4 @@
 - [🐚 zrbRunShellScript](zrbRunShellScript.md)
 - [🚢 zrbSetKubeContext](zrbSetKubeContext.md)
 - [☕ zrbShowAdv](zrbShowAdv.md)
-- [📜 zrbStartApp](zrbStartApp.md)
-- [🐳 zrbStartDockerCompose](zrbStartDockerCompose.md)
-- [🐳 zrbStartDockerContainer](zrbStartDockerContainer.md)
-- [🐳 zrbStopDockerCompose](zrbStopDockerCompose.md)
-- [🐳 zrbStopDockerContainer](zrbStopDockerContainer.md)
-- [🌯 zrbWrapper](zrbWrapper.md)
 <!--endTocSubtopic-->

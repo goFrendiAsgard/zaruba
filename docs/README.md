@@ -356,12 +356,4 @@ Finally, you can visit our [end-to-end tutorial](use-cases/from-zero-to-cloud.md
   - [🐚 zrbRunShellScript](coreTasks/zrbRunShellScript.md)
   - [🚢 zrbSetKubeContext](coreTasks/zrbSetKubeContext.md)
   - [☕ zrbShowAdv](coreTasks/zrbShowAdv.md)
-  - [📜 zrbStartApp](coreTasks/zrbStartApp.md)
-  - [🐳 zrbStartDockerCompose](coreTasks/zrbStartDockerCompose.md)
-  - [🐳 zrbStartDockerContainer](coreTasks/zrbStartDockerContainer.md)
-  - [🐳 zrbStopDockerCompose](coreTasks/zrbStopDockerCompose.md)
-  - [🐳 zrbStopDockerContainer](coreTasks/zrbStopDockerContainer.md)
-  - [🌯 zrbWrapper](coreTasks/zrbWrapper.md)
-- [📝 Design Documents](designDocuments.md)
-- [coba](coba.md)
 <!--endToc-->

@@ -6,5 +6,4 @@
 TODO: Write about `DecodeBase64`
 
 <!--startTocSubtopic-->
-
 <!--endTocSubtopic-->

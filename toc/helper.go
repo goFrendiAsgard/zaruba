@@ -46,7 +46,11 @@ func replaceTag(util *dsl.DSLUtil, startTag, endTag, content, replacement string
 	if beforeTag != "" {
 		stringList = append(stringList, beforeTag)
 	}
-	stringList = append(stringList, startTag, replacement, endTag)
+	stringList = append(stringList, startTag)
+	if replacement != "" {
+		stringList = append(stringList, replacement)
+	}
+	stringList = append(stringList, endTag)
 	if afterTag != "" {
 		stringList = append(stringList, afterTag)
 	}

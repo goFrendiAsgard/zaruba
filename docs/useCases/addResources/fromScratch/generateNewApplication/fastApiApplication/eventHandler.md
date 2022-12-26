@@ -4,5 +4,4 @@
 <!--endTocHeader-->
 TODO: Write about `Event Handler`
 <!--startTocSubtopic-->
-
 <!--endTocSubtopic-->

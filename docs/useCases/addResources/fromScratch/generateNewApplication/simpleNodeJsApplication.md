@@ -29,5 +29,4 @@ zaruba please addSimpleNodeJsApp \
 ```
 
 <!--startTocSubtopic-->
-
 <!--endTocSubtopic-->
