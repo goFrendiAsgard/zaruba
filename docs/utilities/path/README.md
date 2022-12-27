@@ -6,8 +6,8 @@
 > TODO: Write about `🛣️ Path`.
 
 <!--startTocSubtopic-->
-- [GetAppName](getAppName.md)
-- [GetEnv](getEnv.md)
-- [GetPortConfig](getPortConfig.md)
-- [GetRelativePath](getRelativePath.md)
+- [GetAppName](get-app-name.md)
+- [GetEnv](get-env.md)
+- [GetPortConfig](get-port-config.md)
+- [GetRelativePath](get-relative-path.md)
 <!--endTocSubtopic-->

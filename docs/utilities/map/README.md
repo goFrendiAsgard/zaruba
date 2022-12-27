@@ -7,12 +7,12 @@
 
 <!--startTocSubtopic-->
 - [Get](get.md)
-- [GetKeys](getKeys.md)
+- [GetKeys](get-keys.md)
 - [Merge](merge.md)
-- [RangeKey](rangeKey.md)
+- [RangeKey](range-key.md)
 - [Set](set.md)
-- [ToStringMap](toStringMap.md)
-- [ToVariedStringMap](toVariedStringMap.md)
-- [TransformKey](transformKey.md)
+- [ToStringMap](to-string-map.md)
+- [ToVariedStringMap](to-varied-string-map.md)
+- [TransformKey](transform-key.md)
 - [Validate](validate.md)
 <!--endTocSubtopic-->

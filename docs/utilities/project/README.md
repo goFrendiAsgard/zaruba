@@ -6,10 +6,10 @@
 > TODO: Write about `🏗️ Project`.
 
 <!--startTocSubtopic-->
-- [AddTask](addTask.md)
+- [AddTask](add-task.md)
 - [Include](include.md)
-- [SetValue](setValue.md)
-- [ShowLog](showLog.md)
-- [SyncEnv](syncEnv.md)
-- [SyncEnvFiles](syncEnvFiles.md)
+- [SetValue](set-value.md)
+- [ShowLog](show-log.md)
+- [SyncEnv](sync-env.md)
+- [SyncEnvFiles](sync-env-files.md)
 <!--endTocSubtopic-->

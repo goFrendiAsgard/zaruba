@@ -1,10 +1,10 @@
-rm -Rf ./docs/coreTasks
-mkdir -p ./docs/coreTasks
+rm -Rf ./docs/core-tasks
+mkdir -p ./docs/core-tasks
 
-echo '<!--startTocHeader-->' > ./docs/coreTasks/README.md
-echo '[🏠](../README.md)' >> ./docs/coreTasks/README.md
-echo '# 🥝 Core Tasks' >> ./docs/coreTasks/README.md
-echo '<!--endTocHeader-->' >> ./docs/coreTasks/README.md
+echo '<!--startTocHeader-->' > ./docs/core-tasks/README.md
+echo '[🏠](../README.md)' >> ./docs/core-tasks/README.md
+echo '# 🥝 Core Tasks' >> ./docs/core-tasks/README.md
+echo '<!--endTocHeader-->' >> ./docs/core-tasks/README.md
 
 REPLACEMENT_MAP="$(./zaruba map set "{}" "${ZARUBA_HOME}" '~/.zaruba')"
 LINES="$(./zaruba lines read "./core.zaruba.yaml")"

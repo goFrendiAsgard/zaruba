@@ -6,9 +6,9 @@
 > TODO: Write about `🚈 Lines`.
 
 <!--startTocSubtopic-->
-- [GetIndex](getIndex.md)
-- [InsertAfter](insertAfter.md)
-- [InsertBefore](insertBefore.md)
+- [GetIndex](get-index.md)
+- [InsertAfter](insert-after.md)
+- [InsertBefore](insert-before.md)
 - [Read](read.md)
 - [Replace](replace.md)
 - [Submatch](submatch.md)

@@ -7,10 +7,10 @@
 
 <!--startTocSubtopic-->
 - [Copy](copy.md)
-- [GetLine](getLine.md)
-- [GetLineIndex](getLineIndex.md)
-- [InsertBefore](insertBefore.md)
-- [InsertAfter](insertAfter.md)
+- [GetLine](get-line.md)
+- [GetLineIndex](get-line-index.md)
+- [InsertBefore](insert-before.md)
+- [InsertAfter](insert-after.md)
 - [List](list.md)
 - [Read](read.md)
 - [Replace](replace.md)

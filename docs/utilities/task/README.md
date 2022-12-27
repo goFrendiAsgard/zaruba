@@ -6,11 +6,11 @@
 > TODO: Write about `🔨 Task`.
 
 <!--startTocSubtopic-->
-- [AddDependencies](addDependencies.md)
-- [AddParents](addParents.md)
-- [GetIcon](getIcon.md)
-- [IsExist](isExist.md)
-- [SetConfig](setConfig.md)
-- [SetEnv](setEnv.md)
-- [SyncEnv](syncEnv.md)
+- [AddDependencies](add-dependencies.md)
+- [AddParents](add-parents.md)
+- [GetIcon](get-icon.md)
+- [IsExist](is-exist.md)
+- [SetConfig](set-config.md)
+- [SetEnv](set-env.md)
+- [SyncEnv](sync-env.md)
 <!--endTocSubtopic-->

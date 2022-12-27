@@ -11,6 +11,6 @@
 - [Multiply](multiply.md)
 - [Range](range.md)
 - [Subtract](subtract.md)
-- [ValidateFloat](validateFloat.md)
-- [ValidateInt](validateInt.md)
+- [ValidateFloat](validate-float.md)
+- [ValidateInt](validate-int.md)
 <!--endTocSubtopic-->
