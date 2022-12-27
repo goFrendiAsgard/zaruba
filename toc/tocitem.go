@@ -10,7 +10,7 @@ import (
 type TocItem struct {
 	Level           int
 	Title           string
-	CamelCaseTitle  string
+	KebabCaseTitle  string
 	OldFileLocation string
 	NewFileLocation string
 	Children        TocItems
@@ -146,7 +146,7 @@ func (tocItem *TocItem) SetNewFileLocation() {
 	pathList := []string{tocItem.getNewFileName()}
 	parent := tocItem.Parent
 	for parent != nil {
-		pathList = append([]string{parent.CamelCaseTitle}, pathList...)
+		pathList = append([]string{parent.KebabCaseTitle}, pathList...)
 		parent = parent.Parent
 	}
 	pathList = append([]string{tocDirPath}, pathList...)
@@ -155,9 +155,9 @@ func (tocItem *TocItem) SetNewFileLocation() {
 
 func (tocItem *TocItem) getNewFileName() (fileName string) {
 	if len(tocItem.Children) == 0 {
-		return fmt.Sprintf("%s.md", tocItem.CamelCaseTitle)
+		return fmt.Sprintf("%s.md", tocItem.KebabCaseTitle)
 	}
-	return filepath.Join(tocItem.CamelCaseTitle, "README.md")
+	return filepath.Join(tocItem.KebabCaseTitle, "README.md")
 }
 
 func NewTocItem(toc *Toc, parent *TocItem, level int, title, oldFileLocation string) (tocItem *TocItem) {
@@ -169,7 +169,7 @@ func NewTocItem(toc *Toc, parent *TocItem, level int, title, oldFileLocation str
 	tocItem = &TocItem{
 		Level:           level,
 		Title:           title,
-		CamelCaseTitle:  toc.Util.Str.ToCamel(title),
+		KebabCaseTitle:  toc.Util.Str.ToKebab(title),
 		OldFileLocation: oldFileLocation,
 		Parent:          parent,
 		Toc:             toc,
