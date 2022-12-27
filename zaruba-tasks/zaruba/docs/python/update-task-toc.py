@@ -9,11 +9,11 @@ toc_lines = old_toc_file.read().split('\n')
 new_toc_lines = []
 skip = False
 for toc_line in toc_lines:
-    if toc_line == '* [🥝 Core Tasks](coreTasks/README.md)':
+    if toc_line == '* [🥝 Core Tasks](core-tasks/README.md)':
         skip = True
         new_toc_lines.append(toc_line)
         task_lines = [
-            '  * [{task_icon} {task_name}](coreTasks/{task_kebab_name}.md)'.format(
+            '  * [{task_icon} {task_name}](core-tasks/{task_kebab_name}.md)'.format(
                 task_name=task_name, 
                 task_icon=task_icon_map[task_name], 
                 task_kebab_name=task_kebab_name_map[task_name]
