@@ -28,6 +28,7 @@ Before Toc
     - [Nasi Goreng](food-and-drinks/food/nasi-goreng.md)
   - [Drinks](food-and-drinks/drinks/README.md)
     - [Coffee](food-and-drinks/drinks/coffee.md)
+    - [Tea](food-and-drinks/drinks/tea.md)
 <!--endToc-->
 After Toc`
 

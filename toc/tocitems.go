@@ -33,53 +33,64 @@ func NewTocItems(toc *Toc, parent *TocItem, level int, lines []string) (tocItems
 	completePattern, _ := regexp.Compile(`^([ \t]*)[\*-] \[(.*)\]\((.*)\).*$`)
 	minimalPattern, _ := regexp.Compile(`^([ \t]*)[\*-] (.*)$`)
 	baseIndentation := ""
-	var lastLink *TocItem
+	var lastItem *TocItem
 	childLines := []string{}
-	for index, line := range lines {
+	firstMatch := true
+	for _, line := range lines {
 		match := completePattern.FindStringSubmatch(line)
 		if len(match) == 0 {
+			// complete pattern failed, try minimal pattern
 			match = minimalPattern.FindStringSubmatch(line)
 		}
-		// skip anything that is not a list (could be an explanation)
-		if len(match) == 0 {
-			continue
-		}
-		indentation := match[1]
-		title := match[2]
-		fileLocation := ""
-		if len(match) > 3 {
-			fileLocation = match[3]
-		}
-		// get baseIndentation
-		if index == 0 {
-			baseIndentation = indentation
-		}
-		// childLines
-		if len(indentation) > len(baseIndentation) {
-			childLines = append(childLines, line)
-		}
-		// add childLines
-		if indentation == baseIndentation || index == len(lines)-1 {
-			if lastLink != nil {
-				lastLink.Children, err = NewTocItems(toc, lastLink, level+1, childLines)
-				if err != nil {
-					return tocItems, err
+		// complete/minimal pattern match
+		if len(match) > 0 {
+			indentation := match[1]
+			title := match[2]
+			fileLocation := ""
+			if len(match) > 3 {
+				fileLocation = match[3]
+			}
+			// get baseIndentation
+			if firstMatch {
+				baseIndentation = indentation
+				lastItem = NewTocItem(toc, parent, level, title, fileLocation)
+				tocItems = append(tocItems, lastItem)
+				firstMatch = false
+				continue
+			}
+			// childLines
+			if len(indentation) > len(baseIndentation) {
+				childLines = append(childLines, line)
+				continue
+			}
+			// new item
+			if len(indentation) >= len(baseIndentation) {
+				// wrap up previous lastItem
+				if len(childLines) > 0 {
+					// make sure we only do this when childLines exist
+					lastItem.Children, err = NewTocItems(toc, lastItem, level+1, childLines)
+					if err != nil {
+						return tocItems, err
+					}
+					childLines = []string{}
 				}
-				lastLink.SetNewFileLocation()
+				lastItem.SetNewFileLocation()
+				// set current line as last item
+				lastItem = NewTocItem(toc, parent, level, title, fileLocation)
+				tocItems = append(tocItems, lastItem)
 			}
 		}
-		// add link
-		if indentation == baseIndentation {
-			childLines = []string{}
-			lastLink = NewTocItem(toc, parent, level, title, fileLocation)
-			tocItems = append(tocItems, lastLink)
-		}
-		// set link new location
-		if indentation == baseIndentation || index == len(lines)-1 {
-			if lastLink != nil {
-				lastLink.SetNewFileLocation()
+	}
+	// there are unfinished businesses
+	if lastItem != nil {
+		if len(childLines) > 0 {
+			// make sure we only do this when childLines exist
+			lastItem.Children, err = NewTocItems(toc, lastItem, level+1, childLines)
+			if err != nil {
+				return tocItems, err
 			}
 		}
+		lastItem.SetNewFileLocation()
 	}
 	return tocItems, err
 }
