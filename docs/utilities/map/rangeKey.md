@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba map rangeKey --help
 ```
@@ -40,7 +40,7 @@ Flags:
   -h, --help   help for rangeKey
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

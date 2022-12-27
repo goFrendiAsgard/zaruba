@@ -246,10 +246,10 @@ tasks:
 
 In most cases, you don't need to set `start` property at all. Instead, you can make a task extending any of the following:
 
-* [zrbRunShellScript](../../core-tasks/zrb-runShell-script.md)
-* [zrbStartApp](../../core-tasks/zrb-start-app.md)
-* [zrbStartDockerContainer](../../core-tasks/zrb-start-docker-container.md)
-* [zrbStartDockerCompose](../../core-tasks/zrb-start-docker-compose.md)
+* [zrbRunShellScript](../../coreTasks/zrb-runShell-script.md)
+* [zrbStartApp](../../coreTasks/zrb-start-app.md)
+* [zrbStartDockerContainer](../../coreTasks/zrb-start-docker-container.md)
+* [zrbStartDockerCompose](../../coreTasks/zrb-start-docker-compose.md)
 
 The tasks we mentioned above already have `configs.start` property, so you can use them as follow:
 
@@ -279,9 +279,9 @@ tasks:
 
 In most cases, you don't need to set `check` property at all. Instead, you can make a task extending any of the following:
 
-* [zrbStartApp](../../core-tasks/zrb-start-app.md)
-* [zrbStartDockerContainer](../../core-tasks/zrb-start-docker-container.md)
-* [zrbStartDockerCompose](../../core-tasks/zrb-start-docker-container.md)
+* [zrbStartApp](../../coreTasks/zrb-start-app.md)
+* [zrbStartDockerContainer](../../coreTasks/zrb-start-docker-container.md)
+* [zrbStartDockerCompose](../../coreTasks/zrb-start-docker-container.md)
 
 
 The tasks we mentioned above already have `configs.check` property, so you can use them as follow:
@@ -440,7 +440,7 @@ zaruba please <task-name> -t -w 10s
 
 __Example:__
 
-<!--startCode-->
+
 ```bash
 # Start a webserver. After ready, wait for 2 seconds, and stop.
 zaruba please serveHttp -t -w 2s
@@ -483,7 +483,7 @@ zaruba please serveHttp -t -w 2s
 zaruba please serveHttp   -t -w 2s
 ```````
 </details>
-<!--endCode-->
+
 
 # SyncEnv
 

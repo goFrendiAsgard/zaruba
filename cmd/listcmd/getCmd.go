@@ -29,12 +29,12 @@ var getCmd = &cobra.Command{
 		jsonList := args[0]
 		index, err := strconv.Atoi(args[1])
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		util := dsl.NewDSLUtil()
 		data, err := util.Json.List.GetValue(jsonList, index)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(util.Json.FromInterface(data))
 	},

@@ -1,5 +1,5 @@
 # -- Building stage
-FROM node:14 as builder
+FROM node:19 as builder
 
 WORKDIR /app
 
@@ -12,7 +12,7 @@ COPY . .
 RUN npm run build
 
 # -- Running stage
-FROM node:14
+FROM node:19
 
 WORKDIR /app
 

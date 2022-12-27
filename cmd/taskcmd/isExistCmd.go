@@ -24,12 +24,12 @@ var isExistCmd = &cobra.Command{
 		}
 		projectFile, err := filepath.Abs(projectFile)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		util := dsl.NewDSLUtil()
 		exist, err := util.Project.Task.IsExist(taskName, projectFile)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		if exist {
 			fmt.Println(1)

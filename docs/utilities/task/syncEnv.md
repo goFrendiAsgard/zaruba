@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba task synEnv --help
 ```
@@ -34,7 +34,7 @@ Flags:
 Use "zaruba task [command] --help" for more information about a command.
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

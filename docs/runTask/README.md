@@ -11,6 +11,8 @@ zaruba please -i
 
 Once you perform the command, Zaruba will show you list of available tasks that you can select.
 
+<<<<<<< HEAD
+=======
 __Example:__
 
 > __💡NOTE__ We use `|` operator to simulate interactive session.
@@ -90,6 +92,7 @@ zaruba please printHelloWorld
 <!--endCode-->
 
 
+>>>>>>> master
 <!--startTocSubtopic-->
 - [🍺 Run a Single Task](runASingleTask.md)
 - [🍻 Run Many Tasks in Parallel](runManyTasksInParallel.md)

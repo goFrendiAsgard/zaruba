@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba project addTask --help
 ```
@@ -23,7 +23,7 @@ Flags:
   -h, --help   help for addTask
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

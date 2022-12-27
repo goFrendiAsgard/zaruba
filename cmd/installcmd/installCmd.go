@@ -50,7 +50,7 @@ func Init() {
 				decoration := output.NewDefaultDecoration()
 				logger := output.NewConsoleLogger(decoration)
 				if err := runInstallSubCmd(shell, filepath.Join(setupFilePath, fileName)); err != nil {
-					cmdHelper.Exit(cmd, args, logger, decoration, err)
+					cmdHelper.Exit(cmd, logger, decoration, err)
 				}
 			},
 		}

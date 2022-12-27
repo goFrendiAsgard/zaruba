@@ -6,7 +6,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba task addParents --help
 ```
@@ -27,7 +27,7 @@ Flags:
   -h, --help   help for addParents
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

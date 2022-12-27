@@ -5,12 +5,18 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba file insertAfter --help
 ```
-<!--endCode-->
+
+<<<<<<< HEAD
 
 <!--startTocSubtopic-->
+<<<<<<< HEAD
 
+=======
+=======
+<!--startTocSubtopic-->
+>>>>>>> d299cf4d52304dd1fc18776691dc372ba8db1436
 <!--endTocSubtopic-->

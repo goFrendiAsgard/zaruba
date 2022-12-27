@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba path getAppName --help
 ```
@@ -26,7 +26,7 @@ Flags:
   -h, --help   help for getAppName
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

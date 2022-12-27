@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba str addPrefix --help
 ```
@@ -23,7 +23,7 @@ Flags:
   -h, --help   help for addPrefix
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

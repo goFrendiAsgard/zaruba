@@ -24,7 +24,7 @@ var setEnvsCmd = &cobra.Command{
 		envMap, err := util.Json.ToStringDict(jsonEnvMap)
 		if err != nil {
 			if len(args) <= 2 {
-				cmdHelper.Exit(cmd, args, logger, decoration, err)
+				cmdHelper.Exit(cmd, logger, decoration, err)
 			}
 			envMap = common.StringDict{}
 			envMap[args[1]] = args[2]
@@ -36,10 +36,10 @@ var setEnvsCmd = &cobra.Command{
 		}
 		projectFile, err = filepath.Abs(projectFile)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		if err = util.Project.Task.Env.Set(taskName, envMap, projectFile); err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 	},
 }

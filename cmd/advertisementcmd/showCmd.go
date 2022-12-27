@@ -38,7 +38,7 @@ var showCmd = &cobra.Command{
 		strAdvertisementFile := args[0]
 		advs, err := advertisement.NewAdvs(strAdvertisementFile)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(advs.Get())
 	},

@@ -46,12 +46,12 @@ var transformKeyCmd = &cobra.Command{
 			case "snake":
 				transformers = append(transformers, util.Str.ToSnake)
 			default:
-				cmdHelper.Exit(cmd, args, logger, decoration, fmt.Errorf("invalid transformer %s", alias))
+				cmdHelper.Exit(cmd, logger, decoration, fmt.Errorf("invalid transformer %s", alias))
 			}
 		}
 		newJsonMap, err := util.Json.Map.TransformKeys(jsonMap, prefix, suffix, transformers...)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(newJsonMap)
 	},

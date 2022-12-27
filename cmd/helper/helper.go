@@ -6,13 +6,16 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
+	"strings"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
 	"github.com/state-alchemists/zaruba/output"
 )
 
-func Exit(cmd *cobra.Command, args []string, logger output.Logger, decoration *output.Decoration, err error) {
+func Exit(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, err error) {
 	if err != nil {
+		// get nodeCmd and commandName
 		nodeCmd := cmd
 		commandName := ""
 		for nodeCmd != nil {
@@ -23,11 +26,24 @@ func Exit(cmd *cobra.Command, args []string, logger output.Logger, decoration *o
 			}
 			nodeCmd = nodeCmd.Parent()
 		}
-		argsJsonBytes, _ := json.Marshal(args)
-		commandInfo := fmt.Sprintf("%s %s%sCommand   : %s%s", decoration.ErrorIcon, decoration.Bold, decoration.Red, commandName, decoration.Normal)
-		argumentInfo := fmt.Sprintf("%s %s%sArguments : %s%s", decoration.ErrorIcon, decoration.Bold, decoration.Red, string(argsJsonBytes), decoration.Normal)
-		errorInfo := fmt.Sprintf("%s %s%sStderr    : %s%s", decoration.ErrorIcon, decoration.Bold, decoration.Red, err.Error(), decoration.Normal)
-		logger.Fprintf(os.Stderr, "%s\n%s\n%s\n", commandInfo, argumentInfo, errorInfo)
+		// get cmdArgs
+		cmdArgs := cmd.Flags().Args()
+		jsonCmdArgsBytes, _ := json.Marshal(cmdArgs)
+		// get cmdFlagMap
+		cmdFlagMap := map[string]string{}
+		cmd.Flags().VisitAll(func(flag *pflag.Flag) {
+			cmdFlagMap[flag.Name] = flag.Value.String()
+		})
+		jsonCmdFlagBytes, _ := json.Marshal(cmdFlagMap)
+		// get info
+		info := strings.Join([]string{
+			fmt.Sprintf("%s %s%sCommand   : %s%s", decoration.ErrorIcon, decoration.Bold, decoration.Red, commandName, decoration.Normal),
+			fmt.Sprintf("%s %s%sArguments : %s%s", decoration.ErrorIcon, decoration.Bold, decoration.Red, string(jsonCmdArgsBytes), decoration.Normal),
+			fmt.Sprintf("%s %s%sFlags     : %s%s", decoration.ErrorIcon, decoration.Bold, decoration.Red, string(jsonCmdFlagBytes), decoration.Normal),
+			fmt.Sprintf("%s %s%sStderr    : %s%s", decoration.ErrorIcon, decoration.Bold, decoration.Red, err.Error(), decoration.Normal),
+		}, "\n")
+		// print and exit
+		logger.Fprintf(os.Stderr, "%s\n", info)
 		os.Exit(1)
 	}
 }
@@ -37,7 +53,7 @@ func CheckMinArgCount(cmd *cobra.Command, logger output.Logger, decoration *outp
 		usage := cmd.UsageString()
 		argsJsonBytes, _ := json.Marshal(args)
 		err := fmt.Errorf("expecting %d arguments, get %d: %s\n%s", minArgCount, len(args), string(argsJsonBytes), usage)
-		Exit(cmd, args, logger, decoration, err)
+		Exit(cmd, logger, decoration, err)
 	}
 }
 

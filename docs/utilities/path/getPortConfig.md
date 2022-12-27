@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba path getPortConfig --help
 ```
@@ -23,7 +23,7 @@ Flags:
   -h, --help   help for getPortConfig
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

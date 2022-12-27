@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba str doubleQuote --help
 ```
@@ -23,7 +23,7 @@ Flags:
   -h, --help   help for doubleQuote
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

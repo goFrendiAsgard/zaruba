@@ -50,16 +50,16 @@ var printCmd = &cobra.Command{
 		var obj interface{}
 		err := json.Unmarshal([]byte(jsonRawString), &obj)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		jsonString, err := printCmdGetJsonString(obj, *printPretty)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		if len(args) > 1 {
 			jsonFileName := args[1]
 			if err = util.File.WriteText(jsonFileName, jsonString, 0755); err != nil {
-				cmdHelper.Exit(cmd, args, logger, decoration, err)
+				cmdHelper.Exit(cmd, logger, decoration, err)
 			}
 			return
 		}

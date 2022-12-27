@@ -83,10 +83,10 @@ var submatchCmd = &cobra.Command{
 		jsonStrList, jsonStrListPatterns := args[0], args[1]
 		matchIndex, jsonSubmatch, err := util.File.GetLinesSubmatch(jsonStrList, jsonStrListPatterns, *submatchPatternIndex)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		if matchIndex == -1 {
-			cmdHelper.Exit(cmd, args, logger, decoration, fmt.Errorf("no line match %s", jsonStrListPatterns))
+			cmdHelper.Exit(cmd, logger, decoration, fmt.Errorf("no line match %s", jsonStrListPatterns))
 		}
 		fmt.Println(jsonSubmatch)
 	},

@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba project setValue --help
 ```
@@ -23,7 +23,7 @@ Flags:
   -h, --help   help for setValue
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

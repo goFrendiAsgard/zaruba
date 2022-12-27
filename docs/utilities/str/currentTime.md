@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba str currentTime --help
 ```
@@ -23,7 +23,7 @@ Flags:
   -h, --help   help for currentTime
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

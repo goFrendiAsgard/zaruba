@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba project syncEnv --help
 ```
@@ -23,7 +23,7 @@ Flags:
   -h, --help   help for syncEnv
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

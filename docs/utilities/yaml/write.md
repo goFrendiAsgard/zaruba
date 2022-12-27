@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba yaml write --help
 ```
@@ -23,7 +23,7 @@ Flags:
   -h, --help   help for write
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

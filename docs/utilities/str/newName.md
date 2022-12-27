@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba str newName --help
 ```
@@ -23,7 +23,7 @@ Flags:
   -h, --help   help for newName
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

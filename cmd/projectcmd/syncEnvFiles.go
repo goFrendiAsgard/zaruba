@@ -23,11 +23,11 @@ var syncEnvFilesCmd = &cobra.Command{
 		}
 		projectFile, err := filepath.Abs(projectFile)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		util := dsl.NewDSLUtil()
 		if err := util.Project.SyncEnvFiles(projectFile); err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 	},
 }

@@ -33,7 +33,7 @@ var readCmd = &cobra.Command{
 		util := dsl.NewDSLUtil()
 		content, err := util.File.ReadText(strFileName)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(content)
 	},

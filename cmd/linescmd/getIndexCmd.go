@@ -70,7 +70,7 @@ var getIndexCmd = &cobra.Command{
 		jsonStrList, jsonStrListPatterns := args[0], args[1]
 		matchIndex, _, err := util.Json.List.GetLinesSubmatch(jsonStrList, jsonStrListPatterns, *getIndexDesiredPatternIndex)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(matchIndex)
 	},

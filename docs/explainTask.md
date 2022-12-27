@@ -11,7 +11,7 @@ zaruba please <task-name> -x
 
 __Example:__
 
-<!--startCode-->
+
 ```bash
 cd examples/run-tasks
 zaruba please printHelloHuman -x
@@ -75,9 +75,12 @@ Default:
     hello
 ```````
 </details>
-<!--endCode-->
 
 
+<<<<<<< HEAD
+
+<!--startTocSubtopic-->
+=======
 <!--startTocSubtopic-->
 
 <!--endTocSubtopic-->

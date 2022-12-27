@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba path getEnv --help
 ```
@@ -23,7 +23,7 @@ Flags:
   -h, --help   help for getEnv
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

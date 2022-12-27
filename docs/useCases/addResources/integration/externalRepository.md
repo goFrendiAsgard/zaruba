@@ -20,10 +20,10 @@ All external repo will be treated as subrepo.
 
 There are several builtin tasks you can use to manage subrepo:
 
-* [initSubrepos](../../../core-tasks/initSubrepos.md)
-* [addSubrepo](../../../core-tasks/addSubrepo.md)
-* [pullSubrepos](../../../core-tasks/pullSubrepos.md)
-* [pushSubrepos](../../../core-tasks/pushSubrepos.md)
+* [initSubrepos](../../../coreTasks/initSubrepos.md)
+* [addSubrepo](../../../coreTasks/addSubrepo.md)
+* [pullSubrepos](../../../coreTasks/pullSubrepos.md)
+* [pushSubrepos](../../../coreTasks/pushSubrepos.md)
 
 
 # Add Subrepo
@@ -40,7 +40,7 @@ __Example:__
 
 Suppose you want to create a zaruba project, and add [git@github.com:state-alchemists/fibonacci-clock.git](https://github.com/state-alchemists/fibonacci-clock) to your project, then you can do:
 
-<!--startCode-->
+
 ```bash
 # Create a Zaruba project
 mkdir -p examples/playground/use-cases/externalRepositories
@@ -168,7 +168,7 @@ zaruba please pullSubrepos  -v '/home/gofrendi/zaruba/docs/examples/playground/u
 2 directories, 12 files
 ```````
 </details>
-<!--endCode-->
+
 
 After performing the task, you will see `fibo` directory in your project.
 
@@ -184,7 +184,7 @@ zaruba please pullSubrepos
 
 __Example:__
 
-<!--startCode-->
+
 ```bash
 cd examples/playground/use-cases/externalRepositories
 zaruba please pullSubrepos
@@ -228,7 +228,7 @@ zaruba please pullSubrepos
 zaruba please pullSubrepos  -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/externalRepositories/default.values.yaml'
 ```````
 </details>
-<!--endCode-->
+
 
 # Push to subrepos
 
@@ -242,7 +242,7 @@ zaruba please pushSubrepos
 
 __Example:__
 
-<!--startCode-->
+
 ```bash
 cd examples/playground/use-cases/externalRepositories
 zaruba please pushSubrepos
@@ -293,15 +293,33 @@ Everything up-to-date
          Current Time: 09:11:36
 zaruba please pushSubrepos  -v '/home/gofrendi/zaruba/docs/examples/playground/use-cases/externalRepositories/default.values.yaml'
 ```````
+<<<<<<< HEAD
+</details>
+
+
+
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->
+=======
 <!--endTocSubtopic-->
 <!--endCode-->
 
 
 <!--startTocSubtopic-->
 
+<!--endTocSubtopic-->
+<!--endCode-->
+
+
+<!--startTocSubtopic-->
+<<<<<<< HEAD
+<!--endTocSubTopic-->
+=======
 <!--endTocSubtopic-->
 <!--endCode-->
 
 
 <!--startTocSubtopic-->
 <!--endTocSubTopic-->
+>>>>>>> master
+>>>>>>> d299cf4d52304dd1fc18776691dc372ba8db1436

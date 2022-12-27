@@ -38,13 +38,13 @@ var printCmd = &cobra.Command{
 		if len(args) > 1 {
 			strFileName = args[1]
 			if err := util.File.WriteLines(strFileName, jsonStrList, 0755); err != nil {
-				cmdHelper.Exit(cmd, args, logger, decoration, err)
+				cmdHelper.Exit(cmd, logger, decoration, err)
 			}
 			return
 		}
 		stringList, err := util.Json.ToStringList(jsonStrList)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(strings.Join(stringList, "\n"))
 	},

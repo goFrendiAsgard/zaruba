@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba str toupperSnake --help
 ```
@@ -52,7 +52,7 @@ Flags:
 Use "zaruba str [command] --help" for more information about a command.
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

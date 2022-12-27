@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba path getRelativePath --help
 ```
@@ -23,7 +23,7 @@ Flags:
   -h, --help   help for getRelativePath
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba str toSnake --help
 ```
@@ -23,7 +23,7 @@ Flags:
   -h, --help   help for toSnake
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

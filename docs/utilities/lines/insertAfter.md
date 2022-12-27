@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba lines insertAfter --help
 ```
@@ -65,7 +65,7 @@ Flags:
   -i, --index int   desired pattern index (default -1)
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

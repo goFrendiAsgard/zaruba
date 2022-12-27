@@ -25,7 +25,7 @@ var mergeCmd = &cobra.Command{
 		util := dsl.NewDSLUtil()
 		newJsonList, err := util.Json.List.Merge(args...)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(newJsonList)
 	},

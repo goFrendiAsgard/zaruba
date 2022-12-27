@@ -13,7 +13,7 @@ zaruba please <first-task-name> <second-task-name>... <last-task-name>
 
 __Example:__
 
-<!--startCode-->
+
 ```bash
 cd examples/run-tasks
 zaruba please printHelloWorld printHelloHuman
@@ -44,9 +44,12 @@ zaruba please printHelloWorld printHelloHuman
 zaruba please printHelloWorld printHelloHuman
 ```````
 </details>
-<!--endCode-->
 
 
+<<<<<<< HEAD
+
+<!--startTocSubtopic-->
+=======
 <!--startTocSubtopic-->
 
 <!--endTocSubtopic-->
