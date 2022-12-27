@@ -31,6 +31,16 @@ func (strUtil *StrUtil) IsPlural(s string) (result bool) {
 	return strUtil.pluralize.IsPlural(s)
 }
 
+func (strUtil *StrUtil) IsReallyUpper(s string) (result bool) {
+	// this will only yield true if string is actual upper case letter, not numeric
+	return strUtil.IsUpper(s) && !strUtil.IsLower(s)
+}
+
+func (strUtil *StrUtil) IsReallyLower(s string) (result bool) {
+	// this will only yield true if string is actual lower case letter, not numeric
+	return !strUtil.IsUpper(s) && strUtil.IsLower(s)
+}
+
 func (strUtil *StrUtil) IsUpper(s string) (result bool) {
 	return strings.ToUpper(s) == s
 }
@@ -56,20 +66,11 @@ func (strUtil *StrUtil) ToLower(s string) (result string) {
 }
 
 func (strUtil *StrUtil) ToCamel(s string) (result string) {
-	rex := regexp.MustCompile("[^a-zA-Z0-9]+")
-	strippedStr := rex.ReplaceAllString(s, " ")
-	titledStr := strings.Title(strippedStr)
-	result = strings.ReplaceAll(titledStr, " ", "")
-	if len(result) > 0 {
-		firstLetter := strings.ToLower(string(result[0]))
-		rest := result[1:]
-		return firstLetter + rest
-	}
-	return result
+	return StrToCamel(s)
 }
 
 func (strUtil *StrUtil) ToPascal(s string) (result string) {
-	return strings.Title(strUtil.ToCamel(s))
+	return StrTitle(strUtil.ToCamel(s))
 }
 
 func (strUtil *StrUtil) ToUpperSnake(s string) (result string) {
@@ -77,46 +78,41 @@ func (strUtil *StrUtil) ToUpperSnake(s string) (result string) {
 }
 
 func (strUtil *StrUtil) ToTitle(s string) (result string) {
-	result = ""
-	for index, ch := range strUtil.ToCamel(s) {
-		if index == 0 {
-			result += strings.ToLower(string(ch))
-			continue
-		}
-		if strUtil.IsUpper(string(ch)) && !strUtil.IsLower(string(ch)) {
-			result += " "
-		}
-		result += strings.ToLower(string(ch))
-	}
-	return strings.Title(result)
+	return StrTitle(strUtil.splitByCapital(s, " "))
 }
 
 func (strUtil *StrUtil) ToSnake(s string) (result string) {
-	result = ""
-	for index, ch := range strUtil.ToCamel(s) {
-		if index == 0 {
-			result += strings.ToLower(string(ch))
-			continue
-		}
-		if strUtil.IsUpper(string(ch)) && !strUtil.IsLower(string(ch)) {
-			result += "_"
-		}
-		result += strings.ToLower(string(ch))
-	}
-	return result
+	return strUtil.splitByCapital(s, "_")
 }
 
 func (strUtil *StrUtil) ToKebab(s string) (result string) {
+	return strUtil.splitByCapital(s, "-")
+}
+
+func (strUtil *StrUtil) splitByCapital(s, separator string) (result string) {
+	pascal := strUtil.ToPascal(s)
 	result = ""
-	for index, ch := range strUtil.ToCamel(s) {
+	for index, ch := range pascal {
+		strCh := string(ch)
 		if index == 0 {
-			result += strings.ToLower(string(ch))
+			result += strings.ToLower(strCh)
 			continue
 		}
-		if strUtil.IsUpper(string(ch)) && !strUtil.IsLower(string(ch)) {
-			result += "-"
+		if strUtil.IsReallyUpper(strCh) {
+			// only add separator for non consecutive capitals
+			previousStrCh := string(pascal[index-1])
+			if strUtil.IsReallyLower(previousStrCh) {
+				result += separator + strings.ToLower(strCh)
+				continue
+			} else if index < len(pascal)-1 {
+				nextStrCh := string(pascal[index+1])
+				if strUtil.IsReallyLower(nextStrCh) {
+					result += separator + strings.ToLower(strCh)
+					continue
+				}
+			}
 		}
-		result += strings.ToLower(string(ch))
+		result += strings.ToLower(strCh)
 	}
 	return result
 }
