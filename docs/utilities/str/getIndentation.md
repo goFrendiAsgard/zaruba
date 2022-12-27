@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba str getIndentation --help
 ```
@@ -23,7 +23,7 @@ Flags:
   -h, --help   help for getIndentation
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

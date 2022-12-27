@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba task setConfigs --help
 ```
@@ -26,7 +26,7 @@ Flags:
   -h, --help   help for setConfigs
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

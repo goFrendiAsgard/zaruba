@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba str toUpper --help
 ```
@@ -23,7 +23,7 @@ Flags:
   -h, --help   help for toUpper
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

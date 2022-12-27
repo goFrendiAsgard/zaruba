@@ -29,7 +29,7 @@ var showLogCmd = &cobra.Command{
 		}
 		message, err := getLog(decoration, taskNamePattern, logFileName)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(message)
 	},

@@ -46,7 +46,7 @@ var generateCmd = &cobra.Command{
 		}
 		util := dsl.NewDSLUtil()
 		if err := util.File.Generate(sourceTemplatePath, destinationPath, jsonMapReplacement); err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 	},
 }

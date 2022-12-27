@@ -85,15 +85,15 @@ var getLineCmd = &cobra.Command{
 		strFileName, indexStr := args[0], args[1]
 		index, err := strconv.Atoi(indexStr)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		jsonLines, err := util.File.ReadLines(strFileName)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		stringList, err := util.Json.ToStringList(jsonLines)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		if index < 0 {
 			index = len(stringList) + index

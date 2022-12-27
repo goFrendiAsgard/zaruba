@@ -34,13 +34,13 @@ var printCmd = &cobra.Command{
 		if len(args) > 1 {
 			yamlFileName := args[1]
 			if err := util.File.WriteYaml(yamlFileName, jsonAny, 0755); err != nil {
-				cmdHelper.Exit(cmd, args, logger, decoration, err)
+				cmdHelper.Exit(cmd, logger, decoration, err)
 			}
 			return
 		}
 		yamlString, err := util.Json.ToYaml(jsonAny)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(yamlString)
 	},

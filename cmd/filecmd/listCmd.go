@@ -30,7 +30,7 @@ var listCmd = &cobra.Command{
 		util := dsl.NewDSLUtil()
 		fileNames, err := util.File.List(strDirPath)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		for _, fileName := range fileNames {
 			fmt.Println(fileName)

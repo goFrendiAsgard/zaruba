@@ -24,5 +24,4 @@ Type:
 * [makeEksDeploymentTask](make-eks-deployment-task.md)
 * [zrbShowAdv](zrb-show-adv.md)
 <!--startTocSubtopic-->
-
 <!--endTocSubtopic-->

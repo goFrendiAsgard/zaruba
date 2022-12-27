@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba num validateFloat --help
 ```
@@ -23,7 +23,7 @@ Flags:
   -h, --help   help for validateFloat
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

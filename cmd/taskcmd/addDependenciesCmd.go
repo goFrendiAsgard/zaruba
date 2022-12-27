@@ -30,10 +30,10 @@ var addDependenciesCmd = &cobra.Command{
 		}
 		projectFile, err = filepath.Abs(projectFile)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		if err = util.Project.Task.AddDependencies(taskName, dependencyList, projectFile); err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 	},
 }

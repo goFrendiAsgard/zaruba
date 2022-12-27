@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba task isExist --help
 ```
@@ -23,7 +23,7 @@ Flags:
   -h, --help   help for isExist
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

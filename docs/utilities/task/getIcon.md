@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba task getIcon --help
 ```
@@ -23,7 +23,7 @@ Flags:
   -h, --help   help for getIcon
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

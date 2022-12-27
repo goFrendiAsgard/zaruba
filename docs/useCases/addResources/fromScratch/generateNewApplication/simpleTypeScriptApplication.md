@@ -4,7 +4,7 @@
 <!--endTocHeader-->
 
 
-To add simple typeScript application, you can invoke [addSimpleTypeScriptApp](../../core-tasks/addSimpleTypeScriptApp)
+To add simple typeScript application, you can invoke [addSimpleTypeScriptApp](../../coreTasks/addSimpleTypeScriptApp)
 
 
 # How to

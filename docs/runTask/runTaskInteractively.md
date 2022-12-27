@@ -3,7 +3,7 @@
 # 🏓 Run task interactively
 <!--endTocHeader-->
 
-When you run tasks in interactive mode, Zaruba will ask you to fill in some [inputs](../core-concepts/task/task-inputs.md) and [environments](../core-concepts/task/task-envs/README.md).
+When you run tasks in interactive mode, Zaruba will ask you to fill in some [inputs](../coreConcepts/task/task-inputs.md) and [environments](../coreConcepts/task/task-envs/README.md).
 
 To run a task in interactive mode you can invoke:
 
@@ -21,7 +21,7 @@ __Example:__
 
 > __💡NOTE__ We use `|` operator to simulate interactive session.
 
-<!--startCode-->
+
 ```bash
 cd examples/run-tasks
 ( \
@@ -75,9 +75,12 @@ Your name: Robert Boyle
 zaruba please printHelloHuman  -v 'humanName=Robert Boyle'
 ```````
 </details>
-<!--endCode-->
 
 
+<<<<<<< HEAD
+
+<!--startTocSubtopic-->
+=======
 <!--startTocSubtopic-->
 
 <!--endTocSubtopic-->

@@ -26,7 +26,7 @@ var getCmd = &cobra.Command{
 		util := dsl.NewDSLUtil()
 		data, err := util.Json.Map.GetValue(jsonMap, strKey)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		fmt.Println(util.Json.FromInterface(data))
 	},

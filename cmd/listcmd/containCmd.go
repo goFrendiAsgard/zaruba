@@ -29,7 +29,7 @@ var containCmd = &cobra.Command{
 		util := dsl.NewDSLUtil()
 		exist, err := util.Json.List.Contain(jsonList, strElement)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		if exist {
 			fmt.Println(1)

@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba map getKeys --help
 ```
@@ -29,7 +29,7 @@ Flags:
   -h, --help   help for getKeys
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

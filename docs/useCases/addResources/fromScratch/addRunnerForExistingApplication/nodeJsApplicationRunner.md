@@ -4,7 +4,7 @@
 <!--endTocHeader-->
 
 
-To create application runner for your existing node.js applications, you can use [`addNodeJsAppRunner`](../../core-tasks/addNodeJsAppRunner.md)
+To create application runner for your existing node.js applications, you can use [`addNodeJsAppRunner`](../../coreTasks/addNodeJsAppRunner.md)
 
 # How to Add NodeJs Application Runner
 

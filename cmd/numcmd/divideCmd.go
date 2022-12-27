@@ -20,7 +20,7 @@ var divideCmd = &cobra.Command{
 		for index, arg := range args {
 			element, err := strconv.ParseFloat(arg, 64)
 			if err != nil {
-				cmdHelper.Exit(cmd, args, logger, decoration, err)
+				cmdHelper.Exit(cmd, logger, decoration, err)
 			}
 			if index == 0 {
 				result = element

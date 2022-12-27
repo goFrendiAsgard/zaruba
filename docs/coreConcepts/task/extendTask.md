@@ -36,7 +36,7 @@ tasks:
 That's exactly what it looks like. `startServer` inherit properties from `zrbStartApp` and override some of them.
 
 
-Now let's see the definition of [zrbStartApp](../../core-tasks/zrb-start-app.md):
+Now let's see the definition of [zrbStartApp](../../coreTasks/zrb-start-app.md):
 
 ```yaml
 tasks:
@@ -103,5 +103,4 @@ Let's focus on several key points:
 * Finally, please take note that you don't need to write `zrbStartApp` since it is already declared as `preloaded script`. You just need to know how to extend it and preferably know how it works.
 
 <!--startTocSubtopic-->
-
 <!--endTocSubtopic-->

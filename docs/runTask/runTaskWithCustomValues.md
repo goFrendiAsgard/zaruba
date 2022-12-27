@@ -3,7 +3,7 @@
 # 🔤 Run task with custom values
 <!--endTocHeader-->
 
-Some tasks might depend on [task inputs](../core-concepts/task/task-inputs.md).
+Some tasks might depend on [task inputs](../coreConcepts/task/task-inputs.md).
 
 To set input values for your tasks, you can invoke:
 
@@ -20,7 +20,7 @@ zaruba please <task-name> <first-key=first-value> <second-key=second-value>
 
 __Example:__
 
-<!--startCode-->
+
 ```bash
 cd examples/run-tasks
 zaruba please printHelloHuman humanName="Go Frendi"
@@ -48,7 +48,7 @@ zaruba please printHelloHuman humanName="Go Frendi"
 zaruba please printHelloHuman  -v 'humanName=Go Frendi'
 ```````
 </details>
-<!--endCode-->
+
 
 > ⚠️ __WARNING:__ Parameter order matters, if you set an input value twice, Zaruba will only use the __last__ value.
 
@@ -62,7 +62,7 @@ zaruba please <task-name> -v <first-file.value.yaml> -v <second-file.value.yaml>
 
 __Example:__
 
-<!--startCode-->
+
 ```bash
 cd examples/run-tasks
 zaruba please printHelloHuman -v sample.values.yaml
@@ -90,7 +90,7 @@ zaruba please printHelloHuman -v sample.values.yaml
 zaruba please printHelloHuman  -v 'sample.values.yaml'
 ```````
 </details>
-<!--endCode-->
+
 
 If you don't define any value, Zaruba will load `default.values.yaml` as default value.
 

@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba task setEnvs --help
 ```
@@ -26,7 +26,7 @@ Flags:
   -h, --help   help for setEnvs
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

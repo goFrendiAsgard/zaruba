@@ -3,7 +3,7 @@
 # 🏝️ Run Task with Custom Environments
 <!--endTocHeader-->
 
-To set [task's environment](../core-concepts/task/task-envs/README.md) you can use `-e` flag as follow:
+To set [task's environment](../coreConcepts/task/task-envs/README.md) you can use `-e` flag as follow:
 
 ```bash
 zaruba please <task-name> -e <first-key=first-value> -e <second-key=second-value>
@@ -11,7 +11,7 @@ zaruba please <task-name> -e <first-key=first-value> -e <second-key=second-value
 
 __Example:__
 
-<!--startCode-->
+
 ```bash
 cd examples/run-tasks
 zaruba please printHelloHuman -e GREETINGS=はじめまして
@@ -39,7 +39,7 @@ zaruba please printHelloHuman -e GREETINGS=はじめまして
 zaruba please printHelloHuman -e 'GREETINGS=はじめまして'
 ```````
 </details>
-<!--endCode-->
+
 
 
 > ⚠️ __WARNING:__ Parameter order matters, if you set a single environment twice, Zaruba will only use the __last__ value.
@@ -54,7 +54,7 @@ zaruba please <task-name> -e <first-file.env> -e <second-file.env>
 
 __Example:__
 
-<!--startCode-->
+
 ```bash
 cd examples/run-tasks
 zaruba please printHelloHuman -e sample.env
@@ -82,7 +82,7 @@ zaruba please printHelloHuman -e sample.env
 zaruba please printHelloHuman -e 'sample.env'
 ```````
 </details>
-<!--endCode-->
+
 
 >  ⚠️ __WARNING:__  If you don't define any environment, Zaruba will load `.env` in current directory.
 

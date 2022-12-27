@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba list rangeIndex --help
 ```
@@ -42,7 +42,7 @@ Flags:
   -h, --help   help for rangeIndex
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

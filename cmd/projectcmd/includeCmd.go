@@ -24,11 +24,11 @@ var includeCmd = &cobra.Command{
 		}
 		projectFilePath, err := filepath.Abs(projectFilePath)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		util := dsl.NewDSLUtil()
 		if err = util.Project.IncludeFile(fileName, projectFilePath); err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 	},
 }

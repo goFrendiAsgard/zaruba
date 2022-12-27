@@ -30,10 +30,10 @@ var addParentsCmd = &cobra.Command{
 		}
 		projectFile, err = filepath.Abs(projectFile)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		if err = util.Project.Task.AddParents(taskName, parentList, projectFile); err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 	},
 }

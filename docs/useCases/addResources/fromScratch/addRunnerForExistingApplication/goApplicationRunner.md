@@ -3,7 +3,7 @@
 # Go Application Runner
 <!--endTocHeader-->
 
-To create application runner for your existing go applications, you can use [`addGoAppRunner`](../../core-tasks/addGoAppRunner.md)
+To create application runner for your existing go applications, you can use [`addGoAppRunner`](../../coreTasks/addGoAppRunner.md)
 
 # How to Add Go Application Runner
 

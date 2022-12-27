@@ -35,12 +35,12 @@ var readCmd = &cobra.Command{
 		util := dsl.NewDSLUtil()
 		jsonMapEnv, err := util.File.ReadEnv(fileName)
 		if err != nil {
-			cmdHelper.Exit(cmd, args, logger, decoration, err)
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		if *readPrefix != "" {
 			jsonMapEnv, err = util.Json.Map.CascadePrefixKeys(jsonMapEnv, *readPrefix)
 			if err != nil {
-				cmdHelper.Exit(cmd, args, logger, decoration, err)
+				cmdHelper.Exit(cmd, logger, decoration, err)
 			}
 		}
 		fmt.Println(jsonMapEnv)

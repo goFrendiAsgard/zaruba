@@ -4,7 +4,7 @@
 <!--endTocHeader-->
 
 
-To add simple python application, you can invoke [addSimplePythonApp](../../core-tasks/addSimplePythonApp)
+To add simple python application, you can invoke [addSimplePythonApp](../../coreTasks/addSimplePythonApp)
 
 
 # How to

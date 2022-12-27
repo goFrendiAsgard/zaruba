@@ -116,9 +116,9 @@ then, you can invoke `zaruba please startServer`.
 
 __Example:__
 
-<!--startCode-->
+
 ```bash
-cd examples/core-concepts/task/long-running-service/low-level
+cd examples/coreConcepts/task/long-running-service/low-level
 zaruba please startServer -t -w 1s
 ```
  
@@ -129,27 +129,27 @@ zaruba please startServer -t -w 1s
 🤖 🔎 Job Starting...
          Elapsed Time: 1.252µs
          Current Time: 09:10:39
-🤖 🏁 Running 🍏 startServer starter (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/low-level
-🤖 🏁 Running 🍏 startServer readiness checker (Attempt 1 of infinite) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/low-level
+🤖 🏁 Running 🍏 startServer starter (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/coreConcepts/task/long-running-service/low-level
+🤖 🏁 Running 🍏 startServer readiness checker (Attempt 1 of infinite) on /home/gofrendi/zaruba/docs/examples/coreConcepts/task/long-running-service/low-level
 🤖 🔥 Exit 🍏 startServer readiness checker (Attempt 1 of infinite):
         * bash
         * -c
         * nc -z localhost 8080
 exit status 1
-🤖 🏁 Running 🍏 startServer readiness checker (Attempt 2 of infinite) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/low-level
+🤖 🏁 Running 🍏 startServer readiness checker (Attempt 2 of infinite) on /home/gofrendi/zaruba/docs/examples/coreConcepts/task/long-running-service/low-level
 🤖 🔥 Exit 🍏 startServer readiness checker (Attempt 2 of infinite):
         * bash
         * -c
         * nc -z localhost 8080
 exit status 1
-🤖 🏁 Running 🍏 startServer readiness checker (Attempt 3 of infinite) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/low-level
+🤖 🏁 Running 🍏 startServer readiness checker (Attempt 3 of infinite) on /home/gofrendi/zaruba/docs/examples/coreConcepts/task/long-running-service/low-level
 🤖 🔥 Exit 🍏 startServer readiness checker (Attempt 3 of infinite):
         * bash
         * -c
         * nc -z localhost 8080
 exit status 1
 🤖    🚀 🍏 startServer          Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
-🤖 🏁 Running 🍏 startServer readiness checker (Attempt 4 of infinite) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/low-level
+🤖 🏁 Running 🍏 startServer readiness checker (Attempt 4 of infinite) on /home/gofrendi/zaruba/docs/examples/coreConcepts/task/long-running-service/low-level
 🤖 🎉 Successfully running 🍏 startServer readiness checker (Attempt 4 of infinite)
 🤖 🔎 Job Running...
          Elapsed Time: 6.011185667s
@@ -170,7 +170,7 @@ exit status 1
 zaruba please startServer   -t -w 1s
 ```````
 </details>
-<!--endCode-->
+
 
 
 Good. This is what `check` property is for. It tells Zaruba how to check your service readiness. 
@@ -200,9 +200,9 @@ Let's try to change your `index.zaruba.yaml` and invoke `zaruba please startServ
 
 __Example:__
 
-<!--startCode-->
+
 ```bash
-cd examples/core-concepts/task/long-running-service/high-level
+cd examples/coreConcepts/task/long-running-service/high-level
 zaruba please startServer -t -w 1s
 ```
  
@@ -213,12 +213,12 @@ zaruba please startServer -t -w 1s
 🤖 🔎 Job Starting...
          Elapsed Time: 1.143µs
          Current Time: 09:10:48
-🤖 🏁 Running 🔗 updateProjectLinks runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/high-level
+🤖 🏁 Running 🔗 updateProjectLinks runner (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/coreConcepts/task/long-running-service/high-level
 🤖    🚀 🔗 updateProjectLinks   🎉🎉🎉
 🤖    🚀 🔗 updateProjectLinks   Links updated
 🤖 🎉 Successfully running 🔗 updateProjectLinks runner (Attempt 1 of 3)
-🤖 🏁 Running 🍏 startServer starter (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/high-level
-🤖 🏁 Running 🍏 startServer readiness checker (Attempt 1 of infinite) on /home/gofrendi/zaruba/docs/examples/core-concepts/task/long-running-service/high-level
+🤖 🏁 Running 🍏 startServer starter (Attempt 1 of 3) on /home/gofrendi/zaruba/docs/examples/coreConcepts/task/long-running-service/high-level
+🤖 🏁 Running 🍏 startServer readiness checker (Attempt 1 of infinite) on /home/gofrendi/zaruba/docs/examples/coreConcepts/task/long-running-service/high-level
 🤖    🔎 🍏 startServer          🔎 Waiting for port '8080'
 🤖    🚀 🍏 startServer          Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
 🤖    🔎 🍏 startServer          🔎 Port '8080' is ready
@@ -246,7 +246,7 @@ zaruba please startServer -t -w 1s
 zaruba please startServer   -t -w 1s
 ```````
 </details>
-<!--endCode-->
+
 
 
 This code is easier to write since you no longer need to write the checker's loop.
@@ -255,10 +255,9 @@ You might also notice that in this example, we don't have any `start` and `check
 
 Here are some of the tasks you can extend when you want to start long running service:
 
-* [zrbStartApp](../../core-tasks/zrb-start-app.md): Lowest level, general use case
-* [zrbStartDockerContainer](../../core-tasks/zrb-start-docker-container.md): Start a docker container
-* [zrbStartDockerCompose](../../core-tasks/zrb-start-docker-compose.md): Start a docker container
+* [zrbStartApp](../../coreTasks/zrb-start-app.md): Lowest level, general use case
+* [zrbStartDockerContainer](../../coreTasks/zrb-start-docker-container.md): Start a docker container
+* [zrbStartDockerCompose](../../coreTasks/zrb-start-docker-compose.md): Start a docker container
 
 <!--startTocSubtopic-->
-
 <!--endTocSubtopic-->

@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba str toLower --help
 ```
@@ -23,7 +23,7 @@ Flags:
   -h, --help   help for toLower
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

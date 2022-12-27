@@ -18,7 +18,7 @@ To create an empty project from scratch, you need to:
 
 __Example:__
 
-<!--startCode-->
+
 ```bash
 mkdir -p examples/playground/myProjectFromScratch
 cd examples/playground/myProjectFromScratch
@@ -41,7 +41,7 @@ Initialized empty Git repository in /home/gofrendi/zaruba/docs/examples/playgrou
 0 directories, 1 file
 ```````
 </details>
-<!--endCode-->
+
 
 # Generate a New Project
 
@@ -54,7 +54,7 @@ To do this, you need to:
 
 __Example:__
 
-<!--startCode-->
+
 ```bash
 mkdir -p examples/playground/myGeneratedProject
 cd examples/playground/myGeneratedProject
@@ -94,7 +94,7 @@ zaruba please initProject
 0 directories, 2 files
 ```````
 </details>
-<!--endCode-->
+
 
 # Clone an Existing Project
 
@@ -108,7 +108,7 @@ git clone git@github.com:<user>/<repo>.git
 
 __Example:__
 
-<!--startCode-->
+
 ```bash
 cd examples/playground
 git clone git@github.com:state-alchemists/zaruba-project myClonedProject
@@ -131,8 +131,11 @@ Cloning into 'myClonedProject'...
 0 directories, 2 files
 ```````
 </details>
-<!--endCode-->
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> master
 <!--startTocSubtopic-->
 - [🧬 Project Anatomy](projectAnatomy.md)
 - [🧳 Includes](includes.md)

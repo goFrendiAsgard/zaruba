@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba map toStringMap --help
 ```
@@ -29,7 +29,7 @@ Flags:
   -h, --help   help for toStringMap
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

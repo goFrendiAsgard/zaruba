@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba str toPlural --help
 ```
@@ -23,7 +23,7 @@ Flags:
   -h, --help   help for toPlural
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

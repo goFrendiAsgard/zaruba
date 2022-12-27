@@ -7,7 +7,7 @@ The recommended way to create a project is by invoking `zaruba please initProjec
 
 __Example:__
 
-<!--startCode-->
+
 ```bash
 mkdir -p examples/playground/use-cases/newProject
 cd examples/playground/use-cases/newProject
@@ -45,9 +45,9 @@ zaruba please initProject
 0 directories, 2 files
 ```````
 </details>
-<!--endCode-->
 
-Aside from generating a project using `zaruba please initProject`, you can also clone/fork existing project from Github or other Git server. Please see [../core-concepts/projects/README.md] for more information.
+
+Aside from generating a project using `zaruba please initProject`, you can also clone/fork existing project from Github or other Git server. Please see [../coreConcepts/projects/README.md] for more information.
 
 # Initial Project Structure
 
@@ -61,5 +61,4 @@ Typically, a new project contains of two files:
 Once you created an empty project, you can start [adding resources to your project](add-resources/README.md), [run some tasks](../run-task/README.md), and [syncrhonize task environments](syncrhonize-task-environments.md)
 
 <!--startTocSubtopic-->
-
 <!--endTocSubtopic-->

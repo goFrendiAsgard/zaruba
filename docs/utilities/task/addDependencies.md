@@ -5,7 +5,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba task addDependencies --help
 ```
@@ -26,7 +26,7 @@ Flags:
   -h, --help   help for addDependencies
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 

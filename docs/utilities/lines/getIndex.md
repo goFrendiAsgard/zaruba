@@ -6,7 +6,7 @@
 
 # Usage
 
-<!--startCode-->
+
 ```bash
 zaruba lines getIndex --help
 ```
@@ -69,7 +69,7 @@ Flags:
   -i, --index int   desired pattern index (default -1)
 ```````
 </details>
-<!--endCode-->
+
 
 # Examples
 
