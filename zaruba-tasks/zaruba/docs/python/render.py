@@ -21,6 +21,43 @@ def render(zaruba_home: str, toc_file_path: str) -> List[str]:
     built_in_docs_dir = find_built_in_docs_dir(toc_file_path)
     # render task docs
     render_task_docs(zaruba_bin_path, built_in_docs_dir, tasks)
+    render_util_docs(zaruba_bin_path, built_in_docs_dir, utils)
+
+
+def render_util_docs(zaruba_bin_path: str, built_in_docs_dir: str, utils: List[List[str]]):
+    for util in utils:
+        doc_content = get_command_output(get_help_command(util))
+        doc_content = '\n'.join(['```', doc_content, '```'])
+        doc_path = get_util_doc_path(built_in_docs_dir, util)
+        # read old content
+        doc_file = open(doc_path, 'r')
+        doc_lines = doc_file.readlines()
+        doc_file.close()
+        new_doc_lines: List[str] = []
+        for doc_line in doc_lines:
+            if doc_line.startswith('> TODO'):
+                new_doc_lines.append(doc_content + '\n')
+                continue
+            new_doc_lines.append(doc_line)
+        # override old content
+        doc_file = open(doc_path, 'w')
+        doc_file.writelines(new_doc_lines)
+        doc_file.close()
+
+
+def get_util_doc_path(built_in_docs_dir: str, util: List[str]) -> str:
+    kebab_utils = [camel_to_kebab(part) for part in util]
+    readme_part = kebab_utils[1:] 
+    readme_part.append('README.md')
+    readme_part = [built_in_docs_dir, 'utils'] + readme_part
+    readme_path = os.path.join(*readme_part)
+    if os.path.exists(readme_path):
+        return readme_path
+    doc_part = kebab_utils[1:len(kebab_utils)-1] 
+    doc_part.append(kebab_utils[-1] + '.md')
+    doc_part = [built_in_docs_dir, 'utils'] + doc_part
+    doc_path = os.path.join(*doc_part)
+    return doc_path
 
 
 def render_task_docs(zaruba_bin_path: str, built_in_docs_dir: str, tasks: List[str]):

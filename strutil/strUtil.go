@@ -90,31 +90,11 @@ func (strUtil *StrUtil) ToKebab(s string) (result string) {
 }
 
 func (strUtil *StrUtil) splitByCapital(s, separator string) (result string) {
-	pascal := strUtil.ToPascal(s)
-	result = ""
-	for index, ch := range pascal {
-		strCh := string(ch)
-		if index == 0 {
-			result += strings.ToLower(strCh)
-			continue
-		}
-		if strUtil.IsReallyUpper(strCh) {
-			// only add separator for non consecutive capitals
-			previousStrCh := string(pascal[index-1])
-			if strUtil.IsReallyLower(previousStrCh) {
-				result += separator + strings.ToLower(strCh)
-				continue
-			} else if index < len(pascal)-1 {
-				nextStrCh := string(pascal[index+1])
-				if strUtil.IsReallyLower(nextStrCh) {
-					result += separator + strings.ToLower(strCh)
-					continue
-				}
-			}
-		}
-		result += strings.ToLower(strCh)
-	}
-	return result
+	matchFirstCap := regexp.MustCompile("(.)([A-Z][a-z]+)")
+	matchAllCap := regexp.MustCompile("([a-z0-9])([A-Z])")
+	new := matchFirstCap.ReplaceAllString(s, fmt.Sprintf("${1}%s${2}", separator))
+	new = matchAllCap.ReplaceAllString(new, fmt.Sprintf("${1}%s${2}", separator))
+	return strings.ToLower(new)
 }
 
 func (strUtil *StrUtil) Quote(s string, quote byte) (result string) {
