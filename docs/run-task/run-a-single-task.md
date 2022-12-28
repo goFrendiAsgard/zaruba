@@ -100,9 +100,5 @@ zaruba please printHelloWorld
 </details>
 
 
-<<<<<<< HEAD
-
-<!--startTocSubtopic-->
-=======
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->
