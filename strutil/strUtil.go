@@ -31,16 +31,6 @@ func (strUtil *StrUtil) IsPlural(s string) (result bool) {
 	return strUtil.pluralize.IsPlural(s)
 }
 
-func (strUtil *StrUtil) IsReallyUpper(s string) (result bool) {
-	// this will only yield true if string is actual upper case letter, not numeric
-	return strUtil.IsUpper(s) && !strUtil.IsLower(s)
-}
-
-func (strUtil *StrUtil) IsReallyLower(s string) (result bool) {
-	// this will only yield true if string is actual lower case letter, not numeric
-	return !strUtil.IsUpper(s) && strUtil.IsLower(s)
-}
-
 func (strUtil *StrUtil) IsUpper(s string) (result bool) {
 	return strings.ToUpper(s) == s
 }
@@ -89,12 +79,19 @@ func (strUtil *StrUtil) ToKebab(s string) (result string) {
 	return strUtil.splitByCapital(s, "-")
 }
 
-func (strUtil *StrUtil) splitByCapital(s, separator string) (result string) {
-	matchFirstCap := regexp.MustCompile("(.)([A-Z][a-z]+)")
-	matchAllCap := regexp.MustCompile("([a-z0-9])([A-Z])")
-	new := matchFirstCap.ReplaceAllString(s, fmt.Sprintf("${1}%s${2}", separator))
-	new = matchAllCap.ReplaceAllString(new, fmt.Sprintf("${1}%s${2}", separator))
-	return strings.ToLower(new)
+func (strUtil *StrUtil) splitByCapital(str, separator string) (result string) {
+	firstCapPattern := regexp.MustCompile("(.)([A-Z][a-z]+)")
+	allCapPattern := regexp.MustCompile("([a-z0-9])([A-Z])")
+	spacePattern := regexp.MustCompile(" ")
+	consecutiveSeparatorPattern := regexp.MustCompile(fmt.Sprintf("[%s]+", separator))
+	forbiddenPattern := regexp.MustCompile(fmt.Sprintf("[^a-zA-Z0-9\\%s]+", separator))
+	newStr := firstCapPattern.ReplaceAllString(str, fmt.Sprintf("${1}%s${2}", separator))
+	newStr = allCapPattern.ReplaceAllString(newStr, fmt.Sprintf("${1}%s${2}", separator))
+	newStr = spacePattern.ReplaceAllString(newStr, separator)
+	newStr = consecutiveSeparatorPattern.ReplaceAllString(newStr, separator)
+	newStr = forbiddenPattern.ReplaceAllString(newStr, "")
+	newStr = strings.Trim(newStr, separator)
+	return strings.ToLower(newStr)
 }
 
 func (strUtil *StrUtil) Quote(s string, quote byte) (result string) {
