@@ -9,18 +9,22 @@ import sys
 def render(zaruba_home: str, toc_file_path: str) -> List[str]:
     # get items
     core_task_file_name =  os.path.join(zaruba_home, 'core.zaruba.yaml')
+    print('extract tasks')
     tasks = extract_tasks(core_task_file_name)
     zaruba_bin_path = os.path.join(zaruba_home, 'zaruba')
+    print('extract utils')
     utils = extract_utils(zaruba_bin_path)
+    print('create items')
     items = get_items(tasks, utils, 1)
-    # override toc file
+    print('override TOC file')
     update_toc_file(toc_file_path, items)
-    # render toc
+    print('Render docs based on TOC')
     render_toc(zaruba_bin_path, toc_file_path)
     # find built-in location
     built_in_docs_dir = find_built_in_docs_dir(toc_file_path)
-    # render task docs
+    print('Render tasks')
     render_task_docs(zaruba_bin_path, built_in_docs_dir, tasks)
+    print('Render utils')
     render_util_docs(zaruba_bin_path, built_in_docs_dir, utils)
 
 
