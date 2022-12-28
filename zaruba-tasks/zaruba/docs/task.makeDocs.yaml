@@ -10,5 +10,4 @@ tasks:
       - buildBin
     configs:
       start: |
-        . "{{ .GetTaskPath "./bash/makeTaskDocs.sh" }}"
-        "${ZARUBA_BIN}" toc docs/README.md
+        python "{{ .GetTaskPath "./python/render.py" }}" "${ZARUBA_HOME}" "${ZARUBA_HOME}/docs/README.md"

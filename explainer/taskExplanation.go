@@ -198,17 +198,13 @@ func (t *TaskExplanation) ul(items []string) string {
 	for _, item := range items {
 		itemLines := strings.Split(item, "\n")
 		if len(itemLines) < 2 {
-			lines = append(lines, fmt.Sprintf("* `%s`", item))
+			lines = append(lines, fmt.Sprintf("- `%s`", item))
 			continue
 		}
-		lines = append(lines, "*")
+		lines = append(lines, "-")
 		lines = append(lines, strutil.StrFullIndent(fmt.Sprintf("```\n%s\n```", item), "    "))
 	}
 	return strings.Join(lines, "\n") + "\n"
-}
-
-func (t *TaskExplanation) h1(header string) string {
-	return fmt.Sprintf("\n%s%s# %s%s\n", t.d.Bold, t.d.Yellow, header, t.d.Normal)
 }
 
 func (t *TaskExplanation) h2(header string) string {
