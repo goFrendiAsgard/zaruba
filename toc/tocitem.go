@@ -35,12 +35,11 @@ func (tocItem *TocItem) RenderNewContent() (err error) {
 		if err := tocItem.RenderNewContentToNewFile(tocHeader, tocSubtopic); err != nil {
 			return err
 		}
+		return tocItem.Children.RenderNewContent()
 	}
 	// old file location is defined
-	if tocItem.OldFileLocation != "" {
-		if err := tocItem.RenderNewContentFromOldFile(tocHeader, tocSubtopic); err != nil {
-			return err
-		}
+	if err := tocItem.RenderNewContentFromOldFile(tocHeader, tocSubtopic); err != nil {
+		return err
 	}
 	// also render children
 	return tocItem.Children.RenderNewContent()
@@ -58,7 +57,10 @@ func (tocItem *TocItem) RenderNewContentFromOldFile(tocHeader, tocSubtopic strin
 		return err
 	}
 	if tocItem.OldFileLocation != tocItem.NewFileLocation {
-		return os.Remove(tocItem.OldFileLocation)
+		oldFileExist, oldFileExistErr := util.File.IsExist(tocItem.OldFileLocation)
+		if oldFileExist && oldFileExistErr == nil {
+			return os.Remove(tocItem.OldFileLocation)
+		}
 	}
 	return nil
 }
