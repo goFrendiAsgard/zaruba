@@ -86,5 +86,4 @@ zaruba please printHelloHuman -e 'sample.env'
 
 >  ⚠️ __WARNING:__  If you don't define any environment, Zaruba will load `.env` in current directory.
 
-<!--startTocSubtopic-->
-<!--endTocSubtopic-->
+<!--startTocSubtopic--><!--endTocSubtopic-->

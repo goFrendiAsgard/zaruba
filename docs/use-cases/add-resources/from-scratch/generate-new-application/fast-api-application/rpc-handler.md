@@ -3,5 +3,4 @@
 # Rpc Handler
 <!--endTocHeader-->
 TODO: Write about `RPC Handler`
-<!--startTocSubtopic-->
-<!--endTocSubtopic-->
+<!--startTocSubtopic--><!--endTocSubtopic-->

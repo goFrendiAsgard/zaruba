@@ -5,5 +5,4 @@
 
 TODO: Write about `Docker Compose`
 
-<!--startTocSubtopic-->
-<!--endTocSubtopic-->
+<!--startTocSubtopic--><!--endTocSubtopic-->

@@ -102,5 +102,4 @@ Let's focus on several key points:
 * Furthermore, `startServer` define its own `start` and `check` config. When Zaruba execute `startServer`, it will use this configuration instead of `zrbStartApp`'s.
 * Finally, please take note that you don't need to write `zrbStartApp` since it is already declared as `preloaded script`. You just need to know how to extend it and preferably know how it works.
 
-<!--startTocSubtopic-->
-<!--endTocSubtopic-->
+<!--startTocSubtopic--><!--endTocSubtopic-->

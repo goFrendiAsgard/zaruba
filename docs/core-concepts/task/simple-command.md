@@ -178,5 +178,4 @@ Here are some of the tasks you can extend when you want to run simple commands:
 * [zrbRunPythonScript](../../core-tasks/zrb-run-python-script.md): Run Python script instead of shell script
 * [zrbRunNodeJsScript](../../core-tasks/zrb-run-node-js-script.md): Run Node.Js script instead of shell script
 
-<!--startTocSubtopic-->
-<!--endTocSubtopic-->
+<!--startTocSubtopic--><!--endTocSubtopic-->

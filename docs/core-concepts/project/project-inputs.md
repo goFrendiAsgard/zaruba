@@ -23,5 +23,4 @@ inputs:
 
 To use project input in your task, please see [task's input](../tasks/task-inputs.md).
 
-<!--startTocSubtopic-->
-<!--endTocSubtopic-->
+<!--startTocSubtopic--><!--endTocSubtopic-->

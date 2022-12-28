@@ -5,5 +5,4 @@
 
 TODO: Write about `Synchronize environments`
 
-<!--startTocSubtopic-->
-<!--endTocSubtopic-->
+<!--startTocSubtopic--><!--endTocSubtopic-->

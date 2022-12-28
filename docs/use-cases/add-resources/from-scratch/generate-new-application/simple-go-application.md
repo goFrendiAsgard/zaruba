@@ -30,5 +30,4 @@ zaruba please addSimpleGoApp \
 ```
 
 
-<!--startTocSubtopic-->
-<!--endTocSubtopic-->
+<!--startTocSubtopic--><!--endTocSubtopic-->

@@ -96,5 +96,4 @@ Cool. Now, whenever you run `zaruba please startAndTestApp`, things will be exec
 
 ![](images/task-dependencies.png)
 
-<!--startTocSubtopic-->
-<!--endTocSubtopic-->
+<!--startTocSubtopic--><!--endTocSubtopic-->
