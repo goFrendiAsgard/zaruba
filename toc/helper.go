@@ -28,11 +28,13 @@ func splitContentByTag(util *dsl.DSLUtil, startTag, endTag, content string) (bef
 
 func replaceTag(util *dsl.DSLUtil, startTag, endTag, content, replacement string) (newContent string) {
 	beforeTag, _, afterTag := splitContentByTag(util, startTag, endTag, content)
-	if replacement[0] != '\n' {
-		replacement = "\n" + replacement
-	}
-	if replacement[len(replacement)-1] != '\n' {
-		replacement = replacement + "\n"
+	if len(replacement) > 0 {
+		if replacement[0] != '\n' {
+			replacement = "\n" + replacement
+		}
+		if replacement[len(replacement)-1] != '\n' {
+			replacement = replacement + "\n"
+		}
 	}
 	return strings.Join([]string{
 		beforeTag,
