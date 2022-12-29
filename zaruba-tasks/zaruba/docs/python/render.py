@@ -30,6 +30,7 @@ def render(zaruba_home: str, toc_file_path: str) -> List[str]:
 
 def render_util_docs(built_in_docs_dir: str, utils: List[List[str]]):
     for util in utils:
+        print('render util', util)
         doc_content = get_command_output(get_help_command(util))
         doc_content = '\n'.join(['```', doc_content, '```'])
         doc_path = get_util_doc_path(built_in_docs_dir, util)
@@ -66,6 +67,7 @@ def get_util_doc_path(built_in_docs_dir: str, util: List[str]) -> str:
 
 def render_task_docs(zaruba_home: str, zaruba_bin_path: str, built_in_docs_dir: str, tasks: List[str]):
     for task in tasks:
+        print('render task', task)
         # get doc content
         doc_content = get_command_output([zaruba_bin_path, 'please', task, '-x', '-d=colorless'])
         doc_content = prepare_task_doc_content(zaruba_home, doc_content)
