@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/jupyterNotebook/task.makeJupyterNotebookAppRunner.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/jupyterNotebook/task.makeJupyterNotebookAppRunner.yaml
 
 Should Sync Env:
 
@@ -21,14 +21,14 @@ Type:
 
 ## Extends
 
-- `makeDockerContainerAppRunner`
+- [makeDockerContainerAppRunner](make-docker-container-app-runner.md)
 
 
 ## Dependencies
 
-- `makeJupyterNotebookApp`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeJupyterNotebookApp](make-jupyter-notebook-app.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Start

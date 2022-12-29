@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/simpleNodeJsApp/task.makeSimpleNodeJsAppRunner.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/simpleNodeJsApp/task.makeSimpleNodeJsAppRunner.yaml
 
 Should Sync Env:
 
@@ -21,14 +21,14 @@ Type:
 
 ## Extends
 
-- `makeNodeJsAppRunner`
+- [makeNodeJsAppRunner](make-node-js-app-runner.md)
 
 
 ## Dependencies
 
-- `makeSimpleNodeJsApp`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeSimpleNodeJsApp](make-simple-node-js-app.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Start

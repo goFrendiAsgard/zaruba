@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/sonarqube/task.addSonarqube.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/sonarqube/task.addSonarqube.yaml
 
 Should Sync Env:
 
@@ -21,10 +21,10 @@ Type:
 
 ## Dependencies
 
-- `makeSonarqubeApp`
-- `makeSonarqubeAppRunner`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeSonarqubeApp](make-sonarqube-app.md)
+- [makeSonarqubeAppRunner](make-sonarqube-app-runner.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 

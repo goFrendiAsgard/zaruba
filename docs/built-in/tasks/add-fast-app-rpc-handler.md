@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/fastAppRpcHandler/task.addFastAppRpcHandler.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/fastAppRpcHandler/task.addFastAppRpcHandler.yaml
 
 Should Sync Env:
 
@@ -21,17 +21,17 @@ Type:
 
 ## Extends
 
-- `makeApp`
+- [makeApp](make-app.md)
 
 
 ## Dependencies
 
-- `addFastApp`
-- `addFastAppModule`
-- `makeFastApp`
-- `makeFastAppRunner`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [addFastApp](add-fast-app.md)
+- [addFastAppModule](add-fast-app-module.md)
+- [makeFastApp](make-fast-app.md)
+- [makeFastAppRunner](make-fast-app-runner.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Start

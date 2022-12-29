@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/spark/task.makeSparkAppRunner.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/spark/task.makeSparkAppRunner.yaml
 
 Should Sync Env:
 
@@ -21,14 +21,14 @@ Type:
 
 ## Extends
 
-- `makeDockerComposeAppRunner`
+- [makeDockerComposeAppRunner](make-docker-compose-app-runner.md)
 
 
 ## Dependencies
 
-- `makeSparkApp`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeSparkApp](make-spark-app.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Start

@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/metabase/task.addMetabase.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/metabase/task.addMetabase.yaml
 
 Should Sync Env:
 
@@ -21,10 +21,10 @@ Type:
 
 ## Dependencies
 
-- `makeMetabaseApp`
-- `makeMetabaseAppRunner`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeMetabaseApp](make-metabase-app.md)
+- [makeMetabaseAppRunner](make-metabase-app-runner.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 

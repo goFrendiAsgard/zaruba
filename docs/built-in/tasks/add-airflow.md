@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/airflow/task.addAirflow.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/airflow/task.addAirflow.yaml
 
 Should Sync Env:
 
@@ -21,10 +21,10 @@ Type:
 
 ## Dependencies
 
-- `makeAirflowApp`
-- `makeAirflowAppRunner`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeAirflowApp](make-airflow-app.md)
+- [makeAirflowAppRunner](make-airflow-app-runner.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 

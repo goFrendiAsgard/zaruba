@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/postgresql/task.makePostgresqlAppRunner.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/postgresql/task.makePostgresqlAppRunner.yaml
 
 Should Sync Env:
 
@@ -21,14 +21,14 @@ Type:
 
 ## Extends
 
-- `makeDockerContainerAppRunner`
+- [makeDockerContainerAppRunner](make-docker-container-app-runner.md)
 
 
 ## Dependencies
 
-- `makePostgresqlApp`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makePostgresqlApp](make-postgresql-app.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Start

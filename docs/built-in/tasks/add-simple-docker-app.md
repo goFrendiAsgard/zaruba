@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/simpleDockerApp/task.addSimpleDockerApp.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/simpleDockerApp/task.addSimpleDockerApp.yaml
 
 Should Sync Env:
 
@@ -21,10 +21,10 @@ Type:
 
 ## Dependencies
 
-- `makeSimpleDockerApp`
-- `makeSimpleDockerAppRunner`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeSimpleDockerApp](make-simple-docker-app.md)
+- [makeSimpleDockerAppRunner](make-simple-docker-app-runner.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 

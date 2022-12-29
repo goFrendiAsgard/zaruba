@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/simpleDockerComposeApp/task.makeSimpleDockerComposeApp.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/simpleDockerComposeApp/task.makeSimpleDockerComposeApp.yaml
 
 Should Sync Env:
 
@@ -21,12 +21,12 @@ Type:
 
 ## Extends
 
-- `makeDockerComposeApp`
+- [makeDockerComposeApp](make-docker-compose-app.md)
 
 
 ## Dependencies
 
-- `zrbShowAdv`
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Start

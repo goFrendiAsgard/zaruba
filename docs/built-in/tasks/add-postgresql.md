@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/postgresql/task.addPostgresql.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/postgresql/task.addPostgresql.yaml
 
 Should Sync Env:
 
@@ -21,10 +21,10 @@ Type:
 
 ## Dependencies
 
-- `makePostgresqlApp`
-- `makePostgresqlAppRunner`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makePostgresqlApp](make-postgresql-app.md)
+- [makePostgresqlAppRunner](make-postgresql-app-runner.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 

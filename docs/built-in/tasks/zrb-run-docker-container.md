@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/_base/run/dockerContainer/task.zrbRunDockerContainer.yaml
+    ${ZARUBA_HOME}zaruba-tasks/_base/run/dockerContainer/task.zrbRunDockerContainer.yaml
 
 Should Sync Env:
 
@@ -59,13 +59,13 @@ Description:
 
 ## Extends
 
-- `zrbRunShellScript`
+- [zrbRunShellScript](zrb-run-shell-script.md)
 
 
 ## Dependencies
 
-- `updateProjectLinks`
-- `zrbCreateDockerNetwork`
+- [updateProjectLinks](update-project-links.md)
+- [zrbCreateDockerNetwork](zrb-create-docker-network.md)
 
 
 ## Start

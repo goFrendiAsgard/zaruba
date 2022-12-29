@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/sonarqube/task.makeSonarqubeAppRunner.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/sonarqube/task.makeSonarqubeAppRunner.yaml
 
 Should Sync Env:
 
@@ -21,14 +21,14 @@ Type:
 
 ## Extends
 
-- `makeDockerContainerAppRunner`
+- [makeDockerContainerAppRunner](make-docker-container-app-runner.md)
 
 
 ## Dependencies
 
-- `makeSonarqubeApp`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeSonarqubeApp](make-sonarqube-app.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Start

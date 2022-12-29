@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/mongodb/task.addMongodb.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/mongodb/task.addMongodb.yaml
 
 Should Sync Env:
 
@@ -21,10 +21,10 @@ Type:
 
 ## Dependencies
 
-- `makeMongodbApp`
-- `makeMongodbAppRunner`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeMongodbApp](make-mongodb-app.md)
+- [makeMongodbAppRunner](make-mongodb-app-runner.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 

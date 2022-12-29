@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/prefect/task.addPrefect.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/prefect/task.addPrefect.yaml
 
 Should Sync Env:
 
@@ -21,10 +21,10 @@ Type:
 
 ## Dependencies
 
-- `makePrefectApp`
-- `makePrefectAppRunner`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makePrefectApp](make-prefect-app.md)
+- [makePrefectAppRunner](make-prefect-app-runner.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 

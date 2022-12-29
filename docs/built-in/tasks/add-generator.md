@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/generator/task.addGenerator.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/generator/task.addGenerator.yaml
 
 Should Sync Env:
 
@@ -21,8 +21,8 @@ Type:
 
 ## Dependencies
 
-- `makeGenerator`
-- `zrbShowAdv`
+- [makeGenerator](make-generator.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 

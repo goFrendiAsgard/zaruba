@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/_base/pulumi/task.zrbPulumiDeploy.yaml
+    ${ZARUBA_HOME}zaruba-tasks/_base/pulumi/task.zrbPulumiDeploy.yaml
 
 Should Sync Env:
 
@@ -21,7 +21,7 @@ Type:
 
 ## Extends
 
-- `zrbRunShellScript`
+- [zrbRunShellScript](zrb-run-shell-script.md)
 
 
 ## Start

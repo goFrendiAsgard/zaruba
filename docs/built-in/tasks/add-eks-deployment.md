@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/eksDeployment/task.addEksDeployment.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/eksDeployment/task.addEksDeployment.yaml
 
 Should Sync Env:
 
@@ -21,9 +21,9 @@ Type:
 
 ## Dependencies
 
-- `makeEksDeployment`
-- `makeEksDeploymentTask`
-- `zrbShowAdv`
+- [makeEksDeployment](make-eks-deployment.md)
+- [makeEksDeploymentTask](make-eks-deployment-task.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 

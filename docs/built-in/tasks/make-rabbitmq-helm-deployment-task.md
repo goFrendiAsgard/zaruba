@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/rabbitmqHelmDeployment/task.makeRabbitmqHelmDeploymentTask.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/rabbitmqHelmDeployment/task.makeRabbitmqHelmDeploymentTask.yaml
 
 Should Sync Env:
 
@@ -21,14 +21,14 @@ Type:
 
 ## Extends
 
-- `zrbMake`
+- [zrbMake](zrb-make.md)
 
 
 ## Dependencies
 
-- `makeRabbitmqHelmDeployment`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeRabbitmqHelmDeployment](make-rabbitmq-helm-deployment.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Start

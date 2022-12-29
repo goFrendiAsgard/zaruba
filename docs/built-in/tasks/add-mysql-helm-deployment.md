@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/mysqlHelmDeployment/task.addMysqlHelmDeployment.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/mysqlHelmDeployment/task.addMysqlHelmDeployment.yaml
 
 Should Sync Env:
 
@@ -21,10 +21,10 @@ Type:
 
 ## Dependencies
 
-- `makeMysqlHelmDeployment`
-- `makeMysqlHelmDeploymentTask`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeMysqlHelmDeployment](make-mysql-helm-deployment.md)
+- [makeMysqlHelmDeploymentTask](make-mysql-helm-deployment-task.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 

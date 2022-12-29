@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/simplePythonApp/task.addSimplePythonApp.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/simplePythonApp/task.addSimplePythonApp.yaml
 
 Should Sync Env:
 
@@ -21,10 +21,10 @@ Type:
 
 ## Dependencies
 
-- `makeSimplePythonApp`
-- `makeSimplePythonAppRunner`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeSimplePythonApp](make-simple-python-app.md)
+- [makeSimplePythonAppRunner](make-simple-python-app-runner.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 
