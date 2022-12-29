@@ -7,7 +7,7 @@
         //////////////////////////////////////////////////////////////////
 
         const configEntityName = config.entityName || 'entity'
-        const configApiUrl = config.apiUrl || '';
+        const configApiUrl = (config.apiUrl || '').replace(/\/$|$/, '/'); // ensure trailing slash
         const configInsertFormTitle = config.insertFormTitle || 'New ${Entity}';
         const configUpdateFormTitle = config.updateFormTitle || 'Edit ${Entity} ${id}';
         const configConfirmDeleteMessage = config.updateFormTitle || 'Are you sure to delete ${entity} ${id}';
