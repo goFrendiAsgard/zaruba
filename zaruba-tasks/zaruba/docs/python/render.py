@@ -9,26 +9,26 @@ import sys
 def render(zaruba_home: str, toc_file_path: str) -> List[str]:
     # get items
     core_task_file_name =  os.path.join(zaruba_home, 'core.zaruba.yaml')
-    print('extract tasks')
+    print('Extract tasks')
     tasks = extract_tasks(core_task_file_name)
     zaruba_bin_path = os.path.join(zaruba_home, 'zaruba')
-    print('extract utils')
+    print('Extract utils')
     utils = extract_utils(zaruba_bin_path)
-    print('create items')
+    print('Create items')
     items = get_items(tasks, utils, 1)
-    print('override TOC file')
+    print('Override TOC file')
     update_toc_file(toc_file_path, items)
     print('Render docs based on TOC')
     render_toc(zaruba_bin_path, toc_file_path)
     # find built-in location
     built_in_docs_dir = find_built_in_docs_dir(toc_file_path)
     print('Render tasks')
-    render_task_docs(zaruba_bin_path, built_in_docs_dir, tasks)
+    render_task_docs(zaruba_home, zaruba_bin_path, built_in_docs_dir, tasks)
     print('Render utils')
-    render_util_docs(zaruba_bin_path, built_in_docs_dir, utils)
+    render_util_docs(built_in_docs_dir, utils)
 
 
-def render_util_docs(zaruba_bin_path: str, built_in_docs_dir: str, utils: List[List[str]]):
+def render_util_docs(built_in_docs_dir: str, utils: List[List[str]]):
     for util in utils:
         doc_content = get_command_output(get_help_command(util))
         doc_content = '\n'.join(['```', doc_content, '```'])
@@ -64,11 +64,11 @@ def get_util_doc_path(built_in_docs_dir: str, util: List[str]) -> str:
     return doc_path
 
 
-def render_task_docs(zaruba_bin_path: str, built_in_docs_dir: str, tasks: List[str]):
+def render_task_docs(zaruba_home: str, zaruba_bin_path: str, built_in_docs_dir: str, tasks: List[str]):
     for task in tasks:
         # get doc content
         doc_content = get_command_output([zaruba_bin_path, 'please', task, '-x', '-d=colorless'])
-        # TODO: replace "Dependencies" and "Extends"
+        doc_content = prepare_task_doc_content(zaruba_home, doc_content)
         kebab_task = camel_to_kebab(task)
         doc_path = os.path.join(built_in_docs_dir, 'tasks', kebab_task+'.md')
         # read old content
@@ -86,6 +86,34 @@ def render_task_docs(zaruba_bin_path: str, built_in_docs_dir: str, tasks: List[s
         doc_file = open(doc_path, 'w')
         doc_file.writelines(new_doc_lines)
         doc_file.close()
+
+
+def prepare_task_doc_content(zaruba_home: str, doc_content: str) -> str:
+    zaruba_home_trail_slash = zaruba_home.rstrip('/') + '/'
+    zaruba_home_pattern = re.compile(zaruba_home_trail_slash)
+    doc_content = zaruba_home_pattern.sub('${ZARUBA_HOME}', doc_content)
+    doc_lines = doc_content.split('\n')
+    is_processing_dependencies, is_processing_extends = False, False
+    bullet_task_pattern = re.compile('^- `(.*)`$')
+    for index, line in enumerate(doc_lines):
+        if line == '## Extends':
+            is_processing_extends = True
+            continue
+        if line == '## Dependencies':
+            is_processing_dependencies = True
+            continue
+        if line.startswith('#'):
+            is_processing_dependencies, is_processing_extends = False, False
+            continue
+        # it is a bullet pattern while we process extends/dependencies
+        if (is_processing_dependencies or is_processing_extends) and line.startswith('- `'):
+            match = bullet_task_pattern.findall(line)
+            if len(match) > 0:
+                task_name = match[0]
+                kebab_task_name = camel_to_kebab(task_name)
+                new_line = '- [{}]({})'.format(task_name, kebab_task_name + '.md')
+                doc_lines[index] = new_line
+    return '\n'.join(doc_lines)
 
 
 def camel_to_kebab(name: str) -> str:
