@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/simpleTypeScriptApp/task.addSimpleTypeScriptApp.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/simpleTypeScriptApp/task.addSimpleTypeScriptApp.yaml
 
 Should Sync Env:
 
@@ -21,10 +21,10 @@ Type:
 
 ## Dependencies
 
-- `makeSimpleTypeScriptApp`
-- `makeSimpleTypeScriptAppRunner`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeSimpleTypeScriptApp](make-simple-type-script-app.md)
+- [makeSimpleTypeScriptAppRunner](make-simple-type-script-app-runner.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 

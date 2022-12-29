@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/trino/task.makeTrinoAppRunner.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/trino/task.makeTrinoAppRunner.yaml
 
 Should Sync Env:
 
@@ -21,14 +21,14 @@ Type:
 
 ## Extends
 
-- `makeDockerContainerAppRunner`
+- [makeDockerContainerAppRunner](make-docker-container-app-runner.md)
 
 
 ## Dependencies
 
-- `makeTrinoApp`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeTrinoApp](make-trino-app.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Start

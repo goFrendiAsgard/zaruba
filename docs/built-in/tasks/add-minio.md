@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/minio/task.addMinio.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/minio/task.addMinio.yaml
 
 Should Sync Env:
 
@@ -21,10 +21,10 @@ Type:
 
 ## Dependencies
 
-- `makeMinioApp`
-- `makeMinioAppRunner`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeMinioApp](make-minio-app.md)
+- [makeMinioAppRunner](make-minio-app-runner.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 

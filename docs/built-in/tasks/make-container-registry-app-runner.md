@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/containerRegistry/task.makeContainerRegistryAppRunner.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/containerRegistry/task.makeContainerRegistryAppRunner.yaml
 
 Should Sync Env:
 
@@ -21,14 +21,14 @@ Type:
 
 ## Extends
 
-- `makeDockerContainerAppRunner`
+- [makeDockerContainerAppRunner](make-docker-container-app-runner.md)
 
 
 ## Dependencies
 
-- `makeContainerRegistryApp`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeContainerRegistryApp](make-container-registry-app.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Start

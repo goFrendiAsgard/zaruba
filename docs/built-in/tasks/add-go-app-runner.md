@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/goAppRunner/task.addGoAppRunner.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/goAppRunner/task.addGoAppRunner.yaml
 
 Should Sync Env:
 
@@ -21,9 +21,9 @@ Type:
 
 ## Dependencies
 
-- `makeGoAppRunner`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeGoAppRunner](make-go-app-runner.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 

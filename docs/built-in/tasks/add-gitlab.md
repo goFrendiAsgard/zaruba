@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/gitlab/task.addGitlab.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/gitlab/task.addGitlab.yaml
 
 Should Sync Env:
 
@@ -21,10 +21,10 @@ Type:
 
 ## Dependencies
 
-- `makeGitlabApp`
-- `makeGitlabAppRunner`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeGitlabApp](make-gitlab-app.md)
+- [makeGitlabAppRunner](make-gitlab-app-runner.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 

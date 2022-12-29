@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/nodeJsAppRunner/task.addNodeJsAppRunner.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/nodeJsAppRunner/task.addNodeJsAppRunner.yaml
 
 Should Sync Env:
 
@@ -21,9 +21,9 @@ Type:
 
 ## Dependencies
 
-- `makeNodeJsAppRunner`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeNodeJsAppRunner](make-node-js-app-runner.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 

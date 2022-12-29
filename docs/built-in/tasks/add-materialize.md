@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/materialize/task.addMaterialize.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/materialize/task.addMaterialize.yaml
 
 Should Sync Env:
 
@@ -21,10 +21,10 @@ Type:
 
 ## Dependencies
 
-- `makeMaterializeApp`
-- `makeMaterializeAppRunner`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeMaterializeApp](make-materialize-app.md)
+- [makeMaterializeAppRunner](make-materialize-app-runner.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 

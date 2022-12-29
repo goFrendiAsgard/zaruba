@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/_base/run/inKubePod/task.zrbRunInKubePod.yaml
+    ${ZARUBA_HOME}zaruba-tasks/_base/run/inKubePod/task.zrbRunInKubePod.yaml
 
 Should Sync Env:
 
@@ -32,7 +32,7 @@ Description:
 
 ## Extends
 
-- `zrbGenerateAndRun`
+- [zrbGenerateAndRun](zrb-generate-and-run.md)
 
 
 ## Start

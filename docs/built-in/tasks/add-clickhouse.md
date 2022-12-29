@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/clickhouse/task.addClickhouse.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/clickhouse/task.addClickhouse.yaml
 
 Should Sync Env:
 
@@ -21,10 +21,10 @@ Type:
 
 ## Dependencies
 
-- `makeClickhouseApp`
-- `makeClickhouseAppRunner`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeClickhouseApp](make-clickhouse-app.md)
+- [makeClickhouseAppRunner](make-clickhouse-app-runner.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 

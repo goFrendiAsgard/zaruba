@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/spark/task.addSpark.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/spark/task.addSpark.yaml
 
 Should Sync Env:
 
@@ -21,10 +21,10 @@ Type:
 
 ## Dependencies
 
-- `makeSparkApp`
-- `makeSparkAppRunner`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeSparkApp](make-spark-app.md)
+- [makeSparkAppRunner](make-spark-app-runner.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 

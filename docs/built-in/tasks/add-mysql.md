@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/mysql/task.addMysql.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/mysql/task.addMysql.yaml
 
 Should Sync Env:
 
@@ -21,10 +21,10 @@ Type:
 
 ## Dependencies
 
-- `makeMysqlApp`
-- `makeMysqlAppRunner`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeMysqlApp](make-mysql-app.md)
+- [makeMysqlAppRunner](make-mysql-app-runner.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 

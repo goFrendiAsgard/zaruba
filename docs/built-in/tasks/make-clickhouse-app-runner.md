@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/clickhouse/task.makeClickhouseAppRunner.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/clickhouse/task.makeClickhouseAppRunner.yaml
 
 Should Sync Env:
 
@@ -21,14 +21,14 @@ Type:
 
 ## Extends
 
-- `makeDockerContainerAppRunner`
+- [makeDockerContainerAppRunner](make-docker-container-app-runner.md)
 
 
 ## Dependencies
 
-- `makeClickhouseApp`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeClickhouseApp](make-clickhouse-app.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Start

@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/chore/initProject/task.initProject.yaml
+    ${ZARUBA_HOME}zaruba-tasks/chore/initProject/task.initProject.yaml
 
 Should Sync Env:
 
@@ -26,7 +26,7 @@ Description:
 
 ## Extends
 
-- `zrbRunShellScript`
+- [zrbRunShellScript](zrb-run-shell-script.md)
 
 
 ## Start

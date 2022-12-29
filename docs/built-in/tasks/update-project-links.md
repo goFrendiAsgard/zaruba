@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/chore/link/task.updateProjectLinks.yaml
+    ${ZARUBA_HOME}zaruba-tasks/chore/link/task.updateProjectLinks.yaml
 
 Should Sync Env:
 
@@ -35,7 +35,7 @@ Description:
 
 ## Extends
 
-- `zrbRunShellScript`
+- [zrbRunShellScript](zrb-run-shell-script.md)
 
 
 ## Start

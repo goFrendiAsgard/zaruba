@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/fastApp/task.makeFastAppRunner.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/fastApp/task.makeFastAppRunner.yaml
 
 Should Sync Env:
 
@@ -21,14 +21,14 @@ Type:
 
 ## Extends
 
-- `makePythonAppRunner`
+- [makePythonAppRunner](make-python-app-runner.md)
 
 
 ## Dependencies
 
-- `makeFastApp`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeFastApp](make-fast-app.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Start

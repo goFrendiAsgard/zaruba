@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/_base/dockerCompose/task.zrbRemoveDockerCompose.yaml
+    ${ZARUBA_HOME}zaruba-tasks/_base/dockerCompose/task.zrbRemoveDockerCompose.yaml
 
 Should Sync Env:
 
@@ -26,12 +26,12 @@ Description:
 
 ## Extends
 
-- `zrbRunShellScript`
+- [zrbRunShellScript](zrb-run-shell-script.md)
 
 
 ## Dependencies
 
-- `updateProjectLinks`
+- [updateProjectLinks](update-project-links.md)
 
 
 ## Start

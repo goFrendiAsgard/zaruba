@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/_base/run/task.zrbRunScript.yaml
+    ${ZARUBA_HOME}zaruba-tasks/_base/run/task.zrbRunScript.yaml
 
 Should Sync Env:
 

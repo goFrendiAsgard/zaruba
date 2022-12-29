@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/kafka/task.addKafka.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/kafka/task.addKafka.yaml
 
 Should Sync Env:
 
@@ -21,10 +21,10 @@ Type:
 
 ## Dependencies
 
-- `makeKafkaApp`
-- `makeKafkaAppRunner`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeKafkaApp](make-kafka-app.md)
+- [makeKafkaAppRunner](make-kafka-app-runner.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 

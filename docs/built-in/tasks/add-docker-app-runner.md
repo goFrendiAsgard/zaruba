@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/dockerAppRunner/task.addDockerAppRunner.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/dockerAppRunner/task.addDockerAppRunner.yaml
 
 Should Sync Env:
 
@@ -21,9 +21,9 @@ Type:
 
 ## Dependencies
 
-- `makeDockerContainerAppRunner`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeDockerContainerAppRunner](make-docker-container-app-runner.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 

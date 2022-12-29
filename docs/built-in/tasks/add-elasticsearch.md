@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/elasticsearch/task.addElasticsearch.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/elasticsearch/task.addElasticsearch.yaml
 
 Should Sync Env:
 
@@ -21,10 +21,10 @@ Type:
 
 ## Dependencies
 
-- `makeElasticsearchApp`
-- `makeElasticsearchAppRunner`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeElasticsearchApp](make-elasticsearch-app.md)
+- [makeElasticsearchAppRunner](make-elasticsearch-app-runner.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 

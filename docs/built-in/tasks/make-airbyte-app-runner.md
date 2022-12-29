@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/airbyte/task.makeAirbyteAppRunner.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/airbyte/task.makeAirbyteAppRunner.yaml
 
 Should Sync Env:
 
@@ -21,14 +21,14 @@ Type:
 
 ## Extends
 
-- `makeDockerComposeAppRunner`
+- [makeDockerComposeAppRunner](make-docker-compose-app-runner.md)
 
 
 ## Dependencies
 
-- `makeAirbyteApp`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeAirbyteApp](make-airbyte-app.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Start

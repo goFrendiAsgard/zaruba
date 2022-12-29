@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/redis/task.addRedis.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/redis/task.addRedis.yaml
 
 Should Sync Env:
 
@@ -21,10 +21,10 @@ Type:
 
 ## Dependencies
 
-- `makeRedisApp`
-- `makeRedisAppRunner`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeRedisApp](make-redis-app.md)
+- [makeRedisAppRunner](make-redis-app-runner.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 

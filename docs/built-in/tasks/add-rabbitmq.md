@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/rabbitmq/task.addRabbitmq.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/rabbitmq/task.addRabbitmq.yaml
 
 Should Sync Env:
 
@@ -21,10 +21,10 @@ Type:
 
 ## Dependencies
 
-- `makeRabbitmqApp`
-- `makeRabbitmqAppRunner`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeRabbitmqApp](make-rabbitmq-app.md)
+- [makeRabbitmqAppRunner](make-rabbitmq-app-runner.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 

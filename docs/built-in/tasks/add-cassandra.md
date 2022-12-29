@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/cassandra/task.addCassandra.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/cassandra/task.addCassandra.yaml
 
 Should Sync Env:
 
@@ -21,10 +21,10 @@ Type:
 
 ## Dependencies
 
-- `makeCassandraApp`
-- `makeCassandraAppRunner`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeCassandraApp](make-cassandra-app.md)
+- [makeCassandraAppRunner](make-cassandra-app-runner.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 

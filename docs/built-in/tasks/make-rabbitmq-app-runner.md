@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/rabbitmq/task.makeRabbitmqAppRunner.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/rabbitmq/task.makeRabbitmqAppRunner.yaml
 
 Should Sync Env:
 
@@ -21,14 +21,14 @@ Type:
 
 ## Extends
 
-- `makeDockerContainerAppRunner`
+- [makeDockerContainerAppRunner](make-docker-container-app-runner.md)
 
 
 ## Dependencies
 
-- `makeRabbitmqApp`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeRabbitmqApp](make-rabbitmq-app.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Start

@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/trino/task.addTrino.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/trino/task.addTrino.yaml
 
 Should Sync Env:
 
@@ -21,10 +21,10 @@ Type:
 
 ## Dependencies
 
-- `makeTrinoApp`
-- `makeTrinoAppRunner`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeTrinoApp](make-trino-app.md)
+- [makeTrinoAppRunner](make-trino-app-runner.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 

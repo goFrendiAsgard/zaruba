@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/chore/subrepo/task.addSubrepo.yaml
+    ${ZARUBA_HOME}zaruba-tasks/chore/subrepo/task.addSubrepo.yaml
 
 Should Sync Env:
 
@@ -27,12 +27,12 @@ Description:
 
 ## Extends
 
-- `zrbRunShellScript`
+- [zrbRunShellScript](zrb-run-shell-script.md)
 
 
 ## Dependencies
 
-- `zrbIsProject`
+- [zrbIsProject](zrb-is-project.md)
 
 
 ## Start

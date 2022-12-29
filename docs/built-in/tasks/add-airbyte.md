@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/airbyte/task.addAirbyte.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/airbyte/task.addAirbyte.yaml
 
 Should Sync Env:
 
@@ -21,10 +21,10 @@ Type:
 
 ## Dependencies
 
-- `makeAirbyteApp`
-- `makeAirbyteAppRunner`
-- `zrbIsProject`
-- `zrbShowAdv`
+- [makeAirbyteApp](make-airbyte-app.md)
+- [makeAirbyteAppRunner](make-airbyte-app-runner.md)
+- [zrbIsProject](zrb-is-project.md)
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 

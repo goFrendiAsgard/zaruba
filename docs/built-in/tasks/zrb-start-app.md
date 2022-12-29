@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/_base/start/task.zrbStartApp.yaml
+    ${ZARUBA_HOME}zaruba-tasks/_base/start/task.zrbStartApp.yaml
 
 Should Sync Env:
 
@@ -36,12 +36,12 @@ Description:
 
 ## Extends
 
-- `zrbRunShellScript`
+- [zrbRunShellScript](zrb-run-shell-script.md)
 
 
 ## Dependencies
 
-- `updateProjectLinks`
+- [updateProjectLinks](update-project-links.md)
 
 
 ## Start

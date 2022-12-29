@@ -8,7 +8,7 @@
 
 File Location:
 
-    /home/gofrendi/zaruba/zaruba-tasks/make/_base/task.zrbMake.yaml
+    ${ZARUBA_HOME}zaruba-tasks/make/_base/task.zrbMake.yaml
 
 Should Sync Env:
 
@@ -101,12 +101,12 @@ Description:
 
 ## Extends
 
-- `zrbRunShellScript`
+- [zrbRunShellScript](zrb-run-shell-script.md)
 
 
 ## Dependencies
 
-- `zrbShowAdv`
+- [zrbShowAdv](zrb-show-adv.md)
 
 
 ## Start
