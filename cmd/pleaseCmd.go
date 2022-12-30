@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
 	"github.com/state-alchemists/zaruba/dsl"
 	"github.com/state-alchemists/zaruba/explainer"
@@ -86,14 +87,14 @@ var pleaseCmd = &cobra.Command{
 		}
 		r, err := runner.NewRunner(logger, csvRecordLogger, project, taskNames, statusTimeIntervalStr, statusLineInterval, *pleaseTerminate, pleaseWait)
 		if err != nil {
-			showLastPleaseCommand(cmd, logger, decoration, project, taskNames)
+			showLastPleaseCommand(cmd, logger, decoration)
 			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		if err := r.Run(); err != nil {
-			showLastPleaseCommand(cmd, logger, decoration, project, taskNames)
+			showLastPleaseCommand(cmd, logger, decoration)
 			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
-		showLastPleaseCommand(cmd, logger, decoration, project, taskNames)
+		showLastPleaseCommand(cmd, logger, decoration)
 	},
 }
 
@@ -113,11 +114,11 @@ func init() {
 	defaultShowLogTime := util.Bool.IsTrue(os.Getenv("ZARUBA_LOG_TIME"))
 	// get parameters
 	pleaseCmd.Flags().StringVarP(&pleaseProjectFile, "file", "f", defaultProjectFile, "project file")
-	pleaseCmd.Flags().StringVarP(&pleaseDecor, "decoration", "d", defaultDecoration, "decoration")
 	pleaseCmd.Flags().StringArrayVarP(&pleaseEnvs, "environment", "e", []string{}, "environments (e.g., '-e environment.env' or '-e KEY=VAL' or '-e {\"KEY\": \"VAL\"}' )")
 	pleaseEnvs = append(defaultEnvFiles, pleaseEnvs...)
 	pleaseCmd.Flags().StringArrayVarP(&pleaseValues, "value", "v", []string{}, "values (e.g., '-v value.yaml' or '-v key=val')")
 	pleaseValues = append(defaultValueFiles, pleaseValues...)
+	pleaseCmd.Flags().StringVarP(&pleaseDecor, "decoration", "d", defaultDecoration, "decoration")
 	pleaseInteractive = pleaseCmd.Flags().BoolP("interactive", "i", false, "interactive mode")
 	pleaseExplain = pleaseCmd.Flags().BoolP("explain", "x", false, "explain instead of execute")
 	pleaseUsePreviousValues = pleaseCmd.Flags().BoolP("previous", "p", false, "load previous values")
@@ -154,14 +155,30 @@ func getDefaultValueFiles(dir, zarubaEnv string) []string {
 }
 
 func getDefaultProjectFile(dir string) string {
-	defaultProjectFile := filepath.Join(dir, "index.zaruba.yaml")
-	if _, err := os.Stat(defaultProjectFile); os.IsNotExist(err) {
-		return "${ZARUBA_HOME}/core.zaruba.yaml"
+	defaultProjectPath := "${ZARUBA_HOME}/core.zaruba.yaml"
+	currentDir, err := filepath.Abs(dir)
+	if err != nil {
+		return defaultProjectPath
 	}
-	return defaultProjectFile
+	projectFilePath := ""
+	for {
+		projectFilePath = filepath.Join(currentDir, "index.zaruba.yaml")
+		if _, err := os.Stat(projectFilePath); err == nil {
+			return projectFilePath
+		}
+		projectFilePath = filepath.Join(currentDir, "index.zaruba.yml")
+		if _, err := os.Stat(projectFilePath); err == nil {
+			return projectFilePath
+		}
+		if currentDir == "/" {
+			break
+		}
+		currentDir = filepath.Dir(currentDir)
+	}
+	return defaultProjectPath
 }
 
-func showLastPleaseCommand(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, project *dsl.Project, taskNames []string) {
+func showLastPleaseCommand(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration) {
 	nodeCmd := cmd
 	commandName := ""
 	for nodeCmd != nil {
@@ -173,30 +190,14 @@ func showLastPleaseCommand(cmd *cobra.Command, logger output.Logger, decoration 
 		nodeCmd = nodeCmd.Parent()
 	}
 	strUtil := strutil.NewStrUtil()
-	// task names
-	argTaskName := strings.Join(taskNames, " ")
-	// value
-	argValueList := []string{}
-	for _, addedValue := range project.GetAdditionalValueNames() {
-		argValueList = append(argValueList, fmt.Sprintf("-v %s", strUtil.EscapeShellValue(addedValue)))
-	}
-	argValue := strings.Join(argValueList, " ")
-	// environment
-	argEnvList := []string{}
-	for _, addedEnv := range project.GetAdditionalEnvNames() {
-		argEnvList = append(argEnvList, fmt.Sprintf("-e %s", strUtil.EscapeShellValue(addedEnv)))
-	}
-	argEnv := strings.Join(argEnvList, " ")
-	// terminate and wait
-	argTerminate := ""
-	argWait := ""
-	if *pleaseTerminate {
-		argTerminate += " -t"
-		if pleaseWait != "0s" && pleaseWait != "" {
-			argWait += fmt.Sprintf(" -w %s", pleaseWait)
-		}
-	}
-	logger.Fprintf(os.Stderr, "%s%s %s %s %s%s%s%s\n", decoration.Yellow, commandName, argTaskName, argEnv, argValue, argTerminate, argWait, decoration.Normal)
+	cmdArgs := cmd.Flags().Args()
+	cmdFlags := []string{}
+	cmd.Flags().VisitAll(func(flag *pflag.Flag) {
+		key := flag.Name
+		val := flag.Value.String()
+		cmdFlags = append(cmdFlags, fmt.Sprintf("--%s=%s", key, strUtil.EscapeShellValue(val)))
+	})
+	logger.Fprintf(os.Stderr, "%s%s %s %s %s\n", decoration.Yellow, commandName, strings.Join(cmdArgs, " "), strings.Join(cmdFlags, " "), decoration.Normal)
 }
 
 func getTaskNameInteractivelyOrExit(cmd *cobra.Command, logger *output.ConsoleLogger, decoration *output.Decoration, prompter *input.Prompter) (taskName string) {
