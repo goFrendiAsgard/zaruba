@@ -24,6 +24,7 @@ Use "zaruba project [command] --help" for more information about a command.
 
 ```
 
+# Subtopics
 <!--startTocSubtopic-->
 - [addTask](add-task.md)
 - [include](include.md)

@@ -19,6 +19,7 @@ Use "zaruba advertisement [command] --help" for more information about a command
 
 ```
 
+# Subtopics
 <!--startTocSubtopic-->
 - [show](show.md)
 <!--endTocSubtopic-->

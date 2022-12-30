@@ -3,4 +3,6 @@
 # Crud
 <!--endTocHeader-->
 TODO: Write about `CRUD`
-<!--startTocSubtopic--><!--endTocSubtopic-->
+# Subtopics
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

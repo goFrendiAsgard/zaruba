@@ -27,6 +27,7 @@ Use "zaruba map [command] --help" for more information about a command.
 
 ```
 
+# Subtopics
 <!--startTocSubtopic-->
 - [get](get.md)
 - [getKeys](get-keys.md)

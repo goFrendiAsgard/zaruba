@@ -60,4 +60,6 @@ Typically, a new project contains of two files:
 
 Once you created an empty project, you can start [adding resources to your project](add-resources/README.md), [run some tasks](../run-task/README.md), and [syncrhonize task environments](syncrhonize-task-environments.md)
 
-<!--startTocSubtopic--><!--endTocSubtopic-->
+# Subtopics
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

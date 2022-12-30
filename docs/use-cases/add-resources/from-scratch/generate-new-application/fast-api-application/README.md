@@ -3,6 +3,7 @@
 # FastApi Application
 <!--endTocHeader-->
 TODO: Write about `FastAPI Application`
+# Subtopics
 <!--startTocSubtopic-->
 - [Route](route.md)
 - [Event Handler](event-handler.md)

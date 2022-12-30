@@ -73,11 +73,18 @@ func (tocItem *TocItem) RenderNewContentToNewFile(tocHeader, tocSubtopic string)
 		"",
 		fmt.Sprintf("> TODO: Write about `%s`.", tocItem.Title),
 		"",
-		startTocSubtopicTag,
-		tocSubtopic,
-		endTocSubtopicTag,
+		"# Subtopics",
+		tocItem.GetNewTaggedSubtopicContent(tocSubtopic),
 	}, "\n")
 	return tocItem.Toc.Util.File.WriteText(tocItem.NewFileLocation, newFileContent, 0755)
+}
+
+func (tocItem *TocItem) GetNewTaggedSubtopicContent(tocSubtopic string) string {
+	if tocSubtopic == "" {
+		return strings.Join([]string{startTocSubtopicTag, endTocSubtopicTag}, "\n")
+	} else {
+		return strings.Join([]string{startTocSubtopicTag, tocSubtopic, endTocSubtopicTag}, "\n")
+	}
 }
 
 func (tocItem *TocItem) GetTocHeader() (tocHeader string, err error) {

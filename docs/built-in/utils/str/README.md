@@ -43,6 +43,7 @@ Use "zaruba str [command] --help" for more information about a command.
 
 ```
 
+# Subtopics
 <!--startTocSubtopic-->
 - [addPrefix](add-prefix.md)
 - [currentTime](current-time.md)

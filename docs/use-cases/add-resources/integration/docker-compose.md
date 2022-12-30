@@ -5,4 +5,6 @@
 
 TODO: Write about `Docker Compose`
 
-<!--startTocSubtopic--><!--endTocSubtopic-->
+# Subtopics
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

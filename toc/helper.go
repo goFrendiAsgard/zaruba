@@ -36,6 +36,9 @@ func replaceTag(util *dsl.DSLUtil, startTag, endTag, content, replacement string
 			replacement = replacement + "\n"
 		}
 	}
+	if replacement == "" {
+		replacement = "\n"
+	}
 	return strings.Join([]string{
 		beforeTag,
 		startTag,

@@ -118,6 +118,7 @@ For more information about sharing task resources, please visit the following do
 * [Shared configs](task-configs/shared-configs.md)
 * [Shared envs](task-envs/shared-envs.md)
 
+# Subtopics
 <!--startTocSubtopic-->
 - [🧬 Task Anatomy](task-anatomy.md)
 - [🥛 Simple Command](simple-command.md)

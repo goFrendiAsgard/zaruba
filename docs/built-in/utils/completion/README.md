@@ -23,6 +23,7 @@ Use "zaruba completion [command] --help" for more information about a command.
 
 ```
 
+# Subtopics
 <!--startTocSubtopic-->
 - [bash](bash.md)
 - [fish](fish.md)

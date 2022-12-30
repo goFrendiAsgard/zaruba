@@ -30,4 +30,6 @@ zaruba please addSimpleTypeScriptApp \
 ```
 
 
-<!--startTocSubtopic--><!--endTocSubtopic-->
+# Subtopics
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

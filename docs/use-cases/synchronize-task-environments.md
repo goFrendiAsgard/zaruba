@@ -5,4 +5,6 @@
 
 TODO: Write about `Synchronize environments`
 
-<!--startTocSubtopic--><!--endTocSubtopic-->
+# Subtopics
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

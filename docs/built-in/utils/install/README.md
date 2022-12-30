@@ -47,6 +47,7 @@ Use "zaruba install [command] --help" for more information about a command.
 
 ```
 
+# Subtopics
 <!--startTocSubtopic-->
 - [aws-cli](aws-cli.md)
 - [gcloud](gcloud.md)

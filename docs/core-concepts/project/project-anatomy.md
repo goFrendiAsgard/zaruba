@@ -104,4 +104,6 @@ To run a task, you might need other resources like source code, Dockerfile, stat
 > 💡 __TIPS:__ Instead of creating application resources and Zaruba script manually, you can use [built-in generator](../../use-cases/add-resources/README.md).
 
 
-<!--startTocSubtopic--><!--endTocSubtopic-->
+# Subtopics
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

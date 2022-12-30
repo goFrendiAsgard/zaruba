@@ -19,6 +19,7 @@ Use "zaruba json [command] --help" for more information about a command.
 
 ```
 
+# Subtopics
 <!--startTocSubtopic-->
 - [print](print.md)
 <!--endTocSubtopic-->

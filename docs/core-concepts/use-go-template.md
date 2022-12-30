@@ -92,4 +92,6 @@ echo "Hello {{ .GetConfig "name" }}"
 Please visit [zaruba's source code](../../dsl/tpl.go) to see available functions/values.
 
 
-<!--startTocSubtopic--><!--endTocSubtopic-->
+# Subtopics
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

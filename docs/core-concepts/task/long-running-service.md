@@ -259,4 +259,6 @@ Here are some of the tasks you can extend when you want to start long running se
 * [zrbStartDockerContainer](../../core-tasks/zrb-start-docker-container.md): Start a docker container
 * [zrbStartDockerCompose](../../core-tasks/zrb-start-docker-compose.md): Start a docker container
 
-<!--startTocSubtopic--><!--endTocSubtopic-->
+# Subtopics
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->
