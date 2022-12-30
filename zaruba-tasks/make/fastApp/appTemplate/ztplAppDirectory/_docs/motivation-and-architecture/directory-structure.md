@@ -149,7 +149,7 @@ Feel free to modify this file and add custom logics as neeeded.
 def create_app(mb: MessageBus, rpc: RPC, menu_service: MenuService, page_template: Jinja2Templates) -> FastAPI:
     app = FastAPI(title=site_name)
     # middlewares, urls, and error handling
-    # TODO: add your custom logics here
+    # > TODO: add your custom logics here
     return app
 ```
 
@@ -733,3 +733,7 @@ class AppMessageBus(MessageBus):
 ```
 
 Feel free to extend this to match your business processes.
+
+# Subtopics
+<!--startTocSubtopic-->
+<!--endTocSubtopic-->

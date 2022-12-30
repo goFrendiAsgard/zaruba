@@ -3,7 +3,8 @@
 # Adding an RPC handler
 <!--endTocHeader-->
 
-TODO: Write about `Adding a RPC handler`
+> TODO: Write about `Adding a RPC handler`
 
+# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

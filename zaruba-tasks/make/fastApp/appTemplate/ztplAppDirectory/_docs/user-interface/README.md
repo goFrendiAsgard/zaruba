@@ -3,11 +3,11 @@
 # User interface
 <!--endTocHeader-->
 
-TODO: Write about `User interface`
+> TODO: Write about `User interface`
 
+# Subtopics
 <!--startTocSubtopic-->
-# Sub-topics
-* [Menu](menu.md)
-* [Jinja templates](jinja-templates.md)
-* [Vue.js](vue-js.md)
+- [Menu](menu.md)
+- [Jinja templates](jinja-templates.md)
+- [Vue.js](vuejs.md)
 <!--endTocSubtopic-->

@@ -49,7 +49,7 @@ import traceback
 import sys
 
 def register_library_event_handler(mb: AppMessageBus, rpc: AppRPC, auth_service: AuthService):
-    # TODO: add event handler here
+    # > TODO: add event handler here
     print('Register library event handler', file=sys.stderr)
 ```
 
@@ -74,7 +74,7 @@ import sys
 # -- ⚙️ API
 ################################################
 def register_library_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, auth_service: AuthService):
-    # TODO: add API endpoint handler here
+    # > TODO: add API endpoint handler here
     print('Register library api route handler', file=sys.stderr)
 
 
@@ -83,7 +83,7 @@ def register_library_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, aut
 ################################################
 def register_library_ui_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, menu_service: MenuService, page_template: Jinja2Templates):
     menu_service.add_menu(name='library', title='Library', url='#', auth_type=AuthType.ANYONE)
-    # TODO: add menu and page handler here
+    # > TODO: add menu and page handler here
     print('Register library UI route handler', file=sys.stderr)
 ```
 
@@ -101,7 +101,7 @@ import sys
 
 # Note: 🤖 Don't delete the following line, Zaruba use it for pattern matching
 def register_library_rpc_handler(mb: AppMessageBus, rpc: AppRPC, auth_service: AuthService):
-    # TODO: add RPC handler here
+    # > TODO: add RPC handler here
     print('Register library RPC handler', file=sys.stderr)
 ```
 
@@ -165,12 +165,12 @@ Done.
 
 You can set `APP_ENABLE_LIBRARY_MODULE` to `0` or `1` to disable/enable the module.
 
+# Subtopics
 <!--startTocSubtopic-->
-# Sub-topics
-* [Adding a CRUD handler](adding-a-crud-handler.md)
-* [Adding a new column](adding-a-new-column.md)
-* [Adding an API endpoint](adding-an-api-endpoint.md)
-* [Adding a page](adding-a-page.md)
-* [Adding an event handler](adding-an-event-handler.md)
-* [Adding an RPC handler](adding-an-rpc-handler.md)
+- [Adding a CRUD handler](adding-a-crud-handler.md)
+- [Adding a new column](adding-a-new-column.md)
+- [Adding an API endpoint](adding-an-api-endpoint.md)
+- [Adding a page](adding-a-page.md)
+- [Adding an event handler](adding-an-event-handler.md)
+- [Adding an RPC handler](adding-an-rpc-handler.md)
 <!--endTocSubtopic-->

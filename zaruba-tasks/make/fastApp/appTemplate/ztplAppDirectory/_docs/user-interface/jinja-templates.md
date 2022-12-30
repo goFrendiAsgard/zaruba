@@ -3,7 +3,8 @@
 # Jinja templates
 <!--endTocHeader-->
 
-TODO: Write about `Jinja templates`
+> TODO: Write about `Jinja templates`
 
+# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

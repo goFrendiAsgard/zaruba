@@ -1,6 +1,7 @@
 package toc
 
 import (
+	"fmt"
 	"path/filepath"
 	"strings"
 
@@ -49,7 +50,10 @@ func NewToc(fileLocation string) (toc *Toc, err error) {
 		FileContent:  fileContent,
 		Util:         util,
 	}
-	_, tocContent, _ := splitContentByTag(util, startTocTag, endTocTag, fileContent)
+	_, tocContent, _, isTagFound := splitContentByTag(util, startTocTag, endTocTag, fileContent)
+	if !isTagFound {
+		return toc, fmt.Errorf("no tag found at '%s', expecting '%s' and '%s'", absFileLocation, startTocTag, endTocTag)
+	}
 	tocLines := strings.Split(tocContent, "\n")
 	toc.Items, err = NewTocItems(toc, nil, 0, tocLines)
 	if err != nil {

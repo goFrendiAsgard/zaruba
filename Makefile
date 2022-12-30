@@ -8,6 +8,7 @@ test-toc:
 test:
 	. ./buildZaruba.sh
 	sudo rm -Rf playground
+	sudo rm -Rf test-resources/toc/playground
 	sudo rm -Rf docs/examples/playground
 	./zaruba please test
 documentation:

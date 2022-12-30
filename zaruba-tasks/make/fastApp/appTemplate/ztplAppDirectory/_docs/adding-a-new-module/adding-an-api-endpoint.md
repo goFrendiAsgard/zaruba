@@ -3,7 +3,8 @@
 # Adding an API endpoint
 <!--endTocHeader-->
 
-TODO: Write about `Adding an API endpoint`
+> TODO: Write about `Adding an API endpoint`
 
+# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

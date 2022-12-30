@@ -3,7 +3,8 @@
 # Adding a new column
 <!--endTocHeader-->
 
-TODO: Write about `Adding a new column`
+> TODO: Write about `Adding a new column`
 
+# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

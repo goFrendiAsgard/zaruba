@@ -3,7 +3,8 @@
 # Adding a CRUD handler
 <!--endTocHeader-->
 
-TODO: Write about `Adding a CRUD handler`
+> TODO: Write about `Adding a CRUD handler`
 
+# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

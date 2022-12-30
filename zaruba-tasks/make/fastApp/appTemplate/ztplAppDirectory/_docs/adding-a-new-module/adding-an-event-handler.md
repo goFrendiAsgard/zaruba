@@ -3,7 +3,8 @@
 # Adding an event handler
 <!--endTocHeader-->
 
-TODO: Write about `Adding an event handler`
+> TODO: Write about `Adding an event handler`
 
+# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->
