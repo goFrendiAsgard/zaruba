@@ -23,6 +23,5 @@ Flags:
 
 ```
 
-# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

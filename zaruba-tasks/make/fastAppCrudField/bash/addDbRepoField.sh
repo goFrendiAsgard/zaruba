@@ -2,7 +2,7 @@ set -e
 echo "Updating db repo"
 
 _addFieldDeclaration() {
-    _DESTINATION="${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_NAME}/${_ZRB_APP_CRUD_ENTITY}/repo/db_${_ZRB_SNAKE_APP_CRUD_ENTITY}_repo.py"
+    _DESTINATION="${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_NAME}/${_ZRB_APP_CRUD_ENTITY}/repo/db_${_ZRB_SNAKE_APP_CRUD_ENTITY}_repo.py"
     _PATTERN="$("${ZARUBA_BIN}" list append '[]' "class[\t ]+DB${_ZRB_PASCAL_APP_CRUD_ENTITY}Entity\(")"
     _PATTERN="$("${ZARUBA_BIN}" list append "${_PATTERN}" "created_at[\t ]*=[\t ]*Column\(")"
     _LINE_INDEX="$(_getLineIndexFromFile "${_DESTINATION}" "${_PATTERN}" --index=-1)"
@@ -23,7 +23,7 @@ _addFieldDeclaration() {
 }
 
 _addInsertField() {
-    _DESTINATION="${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_NAME}/${_ZRB_APP_CRUD_ENTITY}/repo/db_${_ZRB_SNAKE_APP_CRUD_ENTITY}_repo.py"
+    _DESTINATION="${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_NAME}/${_ZRB_APP_CRUD_ENTITY}/repo/db_${_ZRB_SNAKE_APP_CRUD_ENTITY}_repo.py"
     _PATTERN="$("${ZARUBA_BIN}" list append '[]' "class[\t ]+DB${_ZRB_PASCAL_APP_CRUD_ENTITY}Repo\(")"
     _PATTERN="$("${ZARUBA_BIN}" list append "${_PATTERN}" "def[ \t]+insert\(")"
     _PATTERN="$("${ZARUBA_BIN}" list append "${_PATTERN}" "created_at[\t ]*=[\t ]*datetime\.datetime\.utcnow")"
@@ -45,7 +45,7 @@ _addInsertField() {
 }
 
 _addUpdateField() {
-    _DESTINATION="${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_NAME}/${_ZRB_APP_CRUD_ENTITY}/repo/db_${_ZRB_SNAKE_APP_CRUD_ENTITY}_repo.py"
+    _DESTINATION="${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_NAME}/${_ZRB_APP_CRUD_ENTITY}/repo/db_${_ZRB_SNAKE_APP_CRUD_ENTITY}_repo.py"
     _PATTERN="$("${ZARUBA_BIN}" list append '[]' "class[\t ]*DB${_ZRB_PASCAL_APP_CRUD_ENTITY}Repo\(")"
     _PATTERN="$("${ZARUBA_BIN}" list append "${_PATTERN}" "def[ \t]+update\(")"
     _PATTERN="$("${ZARUBA_BIN}" list append "${_PATTERN}" "db_${_ZRB_SNAKE_APP_CRUD_ENTITY}\.updated_at[ \t]*=[ \t]*datetime\.datetime\.utcnow")"

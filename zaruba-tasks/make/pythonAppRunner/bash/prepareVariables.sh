@@ -11,16 +11,16 @@ fi
 
 if [ -z "${_ZRB_APP_START_COMMAND}" ]
 then
-    if [ -f "${_ZRB_APP_DIRECTORY}/start.sh" ]
+    if [ -f "${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/start.sh" ]
     then
         _ZRB_APP_START_COMMAND="./start.sh"
-    elif [ -f "${_ZRB_APP_DIRECTORY}/main.py" ]
+    elif [ -f "${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/main.py" ]
     then
         _ZRB_APP_START_COMMAND="python main.py"
-    elif [ -f "${_ZRB_APP_DIRECTORY}/manage.py" ]
+    elif [ -f "${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/manage.py" ]
     then
         _ZRB_APP_START_COMMAND="python manage.py"
-    elif [ -f "${_ZRB_APP_DIRECTORY}/index.py" ]
+    elif [ -f "${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/index.py" ]
     then
         _ZRB_APP_START_COMMAND="python index.py"
     fi

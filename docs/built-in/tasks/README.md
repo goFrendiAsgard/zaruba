@@ -5,8 +5,8 @@
 
 > TODO: Write about `Tasks`.
 
-# Subtopics
 <!--startTocSubtopic-->
+# Subtopics
 - [zrbShowAdv](zrb-show-adv.md)
 - [zrbCopyToKubePod](zrb-copy-to-kube-pod.md)
 - [zrbBuildDockerCompose](zrb-build-docker-compose.md)

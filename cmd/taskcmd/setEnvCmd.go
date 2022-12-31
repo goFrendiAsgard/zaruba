@@ -1,8 +1,6 @@
 package taskcmd
 
 import (
-	"path/filepath"
-
 	"github.com/spf13/cobra"
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
 	"github.com/state-alchemists/zaruba/dsl"
@@ -30,15 +28,11 @@ var setEnvsCmd = &cobra.Command{
 			envMap[args[1]] = args[2]
 			projectFileArgIndex = 3
 		}
-		projectFile := "index.zaruba.yaml"
-		if len(args) > projectFileArgIndex {
-			projectFile = args[projectFileArgIndex]
-		}
-		projectFile, err = filepath.Abs(projectFile)
+		projectFilePath, err := cmdHelper.GetProjectRelFilePath(args, projectFileArgIndex, "index.zaruba.yaml", "index.zaruba.yml")
 		if err != nil {
 			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
-		if err = util.Project.Task.Env.Set(taskName, envMap, projectFile); err != nil {
+		if err = util.Project.Task.Env.Set(taskName, envMap, projectFilePath); err != nil {
 			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 	},

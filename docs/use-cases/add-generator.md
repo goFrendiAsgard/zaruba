@@ -5,6 +5,5 @@
 
 TODO: Write about `Add Generator`
 
-# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

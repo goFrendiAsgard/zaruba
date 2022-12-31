@@ -57,6 +57,5 @@ Flags:
 
 ```
 
-# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

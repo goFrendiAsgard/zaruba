@@ -38,8 +38,8 @@ inputs:
     default: "[]"
 
   appDirectory:
-    description: Location of app
-    prompt: 'Location of app'
+    description: Location of app (relative to project)
+    prompt: 'Location of app (relative to project)'
 
   appEnvPrefix:
     description: Application env prefix

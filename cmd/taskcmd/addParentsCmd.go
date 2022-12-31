@@ -1,8 +1,6 @@
 package taskcmd
 
 import (
-	"path/filepath"
-
 	"github.com/spf13/cobra"
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
 	"github.com/state-alchemists/zaruba/dsl"
@@ -24,15 +22,11 @@ var addParentsCmd = &cobra.Command{
 		if err != nil {
 			parentList = common.StringList{args[1]}
 		}
-		projectFile := "index.zaruba.yaml"
-		if len(args) > 2 {
-			projectFile = args[2]
-		}
-		projectFile, err = filepath.Abs(projectFile)
+		projectFilePath, err := cmdHelper.GetProjectRelFilePath(args, 2, "index.zaruba.yaml", "index.zaruba.yml")
 		if err != nil {
 			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
-		if err = util.Project.Task.AddParents(taskName, parentList, projectFile); err != nil {
+		if err = util.Project.Task.AddParents(taskName, parentList, projectFilePath); err != nil {
 			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 	},

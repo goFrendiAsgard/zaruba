@@ -20,9 +20,9 @@ type Tpl struct {
 	ProjectName         string
 	UUID                string
 	GeneratedRandomName string
-	WorkDirPath         string
-	TaskDirPath         string
-	ProjectDirPath      string
+	WorkDir             string
+	TaskDir             string
+	ProjectDir          string
 	FileLocation        string
 	Decoration          *output.Decoration
 	Util                *DSLUtil
@@ -44,9 +44,9 @@ func NewTpl(task *Task) (td *Tpl) {
 		ProjectName:         task.Project.GetName(),
 		UUID:                task.GetUUID(),
 		GeneratedRandomName: task.GetGeneratedRandomName(),
-		WorkDirPath:         task.GetWorkPath(),
-		TaskDirPath:         filepath.Dir(task.GetFileLocation()),
-		ProjectDirPath:      filepath.Dir(task.Project.GetFileLocation()),
+		WorkDir:             task.GetWorkPath(),
+		ProjectDir:          task.Project.GetDirPath(),
+		TaskDir:             task.GetDirPath(),
 		FileLocation:        task.GetFileLocation(),
 		Decoration:          task.Project.Decoration,
 		Util:                task.Project.Util,
@@ -54,15 +54,15 @@ func NewTpl(task *Task) (td *Tpl) {
 }
 
 func (tpl *Tpl) GetWorkPath(path string) (absPath string) {
-	return tpl.getAbsPath(tpl.WorkDirPath, path)
+	return tpl.getAbsPath(tpl.WorkDir, path)
 }
 
 func (tpl *Tpl) GetTaskPath(path string) (absPath string) {
-	return tpl.getAbsPath(tpl.TaskDirPath, path)
+	return tpl.getAbsPath(tpl.TaskDir, path)
 }
 
 func (tpl *Tpl) GetProjectPath(path string) (absPath string) {
-	return tpl.getAbsPath(tpl.ProjectDirPath, path)
+	return tpl.getAbsPath(tpl.ProjectDir, path)
 }
 
 func (tpl *Tpl) GetConfig(key string) (val string, err error) {
@@ -142,7 +142,7 @@ func (tpl *Tpl) GetDockerImageName() string {
 	}
 	dockerImageName, _ := tpl.GetConfig("imageName")
 	if dockerImageName == "" {
-		defaultServiceName, _ := tpl.Util.Path.GetDefaultAppName(tpl.TaskDirPath)
+		defaultServiceName, _ := tpl.Util.Path.GetDefaultAppName(tpl.TaskDir)
 		dockerImageName = tpl.task.Project.Util.Str.ToKebab(defaultServiceName)
 	}
 	if dockerImagePrefix == "" {

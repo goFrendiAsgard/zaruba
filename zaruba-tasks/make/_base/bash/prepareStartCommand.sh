@@ -4,21 +4,21 @@ echo "Preparing start command"
 # start command
 if [ -z "${_ZRB_APP_START_COMMAND}" ]
 then
-    if [ -f "${_ZRB_APP_DIRECTORY}/start.sh" ]
+    if [ -f "${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/start.sh" ]
     then
         _ZRB_APP_START_COMMAND="./start.sh"
-    elif [ -f "${_ZRB_APP_DIRECTORY}/main.go" ]
+    elif [ -f "${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/main.go" ]
     then
         _ZRB_APP_START_COMMAND="go run main.go"
-    elif [ -f "${_ZRB_APP_DIRECTORY}/package.json" ]
+    elif [ -f "${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/package.json" ]
     then
         _ZRB_APP_START_COMMAND="npm start"
-    elif [ -f "${_ZRB_APP_DIRECTORY}/main.py" ]
+    elif [ -f "${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/main.py" ]
     then
-        if [ -f "${_ZRB_APP_DIRECTORY}/Pipfile" ]
+        if [ -f "${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/Pipfile" ]
         then
             _ZRB_APP_START_COMMAND="pipenv run python main.py"
-        elif [ -f "${_ZRB_APP_DIRECTORY}/venv/bin/activate" ]
+        elif [ -f "${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/venv/bin/activate" ]
         then
             _ZRB_APP_START_COMMAND="source ./venv/bin/activate && python main.py"
         else

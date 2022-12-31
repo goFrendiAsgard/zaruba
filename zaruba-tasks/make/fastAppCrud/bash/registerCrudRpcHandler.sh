@@ -2,14 +2,14 @@ set -e
 echo "Registering CRUD RPC handler"
 
 _importCrudRpcHandler() {
-    _DESTINATION="${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_NAME}/rpc.py"
+    _DESTINATION="${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_NAME}/rpc.py"
     _NEW_CONTENT="$(_getPartialContent "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrud/partials/import_rpc_handler.py")"
     _insertPartialBefore "${_DESTINATION}" "${_NEW_CONTENT}" 0
     chmod 755 "${_DESTINATION}"
 }
 
 _registerCrudRpcHandler() {
-    _DESTINATION="${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_NAME}/rpc.py"
+    _DESTINATION="${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_NAME}/rpc.py"
     _PATTERN="def register_${_ZRB_SNAKE_APP_MODULE_NAME}_rpc_handler"
     _LINE_INDEX="$(_getLineIndexFromFile "${_DESTINATION}" "${_PATTERN}")"
     if [ "${_LINE_INDEX}" = "-1" ]
@@ -28,7 +28,7 @@ _registerCrudRpcHandler() {
 }
 
 _updateCrudRpcCall() {
-    _DESTINATION="${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_NAME}/rpc.py"
+    _DESTINATION="${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_NAME}/rpc.py"
     _PATTERN="^(\s*)def register_${_ZRB_SNAKE_APP_MODULE_NAME}_rpc_handler\((.*)\)(.*)$"
     _LINE_INDEX="$(_getLineIndexFromFile "${_DESTINATION}" "${_PATTERN}")"
     if [ "${_LINE_INDEX}" = "-1" ]

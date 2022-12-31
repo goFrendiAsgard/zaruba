@@ -40,6 +40,7 @@ var expectedFoodFileContent = `<!--startTocHeader-->
 Article about food
 
 <!--startTocSubtopic-->
+# Subtopics
 - [Fruits](fruits/README.md)
   - [Apple](fruits/apple.md)
   - [Banana](fruits/banana.md)

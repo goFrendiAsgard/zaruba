@@ -5,6 +5,5 @@
 
 > TODO: Write about `Vue.js`
 
-# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

@@ -21,8 +21,8 @@ Use "zaruba env [command] --help" for more information about a command.
 
 ```
 
-# Subtopics
 <!--startTocSubtopic-->
+# Subtopics
 - [get](get.md)
 - [print](print.md)
 - [read](read.md)

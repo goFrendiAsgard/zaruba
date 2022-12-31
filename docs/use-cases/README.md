@@ -8,8 +8,8 @@ If you don't have any Zaruba project, you can either clone an existing one or [c
 
 Once you have a project in your computer, you can start [adding resources](add-resources/README.md) and [run tasks](../run-task/README.md).
 
-# Subtopics
 <!--startTocSubtopic-->
+# Subtopics
 - [❇️ From Zero to Cloud](from-zero-to-cloud.md)
 - [🏗️ Create a Project](create-a-project.md)
 - [📦 Add Resources](add-resources/README.md)

@@ -4,7 +4,7 @@ tasks:
     icon: ⚛️
     extend: makeApp
     dependencies:
-      - addFastAppModule
+      - addFastAppCrud
     inputs:
       - appDirectory
       - appModuleName

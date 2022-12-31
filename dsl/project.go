@@ -90,35 +90,12 @@ func NewCustomProject(projectFile string, decoration *output.Decoration, showLog
 	return p, err
 }
 
-func loadRawProject(projectFile string) (p *Project, err error) {
-	parsedProjectFile, _ := filepath.Abs(os.ExpandEnv(projectFile))
-	p = &Project{
-		Includes:                   []string{},
-		RawEnvRefMap:               map[string]map[string]*Env{},
-		RawConfigRefMap:            map[string]map[string]string{},
-		Tasks:                      map[string]*Task{},
-		Inputs:                     map[string]*Variable{},
-		values:                     map[string]string{},
-		EnvRefMap:                  map[string]*EnvRef{},
-		ConfigRefMap:               map[string]*ConfigRef{},
-		IsInitialized:              false,
-		maxPublishedTaskNameLength: 20,
-		Util:                       NewDSLUtil(),
-	}
-	keyValidator := NewKeyValidator(parsedProjectFile)
-	b, err := keyValidator.Validate()
+func loadProject(d *output.Decoration, projectFile string, defaultIncludes []string) (p *Project, err error) {
+	parsedProjectFile, err := parseProjectFile(projectFile)
 	if err != nil {
 		return p, err
 	}
-	if err = yaml.Unmarshal(b, p); err != nil {
-		return p, fmt.Errorf("error parsing YAML '%s': %s", parsedProjectFile, err)
-	}
-	return p, nil
-}
-
-func loadProject(d *output.Decoration, projectFile string, defaultIncludes []string) (p *Project, err error) {
-	parsedProjectFile, _ := filepath.Abs(os.ExpandEnv(projectFile))
-	p, err = loadRawProject(parsedProjectFile)
+	p, err = newRawProject(parsedProjectFile)
 	if err != nil {
 		return p, err
 	}
@@ -133,6 +110,41 @@ func loadProject(d *output.Decoration, projectFile string, defaultIncludes []str
 		return p, err
 	}
 	return p, err
+}
+
+func parseProjectFile(projectFile string) (parsedProjectFile string, err error) {
+	if projectFile == "" {
+		return "", nil
+	}
+	return filepath.Abs(os.ExpandEnv(projectFile))
+}
+
+func newRawProject(parsedProjectFile string) (p *Project, err error) {
+	p = &Project{
+		Includes:                   []string{},
+		RawEnvRefMap:               map[string]map[string]*Env{},
+		RawConfigRefMap:            map[string]map[string]string{},
+		Tasks:                      map[string]*Task{},
+		Inputs:                     map[string]*Variable{},
+		values:                     map[string]string{},
+		EnvRefMap:                  map[string]*EnvRef{},
+		ConfigRefMap:               map[string]*ConfigRef{},
+		IsInitialized:              false,
+		maxPublishedTaskNameLength: 20,
+		Util:                       NewDSLUtil(),
+	}
+	if parsedProjectFile == "" {
+		return p, nil
+	}
+	keyValidator := NewKeyValidator(parsedProjectFile)
+	b, err := keyValidator.Validate()
+	if err != nil {
+		return p, err
+	}
+	if err = yaml.Unmarshal(b, p); err != nil {
+		return p, fmt.Errorf("error parsing YAML '%s': %s", parsedProjectFile, err)
+	}
+	return p, nil
 }
 
 func (p *Project) include(parsedProjectFile string, defaultIncludes []string) {
@@ -167,12 +179,20 @@ func (p *Project) GetName() (name string) {
 	if p.Name != "" {
 		return p.Name
 	}
-	return filepath.Base(filepath.Dir(p.fileLocation))
+	return filepath.Base(p.GetDirPath())
 }
 
 // GetFileLocation
 func (p *Project) GetFileLocation() (fileLocation string) {
 	return p.fileLocation
+}
+
+func (p *Project) GetDirPath() (dirPath string) {
+	if p.fileLocation == "" {
+		dirPath, _ = os.Getwd()
+		return dirPath
+	}
+	return filepath.Dir(p.fileLocation)
 }
 
 // GetSortedInputNames get sorted input names

@@ -72,9 +72,9 @@ Secret:
 
 Value:
 
-    if [ -f "${_ZRB_APP_DIRECTORY}/start.sh" ]
+    if [ -f "${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/start.sh" ]
     then
-      chmod 755 "${_ZRB_APP_DIRECTORY}/start.sh"
+      chmod 755 "${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/start.sh"
     fi
 
 
@@ -212,7 +212,6 @@ Value:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/util.sh"
     _ZRB_REPLACEMENT_MAP='{}'
-    _ZRB_PROJECT_FILE_NAME='./index.zaruba.yaml'
     _ZRB_APP_BUILD_IMAGE_COMMAND='{{ .Util.Str.Trim (.GetConfig "appBuildImageCommand") "\n " }}'
     _ZRB_APP_CHECK_COMMAND='{{ .Util.Str.Trim (.GetConfig "appCheckCommand") "\n " }}'
     _ZRB_APP_PREPARE_COMMAND='{{ .Util.Str.Trim (.GetConfig "appPrepareCommand") "\n " }}'
@@ -261,9 +260,9 @@ Value:
     {{ .GetConfig "_setProjectValue" }}
     cd "${__ZRB_PWD}"
     echo "${_YELLOW}Synchronize task environments${_NORMAL}"
-    "{{ .ZarubaBin }}" project syncEnv "./index.zaruba.yaml"
+    "{{ .ZarubaBin }}" project syncEnv
     echo "${_YELLOW}Synchronize project's environment files${_NORMAL}"
-    "{{ .ZarubaBin }}" project syncEnvFiles "./index.zaruba.yaml"
+    "{{ .ZarubaBin }}" project syncEnvFiles
 
 
 
@@ -663,6 +662,5 @@ Default:
 
 
 
-# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

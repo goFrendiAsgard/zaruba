@@ -26,6 +26,5 @@ Type:
 
 
 
-# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

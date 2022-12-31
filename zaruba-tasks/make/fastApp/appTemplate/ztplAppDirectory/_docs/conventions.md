@@ -236,6 +236,5 @@ class BookService():
 ```
 
 
-# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

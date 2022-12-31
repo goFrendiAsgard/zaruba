@@ -22,6 +22,5 @@ configs:
 To use project config in your task, please refer to [task's shared configs](../task/task-configs/shared-configs.md).
 
 
-# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

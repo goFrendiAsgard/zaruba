@@ -734,6 +734,5 @@ class AppMessageBus(MessageBus):
 
 Feel free to extend this to match your business processes.
 
-# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

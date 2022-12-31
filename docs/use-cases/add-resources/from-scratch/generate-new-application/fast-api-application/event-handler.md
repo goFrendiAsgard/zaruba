@@ -3,6 +3,5 @@
 # Event Handler
 <!--endTocHeader-->
 TODO: Write about `Event Handler`
-# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

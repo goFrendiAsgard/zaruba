@@ -73,6 +73,5 @@ Then you need to create `pages/modules/library/blog.html`
 </p>
 ```
 
-# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

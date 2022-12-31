@@ -91,6 +91,5 @@ zaruba please startMyGoAppContainer
 Zaruba will always start `myDb` first before starting `myGoApp`. This is expected since you define `myDb` as `myGoApp`'s application dependency.
 
 
-# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

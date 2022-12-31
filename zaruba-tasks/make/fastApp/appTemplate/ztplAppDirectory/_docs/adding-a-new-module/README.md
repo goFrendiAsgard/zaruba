@@ -165,8 +165,8 @@ Done.
 
 You can set `APP_ENABLE_LIBRARY_MODULE` to `0` or `1` to disable/enable the module.
 
-# Subtopics
 <!--startTocSubtopic-->
+# Subtopics
 - [Adding a CRUD handler](adding-a-crud-handler.md)
 - [Adding a new column](adding-a-new-column.md)
 - [Adding an API endpoint](adding-an-api-endpoint.md)

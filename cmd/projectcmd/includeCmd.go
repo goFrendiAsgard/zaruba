@@ -1,8 +1,6 @@
 package projectcmd
 
 import (
-	"path/filepath"
-
 	"github.com/state-alchemists/zaruba/dsl"
 
 	"github.com/spf13/cobra"
@@ -17,12 +15,8 @@ var includeCmd = &cobra.Command{
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 1)
-		projectFilePath := "index.zaruba.yaml"
 		fileName := args[0]
-		if len(args) > 1 {
-			projectFilePath = args[1]
-		}
-		projectFilePath, err := filepath.Abs(projectFilePath)
+		projectFilePath, err := cmdHelper.GetProjectRelFilePath(args, 1, "index.zaruba.yaml", "index.zaruba.yml")
 		if err != nil {
 			cmdHelper.Exit(cmd, logger, decoration, err)
 		}

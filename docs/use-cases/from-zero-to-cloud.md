@@ -492,6 +492,5 @@ echo "👷 Prepare deployments"
 zaruba please prepareDeployments
 ```
 
-# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

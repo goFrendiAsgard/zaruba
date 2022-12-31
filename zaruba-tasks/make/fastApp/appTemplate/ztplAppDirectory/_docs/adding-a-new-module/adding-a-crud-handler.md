@@ -5,6 +5,5 @@
 
 > TODO: Write about `Adding a CRUD handler`
 
-# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

@@ -3,6 +3,5 @@
 # Route
 <!--endTocHeader-->
 TODO: Write about `Route`
-# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

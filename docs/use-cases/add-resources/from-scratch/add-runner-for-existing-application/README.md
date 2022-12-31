@@ -106,8 +106,8 @@ zaruba please startMyAppContainer
 Zaruba will always start `myDb` first before starting `myApp`. This is expected since you define `myDb` as `myApp`'s application dependency.
 
 
-# Subtopics
 <!--startTocSubtopic-->
+# Subtopics
 - [Go Application Runner](go-application-runner.md)
 - [NodeJs Application Runner](node-js-application-runner.md)
 - [Python Application Runner](python-application-runner.md)

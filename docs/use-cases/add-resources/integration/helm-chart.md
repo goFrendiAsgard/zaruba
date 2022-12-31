@@ -5,6 +5,5 @@
 
 TODO: Write about `Helm Chart`
 
-# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

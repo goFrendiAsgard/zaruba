@@ -8,7 +8,7 @@ configs:
     _registerAppDeploymentTasks: ''
     _setProjectValue: |
       echo "Set project value run${_ZRB_PASCAL_APP_NAME}InLocal to true"
-      ${ZARUBA_BIN} project setValue "run${_ZRB_PASCAL_APP_NAME}InLocal" true
+      "${ZARUBA_BIN}" project setValue "run${_ZRB_PASCAL_APP_NAME}InLocal" true
     templateLocations: |
       [
         "{{ .ZarubaHome }}/zaruba-tasks/make/appRunner/_base/template"

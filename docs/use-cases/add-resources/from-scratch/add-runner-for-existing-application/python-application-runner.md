@@ -92,6 +92,5 @@ zaruba please startMyPythonAppContainer
 Zaruba will always start `myDb` first before starting `myPythonApp`. This is expected since you define `myDb` as `myPythonApp`'s application dependency.
 
 
-# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

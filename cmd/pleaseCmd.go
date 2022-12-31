@@ -12,6 +12,7 @@ import (
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
 	"github.com/state-alchemists/zaruba/dsl"
 	"github.com/state-alchemists/zaruba/explainer"
+	"github.com/state-alchemists/zaruba/helper"
 	"github.com/state-alchemists/zaruba/input"
 	"github.com/state-alchemists/zaruba/output"
 	"github.com/state-alchemists/zaruba/previousval"
@@ -21,7 +22,6 @@ import (
 
 var pleaseEnvs []string
 var pleaseValues []string
-var pleaseProjectFile string
 var pleaseDecor string
 var pleaseInteractive *bool
 var pleaseUsePreviousValues *bool
@@ -38,8 +38,9 @@ var pleaseCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := cmdHelper.GetDecoration(pleaseDecor)
 		logger := output.NewConsoleLogger(decoration)
-		csvRecordLogger := cmdHelper.GetCsvRecordLogger(filepath.Dir(pleaseProjectFile))
-		project, taskNames := getProjectAndTaskName(cmd, logger, decoration, *pleaseShowLogTime, args)
+		projectFileName := getProjectFileName()
+		csvRecordLogger := cmdHelper.GetCsvRecordLogger(filepath.Dir(projectFileName))
+		project, taskNames := getProjectAndTaskName(cmd, logger, decoration, projectFileName, *pleaseShowLogTime, args)
 		prompter := input.NewPrompter(logger, decoration, project)
 		explainer := explainer.NewExplainer(logger, decoration, project)
 		isFallbackInteraction := false
@@ -107,13 +108,11 @@ func init() {
 		dir = "."
 	}
 	zarubaEnv := os.Getenv("ZARUBA_ENV")
-	defaultProjectFile := getDefaultProjectFile(dir)
 	defaultValueFiles := getDefaultValueFiles(dir, zarubaEnv)
 	defaultEnvFiles := getDefaultEnvFiles(dir, zarubaEnv)
 	defaultDecoration := os.Getenv("ZARUBA_DECORATION")
 	defaultShowLogTime := util.Bool.IsTrue(os.Getenv("ZARUBA_LOG_TIME"))
 	// get parameters
-	pleaseCmd.Flags().StringVarP(&pleaseProjectFile, "file", "f", defaultProjectFile, "project file")
 	pleaseCmd.Flags().StringArrayVarP(&pleaseEnvs, "environment", "e", []string{}, "environments (e.g., '-e environment.env' or '-e KEY=VAL' or '-e {\"KEY\": \"VAL\"}' )")
 	pleaseEnvs = append(defaultEnvFiles, pleaseEnvs...)
 	pleaseCmd.Flags().StringArrayVarP(&pleaseValues, "value", "v", []string{}, "values (e.g., '-v value.yaml' or '-v key=val')")
@@ -154,28 +153,24 @@ func getDefaultValueFiles(dir, zarubaEnv string) []string {
 	return defaultValueFiles
 }
 
-func getDefaultProjectFile(dir string) string {
-	defaultProjectPath := "${ZARUBA_HOME}/core.zaruba.yaml"
-	currentDir, err := filepath.Abs(dir)
+func getProjectFileName() string {
+	dir, err := os.Getwd()
 	if err != nil {
-		return defaultProjectPath
+		return ""
 	}
-	projectFilePath := ""
-	for {
-		projectFilePath = filepath.Join(currentDir, "index.zaruba.yaml")
-		if _, err := os.Stat(projectFilePath); err == nil {
-			return projectFilePath
-		}
-		projectFilePath = filepath.Join(currentDir, "index.zaruba.yml")
-		if _, err := os.Stat(projectFilePath); err == nil {
-			return projectFilePath
-		}
-		if currentDir == "/" {
-			break
-		}
-		currentDir = filepath.Dir(currentDir)
+	projectPath, err := helper.GetProjectPath(dir)
+	if err != nil {
+		return ""
 	}
-	return defaultProjectPath
+	projectFilePath := filepath.Join(projectPath, "index.zaruba.yaml")
+	if _, err := os.Stat(projectFilePath); err == nil {
+		return projectFilePath
+	}
+	projectFilePath = filepath.Join(projectPath, "index.zaruba.yml")
+	if _, err := os.Stat(projectFilePath); err == nil {
+		return projectFilePath
+	}
+	return ""
 }
 
 func showLastPleaseCommand(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration) {
@@ -260,8 +255,8 @@ func initProjectOrExit(cmd *cobra.Command, logger output.Logger, decoration *out
 	}
 }
 
-func getProjectAndTaskName(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, showLogTime bool, args []string) (project *dsl.Project, taskNames []string) {
-	project, err := dsl.NewProject(pleaseProjectFile, decoration, showLogTime)
+func getProjectAndTaskName(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, projectFileName string, showLogTime bool, args []string) (project *dsl.Project, taskNames []string) {
+	project, err := dsl.NewProject(projectFileName, decoration, showLogTime)
 	if err != nil {
 		cmdHelper.Exit(cmd, logger, decoration, err)
 	}

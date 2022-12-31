@@ -1,7 +1,7 @@
 echo "Adding route handler"
 
 _addRouteHandler() {
-    _DESTINATION="${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_NAME}/route.py"
+    _DESTINATION="${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/module/${_ZRB_SNAKE_APP_MODULE_NAME}/route.py"
     _PATTERN="def register_${_ZRB_SNAKE_APP_MODULE_NAME}_api_route"
     _LINE_INDEX="$(_getLineIndexFromFile "${_DESTINATION}" "${_PATTERN}")"
     if [ "${_LINE_INDEX}" = "-1" ]
