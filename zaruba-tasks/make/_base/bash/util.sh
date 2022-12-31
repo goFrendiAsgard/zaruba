@@ -116,13 +116,14 @@ _addTaskDependency() {
     echo "Checking ${__ZRB_DEPENDENCY_TASK_NAME}"
     if [ "$("${ZARUBA_BIN}" task isExist "${__ZRB_DEPENDENCY_TASK_NAME}")" = 1 ]
     then
-        # check ddependee task existance
+        # check dependee task existance
         echo "Checking ${__ZRB_TASK_NAME}"
-        if [ "${__ZRB_FORCE_CREATE_TASK}" = 1 ] && [ "$("${ZARUBA_BIN}" task isExist "${__ZRB_TASK_NAME}")" = 0 ]
+        if [ "${__ZRB_FORCE_CREATE_TASK}" = 1 ]
         then
             echo "Adding ${__ZRB_TASK_NAME}"
             "${ZARUBA_BIN}" project addTask "${__ZRB_TASK_NAME}"
-        else
+        elif [ "$("${ZARUBA_BIN}" task isExist "${__ZRB_TASK_NAME}")" = 0 ]
+        then
             echo "Task ${__ZRB_TASK_NAME} doesn't exist"
             return
         fi
