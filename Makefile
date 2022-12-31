@@ -10,6 +10,7 @@ test:
 	sudo rm -Rf playground
 	sudo rm -Rf test-resources/toc/playground
 	sudo rm -Rf docs/examples/playground
+	cp -R test-resources/toc/template test-resources/toc/playground
 	./zaruba please test
 documentation:
 	. ./buildZaruba.sh
