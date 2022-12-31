@@ -122,8 +122,6 @@ Value:
 
 Value:
 
-    echo "Project dir: {{ .ProjectDir }}"
-    echo "Task dir: {{ .TaskDir }}"
     if [ ! -f "{{ .GetProjectPath "index.zaruba.yaml" }}" ] && [ ! -f "{{ .GetProjectPath "index.zaruba.yml" }}" ]
     then
       echo "${_BOLD}${_RED}${ZARUBA_PROJECT_DIR} is not a zaruba project.${_NORMAL}"
