@@ -12,6 +12,7 @@ import (
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
 	"github.com/state-alchemists/zaruba/dsl"
 	"github.com/state-alchemists/zaruba/explainer"
+	"github.com/state-alchemists/zaruba/helper"
 	"github.com/state-alchemists/zaruba/input"
 	"github.com/state-alchemists/zaruba/output"
 	"github.com/state-alchemists/zaruba/previousval"
@@ -155,27 +156,19 @@ func getDefaultValueFiles(dir, zarubaEnv string) []string {
 }
 
 func getDefaultProjectFile(dir string) string {
-	defaultProjectPath := "${ZARUBA_HOME}/core.zaruba.yaml"
-	currentDir, err := filepath.Abs(dir)
+	defaultProjectFilePath := "${ZARUBA_HOME}/core.zaruba.yaml"
+	projectPath, err := helper.GetProjectPath(dir)
 	if err != nil {
-		return defaultProjectPath
-	}
-	projectFilePath := ""
-	for {
-		projectFilePath = filepath.Join(currentDir, "index.zaruba.yaml")
+		projectFilePath := filepath.Join(projectPath, "index.zaruba.yaml")
 		if _, err := os.Stat(projectFilePath); err == nil {
 			return projectFilePath
 		}
-		projectFilePath = filepath.Join(currentDir, "index.zaruba.yml")
+		projectFilePath = filepath.Join(projectPath, "index.zaruba.yml")
 		if _, err := os.Stat(projectFilePath); err == nil {
 			return projectFilePath
 		}
-		if currentDir == "/" {
-			break
-		}
-		currentDir = filepath.Dir(currentDir)
 	}
-	return defaultProjectPath
+	return defaultProjectFilePath
 }
 
 func showLastPleaseCommand(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration) {

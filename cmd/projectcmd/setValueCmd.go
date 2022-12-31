@@ -16,12 +16,12 @@ var setValueCmd = &cobra.Command{
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 2)
 		key := args[0]
 		value := args[1]
-		projectFile := "index.zaruba.yaml"
-		if len(args) > 2 {
-			projectFile = args[2]
+		projectFilePath, err := cmdHelper.GetProjectRelFilePath(args, 2, "index.zaruba.yaml", "index.zaruba.yml")
+		if err != nil {
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		util := dsl.NewDSLUtil()
-		if err := util.Project.SetValue(key, value, projectFile); err != nil {
+		if err := util.Project.SetValue(key, value, projectFilePath); err != nil {
 			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 	},

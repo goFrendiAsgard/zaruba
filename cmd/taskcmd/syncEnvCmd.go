@@ -1,8 +1,6 @@
 package taskcmd
 
 import (
-	"path/filepath"
-
 	"github.com/spf13/cobra"
 	cmdHelper "github.com/state-alchemists/zaruba/cmd/helper"
 	"github.com/state-alchemists/zaruba/dsl"
@@ -17,16 +15,12 @@ var syncEnvCmd = &cobra.Command{
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 1)
 		taskName := args[0]
-		projectFile := "index.zaruba.yaml"
-		if len(args) > 1 {
-			projectFile = args[1]
-		}
-		projectFile, err := filepath.Abs(projectFile)
+		projectFilePath, err := cmdHelper.GetProjectRelFilePath(args, 1, "index.zaruba.yaml", "index.zaruba.yml")
 		if err != nil {
 			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		util := dsl.NewDSLUtil()
-		if err = util.Project.Task.Env.Sync(taskName, projectFile); err != nil {
+		if err = util.Project.Task.Env.Sync(taskName, projectFilePath); err != nil {
 			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 	},

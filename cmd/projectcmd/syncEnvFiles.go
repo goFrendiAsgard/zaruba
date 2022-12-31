@@ -1,8 +1,6 @@
 package projectcmd
 
 import (
-	"path/filepath"
-
 	"github.com/state-alchemists/zaruba/dsl"
 
 	"github.com/spf13/cobra"
@@ -17,16 +15,12 @@ var syncEnvFilesCmd = &cobra.Command{
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)
 		cmdHelper.CheckMinArgCount(cmd, logger, decoration, args, 0)
-		projectFile := "index.zaruba.yaml"
-		if len(args) > 0 {
-			projectFile = args[0]
-		}
-		projectFile, err := filepath.Abs(projectFile)
+		projectFilePath, err := cmdHelper.GetProjectRelFilePath(args, 0, "index.zaruba.yaml", "index.zaruba.yml")
 		if err != nil {
 			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		util := dsl.NewDSLUtil()
-		if err := util.Project.SyncEnvFiles(projectFile); err != nil {
+		if err := util.Project.SyncEnvFiles(projectFilePath); err != nil {
 			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 	},

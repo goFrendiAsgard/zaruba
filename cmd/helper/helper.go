@@ -10,6 +10,7 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
+	commonHelper "github.com/state-alchemists/zaruba/helper"
 	"github.com/state-alchemists/zaruba/output"
 )
 
@@ -66,6 +67,23 @@ func GetDecoration(decorationMode string) (decoration *output.Decoration) {
 	default:
 		return output.NewDefaultDecoration()
 	}
+}
+
+func GetProjectRelFilePath(args []string, argIndex int, defaultFileNames ...string) (filePath string, err error) {
+	if len(args) > argIndex {
+		return filepath.Abs(args[argIndex])
+	}
+	workingPath, err := commonHelper.GetWorkingProjectPath()
+	if err != nil {
+		return "", err
+	}
+	for index, defaultFileName := range defaultFileNames {
+		filePath = filepath.Join(workingPath, defaultFileName)
+		if _, err := os.Stat(filePath); err == nil || index == len(defaultFileNames)-1 {
+			return filePath, nil
+		}
+	}
+	return "", fmt.Errorf("no matching file: %#v", defaultFileNames)
 }
 
 func GetCsvRecordLogger(projectDir string) (csvRecordLogger *output.CSVRecordLogger) {

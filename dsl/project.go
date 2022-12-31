@@ -90,8 +90,29 @@ func NewCustomProject(projectFile string, decoration *output.Decoration, showLog
 	return p, err
 }
 
-func loadRawProject(projectFile string) (p *Project, err error) {
-	parsedProjectFile, _ := filepath.Abs(os.ExpandEnv(projectFile))
+func loadProject(d *output.Decoration, projectFile string, defaultIncludes []string) (p *Project, err error) {
+	parsedProjectFile, err := filepath.Abs(os.ExpandEnv(projectFile))
+	if err != nil {
+		return p, err
+	}
+	p, err = newRawProject(parsedProjectFile)
+	if err != nil {
+		return p, err
+	}
+	p.include(parsedProjectFile, defaultIncludes)
+	p.fileLocation = parsedProjectFile
+	p.setTaskFileLocation()
+	p.setInputFileLocation()
+	p.setProjectEnvRefMap()
+	p.setProjectConfigRefMap()
+	// cascade project, add inclusion's property to this project
+	if err = p.cascadeIncludes(d); err != nil {
+		return p, err
+	}
+	return p, err
+}
+
+func newRawProject(parsedProjectFile string) (p *Project, err error) {
 	p = &Project{
 		Includes:                   []string{},
 		RawEnvRefMap:               map[string]map[string]*Env{},
@@ -114,25 +135,6 @@ func loadRawProject(projectFile string) (p *Project, err error) {
 		return p, fmt.Errorf("error parsing YAML '%s': %s", parsedProjectFile, err)
 	}
 	return p, nil
-}
-
-func loadProject(d *output.Decoration, projectFile string, defaultIncludes []string) (p *Project, err error) {
-	parsedProjectFile, _ := filepath.Abs(os.ExpandEnv(projectFile))
-	p, err = loadRawProject(parsedProjectFile)
-	if err != nil {
-		return p, err
-	}
-	p.include(parsedProjectFile, defaultIncludes)
-	p.fileLocation = parsedProjectFile
-	p.setTaskFileLocation()
-	p.setInputFileLocation()
-	p.setProjectEnvRefMap()
-	p.setProjectConfigRefMap()
-	// cascade project, add inclusion's property to this project
-	if err = p.cascadeIncludes(d); err != nil {
-		return p, err
-	}
-	return p, err
 }
 
 func (p *Project) include(parsedProjectFile string, defaultIncludes []string) {

@@ -23,9 +23,9 @@ var showLogCmd = &cobra.Command{
 		if len(args) > 0 {
 			taskNamePattern = args[0]
 		}
-		logFileName := "logs/log.zaruba.csv"
-		if len(args) > 1 {
-			logFileName = args[1]
+		logFileName, err := cmdHelper.GetProjectRelFilePath(args, 1, "logs/log.zaruba.csv")
+		if err != nil {
+			cmdHelper.Exit(cmd, logger, decoration, err)
 		}
 		message, err := getLog(decoration, taskNamePattern, logFileName)
 		if err != nil {
