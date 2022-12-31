@@ -22,7 +22,6 @@ Use "zaruba path [command] --help" for more information about a command.
 
 ```
 
-# Subtopics
 <!--startTocSubtopic-->
 - [getAppName](get-app-name.md)
 - [getEnv](get-env.md)

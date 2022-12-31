@@ -28,7 +28,6 @@ Use "zaruba file [command] --help" for more information about a command.
 
 ```
 
-# Subtopics
 <!--startTocSubtopic-->
 - [copy](copy.md)
 - [getLine](get-line.md)

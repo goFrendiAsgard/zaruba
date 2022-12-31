@@ -14,7 +14,6 @@ Tasks and configurations are written in [YAML](https://en.wikipedia.org/wiki/YAM
 
 Please visit the subtopics to learn more about tasks and anything related to it.
 
-# Subtopics
 <!--startTocSubtopic-->
 - [🏗️ Project](project/README.md)
   - [🧬 Project Anatomy](project/project-anatomy.md)

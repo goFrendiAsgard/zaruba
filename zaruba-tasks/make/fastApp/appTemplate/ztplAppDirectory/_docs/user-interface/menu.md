@@ -5,6 +5,5 @@
 
 > TODO: Write about `Menu`
 
-# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

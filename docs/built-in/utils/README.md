@@ -5,7 +5,6 @@
 
 > TODO: Write about `Utils`.
 
-# Subtopics
 <!--startTocSubtopic-->
 - [advertisement](advertisement/README.md)
   - [show](advertisement/show.md)

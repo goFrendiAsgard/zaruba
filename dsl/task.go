@@ -566,23 +566,13 @@ func (task *Task) getParsedPattern(templateNamePrefix, pattern string) (result s
 	if task.currentRecursiveLevel >= task.maxRecursiveLevel {
 		return "", fmt.Errorf("max recursive parsing on %s: %s", templateNamePrefix, pattern)
 	}
-	configKeys := task.GetConfigKeys()
-	for _, configKey := range configKeys {
-		upperSnakeConfigKey := task.Project.Util.Str.ToUpperSnake(configKey)
-		configTemplatePattern := fmt.Sprintf("{{ .GetConfig \"%s\" }}", configKey)
-		// normalize ${ZARUBA_CONFIG_<CONFIG_NAME>}
-		pattern = strings.ReplaceAll(pattern, fmt.Sprintf("${ZARUBA_CONFIG_%s}", upperSnakeConfigKey), configTemplatePattern)
-		// normalize $ZARUBA_CONFIG_<CONFIG_NAME>
-		pattern = strings.ReplaceAll(pattern, fmt.Sprintf("$ZARUBA_CONFIG_%s", upperSnakeConfigKey), configTemplatePattern)
+	defaultEnvMap, err := task.getDefaultEnvMap()
+	if err != nil {
+		return "", err
 	}
-	inputMap, _, _ := task.Project.GetInputs([]string{task.GetName()})
-	for inputKey := range inputMap {
-		upperSnakeInputKey := task.Project.Util.Str.ToUpperSnake(inputKey)
-		inputTemplatePattern := fmt.Sprintf("{{ .GetValue \"%s\" }}", inputKey)
-		// normalize ${ZARUBA_INPUT_<INPUT_NAME>}
-		pattern = strings.ReplaceAll(pattern, fmt.Sprintf("${ZARUBA_INPUT_%s}", upperSnakeInputKey), inputTemplatePattern)
-		// normalize $ZARUBA_INPUT_<INPUT_NAME>
-		pattern = strings.ReplaceAll(pattern, fmt.Sprintf("$ZARUBA_INPUT_%s", upperSnakeInputKey), inputTemplatePattern)
+	for key, val := range defaultEnvMap {
+		pattern = strings.ReplaceAll(pattern, fmt.Sprintf("${%s}", key), val)
+		pattern = strings.ReplaceAll(pattern, fmt.Sprintf("$%s", key), val)
 	}
 	if task.tpl == nil {
 		task.tpl = NewTpl(task)
@@ -781,13 +771,21 @@ func (task *Task) getCmd(cmdType string, commandPatternArgs []string) (cmd *exec
 }
 
 func (task *Task) setCmdEnv(cmd *exec.Cmd) error {
-	// env
-	envMap, err := task.GetEnvs()
+	defaultEnvMap, err := task.getDefaultEnvMap()
 	if err != nil {
 		return err
 	}
-	for key, val := range envMap {
+	for key, val := range defaultEnvMap {
 		cmd.Env = append(cmd.Env, fmt.Sprintf("%s=%s", key, val))
+	}
+	return nil
+}
+
+func (task *Task) getDefaultEnvMap() (taskEnvMap map[string]string, err error) {
+	// env
+	taskEnvMap, err = task.GetEnvs()
+	if err != nil {
+		return taskEnvMap, err
 	}
 	// config
 	configKeys := task.GetConfigKeys()
@@ -795,11 +793,21 @@ func (task *Task) setCmdEnv(cmd *exec.Cmd) error {
 		configEnvKey := fmt.Sprintf("ZARUBA_CONFIG_%s", task.Project.Util.Str.ToUpperSnake(configKey))
 		val, err := task.GetConfig(configKey)
 		if err != nil {
-			return err
+			return taskEnvMap, err
 		}
-		cmd.Env = append(cmd.Env, fmt.Sprintf("%s=%s", configEnvKey, val))
+		taskEnvMap[configEnvKey] = val
 	}
-	return nil
+	// input
+	inputMap, _, _ := task.Project.GetInputs([]string{task.GetName()})
+	for inputKey := range inputMap {
+		inputEnvKey := fmt.Sprintf("ZARUBA_INPUT_%s", task.Project.Util.Str.ToUpperSnake(inputKey))
+		val, err := task.GetValue(inputKey)
+		if err != nil {
+			return taskEnvMap, err
+		}
+		taskEnvMap[inputEnvKey] = val
+	}
+	return taskEnvMap, err
 }
 
 func (task *Task) readLogFromBuffer(sessionId, cmdType, logType string, pipe io.ReadCloser, logChan chan string, logRecordChan chan []string) {

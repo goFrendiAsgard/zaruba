@@ -511,6 +511,5 @@ To see the task logs you can invoke:
 zaruba please showLog [taskName]
 ```
 
-# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

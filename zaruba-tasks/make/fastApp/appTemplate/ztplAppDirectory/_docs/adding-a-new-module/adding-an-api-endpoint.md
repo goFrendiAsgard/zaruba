@@ -5,6 +5,5 @@
 
 > TODO: Write about `Adding an API endpoint`
 
-# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

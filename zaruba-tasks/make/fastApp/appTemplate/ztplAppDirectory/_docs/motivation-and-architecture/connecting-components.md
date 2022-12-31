@@ -67,6 +67,5 @@ session_service = SessionService(user_service, token_service)
 
 That was the basic mechanism of `ZtplAppDirectory`. You might want to check about [module](../creating-new-module/README.md), [authentication/authorization](../authentication-authorization.md), or [user interface](../user-interface/README.md).
 
-# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

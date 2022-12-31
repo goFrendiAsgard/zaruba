@@ -77,6 +77,5 @@ Default:
 </details>
 
 
-# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

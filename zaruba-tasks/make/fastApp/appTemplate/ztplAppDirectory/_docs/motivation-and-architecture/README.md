@@ -176,7 +176,6 @@ The idea of a microservices-ready monolith is only possible because of [feature 
 
 If you want to see how we organize our code, you can visit [directory structure](directory-structure.md).
 
-# Subtopics
 <!--startTocSubtopic-->
 - [Directory structure](directory-structure.md)
 - [Feature flags](feature-flags.md)

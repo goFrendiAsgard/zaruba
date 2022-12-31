@@ -25,7 +25,6 @@ Use "zaruba lines [command] --help" for more information about a command.
 
 ```
 
-# Subtopics
 <!--startTocSubtopic-->
 - [getIndex](get-index.md)
 - [insertAfter](insert-after.md)

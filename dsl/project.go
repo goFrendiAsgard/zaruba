@@ -91,7 +91,7 @@ func NewCustomProject(projectFile string, decoration *output.Decoration, showLog
 }
 
 func loadProject(d *output.Decoration, projectFile string, defaultIncludes []string) (p *Project, err error) {
-	parsedProjectFile, err := filepath.Abs(os.ExpandEnv(projectFile))
+	parsedProjectFile, err := parseProjectFile(projectFile)
 	if err != nil {
 		return p, err
 	}
@@ -112,6 +112,13 @@ func loadProject(d *output.Decoration, projectFile string, defaultIncludes []str
 	return p, err
 }
 
+func parseProjectFile(projectFile string) (parsedProjectFile string, err error) {
+	if projectFile == "" {
+		return "", nil
+	}
+	return filepath.Abs(os.ExpandEnv(projectFile))
+}
+
 func newRawProject(parsedProjectFile string) (p *Project, err error) {
 	p = &Project{
 		Includes:                   []string{},
@@ -125,6 +132,9 @@ func newRawProject(parsedProjectFile string) (p *Project, err error) {
 		IsInitialized:              false,
 		maxPublishedTaskNameLength: 20,
 		Util:                       NewDSLUtil(),
+	}
+	if parsedProjectFile == "" {
+		return p, nil
 	}
 	keyValidator := NewKeyValidator(parsedProjectFile)
 	b, err := keyValidator.Validate()

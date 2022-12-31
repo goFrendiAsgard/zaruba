@@ -67,6 +67,5 @@ tasks:
 * task's `configs` will always override `configRef` and `configRefs`.
 
 
-# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

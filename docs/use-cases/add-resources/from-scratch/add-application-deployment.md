@@ -5,6 +5,5 @@
 
 TODO: Write about `Add Application Deployment`
 
-# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

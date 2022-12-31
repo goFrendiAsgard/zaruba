@@ -26,7 +26,6 @@ Use "zaruba num [command] --help" for more information about a command.
 
 ```
 
-# Subtopics
 <!--startTocSubtopic-->
 - [add](add.md)
 - [divide](divide.md)

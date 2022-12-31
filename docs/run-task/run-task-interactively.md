@@ -77,6 +77,5 @@ zaruba please printHelloHuman  -v 'humanName=Robert Boyle'
 </details>
 
 
-# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

@@ -20,7 +20,6 @@ Use "zaruba base64 [command] --help" for more information about a command.
 
 ```
 
-# Subtopics
 <!--startTocSubtopic-->
 - [decode](decode.md)
 - [encode](encode.md)

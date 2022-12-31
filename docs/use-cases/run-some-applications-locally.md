@@ -5,6 +5,5 @@
 
 TODO: Write about `Run Some Applications Locally`
 
-# Subtopics
 <!--startTocSubtopic-->
 <!--endTocSubtopic-->

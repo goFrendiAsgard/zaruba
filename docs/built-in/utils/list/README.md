@@ -27,7 +27,6 @@ Use "zaruba list [command] --help" for more information about a command.
 
 ```
 
-# Subtopics
 <!--startTocSubtopic-->
 - [append](append.md)
 - [contain](contain.md)
