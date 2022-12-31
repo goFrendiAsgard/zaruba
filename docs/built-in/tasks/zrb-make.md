@@ -148,7 +148,7 @@ Value:
 Value:
 
     {{ if .GetConfig "_taskIndexPath" -}}
-    "{{ .ZarubaBin }}" project include "{{ .GetConfig "_taskIndexPath" }}" "${_ZRB_PROJECT_FILE_NAME}" 
+    "{{ .ZarubaBin }}" project include "{{ .GetConfig "_taskIndexPath" }}"
     {{ end -}}
 
 
@@ -231,14 +231,14 @@ Value:
 
 Value:
 
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerDeploymentTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_DEPLOYMENT_NAME}"
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerDeploymentTasks.sh" "${_ZRB_DEPLOYMENT_NAME}"
 
 
 ### Configs._registerAppRunnerTasks
 
 Value:
 
-    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerAppRunnerTasks.sh" "${_ZRB_PROJECT_FILE_NAME}" "${_ZRB_APP_NAME}"
+    . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/registerAppRunnerTasks.sh"  "${_ZRB_APP_NAME}"
 
 
 ### Configs._setProjectValue
@@ -267,7 +267,6 @@ Value:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/util.sh"
     _ZRB_REPLACEMENT_MAP='{}'
-    _ZRB_PROJECT_FILE_NAME='./index.zaruba.yaml'
     _ZRB_APP_BUILD_IMAGE_COMMAND='{{ .Util.Str.Trim (.GetConfig "appBuildImageCommand") "\n " }}'
     _ZRB_APP_CHECK_COMMAND='{{ .Util.Str.Trim (.GetConfig "appCheckCommand") "\n " }}'
     _ZRB_APP_PREPARE_COMMAND='{{ .Util.Str.Trim (.GetConfig "appPrepareCommand") "\n " }}'

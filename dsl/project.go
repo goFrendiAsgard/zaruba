@@ -179,12 +179,20 @@ func (p *Project) GetName() (name string) {
 	if p.Name != "" {
 		return p.Name
 	}
-	return filepath.Base(filepath.Dir(p.fileLocation))
+	return filepath.Base(p.GetDirPath())
 }
 
 // GetFileLocation
 func (p *Project) GetFileLocation() (fileLocation string) {
 	return p.fileLocation
+}
+
+func (p *Project) GetDirPath() (dirPath string) {
+	if p.fileLocation == "" {
+		dirPath, _ = os.Getwd()
+		return dirPath
+	}
+	return filepath.Dir(p.fileLocation)
 }
 
 // GetSortedInputNames get sorted input names

@@ -16,5 +16,5 @@ configs:
       . '{{ .GetProjectPath "zaruba-tasks/ztplDeploymentName/bash/util.sh" }}'
       . '{{ .GetProjectPath "zaruba-tasks/ztplDeploymentName/bash/prepareVariables.sh" }}'
       echo "${_YELLOW}${_CONSTRUCTION_ICON} Deployment config:${_NORMAL} ${DEPLOYMENT_CONFIG}"
-      ${ZARUBA_BIN} json print "${DEPLOYMENT_CONFIG}" '{{ .GetProjectPath "ztplDeploymentDirectory/config/config.json" }}'
+      "${ZARUBA_BIN}" json print "${DEPLOYMENT_CONFIG}" '{{ .GetProjectPath "ztplDeploymentDirectory/config/config.json" }}'
       . '{{ .GetProjectPath "zaruba-tasks/ztplDeploymentName/bash/prepareChart.sh" }}'

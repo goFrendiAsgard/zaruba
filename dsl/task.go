@@ -264,6 +264,14 @@ func (task *Task) GetFileLocation() (fileLocation string) {
 	return task.fileLocation
 }
 
+func (task *Task) GetDirPath() (dirPath string) {
+	if task.fileLocation == "" {
+		dirPath, _ = os.Getwd()
+		return dirPath
+	}
+	return filepath.Dir(task.fileLocation)
+}
+
 func (task *Task) GetLocation() (path string) {
 	if task.Location != "" {
 		return filepath.Join(filepath.Dir(task.fileLocation), task.Location)
@@ -566,7 +574,7 @@ func (task *Task) getParsedPattern(templateNamePrefix, pattern string) (result s
 	if task.currentRecursiveLevel >= task.maxRecursiveLevel {
 		return "", fmt.Errorf("max recursive parsing on %s: %s", templateNamePrefix, pattern)
 	}
-	defaultEnvMap, err := task.getDefaultEnvMap()
+	defaultEnvMap, err := task.getRuntimeEnvMap(true)
 	if err != nil {
 		return "", err
 	}
@@ -771,7 +779,7 @@ func (task *Task) getCmd(cmdType string, commandPatternArgs []string) (cmd *exec
 }
 
 func (task *Task) setCmdEnv(cmd *exec.Cmd) error {
-	defaultEnvMap, err := task.getDefaultEnvMap()
+	defaultEnvMap, err := task.getRuntimeEnvMap(false)
 	if err != nil {
 		return err
 	}
@@ -781,32 +789,50 @@ func (task *Task) setCmdEnv(cmd *exec.Cmd) error {
 	return nil
 }
 
-func (task *Task) getDefaultEnvMap() (taskEnvMap map[string]string, err error) {
-	// env
-	taskEnvMap, err = task.GetEnvs()
-	if err != nil {
-		return taskEnvMap, err
+// getRuntimeEnvMap: is asPattern is true, this will return go template representing configs and inputs.
+func (task *Task) getRuntimeEnvMap(asPattern bool) (taskEnvMap map[string]string, err error) {
+	// envs.
+	// envs should only be included if this is loaded as real environment, not as pattern.
+	if asPattern {
+		taskEnvMap = map[string]string{}
+	} else {
+		taskEnvMap, err = task.GetEnvs()
+		if err != nil {
+			return taskEnvMap, err
+		}
 	}
-	// config
+	// configs
 	configKeys := task.GetConfigKeys()
 	for _, configKey := range configKeys {
 		configEnvKey := fmt.Sprintf("ZARUBA_CONFIG_%s", task.Project.Util.Str.ToUpperSnake(configKey))
+		if asPattern {
+			taskEnvMap[configEnvKey] = fmt.Sprintf("{{ .GetConfig \"%s\" }}", configKey)
+			continue
+		}
 		val, err := task.GetConfig(configKey)
 		if err != nil {
 			return taskEnvMap, err
 		}
 		taskEnvMap[configEnvKey] = val
 	}
-	// input
+	// inputs
 	inputMap, _, _ := task.Project.GetInputs([]string{task.GetName()})
 	for inputKey := range inputMap {
 		inputEnvKey := fmt.Sprintf("ZARUBA_INPUT_%s", task.Project.Util.Str.ToUpperSnake(inputKey))
+		if asPattern {
+			taskEnvMap[inputEnvKey] = fmt.Sprintf("{{ .GetInput \"%s\" }}", inputKey)
+			continue
+		}
 		val, err := task.GetValue(inputKey)
 		if err != nil {
 			return taskEnvMap, err
 		}
 		taskEnvMap[inputEnvKey] = val
 	}
+	// paths
+	taskEnvMap["ZARUBA_TASK_DIR"] = task.GetDirPath()
+	taskEnvMap["ZARUBA_PROJECT_DIR"] = task.Project.GetDirPath()
+	taskEnvMap["ZARUBA_WORK_DIR"] = task.GetWorkPath()
 	return taskEnvMap, err
 }
 

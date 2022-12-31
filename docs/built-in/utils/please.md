@@ -16,7 +16,6 @@ Flags:
   -d, --decoration string         decoration (default "default")
   -e, --environment stringArray   environments (e.g., '-e environment.env' or '-e KEY=VAL' or '-e {"KEY": "VAL"}' )
   -x, --explain                   explain instead of execute
-  -f, --file string               project file (default "/home/gofrendi/zaruba/index.zaruba.yaml")
   -h, --help                      help for please
   -i, --interactive               interactive mode
   -p, --previous                  load previous values

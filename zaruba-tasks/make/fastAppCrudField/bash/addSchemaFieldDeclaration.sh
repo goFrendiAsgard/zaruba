@@ -2,7 +2,7 @@ set -e
 echo "Adding schema field declaration"
 
 _addSchemaFieldDeclaration() {
-    _DESTINATION="${_ZRB_APP_DIRECTORY}/schema/${_ZRB_SNAKE_APP_CRUD_ENTITY}.py"
+    _DESTINATION="${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/schema/${_ZRB_SNAKE_APP_CRUD_ENTITY}.py"
     _PATTERN="$("${ZARUBA_BIN}" list append '[]' "class[\t ]*${_ZRB_PASCAL_APP_CRUD_ENTITY}Data\(")"
     _PATTERN="$("${ZARUBA_BIN}" list append "${_PATTERN}" "created_at[\t ]*:[\t ]Optional")"
     _LINE_INDEX="$(_getLineIndexFromFile "${_DESTINATION}" "${_PATTERN}" --index=-1)"

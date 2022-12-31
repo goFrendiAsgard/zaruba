@@ -111,25 +111,24 @@ _addEnvToReplacementMap() {
 _addTaskDependency() {
     __ZRB_TASK_NAME="${1}"
     __ZRB_DEPENDENCY_TASK_NAME="${2}"
-    __ZRB_CREATE_TASK="${3}"
-    __ZRB_PROJECT_FILE_NAME="${4}"
+    __ZRB_FORCE_CREATE_TASK="${3}"
     # check dependency task existance
     echo "Checking ${__ZRB_DEPENDENCY_TASK_NAME}"
-    if [ "$("${ZARUBA_BIN}" task isExist "${__ZRB_DEPENDENCY_TASK_NAME}" "${__ZRB_PROJECT_FILE_NAME}")" = 1 ]
+    if [ "$("${ZARUBA_BIN}" task isExist "${__ZRB_DEPENDENCY_TASK_NAME}")" = 1 ]
     then
-        # check dependee task existance
+        # check ddependee task existance
         echo "Checking ${__ZRB_TASK_NAME}"
-        if [ "${__ZRB_CREATE_TASK}" = 1 ]
+        if [ "${__ZRB_FORCE_CREATE_TASK}" = 1 ] && [ "$("${ZARUBA_BIN}" task isExist "${__ZRB_TASK_NAME}")" = 0 ]
         then
-            "${ZARUBA_BIN}" project addTask "${__ZRB_TASK_NAME}" "${__ZRB_PROJECT_FILE_NAME}"
-        elif [ "$("${ZARUBA_BIN}" task isExist "${__ZRB_TASK_NAME}" "${__ZRB_PROJECT_FILE_NAME}")" = 0 ]
-        then
+            echo "Adding ${__ZRB_TASK_NAME}"
+            "${ZARUBA_BIN}" project addTask "${__ZRB_TASK_NAME}"
+        else
             echo "Task ${__ZRB_TASK_NAME} doesn't exist"
             return
         fi
         # link dependency task to task
         echo "Adding ${__ZRB_DEPENDENCY_TASK_NAME} as dependency of ${__ZRB_TASK_NAME}"
-        "${ZARUBA_BIN}" task addDependencies "${__ZRB_TASK_NAME}" "[\"${__ZRB_DEPENDENCY_TASK_NAME}\"]" "${__ZRB_PROJECT_FILE_NAME}" 
+        "${ZARUBA_BIN}" task addDependencies "${__ZRB_TASK_NAME}" "[\"${__ZRB_DEPENDENCY_TASK_NAME}\"]"
     fi
 }
 
@@ -139,7 +138,7 @@ _generate() {
     for __ZRB_TEMPLATE_INDEX in $("${ZARUBA_BIN}" list rangeIndex "${__ZRB_TEMPLATE_LOCATIONS}")
     do 
         __ZRB_TEMPLATE_LOCATION="$("${ZARUBA_BIN}" list get "${__ZRB_TEMPLATE_LOCATIONS}" "${__ZRB_TEMPLATE_INDEX}")"
-        ${ZARUBA_HOME}/zaruba generate "${__ZRB_TEMPLATE_LOCATION}" "." "${__ZRB_REPLACEMENT_MAP}"
+        ${ZARUBA_HOME}/zaruba generate "${__ZRB_TEMPLATE_LOCATION}" "${ZARUBA_PROJECT_PATH}" "${__ZRB_REPLACEMENT_MAP}"
     done
 }
 

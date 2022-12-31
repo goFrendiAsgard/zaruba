@@ -1,7 +1,7 @@
 echo "Updating vue component"
 
 _addFormInput() {
-    _DESTINATION="${_ZRB_APP_DIRECTORY}/public/vue/modules/${_ZRB_APP_MODULE_NAME}/crud/${_ZRB_APP_CRUD_ENTITIES}Crud.vue"
+    _DESTINATION="${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/public/vue/modules/${_ZRB_APP_MODULE_NAME}/crud/${_ZRB_APP_CRUD_ENTITIES}Crud.vue"
     _PATTERN="<!-- Put form input here"
     _LINE_INDEX="$(_getLineIndexFromFile "${_DESTINATION}" "${_PATTERN}" --index=-1)"
     if [ "${_LINE_INDEX}" = "-1" ]
@@ -32,7 +32,7 @@ _addFormInput() {
 }
 
 _addColumnHeader() {
-    _DESTINATION="${_ZRB_APP_DIRECTORY}/public/vue/modules/${_ZRB_APP_MODULE_NAME}/crud/${_ZRB_APP_CRUD_ENTITIES}Crud.vue"
+    _DESTINATION="${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/public/vue/modules/${_ZRB_APP_MODULE_NAME}/crud/${_ZRB_APP_CRUD_ENTITIES}Crud.vue"
     _PATTERN="<!-- Put column header here"
     _LINE_INDEX="$(_getLineIndexFromFile "${_DESTINATION}" "${_PATTERN}" --index=-1)"
     if [ "${_LINE_INDEX}" = "-1" ]
@@ -62,7 +62,7 @@ _addColumnHeader() {
 }
 
 _addColumnValue() {
-    _DESTINATION="${_ZRB_APP_DIRECTORY}/public/vue/modules/${_ZRB_APP_MODULE_NAME}/crud/${_ZRB_APP_CRUD_ENTITIES}Crud.vue"
+    _DESTINATION="${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/public/vue/modules/${_ZRB_APP_MODULE_NAME}/crud/${_ZRB_APP_CRUD_ENTITIES}Crud.vue"
     _PATTERN="<!-- Put column value here"
     _LINE_INDEX="$(_getLineIndexFromFile "${_DESTINATION}" "${_PATTERN}" --index=-1)"
     if [ "${_LINE_INDEX}" = "-1" ]

@@ -4,6 +4,7 @@
 <!--endTocHeader-->
 TODO: Write about `FastAPI Application`
 <!--startTocSubtopic-->
+# Subtopics
 - [Route](route.md)
 - [Event Handler](event-handler.md)
 - [Rpc Handler](rpc-handler.md)

@@ -6,6 +6,7 @@
 TODO: Write about `Adding Resources`
 
 <!--startTocSubtopic-->
+# Subtopics
 - [🧩 Integration](integration/README.md)
   - [📦 External Repository](integration/external-repository.md)
   - [🐳 Docker Container](integration/docker-container.md)

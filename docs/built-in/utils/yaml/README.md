@@ -21,6 +21,7 @@ Use "zaruba yaml [command] --help" for more information about a command.
 ```
 
 <!--startTocSubtopic-->
+# Subtopics
 - [print](print.md)
 - [read](read.md)
 <!--endTocSubtopic-->

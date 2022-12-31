@@ -270,7 +270,6 @@ Value:
 
     . "{{ .ZarubaHome }}/zaruba-tasks/make/_base/bash/util.sh"
     _ZRB_REPLACEMENT_MAP='{}'
-    _ZRB_PROJECT_FILE_NAME='./index.zaruba.yaml'
     _ZRB_APP_BUILD_IMAGE_COMMAND='{{ .Util.Str.Trim (.GetConfig "appBuildImageCommand") "\n " }}'
     _ZRB_APP_CHECK_COMMAND='{{ .Util.Str.Trim (.GetConfig "appCheckCommand") "\n " }}'
     _ZRB_APP_PREPARE_COMMAND='{{ .Util.Str.Trim (.GetConfig "appPrepareCommand") "\n " }}'

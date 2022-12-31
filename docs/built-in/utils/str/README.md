@@ -44,6 +44,7 @@ Use "zaruba str [command] --help" for more information about a command.
 ```
 
 <!--startTocSubtopic-->
+# Subtopics
 - [addPrefix](add-prefix.md)
 - [currentTime](current-time.md)
 - [doubleQuote](double-quote.md)

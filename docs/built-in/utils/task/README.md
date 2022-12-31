@@ -26,6 +26,7 @@ Use "zaruba task [command] --help" for more information about a command.
 ```
 
 <!--startTocSubtopic-->
+# Subtopics
 - [addDependencies](add-dependencies.md)
 - [addParents](add-parents.md)
 - [getIcon](get-icon.md)
