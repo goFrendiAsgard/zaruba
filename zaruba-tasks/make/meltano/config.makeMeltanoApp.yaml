@@ -9,6 +9,7 @@ configs:
     _generate: |
       pip install -U pip
       pip install meltano
+      cd "${ZARUBA_PROJECT_DIR}"
       meltano init "${_ZRB_APP_DIRECTORY}"
       if [ ! -d "${_ZRB_APP_DIRECTORY}" ]
       then

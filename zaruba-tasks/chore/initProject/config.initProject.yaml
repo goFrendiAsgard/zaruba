@@ -2,12 +2,17 @@ configs:
 
   initProject:
     start: |
-      if [ -f "index.zaruba.yaml" ]
+      if [ ! -f "{{ .GetProjectPath "index.zaruba.yaml" }}" ] && [ ! -f "{{ .GetProjectPath "index.zaruba.yml" }}" ]
       then
-        echo "${_BOLD}${_RED}$(pwd) is a zaruba project.${_NORMAL}"
+        echo "${_BOLD}${_RED}${ZARUBA_PROJECT_DIR} is not a zaruba project.${_NORMAL}"
         exit 1
       fi
-      git init
+      cd ${ZARUBA_PROJECT_DIR}
+      if [ ! -d ".git" ]
+      then
+        echo "init git"
+        git init
+      fi
       "{{ .ZarubaBin }}" file copy "{{ .ZarubaHome }}/zaruba-tasks/chore/initProject/template/" .
       echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
       echo "${_BOLD}${_YELLOW}Project created${_NORMAL}"

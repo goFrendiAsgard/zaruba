@@ -195,14 +195,14 @@ then
     _ZRB_APP_CONTAINER_NAME="$("${ZARUBA_BIN}" str toCamel "${_ZRB_APP_NAME}")"
 fi
 
-if [ -d "${_ZRB_APP_DIRECTORY}" ]
+if [ -d "${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}" ]
 then
     # envs
-    _ZRB_DEFAULT_APP_ENVS="$("${ZARUBA_BIN}" path getEnv "${_ZRB_APP_DIRECTORY}")"
+    _ZRB_DEFAULT_APP_ENVS="$("${ZARUBA_BIN}" path getEnv "${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}")"
     _ZRB_APP_ENVS="$("${ZARUBA_BIN}" map merge "${_ZRB_APP_ENVS}" "${_ZRB_DEFAULT_APP_ENVS}")"
 
     # ports
-    _ZRB_DEFAULT_APP_PORTS="$("${ZARUBA_BIN}" path getPortConfig "${_ZRB_APP_DIRECTORY}")"
+    _ZRB_DEFAULT_APP_PORTS="$("${ZARUBA_BIN}" path getPortConfig "${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}")"
     if [ "$("${ZARUBA_BIN}" list length "${_ZRB_APP_PORTS}")" = 0 ]
     then
         _ZRB_APP_PORTS="${_ZRB_DEFAULT_APP_PORTS}"

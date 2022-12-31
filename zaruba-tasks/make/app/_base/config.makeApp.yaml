@@ -7,9 +7,9 @@ configs:
     _registerAppRunnerTasks: ''
     _registerAppDeploymentTasks: ''
     _adjustPermission: |
-      if [ -f "${_ZRB_APP_DIRECTORY}/start.sh" ]
+      if [ -f "${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/start.sh" ]
       then
-        chmod 755 "${_ZRB_APP_DIRECTORY}/start.sh"
+        chmod 755 "${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/start.sh"
       fi
     templateLocations: |
       [
