@@ -2,12 +2,11 @@ configs:
 
   initProject:
     start: |
-      if [ ! -f "{{ .GetProjectPath "index.zaruba.yaml" }}" ] && [ ! -f "{{ .GetProjectPath "index.zaruba.yml" }}" ]
+      if [ -f "index.zaruba.yaml" ] || [ -f "index.zaruba.yml" ]
       then
-        echo "${_BOLD}${_RED}${ZARUBA_PROJECT_DIR} is not a zaruba project.${_NORMAL}"
+        echo "${_BOLD}${_RED}Current directory is a zaruba project.${_NORMAL}"
         exit 1
       fi
-      cd ${ZARUBA_PROJECT_DIR}
       if [ ! -d ".git" ]
       then
         echo "init git"

@@ -85,11 +85,11 @@ Validation:
 
 Description:
 
-    Location of app
+    Location of app (relative to project)
 
 Prompt:
 
-    Location of app
+    Location of app (relative to project)
 
 Secret:
 
@@ -402,9 +402,9 @@ Value:
     {{ .GetConfig "_setProjectValue" }}
     cd "${__ZRB_PWD}"
     echo "${_YELLOW}Synchronize task environments${_NORMAL}"
-    "{{ .ZarubaBin }}" project syncEnv "./index.zaruba.yaml"
+    "{{ .ZarubaBin }}" project syncEnv
     echo "${_YELLOW}Synchronize project's environment files${_NORMAL}"
-    "{{ .ZarubaBin }}" project syncEnvFiles "./index.zaruba.yaml"
+    "{{ .ZarubaBin }}" project syncEnvFiles
 
 
 

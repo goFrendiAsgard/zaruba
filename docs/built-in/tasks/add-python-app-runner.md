@@ -63,11 +63,11 @@ Validation:
 
 Description:
 
-    Location of app
+    Location of app (relative to project)
 
 Prompt:
 
-    Location of app
+    Location of app (relative to project)
 
 Secret:
 

@@ -133,9 +133,9 @@ Value:
 Value:
 
     echo "${_BOLD}${_YELLOW}Synchronize task environments${_NORMAL}"
-    "{{ .ZarubaBin }}" project syncEnv "./index.zaruba.yaml"
+    "{{ .ZarubaBin }}" project syncEnv
     echo "${_BOLD}${_YELLOW}Synchronize project's environment files${_NORMAL}"
-    "{{ .ZarubaBin }}" project syncEnvFiles "./index.zaruba.yaml"
+    "{{ .ZarubaBin }}" project syncEnvFiles
     echo ${_SUCCESS_ICON}${_SUCCESS_ICON}${_SUCCESS_ICON}
     echo "${_BOLD}${_YELLOW}Environment synchronized${_NORMAL}"
 

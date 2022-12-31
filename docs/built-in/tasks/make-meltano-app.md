@@ -54,11 +54,11 @@ Type:
 
 Description:
 
-    Location of app
+    Location of app (relative to project)
 
 Prompt:
 
-    Location of app
+    Location of app (relative to project)
 
 Secret:
 
@@ -72,9 +72,9 @@ Secret:
 
 Value:
 
-    if [ -f "${_ZRB_APP_DIRECTORY}/start.sh" ]
+    if [ -f "${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/start.sh" ]
     then
-      chmod 755 "${_ZRB_APP_DIRECTORY}/start.sh"
+      chmod 755 "${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/start.sh"
     fi
 
 
@@ -88,6 +88,7 @@ Value:
 
     pip install -U pip
     pip install meltano
+    cd "${ZARUBA_PROJECT_DIR}"
     meltano init "${_ZRB_APP_DIRECTORY}"
     if [ ! -d "${_ZRB_APP_DIRECTORY}" ]
     then
@@ -258,9 +259,9 @@ Value:
     {{ .GetConfig "_setProjectValue" }}
     cd "${__ZRB_PWD}"
     echo "${_YELLOW}Synchronize task environments${_NORMAL}"
-    "{{ .ZarubaBin }}" project syncEnv "./index.zaruba.yaml"
+    "{{ .ZarubaBin }}" project syncEnv
     echo "${_YELLOW}Synchronize project's environment files${_NORMAL}"
-    "{{ .ZarubaBin }}" project syncEnvFiles "./index.zaruba.yaml"
+    "{{ .ZarubaBin }}" project syncEnvFiles
 
 
 

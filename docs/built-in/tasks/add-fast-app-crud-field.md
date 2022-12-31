@@ -27,6 +27,7 @@ Type:
 ## Dependencies
 
 - [addFastApp](add-fast-app.md)
+- [addFastAppCrud](add-fast-app-crud.md)
 - [addFastAppModule](add-fast-app-module.md)
 - [makeFastApp](make-fast-app.md)
 - [makeFastAppRunner](make-fast-app-runner.md)
@@ -99,11 +100,11 @@ Validation:
 
 Description:
 
-    Location of app
+    Location of app (relative to project)
 
 Prompt:
 
-    Location of app
+    Location of app (relative to project)
 
 Secret:
 
@@ -136,9 +137,9 @@ Validation:
 
 Value:
 
-    if [ -f "${_ZRB_APP_DIRECTORY}/start.sh" ]
+    if [ -f "${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/start.sh" ]
     then
-      chmod 755 "${_ZRB_APP_DIRECTORY}/start.sh"
+      chmod 755 "${ZARUBA_PROJECT_DIR}/${_ZRB_APP_DIRECTORY}/start.sh"
     fi
 
 
@@ -318,9 +319,9 @@ Value:
     {{ .GetConfig "_setProjectValue" }}
     cd "${__ZRB_PWD}"
     echo "${_YELLOW}Synchronize task environments${_NORMAL}"
-    "{{ .ZarubaBin }}" project syncEnv "./index.zaruba.yaml"
+    "{{ .ZarubaBin }}" project syncEnv
     echo "${_YELLOW}Synchronize project's environment files${_NORMAL}"
-    "{{ .ZarubaBin }}" project syncEnvFiles "./index.zaruba.yaml"
+    "{{ .ZarubaBin }}" project syncEnvFiles
 
 
 
