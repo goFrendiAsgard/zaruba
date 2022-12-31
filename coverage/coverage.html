@@ -3337,13 +3337,13 @@ func (r *Runner) Terminate() <span class="cov3" title="7">{
 
 func (r *Runner) logStdout() <span class="cov3" title="7">{
         lineCounter := 0
-        for </span><span class="cov6" title="40">{
+        for </span><span class="cov6" title="39">{
                 content := &lt;-r.project.StdoutChan
                 r.logger.DPrintf(content)
                 r.project.OutputWgMutex.Lock()
                 r.project.OutputWg.Done()
                 r.project.OutputWgMutex.Unlock()
-                if r.statusLineInterval &lt; 1 </span><span class="cov6" title="33">{
+                if r.statusLineInterval &lt; 1 </span><span class="cov6" title="32">{
                         continue</span>
                 }
                 <span class="cov0" title="0">lineCounter++
@@ -3363,7 +3363,7 @@ func (r *Runner) logStderr() <span class="cov3" title="7">{
 }
 
 func (r *Runner) logStdoutRow() <span class="cov3" title="7">{
-        for </span><span class="cov6" title="40">{
+        for </span><span class="cov6" title="39">{
                 content := &lt;-r.project.StdoutRecordChan
                 r.recordLogger.Log(content...)
                 r.project.ProcessOutputWg()
@@ -3438,7 +3438,7 @@ func (r *Runner) setKilledSignal() <span class="cov3" title="7">{
         r.killedMutex.Unlock()
 }</span>
 
-func (r *Runner) getKilledSignal() (isKilled bool) <span class="cov9" title="398">{
+func (r *Runner) getKilledSignal() (isKilled bool) <span class="cov9" title="399">{
         r.killedMutex.RLock()
         isKilled = r.killed
         r.killedMutex.RUnlock()
@@ -3630,8 +3630,8 @@ func (r *Runner) waitLongRunningCmd(ch chan error) <span class="cov3" title="7">
                         return
                 }</span>
                 <span class="cov9" title="252">r.cmdInfoMutex.Lock()
-                for cmdLabel, cmdInfo := range r.cmdInfo </span><span class="cov8" title="179">{
-                        if _, exist := seen[cmdLabel]; exist || !cmdInfo.IsProcess </span><span class="cov8" title="174">{
+                for cmdLabel, cmdInfo := range r.cmdInfo </span><span class="cov8" title="182">{
+                        if _, exist := seen[cmdLabel]; exist || !cmdInfo.IsProcess </span><span class="cov8" title="177">{
                                 continue</span>
                         }
                         <span class="cov3" title="5">seen[cmdLabel] = true
@@ -3800,7 +3800,7 @@ func (r *Runner) markTaskFinished(taskName string, err error) <span class="cov6"
         r.taskStatusMutex.Unlock()
 }</span>
 
-func (r *Runner) isTaskFinished(taskName string) (isFinished bool) <span class="cov7" title="68">{
+func (r *Runner) isTaskFinished(taskName string) (isFinished bool) <span class="cov7" title="69">{
         r.taskStatusMutex.RLock()
         isFinished = r.taskStatus[taskName].Finished
         r.taskStatusMutex.RUnlock()
@@ -3815,12 +3815,12 @@ func (r *Runner) getTaskError(taskName string) (err error) <span class="cov6" ti
 }</span>
 
 func (r *Runner) waitTaskFinished(taskName string) (err error) <span class="cov6" title="53">{
-        for </span><span class="cov7" title="68">{
+        for </span><span class="cov7" title="69">{
                 r.sleep(100 * time.Millisecond)
                 if r.isTaskFinished(taskName) </span><span class="cov6" title="53">{
                         return r.getTaskError(taskName)
                 }</span>
-                <span class="cov4" title="15">if r.getKilledSignal() </span><span class="cov0" title="0">{
+                <span class="cov5" title="16">if r.getKilledSignal() </span><span class="cov0" title="0">{
                         return fmt.Errorf("Terminated")
                 }</span>
         }
@@ -3850,15 +3850,15 @@ func (r *Runner) sprintfCmdArgs(cmd *exec.Cmd) (output string) <span class="cov3
         return output</span>
 }
 
-func (r *Runner) sleep(duration time.Duration) <span class="cov10" title="454">{
+func (r *Runner) sleep(duration time.Duration) <span class="cov10" title="455">{
         done := make(chan bool)
         ticker := time.NewTimer(duration)
-        go func() </span><span class="cov10" title="454">{
+        go func() </span><span class="cov10" title="455">{
                 &lt;-ticker.C
                 ticker.Stop()
                 done &lt;- true
         }</span>()
-        <span class="cov10" title="454">&lt;-done</span>
+        <span class="cov10" title="455">&lt;-done</span>
 }
 
 func (r *Runner) getProcessRow(label string, cmdInfo *CmdInfo) string <span class="cov3" title="4">{
