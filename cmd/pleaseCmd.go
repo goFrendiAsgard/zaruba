@@ -156,19 +156,20 @@ func getDefaultValueFiles(dir, zarubaEnv string) []string {
 }
 
 func getDefaultProjectFile(dir string) string {
-	defaultProjectFilePath := "${ZARUBA_HOME}/core.zaruba.yaml"
+	defaultProjectFile := "${ZARUBA_HOME}/core.zaruba.yaml"
 	projectPath, err := helper.GetProjectPath(dir)
 	if err != nil {
-		projectFilePath := filepath.Join(projectPath, "index.zaruba.yaml")
-		if _, err := os.Stat(projectFilePath); err == nil {
-			return projectFilePath
-		}
-		projectFilePath = filepath.Join(projectPath, "index.zaruba.yml")
-		if _, err := os.Stat(projectFilePath); err == nil {
-			return projectFilePath
-		}
+		return defaultProjectFile
 	}
-	return defaultProjectFilePath
+	projectFilePath := filepath.Join(projectPath, "index.zaruba.yaml")
+	if _, err := os.Stat(projectFilePath); err == nil {
+		return projectFilePath
+	}
+	projectFilePath = filepath.Join(projectPath, "index.zaruba.yml")
+	if _, err := os.Stat(projectFilePath); err == nil {
+		return projectFilePath
+	}
+	return defaultProjectFile
 }
 
 func showLastPleaseCommand(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration) {
