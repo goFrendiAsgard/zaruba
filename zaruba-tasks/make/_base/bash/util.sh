@@ -139,7 +139,7 @@ _generate() {
     for __ZRB_TEMPLATE_INDEX in $("${ZARUBA_BIN}" list rangeIndex "${__ZRB_TEMPLATE_LOCATIONS}")
     do 
         __ZRB_TEMPLATE_LOCATION="$("${ZARUBA_BIN}" list get "${__ZRB_TEMPLATE_LOCATIONS}" "${__ZRB_TEMPLATE_INDEX}")"
-        ${ZARUBA_HOME}/zaruba generate "${__ZRB_TEMPLATE_LOCATION}" "${ZARUBA_PROJECT_PATH}" "${__ZRB_REPLACEMENT_MAP}"
+        ${ZARUBA_HOME}/zaruba generate "${__ZRB_TEMPLATE_LOCATION}" "${ZARUBA_PROJECT_DIR}" "${__ZRB_REPLACEMENT_MAP}"
     done
 }
 
