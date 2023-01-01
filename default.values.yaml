@@ -1,9 +1,2 @@
-defaultBranch: master
-defaultImagePrefix: localhost:9999
+defaultImagePrefix: stalchmst
 defaultImageTag: latest
-defaultKubeContext: docker-desktop
-defaultKubeNamespace: default
-hostDockerInternal: host.docker.internal
-pulumiUseLocalBackend: "false"
-subrepo::provoFibo::prefix: provoFibo
-subrepo::provoFibo::url: https://github.com/state-alchemists/fibonacci-clock
