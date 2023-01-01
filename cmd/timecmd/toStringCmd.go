@@ -17,7 +17,7 @@ var toStringExample = `
 
 var toStringCmd = &cobra.Command{
 	Use:     "toString <timestamp>",
-	Short:   "Change timestamp into RFC 3339 string",
+	Short:   "Change timestamp into RFC3339 string",
 	Example: toStringExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()

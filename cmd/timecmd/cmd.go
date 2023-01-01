@@ -4,10 +4,11 @@ import "github.com/spf13/cobra"
 
 var Cmd = &cobra.Command{
 	Use:   "time",
-	Short: "Base32 manipulation utilities",
+	Short: "Time related utilities",
 }
 
 func Init() {
+	Cmd.AddCommand(nowCmd)
 	Cmd.AddCommand(toStringCmd)
-	Cmd.AddCommand(toTimestamp)
+	Cmd.AddCommand(toTimestampCmd)
 }
