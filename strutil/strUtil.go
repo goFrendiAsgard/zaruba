@@ -1,6 +1,7 @@
 package strutil
 
 import (
+	"encoding/base32"
 	"encoding/base64"
 	"fmt"
 	"regexp"
@@ -190,5 +191,14 @@ func (strUtil *StrUtil) EncodeBase64(str string) (result string) {
 
 func (strUtil *StrUtil) DecodeBase64(str string) (result string, err error) {
 	sd, err := base64.StdEncoding.DecodeString(str)
+	return string(sd), err
+}
+
+func (strUtil *StrUtil) EncodeBase32(str string) (result string) {
+	return base32.StdEncoding.EncodeToString([]byte(str))
+}
+
+func (strUtil *StrUtil) DecodeBase32(str string) (result string, err error) {
+	sd, err := base32.StdEncoding.DecodeString(str)
 	return string(sd), err
 }
