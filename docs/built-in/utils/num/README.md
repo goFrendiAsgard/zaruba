@@ -4,7 +4,7 @@
 <!--endTocHeader-->
 
 ```
-Number manipulation utilities
+Number manipulation utilities. Use '--' for negative number arguments
 
 Usage:
   zaruba num [command]
