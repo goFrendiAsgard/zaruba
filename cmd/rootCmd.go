@@ -10,6 +10,7 @@ import (
 	"github.com/state-alchemists/zaruba/cmd/base64cmd"
 	"github.com/state-alchemists/zaruba/cmd/envcmd"
 	"github.com/state-alchemists/zaruba/cmd/filecmd"
+	"github.com/state-alchemists/zaruba/cmd/hashcmd"
 	"github.com/state-alchemists/zaruba/cmd/installcmd"
 	"github.com/state-alchemists/zaruba/cmd/jsoncmd"
 	"github.com/state-alchemists/zaruba/cmd/linescmd"
@@ -68,6 +69,9 @@ func init() {
 
 	rootCmd.AddCommand(filecmd.Cmd)
 	filecmd.Init()
+
+	rootCmd.AddCommand(hashcmd.Cmd)
+	hashcmd.Init()
 
 	rootCmd.AddCommand(installcmd.Cmd)
 	installcmd.Init()

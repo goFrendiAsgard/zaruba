@@ -7,7 +7,7 @@
 Encode a string with time algorithm
 
 Usage:
-  zaruba time toTimestamp <RFC-3339> [flags]
+  zaruba time toTimestamp <RFC3339> [flags]
 
 Examples:
 

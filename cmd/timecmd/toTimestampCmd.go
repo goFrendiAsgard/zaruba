@@ -17,8 +17,8 @@ var toTimestampExample = `
 1672578061
 `
 
-var toTimestamp = &cobra.Command{
-	Use:     "toTimestamp <RFC-3339>",
+var toTimestampCmd = &cobra.Command{
+	Use:     "toTimestamp <RFC3339>",
 	Short:   "Encode a string with time algorithm",
 	Example: toTimestampExample,
 	Run: func(cmd *cobra.Command, args []string) {

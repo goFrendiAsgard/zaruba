@@ -4,13 +4,14 @@
 <!--endTocHeader-->
 
 ```
-Base32 manipulation utilities
+Time related utilities
 
 Usage:
   zaruba time [command]
 
 Available Commands:
-  toString    Change timestamp into RFC 3339 string
+  now         Get current time as RFC3339
+  toString    Change timestamp into RFC3339 string
   toTimestamp Encode a string with time algorithm
 
 Flags:
@@ -22,6 +23,7 @@ Use "zaruba time [command] --help" for more information about a command.
 
 <!--startTocSubtopic-->
 # Subtopics
+- [now](now.md)
 - [toString](to-string.md)
 - [toTimestamp](to-timestamp.md)
 <!--endTocSubtopic-->

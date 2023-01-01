@@ -24,7 +24,7 @@ zaruba_donation:
 
 
 happy_new_year:
-  pattern: '.*-01-01'
+  pattern: '01-01-.*'
   message: |
     Happy new year, Human!!! 🎉🎉🎉
                                             .
@@ -50,7 +50,7 @@ happy_new_year:
 
 
 happy_valentine:
-    pattern: '.*-02-14'
+    pattern: '02-14-.*'
     message: |
       Happy valentine's, Human!!! ❤️❤️❤️
 
