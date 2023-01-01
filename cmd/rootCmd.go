@@ -6,6 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/state-alchemists/zaruba/cmd/advertisementcmd"
+	"github.com/state-alchemists/zaruba/cmd/base32cmd"
 	"github.com/state-alchemists/zaruba/cmd/base64cmd"
 	"github.com/state-alchemists/zaruba/cmd/envcmd"
 	"github.com/state-alchemists/zaruba/cmd/filecmd"
@@ -19,6 +20,7 @@ import (
 	"github.com/state-alchemists/zaruba/cmd/projectcmd"
 	"github.com/state-alchemists/zaruba/cmd/strcmd"
 	"github.com/state-alchemists/zaruba/cmd/taskcmd"
+	"github.com/state-alchemists/zaruba/cmd/timecmd"
 	"github.com/state-alchemists/zaruba/cmd/yamlcmd"
 	"github.com/state-alchemists/zaruba/dsl"
 	"github.com/state-alchemists/zaruba/output"
@@ -51,34 +53,55 @@ func init() {
 	rootCmd.AddCommand(pleaseCmd)
 	rootCmd.AddCommand(serveCmd)
 	rootCmd.AddCommand(versionCmd)
+
 	rootCmd.AddCommand(advertisementcmd.Cmd)
 	advertisementcmd.Init()
+
+	rootCmd.AddCommand(base32cmd.Cmd)
+	base32cmd.Init()
+
 	rootCmd.AddCommand(base64cmd.Cmd)
 	base64cmd.Init()
+
 	rootCmd.AddCommand(envcmd.Cmd)
 	envcmd.Init()
+
 	rootCmd.AddCommand(filecmd.Cmd)
 	filecmd.Init()
+
 	rootCmd.AddCommand(installcmd.Cmd)
 	installcmd.Init()
+
 	rootCmd.AddCommand(jsoncmd.Cmd)
 	jsoncmd.Init()
+
 	rootCmd.AddCommand(linescmd.Cmd)
 	linescmd.Init()
+
 	rootCmd.AddCommand(listcmd.Cmd)
 	listcmd.Init()
+
 	rootCmd.AddCommand(mapcmd.Cmd)
 	mapcmd.Init()
+
 	rootCmd.AddCommand(numcmd.Cmd)
 	numcmd.Init()
+
 	rootCmd.AddCommand(pathcmd.Cmd)
 	pathcmd.Init()
+
 	rootCmd.AddCommand(projectcmd.Cmd)
 	projectcmd.Init()
+
 	rootCmd.AddCommand(strcmd.Cmd)
 	strcmd.Init()
+
 	rootCmd.AddCommand(taskcmd.Cmd)
 	taskcmd.Init()
+
+	rootCmd.AddCommand(timecmd.Cmd)
+	timecmd.Init()
+
 	rootCmd.AddCommand(yamlcmd.Cmd)
 	yamlcmd.Init()
 }

@@ -4,7 +4,7 @@ import "github.com/spf13/cobra"
 
 var Cmd = &cobra.Command{
 	Use:   "num",
-	Short: "Number manipulation utilities",
+	Short: "Number manipulation utilities. Use '--' for negative number arguments",
 }
 
 func Init() {
