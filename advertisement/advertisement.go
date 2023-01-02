@@ -32,19 +32,18 @@ func NewAdvs(fileName string) (advertisements *Advs, err error) {
 }
 
 func (advertisements *Advs) Get() string {
-	format := "01-02-2006 15:04:05"
 	candidates := []Adv{}
 	currentTime := time.Now()
-	currentPattern := currentTime.Format(format)
+	currentPattern := currentTime.Format(time.RFC3339)
 	for _, adv := range *advertisements {
 		if adv.Start != "" {
-			start, err := time.Parse(format, adv.Start)
+			start, err := time.Parse(time.RFC3339, adv.Start)
 			if err != nil || currentTime.Before(start) {
 				continue
 			}
 		}
 		if adv.End != "" {
-			end, err := time.Parse(format, adv.End)
+			end, err := time.Parse(time.RFC3339, adv.End)
 			if err != nil || currentTime.After(end) {
 				continue
 			}
@@ -60,6 +59,7 @@ func (advertisements *Advs) Get() string {
 	if len(candidates) == 0 {
 		return "Have a nice day!!!"
 	}
+	rand.Seed(time.Now().UnixNano())
 	index := rand.Intn(len(candidates))
 	candidate := candidates[index]
 	return candidate.Message

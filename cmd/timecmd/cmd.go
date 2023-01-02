@@ -9,6 +9,6 @@ var Cmd = &cobra.Command{
 
 func Init() {
 	Cmd.AddCommand(nowCmd)
-	Cmd.AddCommand(toStringCmd)
+	Cmd.AddCommand(toStrCmd)
 	Cmd.AddCommand(toTimestampCmd)
 }

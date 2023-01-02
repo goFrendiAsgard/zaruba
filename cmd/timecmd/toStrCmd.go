@@ -10,15 +10,16 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
-var toStringExample = `
+var toStrExample = `
 > zaruba time toString 1672578061
 2023-01-01T20:01:01+07:00
 `
 
-var toStringCmd = &cobra.Command{
+var toStrCmd = &cobra.Command{
 	Use:     "toString <timestamp>",
 	Short:   "Change timestamp into RFC3339 string",
-	Example: toStringExample,
+	Example: toStrExample,
+	Aliases: []string{"toStr"},
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)

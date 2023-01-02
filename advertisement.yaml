@@ -20,13 +20,13 @@ zaruba_donation:
     You can support Zaruba's development by:
       * Follow Zaruba's twitter account at: 🐤 @zarubastalchmst 
       * Openning pull request/issue at: https://github.com/state-alchemists/zaruba
-      * Or donating ☕ to: https://stalchmst.com/donation.html
+      * Or donating ☕ to: https://stalchmst.com/donation
 
 
 happy_new_year:
-  pattern: '01-01-.*'
+  pattern: '^[0-9]+-01-01.*'
   message: |
-    Happy new year, Human!!! 🎉🎉🎉
+    Happy new year!!! 🎉🎉🎉
                                             .
                     . .                     -:-             .  .  .
                   .'.:,'.        .  .  .     ' .           . \ | / .
@@ -50,12 +50,26 @@ happy_new_year:
 
 
 happy_valentine:
-    pattern: '02-14-.*'
-    message: |
-      Happy valentine's, Human!!! ❤️❤️❤️
+  pattern: '^[0-9]+-02-14.*'
+  message: |
+    Happy Valentine's!!! ❤️❤️❤️
 
-      ,d88b.d88b,
-      88888888888
-      `Y8888888Y'
-        `Y888Y'    Peace and love be with you
-          `Y'
+    ,d88b.d88b,
+    88888888888
+    `Y8888888Y'
+      `Y888Y'    Peace and love be with you
+        `Y'
+
+
+world_braille_day:
+  pattern: '^[0-9]+-01-04.*'
+  Message: |
+    🤖 Happy Braille day
+    https://www.un.org/en/observances/braille-day
+
+
+international-day-of-education:
+  pattern: '^[0-9]+-01-24.*'
+  Message: |
+    🤖 Happy international day of education
+    https://www.un.org/en/observances/education-day
