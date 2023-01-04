@@ -6,7 +6,7 @@
 
 # 🤖 Zaruba 
 
-Zaruba is a [task](docs/coreConcepts/task/README.md) runner and [CLI utility](docs/utilities/README.md). It helps you __prepare__, __run__, __deploy__, and __debug__ your applications.
+Zaruba is a [task](docs/core-concepts/task/README.md) runner and [CLI utility](docs/utilities/README.md). It helps you __prepare__, __run__, __deploy__, and __debug__ your applications.
 
 We believe, a good tool not only increases productivity but also changes and transforms people. In turn, a good tool will enable people to achieve their goals and open many other opportunities.
 
@@ -59,9 +59,9 @@ Instead of opening many [Tmux](https://en.wikipedia.org/wiki/Tmux) panels, Zarub
 
 ![meme](docs/images/solution-meme.png)
 
-In Zaruba, you can think of [tasks](docs/coreConcepts/task/README.md) as [DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph). __A task can have many [dependencies](docs/coreConcepts/task/define-task-dependencies.md)__. And Zaruba will always run the dependencies first before running your tasks.
+In Zaruba, you can think of [tasks](docs/core-concepts/task/README.md) as [DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph). __A task can have many [dependencies](docs/core-concepts/task/define-task-dependencies.md)__. And Zaruba will always run the dependencies first before running your tasks.
 
-Zaruba also lets you __link [task environments](docs/coreConcepts/task/task-envs/README.md) to system environments__. This allows you to configure your applications as a single system.
+Zaruba also lets you __link [task environments](docs/core-concepts/task/task-envs/README.md) to system environments__. This allows you to configure your applications as a single system.
 
 Let's revisit the problem we discuss in the previous section.
 
@@ -305,7 +305,7 @@ To get started, you can:
 
 * [📖 Browse the documentation](docs/README.md),
 * [❇️ Follow end to end tutorials](docs/use-cases/from-zero-to-cloud.md), and
-* [🧠 Learn the core concept](docs/coreConcepts/README.md)
+* [🧠 Learn the core concept](docs/core-concepts/README.md)
 
 # ➕ Extra Prerequisites
 
