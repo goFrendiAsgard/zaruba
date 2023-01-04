@@ -14,40 +14,48 @@ We believe, a good tool not only increases productivity but also changes and tra
 
 Developing/debugging a system can be challenging. 
 
-Your system might consist of several applications that depend on each other. And you need to watch every message or error logged in your applications. So, you might end up opening many Tmux panels.
+Your system might consist of __several applications that depend on each other__. And you need to __watch every message or error logged__ by your applications. So, you might end up opening many Tmux panels.
 
-Suppose your system consists of:
+Let's say you have a system with the following components:
 - A __frontend__ application
 - A __backend__ application
 - __MySQL__
 - __Redis__
 
-You will need to run the following tasks __every time__:
+You will need to run a lot of commands whenever you want to run your system for debugging/development purposes.
+
+Let's take a look at the following diagram:
 
 ![problem](docs/images/problem.png)
 
-You can see that:
+You can quickly notice that:
 
-- ⛓️ Several tasks are better __running in parallel__ (i.e., `Run the MySQL container`, `Install pip packages`, `Run the Redis container`, `Run backend application`).
-- 🔗 Several tasks __have dependencies__ and cannot be executed properly unless the dependencies are resolved. For example:
-  - To run database migration, you have to `Run the MySQL container` and `Install pip packages` first.
-  - To start your backend application, you have to run database migration.
-- 📐 Several tasks might __share similar behavior__. For example:
-  - Running MySQL/Redis container is pretty much the same:
-    - First, you need to start the container.
-    - If the container is not there, you need to create and start it.
-  - To execute any Python-related tasks, you have to activate the virtual environment first.
+- ⛓️ You can run `Install Node Packages`, `Start MySql Container`, `Install Pip Packages`, and `Start Redis Container` __in parallel__.
+- 🔗 Some tasks __depend__ on other tasks. For example:
+  - To `Start Database Migration`, you must make sure that:
+    - MySql Container is already running.
+    - Necessary Pip packages have been installed.
+  - To `Start Backend Application`, you must make sure that:
+    - Redis Container is already running.
+    - MySql Container is already running.
+    - Database migration has been performed.
+  - To `Start Frontend Application`, you must make sure that the Frontend Application has been built properly.
+- 📐 Some tasks __share similar behavior__. For example, to start Redis/MySQL Container, you need to run the same command with a different set of parameters.
 - ⚙️ Several tasks might __share a similar configuration__. For example:
-  - `BACKEND_PORT` in your front end has to reflect `HTTP_PORT` in your backend.
+  - `BACKEND_PORT` in your Frontend should reflect `HTTP_PORT` in your Backend.
   - `DB_PASSWORD` in your backend has to reflect `MYSQL_ROOT_PASSWORD` in your MySQL container.
 
-Thus, you have to be careful when you want to run the system on your computer. You must ensure the configuration is correct and the tasks executed in order.
+There are a lot of things you need to consider, just to run your system on your local computer.
 
-Now, how to run your system with a __single command__? How do we __ensure task dependencies__? How to ensure that the __task configurations are in sync__ with each other? 
+Zaruba takes the burden from you by providing a nice task definition for your project. Thus, you will only need to run a short nice command to run everything at once:
+
+```bash
+zaruba please start
+```
 
 ## 💡 Solution
 
-Instead of opening many [Tmux](https://en.wikipedia.org/wiki/Tmux) panels, Zaruba allows you to create and run __a single task to run your entire system__.
+Instead of opening many [Tmux](https://en.wikipedia.org/wiki/Tmux) panels, Zaruba allows you to define and run __a single task to run everything at once__.
 
 ![meme](docs/images/solution-meme.png)
 
@@ -55,25 +63,146 @@ In Zaruba, you can think of [tasks](docs/coreConcepts/task/README.md) as [DAG](h
 
 Zaruba also lets you __link [task environments](docs/coreConcepts/task/task-envs/README.md) to system environments__. This allows you to configure your applications as a single system.
 
-Let's see the following example:
+Let's revisit the problem we discuss in the previous section.
 
-![meme](docs/images/solution-example.png)
+You can make a task definition like this (don't worry, Zaruba has generators for this):
 
-First, Zaruba allows you to __set task dependencies__ using `dependencies` keyword:
-- `start` depends on `startFrontend` and `startBackend`.
-- `startBackend` depends on `startMysql`.
+```yaml
+tasks:
 
-Zaruba also allows you to __share environment values__ among your tasks:
-- `startMysql.envs.MYSQL_ROOT_PASSWORD` and `startBackend.envs.DB_PASSWORD` shared the same value (i.e., `DB_PASSWORD=Alch3mist`).
-- `startFrontend.envs.BACKEND_PORT` and `startBackend.envs.APP_HTTP_PORT` shared the same value (i.e., `BACKEND_PORT=3000`).
+  start:
+    dependencies:
+      - startFrontend
+      - startBackend
+  
+  # 🐸 Frontend tasks
+  startFrontend:
+    location: ./frontend
+    extend: zrbStartApp
+    configs:
+      start: npm start
+      ports: 8080
+    envs:
+      BACKEND_PORT:
+        from: BACKEND_PORT
+    dependencies:
+      - buildFrontend
 
-More importantly, Zaruba allows you to __start your tasks__ by invoking a __single command__:
+  buildFrontend:
+    location: ./frontend
+    extend: zrbRunShellScript
+    configs:
+      start: tsc
+    dependencies:
+      - installNpmFrontend
 
-```bash
-zaruba please start
+  installNpmFrontend:
+    location: ./frontend
+    extend: zrbRunShellScript
+    configs:
+      start: npm install
+
+  # 🐍 Backend tasks
+  startBackend:
+    location: ./backend
+    extend: zrbStartApp
+    configs:
+      ports: ${APP_HTTP_PORT}
+      start: |
+        source venv/bin/activate
+        python main.py
+    envs:
+      APP_DB_USER:
+        from: DB_USER
+      APP_DB_PASSWORD:
+        from: DB_PASSWORD
+      APP_DB_PORT:
+        from: DB_PORT
+      APP_HTTP_PORT:
+        from: BACKEND_PORT
+    dependencies:
+      - migrateBackend
+      - startMysql
+      - startRedis
+
+  migrateBackend:
+    location: ./backend
+    extend: zrbRunShellScript
+    configs:
+      start: |
+        source venv/bin/activate
+        alembic upgrade head
+    envs:
+      APP_DB_USER:
+        from: DB_USER
+      APP_DB_PASSWORD:
+        from: DB_PASSWORD
+      APP_DB_PORT:
+        from: DB_PORT
+    dependencies:
+      - installPipBackend
+      - startMysql
+
+  installPipBackend:
+    location: ./backend
+    extend: zrbRunShellScript
+    configs:
+      start: |
+        source venv/bin/activate
+        pip install -r requirements.txt
+    envs:
+      APP_DB_USER:
+        from: DB_USER
+      APP_DB_PASSWORD:
+        from: DB_PASSWORD
+      APP_DB_PORT:
+        from: DB_PORT
+
+  # 🐬 Mysql tasks
+  startMysql:
+    extend: zrbStartDockerContainer
+    envs:
+      MYSQL_ROOT_PASSWORD:
+        from: DB_PASSWORD
+    configs:
+      imageName: mysql
+      port: 3306
+
+  # 🟥 Redis tasks
+  startRedis:
+    extend: zrbStartDockerContainer
+    configs:
+      imageName: redis
+      port: 6379
+      
 ```
 
-## 🔍 Tutorial
+
+Aside from the dependencies, you can also see that some of your tasks share the same environment value, for example `startBackend.envs.DB_PASSWORD` and `startMysql.envs.MYSQL_ROOT_PASSWORD` are refering to the same global environment, `DB_PASSWORD`.
+
+To define the environment, you need to create `.env` file as follow:
+
+```
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=toor
+BACKEND_HOST=localhost
+BACKEND_PORT=3000
+```
+
+Then you can invoke the following commands:
+
+```bash
+# start everything
+zaruba please start
+# start frontend only
+zaruba please startFrontend
+# start redis and mysql
+zaruba please startMysql startRedis
+```
+
+
+# 🔍 Tutorial
 
 You can visit the [end-to-end tutorials](docs/use-cases/from-zero-to-cloud.md) to see:
 
@@ -83,7 +212,7 @@ You can visit the [end-to-end tutorials](docs/use-cases/from-zero-to-cloud.md) t
 - How to run everything on your local computer as 🐳 containers (as monolith or microservices).
 - How to deploy everything on your ☸️ Kubernetes cluster.
 
-## 💡 Similar Projects/Solutions
+# 💡 Similar Projects/Solutions
 
 Zaruba is focusing on helping you to write/generate/run your applications. Some of those goals are overlapped with other tools. Zaruba __is not a replacement__ for those tools.
 
