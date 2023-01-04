@@ -65,7 +65,12 @@ Zaruba also lets you __link [task environments](docs/core-concepts/task/task-env
 
 Let's revisit the problem we discuss in the previous section.
 
-You can make a task definition like this (don't worry, Zaruba has generators for this):
+First, you can make a task definition like the following:
+
+<details>
+<summary>
+Expand to see the task definition.
+</summary>
 
 ```yaml
 tasks:
@@ -176,6 +181,9 @@ tasks:
       port: 6379
       
 ```
+</details>
+
+> 💡🤖 Don't be intimidated by the script, You can asks Zaruba to create the scripts automatically.
 
 
 Aside from the dependencies, you can also see that some of your tasks share the same environment value, for example `startBackend.envs.DB_PASSWORD` and `startMysql.envs.MYSQL_ROOT_PASSWORD` are refering to the same global environment, `DB_PASSWORD`.
