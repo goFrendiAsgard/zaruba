@@ -3,100 +3,11 @@ package helper
 import (
 	"encoding/json"
 	"fmt"
-	"regexp"
-	"strconv"
 	"strings"
 )
 
-var listKeyPattern = regexp.MustCompile(`\[([\-]?[0-9]+)\]`)
-
-func isListKey(key string) bool {
-	return listKeyPattern.MatchString(key)
-}
-
-func getIndexFromKey(key string) int {
-	matches := listKeyPattern.FindStringSubmatch(key)
-	if len(matches) > 0 {
-		index, err := strconv.Atoi(matches[1])
-		if err != nil {
-			return -1
-		}
-		return index
-	}
-	return -1
-}
-
-func Get(jsonStr string, key string) (result string, err error) {
-	keys := strings.Split(key, ".")
-	val, err := get(jsonStr, keys)
-	if err != nil {
-		return "", err
-	}
-	resultByte, err := json.Marshal(val)
-	if err != nil {
-		return "", err
-	}
-	return string(resultByte), err
-}
-
-func get(jsonStr string, keys []string) (val interface{}, err error) {
-	if len(keys) == 0 {
-		return nil, fmt.Errorf("key not found on %s: %#v", jsonStr, keys)
-	}
-	key, newKeys := keys[0], keys[1:]
-	newVal, err := getNewVal(key, jsonStr)
-	if err != nil {
-		return val, err
-	}
-	// this is the last index
-	if len(newKeys) == 0 {
-		return newVal, err
-	}
-	// recursive
-	newJsonBytes, err := json.Marshal(newVal)
-	if err != nil {
-		return val, err
-	}
-	return get(string(newJsonBytes), newKeys)
-}
-
-func getNewVal(key, jsonStr string) (newVal interface{}, err error) {
-	if isListKey(key) {
-		return getFromList(jsonStr, key)
-	}
-	return getFromDict(jsonStr, key)
-}
-
-func getFromList(jsonStr string, key string) (val interface{}, err error) {
-	index := getIndexFromKey(key)
-	var jsonList PList = &[]interface{}{}
-	if err = json.Unmarshal([]byte(jsonStr), jsonList); err != nil {
-		return val, err
-	}
-	if index < 0 {
-		index = len(*jsonList) + index
-	}
-	// get newVal
-	if index >= len(*jsonList) || index < 0 {
-		return nil, fmt.Errorf("list index out of bound")
-	}
-	return (*jsonList)[index], nil
-}
-
-func getFromDict(jsonStr string, key string) (val interface{}, err error) {
-	var jsonMap PDict = &map[string]interface{}{}
-	if err = json.Unmarshal([]byte(jsonStr), jsonMap); err != nil {
-		return val, err
-	}
-	// get newVal
-	return (*jsonMap)[key], nil
-}
-
 func Set(jsonStr string, key string, jsonStrVal string) (newJsonStr string, err error) {
-	var val interface{} = nil
-	if err = json.Unmarshal([]byte(jsonStrVal), &val); err != nil {
-		return newJsonStr, fmt.Errorf("cannot unmarshal %s: %#v", jsonStrVal, err)
-	}
+	var val interface{} = getValFromJsonStrVal(jsonStrVal)
 	keys := strings.Split(key, ".")
 	newJsonStr, err = set(jsonStr, keys, val)
 	if err != nil {
@@ -104,6 +15,14 @@ func Set(jsonStr string, key string, jsonStrVal string) (newJsonStr string, err 
 	}
 	return newJsonStr, err
 
+}
+
+func getValFromJsonStrVal(jsonStrVal string) (val interface{}) {
+	val = nil
+	if err := json.Unmarshal([]byte(jsonStrVal), &val); err != nil {
+		val = jsonStrVal
+	}
+	return val
 }
 
 func set(jsonStr string, keys []string, val interface{}) (newJsonStr string, err error) {
