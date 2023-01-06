@@ -9,6 +9,9 @@ Change timestamp into RFC3339 string
 Usage:
   zaruba time toString <timestamp> [flags]
 
+Aliases:
+  toString, toStr
+
 Examples:
 
 > zaruba time toString 1672578061

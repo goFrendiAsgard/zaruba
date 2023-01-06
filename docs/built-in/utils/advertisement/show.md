@@ -10,7 +10,7 @@ Show advertisement based on time-pattern in an advertisementFile.
 An advertisementFile is a YAML file containing some key-value configurations:
 
     <advertisement_name>:
-      pattern: <YYYY-MM-DD>
+      pattern: <RFC3339-regex-pattern>
       message: <message you want to show>
 
 Please refer to ${ZARUBA_HOME}/advertisement.yaml for more details.

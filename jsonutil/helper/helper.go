@@ -1,4 +1,4 @@
-package common
+package helper
 
 import (
 	"encoding/json"
@@ -9,6 +9,9 @@ type Dict map[string]interface{}
 type StringDict map[string]string
 type List []interface{}
 type StringList []string
+
+type PDict *map[string]interface{}
+type PList *[]interface{}
 
 func NormalizeObj(i interface{}) interface{} {
 	switch x := i.(type) {

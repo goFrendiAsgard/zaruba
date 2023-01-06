@@ -24,6 +24,14 @@ func NewJsonUtil(strUtil *strutil.StrUtil) *JsonUtil {
 	}
 }
 
+func (jsonUtil *JsonUtil) Get(jsonString string, key string) (result string, err error) {
+	return jsonHelper.Get(jsonString, key)
+}
+
+func (jsonUtil *JsonUtil) Set(jsonString string, key string, jsonStringVal string) (newJsonString string, err error) {
+	return jsonHelper.Set(jsonString, key, jsonStringVal)
+}
+
 func (jsonUtil *JsonUtil) FromInterface(obj interface{}) (jsonString string) {
 	return jsonHelper.FromInterface(obj)
 }

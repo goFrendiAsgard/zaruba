@@ -69,7 +69,7 @@ First, you can make a task definition like the following:
 
 <details>
 <summary>
-Expand to see the task definition.
+🔍 Expand to see the task definition.
 </summary>
 
 ```yaml
