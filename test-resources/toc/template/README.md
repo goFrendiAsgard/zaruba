@@ -23,3 +23,9 @@ Before Toc
         - Tea
 <!--endToc-->
 After Toc
+
+<!--startCode lang="python" src="scripts/hello.py"-->
+<!--endCode-->
+
+<!--startCode lang="bash" src="scripts/hello.sh"-->
+<!--endCode-->

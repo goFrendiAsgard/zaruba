@@ -26,7 +26,7 @@ This is a documentation for my cool project.
 
 var tocCmd = &cobra.Command{
 	Use:     "toc <tocFileLocation>",
-	Short:   "Create/update documentations based on TOC",
+	Short:   "Create/update documentations based on TOC file",
 	Example: tocExample,
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()

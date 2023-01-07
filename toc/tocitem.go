@@ -35,20 +35,20 @@ func (tocItem *TocItem) RenderNewContent() (err error) {
 	oldFileExist, oldFileExistErr := util.File.IsExist(tocItem.OldFileLocation)
 	// old file location is not defined or not exist
 	if tocItem.OldFileLocation == "" || !oldFileExist || oldFileExistErr != nil {
-		if err := tocItem.RenderNewContentToNewFile(tocHeader, tocSubtopic); err != nil {
+		if err := tocItem.RenderNewContentToNewFile(dirPath, tocHeader, tocSubtopic); err != nil {
 			return err
 		}
 		return tocItem.Children.RenderNewContent()
 	}
 	// old file location is defined
-	if err := tocItem.RenderNewContentFromOldFile(tocHeader, tocSubtopic); err != nil {
+	if err := tocItem.RenderNewContentFromOldFile(dirPath, tocHeader, tocSubtopic); err != nil {
 		return err
 	}
 	// also render children
 	return tocItem.Children.RenderNewContent()
 }
 
-func (tocItem *TocItem) RenderNewContentFromOldFile(tocHeader, tocSubtopic string) (err error) {
+func (tocItem *TocItem) RenderNewContentFromOldFile(dirPath, tocHeader, tocSubtopic string) (err error) {
 	util := tocItem.Toc.Util
 	oldFileContent, err := util.File.ReadText(tocItem.OldFileLocation)
 	if err != nil {
@@ -56,6 +56,10 @@ func (tocItem *TocItem) RenderNewContentFromOldFile(tocHeader, tocSubtopic strin
 	}
 	newFileContent := replaceTag(util, startTocHeaderTag, endTocHeaderTag, oldFileContent, tocHeader)
 	newFileContent = replaceTag(util, startTocSubtopicTag, endTocSubtopicTag, newFileContent, tocSubtopic)
+	newFileContent, err = ParseCode(util, dirPath, newFileContent)
+	if err != nil {
+		return err
+	}
 	if err := util.File.WriteText(tocItem.NewFileLocation, newFileContent, 0755); err != nil {
 		return err
 	}
@@ -68,7 +72,7 @@ func (tocItem *TocItem) RenderNewContentFromOldFile(tocHeader, tocSubtopic strin
 	return nil
 }
 
-func (tocItem *TocItem) RenderNewContentToNewFile(tocHeader, tocSubtopic string) (err error) {
+func (tocItem *TocItem) RenderNewContentToNewFile(dirPath, tocHeader, tocSubtopic string) (err error) {
 	newFileContent := strings.Join([]string{
 		startTocHeaderTag,
 		tocHeader,
@@ -78,6 +82,11 @@ func (tocItem *TocItem) RenderNewContentToNewFile(tocHeader, tocSubtopic string)
 		"",
 		tocItem.GetNewTaggedSubtopicContent(tocSubtopic),
 	}, "\n")
+	util := tocItem.Toc.Util
+	newFileContent, err = ParseCode(util, dirPath, newFileContent)
+	if err != nil {
+		return err
+	}
 	return tocItem.Toc.Util.File.WriteText(tocItem.NewFileLocation, newFileContent, 0755)
 }
 

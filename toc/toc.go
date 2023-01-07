@@ -25,6 +25,10 @@ func (toc *Toc) RenderNewContent() (err error) {
 		}
 	}
 	newContent := replaceTag(toc.Util, startTocTag, endTocTag, toc.FileContent, newTocSection)
+	newContent, err = ParseCode(toc.Util, dirPath, newContent)
+	if err != nil {
+		return err
+	}
 	if err := toc.Util.File.WriteText(toc.FileLocation, newContent, 0755); err != nil {
 		return err
 	}

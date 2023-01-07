@@ -1,12 +1,13 @@
 package toc
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/state-alchemists/zaruba/dsl"
 )
 
-var expectedTocFileContent = `# A simple documentation
+var expectedTocFileContent = fmt.Sprintf(`# A simple documentation
 
 In this documentation, there will be several things available
 
@@ -30,7 +31,44 @@ Before Toc
     - [Coffee](food-and-drinks/drinks/coffee.md)
     - [Tea](food-and-drinks/drinks/tea.md)
 <!--endToc-->
-After Toc`
+After Toc
+
+<!--startCode lang="python" src="scripts/hello.py"-->
+__Code__
+%s%s%spython
+print('hello world')
+%s%s%s
+__Output__
+%s%s%s
+hello world
+
+%s%s%s
+<!--endCode-->
+
+<!--startCode lang="bash" src="scripts/hello.sh"-->
+__Code__
+%s%s%sbash
+hello() {
+    if [ -z "$1"]
+    then
+        echo "Hello world"
+    else
+        echo "Hello $1"
+    fi
+}
+
+hello
+hello universe
+%s%s%s
+__Output__
+%s%s%s
+Hello world
+Hello universe
+
+%s%s%s
+<!--endCode-->
+`,
+	"`", "`", "`", "`", "`", "`", "`", "`", "`", "`", "`", "`", "`", "`", "`", "`", "`", "`", "`", "`", "`", "`", "`", "`")
 
 var expectedFoodFileContent = `<!--startTocHeader-->
 [🏠](../../README.md) > [Food and Drinks](../README.md)

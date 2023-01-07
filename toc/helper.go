@@ -52,3 +52,18 @@ func replaceTag(util *dsl.DSLUtil, startTag, endTag, content, replacement string
 		afterTag,
 	}, "")
 }
+
+func getTagAttribute(attributeStr string, attributeName string) (attributeVal string) {
+	attributeDelimiterPattern := regexp.MustCompile(fmt.Sprintf(`%s[\s]*=[\s]*(.)`, attributeName))
+	delimiterMatch := attributeDelimiterPattern.FindStringSubmatch(attributeStr)
+	delimiter := "\""
+	if len(delimiterMatch) > 0 {
+		delimiter = delimiterMatch[1]
+	}
+	attributePattern := regexp.MustCompile(fmt.Sprintf(`%s[\s]*=[\s]*%s([^%s]*)%s.*`, attributeName, delimiter, delimiter, delimiter))
+	match := attributePattern.FindStringSubmatch(attributeStr)
+	if len(match) > 0 {
+		return match[1]
+	}
+	return ""
+}
