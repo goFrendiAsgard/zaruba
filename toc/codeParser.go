@@ -19,12 +19,12 @@ func ParseCode(util *dsl.DSLUtil, dirPath, content string) (newContent string, e
 	newContent = content
 	for _, match := range matches {
 		attributeStr, oldCode := match[1], match[2]
-		lang, src, cmd := getCodeTagAttributes(attributeStr)
-		srcContent, err := util.File.ReadText(filepath.Join(dirPath, src))
+		lang, src, cmdStr := getCodeTagAttributes(attributeStr)
+		srcContent, err := getSrcContent(util, dirPath, src, cmdStr)
 		if err != nil {
 			return content, err
 		}
-		cmdResult, err := execCommand(dirPath, cmd)
+		cmdResult, err := execCommand(dirPath, cmdStr)
 		if err != nil {
 			return content, err
 		}
@@ -49,6 +49,13 @@ func ParseCode(util *dsl.DSLUtil, dirPath, content string) (newContent string, e
 	return newContent, err
 }
 
+func getSrcContent(util *dsl.DSLUtil, dirPath, src string, cmdStr string) (srcContent string, err error) {
+	if src != "" {
+		return util.File.ReadText(filepath.Join(dirPath, src))
+	}
+	return cmdStr, nil
+}
+
 func execCommand(dirPath, cmdStr string) (result string, err error) {
 	cmd := exec.Command("bash", "-c", cmdStr)
 	cmd.Dir = dirPath
@@ -58,10 +65,17 @@ func execCommand(dirPath, cmdStr string) (result string, err error) {
 
 func getCodeTagAttributes(attributeStr string) (lang, src, cmd string) {
 	lang = getTagAttribute(attributeStr, "lang")
+	if lang == "" {
+		lang = "sh"
+	}
 	src = getTagAttribute(attributeStr, "src")
 	cmd = getTagAttribute(attributeStr, "cmd")
 	if cmd == "" {
-		cmd = fmt.Sprintf("%s %s", lang, src)
+		if src != "" {
+			cmd = fmt.Sprintf("%s %s", lang, src)
+		} else {
+			cmd = `echo "undefined cmd"`
+		}
 	}
 	return lang, src, cmd
 }

@@ -4,7 +4,7 @@
 <!--endTocHeader-->
 
 ```
-Create/update documentations based on TOC
+Create/update documentations based on TOC file
 
 Usage:
   zaruba toc <tocFileLocation> [flags]
