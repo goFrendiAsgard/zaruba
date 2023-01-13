@@ -2,10 +2,9 @@ package toc
 
 import (
 	"fmt"
+	"path/filepath"
 	"regexp"
 	"strings"
-
-	"github.com/state-alchemists/zaruba/dsl"
 )
 
 var startTocTag = "<!--startToc-->"
@@ -15,7 +14,28 @@ var endTocHeaderTag = "<!--endTocHeader-->"
 var startTocSubtopicTag = "<!--startTocSubtopic-->"
 var endTocSubtopicTag = "<!--endTocSubtopic-->"
 
-func splitContentByTag(util *dsl.DSLUtil, startTag, endTag, content string) (beforeTag, inTag, afterTag string, isTagFound bool) {
+func replaceLink(linkReplacement map[string]string, oldFileLocation, newFileLocation, content string) (newContent string) {
+	if oldFileLocation == "" {
+		return content
+	}
+	oldDirLocation := filepath.Dir(oldFileLocation)
+	newDirLocation := filepath.Dir(newFileLocation)
+	newContent = content
+	for oldFileLocation, newFileLocation := range linkReplacement {
+		relativeOldLink, err := filepath.Rel(oldDirLocation, oldFileLocation)
+		if err != nil {
+			continue
+		}
+		relativeNewLink, err := filepath.Rel(newDirLocation, newFileLocation)
+		if err != nil {
+			continue
+		}
+		newContent = strings.Replace(newContent, relativeOldLink, relativeNewLink, -1)
+	}
+	return newContent
+}
+
+func splitContentByTag(startTag, endTag, content string) (beforeTag, inTag, afterTag string, isTagFound bool) {
 	r := regexp.MustCompile(fmt.Sprintf("(?s)(.*)%s(.*)%s(.*)", startTag, endTag))
 	matches := r.FindStringSubmatch(content)
 	isTagFound = false
@@ -28,8 +48,8 @@ func splitContentByTag(util *dsl.DSLUtil, startTag, endTag, content string) (bef
 	return beforeTag, inTag, afterTag, isTagFound
 }
 
-func replaceTag(util *dsl.DSLUtil, startTag, endTag, content, replacement string) (newContent string) {
-	beforeTag, _, afterTag, isTagFound := splitContentByTag(util, startTag, endTag, content)
+func replaceTag(startTag, endTag, content, replacement string) (newContent string) {
+	beforeTag, _, afterTag, isTagFound := splitContentByTag(startTag, endTag, content)
 	if !isTagFound {
 		return content
 	}

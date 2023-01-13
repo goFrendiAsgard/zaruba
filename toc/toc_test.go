@@ -1,13 +1,13 @@
 package toc
 
 import (
-	"fmt"
+	"strings"
 	"testing"
 
 	"github.com/state-alchemists/zaruba/dsl"
 )
 
-var expectedTocFileContent = fmt.Sprintf(`# A simple documentation
+var expectedTocFileContent = strings.Replace(`# A simple documentation
 
 In this documentation, there will be several things available
 
@@ -15,6 +15,8 @@ In this documentation, there will be several things available
 - New links
 - Renamed links
 - Old links
+
+[Link to food](food-and-drinks/food/README.md)
 
 Before Toc
 <!--startToc-->
@@ -35,19 +37,27 @@ After Toc
 
 <!--startCode lang="python" src="scripts/hello.py"-->
 __Code__
-%s%s%spython
+_TRIPLE_BACK_TICK_python
 print('hello world')
-%s%s%s
+_TRIPLE_BACK_TICK_
 __Output__
-%s%s%s
+_TRIPLE_BACK_TICK_
 hello world
 
-%s%s%s
-<!--endCode-->
+_TRIPLE_BACK_TICK_
+<!--endCode-->`,
+	"_TRIPLE_BACK_TICK_", "```", -1)
+
+var expectedFoodFileContent = strings.Replace(`<!--startTocHeader-->
+[🏠](../../README.md) > [Food and Drinks](../README.md)
+# Food
+<!--endTocHeader-->
+
+Article about food
 
 <!--startCode lang="bash" src="scripts/hello.sh"-->
 __Code__
-%s%s%sbash
+_TRIPLE_BACK_TICK_bash
 hello() {
     if [ -z "$1"]
     then
@@ -59,23 +69,14 @@ hello() {
 
 hello
 hello universe
-%s%s%s
+_TRIPLE_BACK_TICK_
 __Output__
-%s%s%s
+_TRIPLE_BACK_TICK_
 Hello world
 Hello universe
 
-%s%s%s
+_TRIPLE_BACK_TICK_
 <!--endCode-->
-`,
-	"`", "`", "`", "`", "`", "`", "`", "`", "`", "`", "`", "`", "`", "`", "`", "`", "`", "`", "`", "`", "`", "`", "`", "`")
-
-var expectedFoodFileContent = `<!--startTocHeader-->
-[🏠](../../README.md) > [Food and Drinks](../README.md)
-# Food
-<!--endTocHeader-->
-
-Article about food
 
 <!--startTocSubtopic-->
 # Subtopics
@@ -83,7 +84,8 @@ Article about food
   - [Apple](fruits/apple.md)
   - [Banana](fruits/banana.md)
 - [Nasi Goreng](nasi-goreng.md)
-<!--endTocSubtopic-->`
+<!--endTocSubtopic-->`,
+	"_TRIPLE_BACK_TICK_", "```", -1)
 
 func TestNewToc(t *testing.T) {
 	util := dsl.NewDSLUtil()

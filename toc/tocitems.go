@@ -28,6 +28,17 @@ func (tocItems TocItems) RenderNewContent() (err error) {
 	return nil
 }
 
+func (tocItems TocItems) GetLinkReplacement() (linkReplacement map[string]string) {
+	linkReplacement = map[string]string{}
+	for _, tocItem := range tocItems {
+		childLinkReplacement := tocItem.GetLinkReplacement()
+		for oldFileLocation, newFileLocation := range childLinkReplacement {
+			linkReplacement[oldFileLocation] = newFileLocation
+		}
+	}
+	return linkReplacement
+}
+
 func NewTocItems(toc *Toc, parent *TocItem, level int, lines []string) (tocItems TocItems, err error) {
 	tocItems = []*TocItem{}
 	completePattern, _ := regexp.Compile(`^([ \t]*)[\*-] \[(.*)\]\((.*)\).*$`)
