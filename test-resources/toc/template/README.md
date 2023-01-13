@@ -7,6 +7,8 @@ In this documentation, there will be several things available
 - Renamed links
 - Old links
 
+[Link to food](makanan.md)
+
 Before Toc
 <!--startToc-->
 - Vehicles
@@ -25,7 +27,4 @@ Before Toc
 After Toc
 
 <!--startCode lang="python" src="scripts/hello.py"-->
-<!--endCode-->
-
-<!--startCode lang="bash" src="scripts/hello.sh"-->
 <!--endCode-->

@@ -54,9 +54,10 @@ func (tocItem *TocItem) RenderNewContentFromOldFile(dirPath, tocHeader, tocSubto
 	if err != nil {
 		return err
 	}
-	newFileContent := replaceTag(util, startTocHeaderTag, endTocHeaderTag, oldFileContent, tocHeader)
-	newFileContent = replaceTag(util, startTocSubtopicTag, endTocSubtopicTag, newFileContent, tocSubtopic)
-	newFileContent, err = ParseCode(util, dirPath, newFileContent)
+	newFileContent := replaceTag(startTocHeaderTag, endTocHeaderTag, oldFileContent, tocHeader)
+	newFileContent = replaceTag(startTocSubtopicTag, endTocSubtopicTag, newFileContent, tocSubtopic)
+	newFileContent = replaceLink(tocItem.Toc.LinkReplacement, tocItem.OldFileLocation, tocItem.NewFileLocation, newFileContent)
+	newFileContent, err = tocItem.Toc.ParseCodeTag(newFileContent)
 	if err != nil {
 		return err
 	}
@@ -82,8 +83,7 @@ func (tocItem *TocItem) RenderNewContentToNewFile(dirPath, tocHeader, tocSubtopi
 		"",
 		tocItem.GetNewTaggedSubtopicContent(tocSubtopic),
 	}, "\n")
-	util := tocItem.Toc.Util
-	newFileContent, err = ParseCode(util, dirPath, newFileContent)
+	newFileContent, err = tocItem.Toc.ParseCodeTag(newFileContent)
 	if err != nil {
 		return err
 	}
@@ -177,6 +177,20 @@ func (tocItem *TocItem) getNewFileName() (fileName string) {
 		return fmt.Sprintf("%s.md", tocItem.KebabCaseTitle)
 	}
 	return filepath.Join(tocItem.KebabCaseTitle, "README.md")
+}
+
+func (tocItem *TocItem) GetLinkReplacement() (linkReplacement map[string]string) {
+	linkReplacement = map[string]string{}
+	if tocItem.OldFileLocation != "" {
+		linkReplacement[tocItem.OldFileLocation] = tocItem.NewFileLocation
+	}
+	for _, child := range tocItem.Children {
+		childLinkReplacement := child.GetLinkReplacement()
+		for oldFileLocation, newFileLocation := range childLinkReplacement {
+			linkReplacement[oldFileLocation] = newFileLocation
+		}
+	}
+	return linkReplacement
 }
 
 func NewTocItem(toc *Toc, parent *TocItem, level int, title, oldFileLocation string) (tocItem *TocItem) {
