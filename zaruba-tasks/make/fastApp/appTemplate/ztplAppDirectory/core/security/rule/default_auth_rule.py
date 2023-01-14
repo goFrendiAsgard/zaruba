@@ -4,13 +4,17 @@ from core.security.rule.auth_rule import AuthRule
 from schema.auth_type import AuthType
 from helper.transport.rpc import RPC
 
+
 class DefaultAuthRule(AuthRule):
 
     def __init__(self, rpc: RPC):
         self.rpc = rpc
 
-
-    def check_user_access(self, current_user: Optional[User], auth_type: int, permission_name: Optional[str] = None) -> bool:
+    def check_user_access(
+        self, current_user: Optional[User], 
+        auth_type: int,
+        permission_name: Optional[str] = None
+    ) -> bool:
         if auth_type == AuthType.ANYONE:
             return True
         if auth_type == AuthType.VISITOR:
@@ -21,5 +25,7 @@ class DefaultAuthRule(AuthRule):
             if current_user is None or not current_user.active:
                 return False
             current_user_data = current_user.dict()
-            return self.rpc.call('is_user_authorized', current_user_data, permission_name)
+            return self.rpc.call(
+                'is_user_authorized', current_user_data, permission_name
+            )
         return False

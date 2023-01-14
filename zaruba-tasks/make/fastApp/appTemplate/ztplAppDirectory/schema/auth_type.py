@@ -1,5 +1,6 @@
 from enum import IntEnum
 
+
 class AuthType(IntEnum):
     ANYONE = 0
     VISITOR = 1

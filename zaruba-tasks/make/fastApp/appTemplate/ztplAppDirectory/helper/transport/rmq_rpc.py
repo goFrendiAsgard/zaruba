@@ -1,5 +1,7 @@
 from typing import Any, Callable, List, Optional
-from pika.adapters.blocking_connection import BlockingChannel, BlockingConnection
+from pika.adapters.blocking_connection import (
+    BlockingChannel, BlockingConnection
+)
 from helper.transport.rpc import RPC
 from helper.transport.rmq_connection import RMQConnection
 from helper.transport.rmq_config import RMQEventMap
@@ -11,8 +13,6 @@ import uuid
 import pika
 import threading
 import logging
-import traceback
-import sys
 
 
 class RMQRPCReply(BaseModel):
@@ -156,7 +156,6 @@ class RMQRPC(RMQConnection, RPC):
                     exc_info=True
                 )
                 self._error_count += 1
-                print(traceback.format_exc(), file=sys.stderr)
             finally:
                 if not auto_ack:
                     ch.basic_ack(delivery_tag=method.delivery_tag)
@@ -236,9 +235,11 @@ class RMQRPCCaller():
         routing_key = self.event_map.get_queue_name(rpc_name)
         body = self.event_map.get_encoder(rpc_name)(args)
         self.ch.exchange_declare(
-            exchange=exchange, exchange_type='fanout', durable=True)
-        print({'action': 'call_rmq_rpc', 'rpc_name': rpc_name, 'args': args, 'exchange': exchange,
-              'routing_key': routing_key, 'correlation_id': self.corr_id, 'body': body}, file=sys.stderr)
+            exchange=exchange, exchange_type='fanout', durable=True
+        )
+        self._log_rpc_call(
+            rpc_name, args, exchange, routing_key, self.corr_id, body
+        )
         self.ch.basic_publish(
             exchange=exchange,
             routing_key=routing_key,
@@ -265,6 +266,23 @@ class RMQRPCCaller():
             raise Exception(self.reply.error_message)
         return self.reply.result
 
+    def _log_rpc_call(
+        self, rpc_name: str, args: Any, exchange: str, routing_key: str,
+        correlation_id: str, body: Any
+    ):
+        logging.info(
+            '\n'.join([
+                'Calling RPC {}',
+                ' Args: {}',
+                ' Exchange: {}',
+                ' Routing key: {}',
+                ' Correlation Id: {}'
+                ' Body: {}'
+            ]).format(
+                rpc_name, args, exchange, routing_key, correlation_id, body
+            )
+        )
+
     def _clean_up(self):
         self.ch.stop_consuming()
         self.ch.queue_delete(self.reply_queue)
@@ -283,14 +301,14 @@ class RMQRPCCaller():
                 try:
                     body = self.event_map.get_decoder(rpc_name)(body)
                     self.reply = RMQRPCReply.parse_obj(body)
-                    print({'action': 'get_rmq_rpc_reply', 'queue': reply_queue, 'correlation_id': self.corr_id, 'result': self.reply.result,
-                          'error': self.reply.error_message, 'error_status_code': self.reply.error_status_code}, file=sys.stderr)
-                except Exception as exception:
-                    print('Error while getting RPC reply {rpc_name}'.format(
-                        rpc_name=rpc_name), file=sys.stderr)
-                    print(traceback.format_exc(), file=sys.stderr)
-                    print({'action': 'get_rmq_rpc_reply', 'queue': reply_queue, 'correlation_id': self.corr_id, 'body': body, 'error': getattr(
-                        exception, 'message', repr(exception)), 'error_status_code': None}, file=sys.stderr)
+                    self._log_rpc_reply(
+                        rpc_name, self.reply.result, self.reply.error_message,
+                        self.reply.error_status_code, reply_queue, self.corr_id
+                    )
+                except Exception:
+                    self._log_rpc_reply_error(
+                        rpc_name, reply_queue, self.corr_id, body
+                    )
                 self.replied = True
             ch.basic_ack(delivery_tag=method.delivery_tag)
         return on_rpc_response
@@ -303,3 +321,36 @@ class RMQRPCCaller():
             if start + rpc_timeout < time.time() * 1000:
                 self.is_timeout = True
                 break
+
+    def _log_rpc_reply(
+        self, rpc_name: str, result: Any, error_message: str,
+        error_status_code: int, queue: str, correlation_id: str
+    ):
+        logging.info(
+            '\n'.join([
+                'Getting RPC reply {}',
+                ' Result: {}',
+                ' Error message: {}',
+                ' Error status code: {}',
+                ' Queue: {}',
+                ' Correlation Id: {}'
+            ]).format(
+                rpc_name, result, error_message, error_status_code,
+                queue, correlation_id
+            )
+        )
+
+    def _log_rpc_reply_error(
+        self, rpc_name: str, queue: str, correlation_id: str, body: Any
+    ):
+        logging.error(
+            '\n'.join([
+                'Error while handling RPC reply {}',
+                ' Queue: {}',
+                ' Correlation Id: {}'
+                ' Body: {}'
+            ]).format(
+                rpc_name, queue, correlation_id, body
+            ),
+            exc_info=True
+        )
