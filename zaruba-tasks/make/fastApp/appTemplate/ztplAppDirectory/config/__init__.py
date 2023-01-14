@@ -29,7 +29,7 @@ from config.rpc import rpc_type
 from config.rpc_factory import create_rpc
 from config.url import (
     create_cred_token_url, create_oauth_cred_token_url,
-    renew_cred_token_url, public_url_path, backend_address
+    renew_cred_token_url, public_url, backend_address
 )
 from config.ui import site_name, tagline, footer, renew_cred_token_interval
 from config.activity import activity_events

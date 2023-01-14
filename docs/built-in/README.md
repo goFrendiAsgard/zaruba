@@ -317,6 +317,7 @@
     - [toTitle](utils/str/to-title.md)
     - [toUpper](utils/str/to-upper.md)
     - [toUpperSnake](utils/str/to-upper-snake.md)
+    - [toUrlPath](utils/str/to-url-path.md)
   - [task](utils/task/README.md)
     - [addDependencies](utils/task/add-dependencies.md)
     - [addParents](utils/task/add-parents.md)

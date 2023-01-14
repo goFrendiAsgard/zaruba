@@ -169,7 +169,7 @@ def create_page_template() -> Jinja2Templates:
     templates.env.globals['tagline'] = tagline
     templates.env.globals['footer'] = footer
     templates.env.globals['backend_address'] = backend_address
-    templates.env.globals['public_url_path'] = public_url_path
+    templates.env.globals['public_url'] = public_url
     templates.env.globals['renew_cred_token_url'] = renew_cred_token_url
     templates.env.globals['renew_cred_token_interval'] = renew_cred_token_interval
     templates.env.globals['vue'] = escape_template
@@ -224,7 +224,7 @@ The settings are taken from environment variables as follows:
 create_oauth_cred_token_url_path: str = os.getenv('APP_CREATE_OAUTH_CRED_TOKEN_URL', '/api/v1/create-oauth-access-token/')
 create_cred_token_url_path: str = os.getenv('APP_CREATE_CRED_TOKEN_URL', '/api/v1/create-access-token/')
 renew_cred_token_url: str = os.getenv('APP_RENEW_CRED_TOKEN_URL', '/api/v1/refresh-access-token/')
-public_url_path: str = os.getenv('APP_PUBLIC_URL_PATH', '/public')
+public_url: str = os.getenv('APP_PUBLIC_URL_PATH', '/public')
 
 backend_address: str = os.getenv('APP_BACKEND_ADDRESS', 'http://localhost:{}'.format(http_port))
 ```
@@ -635,7 +635,7 @@ You can breakdown a page into several `partial` components. For example:
     <head>
         {% include 'default-partials/meta.html' %}
         {% include 'default-partials/include-css.html' %}
-        <link rel="icon" type="image/x-icon" href="{{ public_url_path}}/favicon/favicon.ico">
+        <link rel="icon" type="image/x-icon" href="{{ public_url}}/favicon/favicon.ico">
         {%if context.current_menu %}<title>{{ context.current_menu.title }}</title>{% endif %}
     </head>
     <body>

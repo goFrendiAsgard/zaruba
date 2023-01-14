@@ -15,7 +15,7 @@ from config.dir import public_dir
 from config.error import error_threshold
 from config.ui import site_name
 from config.feature_flag import enable_error_page, enable_ui
-from config.url import public_url_path 
+from config.url import public_url 
 from schema.menu_context import MenuContext
 from schema.auth_type import AuthType
 
@@ -69,7 +69,7 @@ def create_app(
 
     # 📢 serve public static directory (js, css, html, images, etc)
     if public_dir != '':
-        app.mount(public_url_path, StaticFiles(directory=public_dir), name='static-resources')
+        app.mount(public_url, StaticFiles(directory=public_dir), name='static-resources')
         print('Register static directory route', file=sys.stderr)
 
 

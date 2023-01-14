@@ -17,7 +17,7 @@ import sys
 ################################################
 def register_user_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, auth_service: AuthService):
 
-    @app.get('/api/v1/users/', response_model=UserResult)
+    @app.get('/api/v1/users', response_model=UserResult)
     def find_user(keyword: str='', limit: int=100, offset: int=0, current_user: Optional[User] = Depends(auth_service.has_permission('api:user:read'))) -> UserResult:
         '''
         Serving API to find users by keyword.
@@ -53,7 +53,7 @@ def register_user_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, auth_s
         return User.parse_obj(result)
 
 
-    @app.post('/api/v1/users/', response_model=User)
+    @app.post('/api/v1/users', response_model=User)
     def insert_user(data: UserData, current_user: Optional[User] = Depends(auth_service.has_permission('api:user:create'))) -> User:
         '''
         Serving API to insert new user.

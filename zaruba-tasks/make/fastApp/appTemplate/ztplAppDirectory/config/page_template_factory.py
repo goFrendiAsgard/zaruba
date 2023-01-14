@@ -2,7 +2,7 @@ from fastapi.templating import Jinja2Templates
 from config.dir import page_dir
 from config.ui import site_name, tagline, footer, renew_cred_token_interval
 from config.url import (
-    backend_address, public_url_path, renew_cred_token_url
+    backend_address, public_url, renew_cred_token_url
 )
 
 import os
@@ -18,7 +18,7 @@ def create_page_template() -> Jinja2Templates:
     tpl.env.globals['tagline'] = tagline
     tpl.env.globals['footer'] = footer
     tpl.env.globals['backend_address'] = backend_address
-    tpl.env.globals['public_url_path'] = public_url_path
+    tpl.env.globals['public_url'] = public_url
     tpl.env.globals['renew_cred_token_url'] = renew_cred_token_url
     tpl.env.globals['renew_cred_token_interval'] = renew_cred_token_interval
     tpl.env.globals['vue'] = escape_template

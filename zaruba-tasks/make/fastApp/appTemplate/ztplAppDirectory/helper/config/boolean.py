@@ -2,6 +2,9 @@ import os
 
 
 def get_boolean_env(env_name: str, default_value: bool) -> bool:
+    '''
+    Get environment value as boolean
+    '''
     env_value = os.getenv(env_name, '')
     # env value is not provided
     if env_value == '':

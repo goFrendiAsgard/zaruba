@@ -49,10 +49,10 @@ class MenuService():
             AuthType.USER,
             AuthType.HAS_PERMISSION
         ):
-            raise Exception(
-                'Cannot adding menu {} because it has invalid auth_type {}'
-                .format(name, auth_type)
-            )
+            raise Exception(' '.join([
+                'Cannot adding menu {}'.format(name),
+                'because it has invalid auth_type {}'.format(auth_type)
+            ]))
         menu = Menu(
             name=name,
             title=title,
@@ -62,12 +62,10 @@ class MenuService():
         )
         parent_menu = self._get_parent_menu_by_parent_name(parent_name)
         if parent_menu is None:
-            raise Exception(
-                ' '.join([
-                    'Cannot adding menu {}',
-                    'because the parent menu {} is not found'
-                ]).format(name, parent_name)
-            )
+            raise Exception(' '.join([
+                'Cannot adding menu {}'.format(name),
+                'because the parent menu {} is not found'.format(parent_name)
+            ]))
         parent_menu.add_submenu(menu)
         self.menu_map[name] = menu
         self.parent_map[name] = [

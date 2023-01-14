@@ -166,37 +166,28 @@ class RMQRPC(RMQConnection, RPC):
         error_status_code: int, exchange: str, routing_key: str,
         correlation_id: str
     ):
-        logging.info(
-            '\n'.join([
-                'Handle RPC {}',
-                ' Args: {}',
-                ' Result: {}',
-                ' Error message: {}',
-                ' Error status code: {}',
-                ' Exchange: {}',
-                ' Routing key: {}',
-                ' Correlation Id: {}'
-            ]).format(
-                rpc_name, args, result, error_message, error_status_code,
-                exchange, routing_key, correlation_id
-            )
-        )
+        logging.info(' '.join([
+            'Handle RPC {}'.format(rpc_name),
+            'Args: {}'.format(args),
+            'Result: {}'.format(result),
+            'Error message: {}'.format(error_message),
+            'Error status code: {}'.format(error_status_code),
+            'Exchange: {}'.format(exchange),
+            'Routing key: {}'.format(routing_key),
+            'Correlation Id: {}'.format(correlation_id)
+        ]))
 
     def _log_rpc_handling(
         self, rpc_name: str, args: Any, exchange: str, routing_key: str,
         correlation_id: str
     ):
-        logging.info(
-            '\n'.join([
-                'Handle RPC {}',
-                ' Args: {}',
-                ' Exchange: {}',
-                ' Routing key: {}',
-                ' Correlation Id: {}'
-            ]).format(
-                rpc_name, args, exchange, routing_key, correlation_id
-            )
-        )
+        logging.info(' '.join([
+            'Handle RPC {}'.format(rpc_name),
+            'Args: {}'.format(args),
+            'Exchange: {}'.format(exchange),
+            'Routing key: {}'.format(routing_key),
+            'Correlation Id: {}'.format(correlation_id)
+        ]))
 
     def call(self, rpc_name: str, *args: Any) -> Any:
         try:
@@ -270,18 +261,14 @@ class RMQRPCCaller():
         self, rpc_name: str, args: Any, exchange: str, routing_key: str,
         correlation_id: str, body: Any
     ):
-        logging.info(
-            '\n'.join([
-                'Calling RPC {}',
-                ' Args: {}',
-                ' Exchange: {}',
-                ' Routing key: {}',
-                ' Correlation Id: {}'
-                ' Body: {}'
-            ]).format(
-                rpc_name, args, exchange, routing_key, correlation_id, body
-            )
-        )
+        logging.info(' '.join([
+            'Calling RPC {}'.format(rpc_name),
+            'Args: {}'.format(args),
+            'Exchange: {}'.format(exchange),
+            'Routing key: {}'.format(routing_key),
+            'Correlation Id: {}'.format(correlation_id),
+            'Body: {}'.format(body)
+        ]))
 
     def _clean_up(self):
         self.ch.stop_consuming()
@@ -326,31 +313,21 @@ class RMQRPCCaller():
         self, rpc_name: str, result: Any, error_message: str,
         error_status_code: int, queue: str, correlation_id: str
     ):
-        logging.info(
-            '\n'.join([
-                'Getting RPC reply {}',
-                ' Result: {}',
-                ' Error message: {}',
-                ' Error status code: {}',
-                ' Queue: {}',
-                ' Correlation Id: {}'
-            ]).format(
-                rpc_name, result, error_message, error_status_code,
-                queue, correlation_id
-            )
-        )
+        logging.info(' '.join([
+            'Getting RPC reply {}'.format(rpc_name),
+            'Result: {}'.format(result),
+            'Error message: {}'.format(error_message),
+            'Error status code: {}'.format(error_status_code),
+            'Queue: {}'.format(queue),
+            'Correlation Id: {}'.format(correlation_id)
+        ]))
 
     def _log_rpc_reply_error(
         self, rpc_name: str, queue: str, correlation_id: str, body: Any
     ):
-        logging.error(
-            '\n'.join([
-                'Error while handling RPC reply {}',
-                ' Queue: {}',
-                ' Correlation Id: {}'
-                ' Body: {}'
-            ]).format(
-                rpc_name, queue, correlation_id, body
-            ),
-            exc_info=True
-        )
+        logging.error(' '.join([
+            'Error while handling RPC reply {}'.format(rpc_name),
+            'Queue: {}'.format(queue),
+            'Correlation Id: {}'.format(correlation_id),
+            'Body: {}'.format(body)
+        ]), exc_info=True)

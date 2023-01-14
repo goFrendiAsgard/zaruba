@@ -153,22 +153,14 @@ class KafkaAvroMessageBus(MessageBus):
     def _log_event_handling(
         self,  event_name: str, group_id: str, serialized_message: Any
     ):
-        log_template = '\n'.join([
-            'Handle event {}',
-            ' Topic: {}',
-            ' Key: {}',
-            ' Value: {}',
-            ' Offset: {}',
-            ' Group Id: {}'
-        ])
-        logging.info(log_template.format(
-            event_name,
-            serialized_message.topic(),
-            serialized_message.key(),
-            serialized_message.value(),
-            serialized_message.offset(),
-            group_id
-        ))
+        logging.info(' '.join([
+            'Handle event {}'.format(event_name),
+            'Topic: {}'.format(serialized_message.topic()),
+            'Key: {}'.format(serialized_message.key()),
+            'Value: {}'.format(serialized_message.value()),
+            'Offset: {}'.format(serialized_message.offset()),
+            'Group Id: {}'.format(group_id)
+        ]))
 
     def publish(self, event_name: str, message: Any) -> Any:
         serialized_message = self._event_map.get_encoder(event_name)(message)
@@ -206,20 +198,13 @@ class KafkaAvroMessageBus(MessageBus):
         self, event_name: str,  topic: str, key: Any, message: Any,
         serialized_message: Any
     ):
-        log_template = '\n'.join([
-            'Publish event {}',
-            ' Topic: {}',
-            ' Key: {}',
-            ' Message: {}',
-            ' Serialized message: {}'
-        ])
-        logging.info(log_template.format(
-            event_name,
-            topic,
-            key,
-            message,
-            serialized_message
-        ))
+        logging.info(' '.join([
+            'Publish event {}'.format(event_name),
+            'Topic: {}'.format(topic),
+            'Key: {}'.format(key),
+            'Message: {}'.format(message),
+            'Serialized message: {}'.format(serialized_message)
+        ]))
 
     def _create_kafka_topic(self, topic: str):
         create_kafka_topic(topic, {

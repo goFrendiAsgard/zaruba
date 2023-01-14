@@ -20,7 +20,7 @@ import logging
 def register_ztpl_app_crud_entity_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, auth_service: AuthService):
 
     @app.get(
-        '/api/v1/ztpl-app-crud-entities/',
+        '/api/v1/ztpl-app-crud-entities',
         response_model=ZtplAppCrudEntityResult
     )
     async def find_ztpl_app_crud_entities(
@@ -74,7 +74,7 @@ def register_ztpl_app_crud_entity_api_route(app: FastAPI, mb: AppMessageBus, rpc
         return ZtplAppCrudEntity.parse_obj(ztpl_app_crud_entity)
 
     @app.post(
-        '/api/v1/ztpl-app-crud-entities/',
+        '/api/v1/ztpl-app-crud-entities',
         response_model=ZtplAppCrudEntity
     )
     async def insert_ztpl_app_crud_entity(

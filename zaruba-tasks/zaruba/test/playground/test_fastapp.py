@@ -2,7 +2,14 @@ from typing import Any, Mapping
 import http.client
 import json
 
-def send_request(conn: http.client.HTTPConnection, method: str, url: str, payload: str, headers: Mapping[str, str]):
+
+def send_request(
+    conn: http.client.HTTPConnection,
+    method: str,
+    url: str,
+    payload: str,
+    headers: Mapping[str, str]
+):
     conn.request(method, url, payload, headers)
     res = conn.getresponse()
     data = res.read()
@@ -10,19 +17,28 @@ def send_request(conn: http.client.HTTPConnection, method: str, url: str, payloa
     print('raw response', raw_response)
     return raw_response
 
+
 def login(conn: http.client.HTTPConnection, username: str, password: str):
     payload = 'grant_type=&username={}&password={}&scope=&client_id=&client_secret='.format(username, password)
     headers = {
         'accept': 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded',
     }
-    raw_response = send_request(conn, 'POST', '/api/v1/create-oauth-access-token/', payload, headers)
+    raw_response = send_request(conn, 'POST', '/api/v1/create-oauth-access-token', payload, headers)
     decoded_response = json.loads(raw_response)
     print('decoded response', decoded_response)
     return decoded_response
 
-def send_json_request(conn: http.client.HTTPConnection, method: str, url: str, payload_object: Mapping[str, Any], cred_token: str = '', headers: Mapping[str, str] = {}):
-    if not 'Content-Type' in headers:
+
+def send_json_request(
+    conn: http.client.HTTPConnection,
+    method: str,
+    url: str,
+    payload_object: Mapping[str, Any],
+    cred_token: str = '',
+    headers: Mapping[str, str] = {}
+):
+    if 'Content-Type' not in headers:
         headers['Content-Type'] = 'application/json'
     if cred_token != '':
         headers['Authorization'] = 'Bearer {}'.format(cred_token)
@@ -31,6 +47,7 @@ def send_json_request(conn: http.client.HTTPConnection, method: str, url: str, p
     decoded_response = json.loads(raw_response)
     print('decoded response', decoded_response)
     return decoded_response
+
 
 conn = http.client.HTTPConnection("localhost", 3000)
 
@@ -41,7 +58,7 @@ assert response['token_type'] == 'bearer'
 cred_token = response['cred_token']
 
 print('🧪 create book')
-response = send_json_request(conn, 'POST', '/api/v1/books/', {
+response = send_json_request(conn, 'POST', '/api/v1/books', {
     'title': 'Homo Sapiens',
     'author': 'Yuval Noah Harari',
     'synopsis': 'A brief history of mankind',
@@ -75,12 +92,14 @@ assert response['synopsis'] == 'A brief history of mankind'
 assert response['isbn'] == '9780062316097'
 
 print('🧪 get books')
-response = send_json_request(conn, 'GET', '/api/v1/books/', {}, cred_token)
+response = send_json_request(conn, 'GET', '/api/v1/books', {}, cred_token)
 assert response['count'] == 1
 assert len(response['rows']) == 1
 
 print('🧪 delete book')
-response = send_json_request(conn, 'DELETE', '/api/v1/books/{}'.format(book_id), {}, cred_token)
+response = send_json_request(
+    conn, 'DELETE', '/api/v1/books/{}'.format(book_id), {}, cred_token
+)
 assert response['id'] == book_id
 assert response['title'] == 'Sapiens'
 assert response['author'] == 'Yuval Noah Harari'
@@ -88,6 +107,6 @@ assert response['synopsis'] == 'A brief history of mankind'
 assert response['isbn'] == '9780062316097'
 
 print('🧪 get books after delete')
-response = send_json_request(conn, 'GET', '/api/v1/books/', {}, cred_token)
+response = send_json_request(conn, 'GET', '/api/v1/books', {}, cred_token)
 assert response['count'] == 0
 assert len(response['rows']) == 0

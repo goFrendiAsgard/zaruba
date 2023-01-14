@@ -141,6 +141,7 @@
   - [toTitle](str/to-title.md)
   - [toUpper](str/to-upper.md)
   - [toUpperSnake](str/to-upper-snake.md)
+  - [toUrlPath](str/to-url-path.md)
 - [task](task/README.md)
   - [addDependencies](task/add-dependencies.md)
   - [addParents](task/add-parents.md)

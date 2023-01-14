@@ -118,16 +118,12 @@ class RMQMessageBus(RMQConnection, MessageBus):
     def _log_event_handling(
         self, event_name: str, message: Any, exchange: str, routing_key: str
     ):
-        logging.info(
-            '\n'.join([
-                'Handle event {}',
-                ' Message: {}',
-                ' Exchange: {}',
-                ' Routing key: {}'
-            ]).format(
-                event_name, message, exchange, routing_key
-            )
-        )
+        logging.info(' '.join([
+            'Handle event {}'.format(event_name),
+            'Message: {}'.format(message),
+            'Exchange: {}'.format(exchange),
+            'Routing key: {}'.format(routing_key)
+        ]))
 
     def publish(self, event_name: str, message: Any) -> Any:
         try:
@@ -158,18 +154,13 @@ class RMQMessageBus(RMQConnection, MessageBus):
             raise exception
 
     def _log_event_publish(
-        self, event_name: str, message: Any, exchange: str, 
+        self, event_name: str, message: Any, exchange: str,
         routing_key: str, body: Any
     ):
-        logging.info(
-            '\n'.join([
-                'Publish event {}',
-                ' Message: {}',
-                ' Exchange: {}',
-                ' Routing key: {}',
-                ' Body: {}'
-            ]).format(
-                event_name, message, exchange, routing_key, body
-            )
-        )
-
+        logging.info(' '.join([
+            'Publish event {}'.format(event_name),
+            'Message: {}'.format(message),
+            'Exchange: {}'.format(exchange),
+            'Routing key: {}'.format(routing_key),
+            'Body: {}'.format(body)
+        ]))

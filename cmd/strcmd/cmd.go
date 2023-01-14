@@ -33,4 +33,5 @@ func Init() {
 	Cmd.AddCommand(toTitleCmd)
 	Cmd.AddCommand(toUpperCmd)
 	Cmd.AddCommand(toUpperSnakeCmd)
+	Cmd.AddCommand(toUrlPath)
 }
