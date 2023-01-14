@@ -10,6 +10,7 @@ import time
 import uuid
 import pika
 import threading
+import logging
 import traceback
 import sys
 
@@ -22,7 +23,11 @@ class RMQRPCReply(BaseModel):
 
 class RMQRPC(RMQConnection, RPC):
 
-    def __init__(self, rmq_connection_parameters: pika.ConnectionParameters, rmq_event_map: RMQEventMap):
+    def __init__(
+        self,
+        rmq_connection_parameters: pika.ConnectionParameters,
+        rmq_event_map: RMQEventMap
+    ):
         RMQConnection.__init__(self, rmq_connection_parameters)
         self._event_map = rmq_event_map
         self._error_count = 0
@@ -32,70 +37,105 @@ class RMQRPC(RMQConnection, RPC):
 
     def handle(self, rpc_name: str) -> Callable[..., Any]:
         def register_rpc_handler(rpc_handler: Callable[..., Any]):
-            exchange = self._event_map.get_exchange_name(rpc_name)
-            queue = self._event_map.get_queue_name(rpc_name)
-            dead_letter_exchange = self._event_map.get_dead_letter_exchange(
-                rpc_name)
-            dead_letter_queue = self._event_map.get_dead_letter_queue(rpc_name)
-            auto_ack = self._event_map.get_auto_ack(rpc_name)
-            arguments = self._event_map.get_queue_arguments(rpc_name)
-            prefetch_count = self._event_map.get_prefetch_count(rpc_name)
-
-            def consume():
-                while not self._is_shutdown:
-                    connection: BlockingConnection = None
-                    try:
-                        connection = self.create_connection()
-                        ch = connection.channel()
-                        if self._event_map.get_ttl(rpc_name) > 0:
-                            ch.exchange_declare(
-                                exchange=dead_letter_exchange, exchange_type='fanout', durable=True)
-                            ch.queue_declare(
-                                queue=dead_letter_queue, durable=True, exclusive=False)
-                            ch.queue_bind(
-                                exchange=dead_letter_exchange, queue=dead_letter_queue)
-                        ch.exchange_declare(
-                            exchange=exchange, exchange_type='fanout', durable=True)
-                        ch.queue_declare(
-                            queue=queue, exclusive=False, durable=True, arguments=arguments)
-                        ch.queue_bind(exchange=exchange, queue=queue)
-                        ch.basic_qos(prefetch_count=prefetch_count)
-                        on_rpc_request = self._create_rpc_request_handler(
-                            rpc_name, exchange, queue, auto_ack, rpc_handler)
-                        ch.basic_consume(
-                            queue=queue, on_message_callback=on_rpc_request, auto_ack=auto_ack)
-                        ch.start_consuming()
-                    except:
-                        print('Error while consuming queue {queue}'.format(
-                            queue=queue), file=sys.stderr)
-                        self.remove_connection(connection)
-                        self._error_count += 1
+            consume = self._create_consumer(rpc_name, rpc_handler)
             thread = threading.Thread(target=consume)
             thread.start()
         return register_rpc_handler
 
-    def _create_rpc_request_handler(self, rpc_name: str, exchange: str, queue: str, auto_ack: bool, rpc_handler: Callable[..., Any]):
+    def _create_consumer(
+        self, rpc_name: str, rpc_handler: Callable[[Any], Any]
+    ) -> Callable[[Any], Any]:
+        def consume():
+            exchange = self._event_map.get_exchange_name(rpc_name)
+            queue = self._event_map.get_queue_name(rpc_name)
+            auto_ack = self._event_map.get_auto_ack(rpc_name)
+            while not self._is_shutdown:
+                connection: BlockingConnection = None
+                try:
+                    connection = self.create_connection()
+                    ch = self._create_consumer_channel(connection, rpc_name)
+                    # create handler and start consuming
+                    ch.basic_consume(
+                        queue=queue,
+                        on_message_callback=self._create_rpc_request_handler(
+                            rpc_name, exchange, queue, auto_ack,
+                            rpc_handler
+                        ),
+                        auto_ack=auto_ack
+                    )
+                    ch.start_consuming()
+                except Exception:
+                    logging.error(
+                        'Cannot consume from queue {}'.format(queue),
+                        exc_info=True
+                    )
+                    self.remove_connection(connection)
+                    self._error_count += 1
+        return consume
+
+    def _create_consumer_channel(
+        self, connection: BlockingConnection, event_name: str
+    ) -> BlockingChannel:
+        exchange = self._event_map.get_exchange_name(event_name)
+        queue = self._event_map.get_queue_name(event_name)
+        dlx = self._event_map.get_dead_letter_exchange(
+            event_name
+        )
+        dlq = self._event_map.get_dead_letter_queue(
+            event_name
+        )
+        arguments = self._event_map.get_queue_arguments(event_name)
+        prefetch_count = self._event_map.get_prefetch_count(event_name)
+        ttl = self._event_map.get_ttl(event_name)
+        ch = connection.channel()
+        if ttl > 0:
+            ch.exchange_declare(
+                exchange=dlx, exchange_type='fanout', durable=True
+            )
+            ch.queue_declare(queue=dlq, durable=True, exclusive=False)
+            ch.queue_bind(exchange=dlx, queue=dlq)
+        ch.exchange_declare(
+            exchange=exchange, exchange_type='fanout', durable=True
+        )
+        ch.queue_declare(
+            queue=queue, exclusive=False, durable=True, arguments=arguments
+        )
+        ch.queue_bind(exchange=exchange, queue=queue)
+        ch.basic_qos(prefetch_count=prefetch_count)
+        return ch
+
+    def _create_rpc_request_handler(
+        self, rpc_name: str, exchange: str, queue: str, auto_ack: bool,
+        rpc_handler: Callable[..., Any]
+    ):
         def on_rpc_request(ch, method, props, body):
             try:
                 args: List[Any] = self._event_map.get_decoder(rpc_name)(body)
-                print({'action': 'handle_rmq_rpc', 'rpc_name': rpc_name, 'args': args, 'exchange': exchange,
-                      'routing_key': queue, 'correlation_id': props.correlation_id}, file=sys.stderr)
+                self._log_rpc_handling(
+                    rpc_name, args, exchange, queue, props.correlation_id
+                )
                 reply = RMQRPCReply()
                 try:
                     reply.result = rpc_handler(*args)
                 except HTTPException as exception:
                     reply.error_message = exception.detail
                     reply.error_status_code = exception.status_code
-                    print('Error while handling rpc {rpc_name} with arguments {args}'.format(
-                        rpc_name=rpc_name, args=args), file=sys.stderr)
-                    print(traceback.format_exc(), file=sys.stderr)
+                    logging.error(
+                        'Error while handling RPC {} with arguments {}'.format(
+                            rpc_name, args
+                        ),
+                        exc_info=True
+                    )
                 except Exception as exception:
                     reply.error_message = getattr(
                         exception, 'message', repr(exception))
                     self._error_count += 1
-                    print('Error while handling rpc {rpc_name} with arguments {args}'.format(
-                        rpc_name=rpc_name, args=args), file=sys.stderr)
-                    print(traceback.format_exc(), file=sys.stderr)
+                    logging.error(
+                        'Error while handling RPC {} with arguments {}'.format(
+                            rpc_name, args
+                        ),
+                        exc_info=True
+                    )
                 body: Any = self._event_map.get_encoder(rpc_name)(reply.dict())
                 # send reply
                 ch.basic_publish(
@@ -105,11 +145,16 @@ class RMQRPC(RMQConnection, RPC):
                         correlation_id=props.correlation_id),
                     body=body
                 )
-                print({'action': 'send_rmq_rpc_reply', 'rpc_name': rpc_name, 'args': args, 'result': reply.result, 'error': reply.error_message,
-                      'error_status_code': reply.error_status_code, 'exchange': exchange, 'routing_key': queue, 'correlation_id': props.correlation_id}, file=sys.stderr)
+                self._log_rpc_handling(
+                    rpc_name, args, reply.result, reply.error_message,
+                    reply.error_status_code, exchange, queue,
+                    props.correlation_id
+                )
             except Exception:
-                print('Error while handling rpc {rpc_name}'.format(
-                    rpc_name=rpc_name), file=sys.stderr)
+                logging.error(
+                    'Error while handling RPC {}'.format(rpc_name),
+                    exc_info=True
+                )
                 self._error_count += 1
                 print(traceback.format_exc(), file=sys.stderr)
             finally:
@@ -117,13 +162,54 @@ class RMQRPC(RMQConnection, RPC):
                     ch.basic_ack(delivery_tag=method.delivery_tag)
         return on_rpc_request
 
+    def _log_rpc_reply(
+        self, rpc_name: str, args: Any, result: Any, error_message: str,
+        error_status_code: int, exchange: str, routing_key: str,
+        correlation_id: str
+    ):
+        logging.info(
+            '\n'.join([
+                'Handle RPC {}',
+                ' Args: {}',
+                ' Result: {}',
+                ' Error message: {}',
+                ' Error status code: {}',
+                ' Exchange: {}',
+                ' Routing key: {}',
+                ' Correlation Id: {}'
+            ]).format(
+                rpc_name, args, result, error_message, error_status_code,
+                exchange, routing_key, correlation_id
+            )
+        )
+
+    def _log_rpc_handling(
+        self, rpc_name: str, args: Any, exchange: str, routing_key: str,
+        correlation_id: str
+    ):
+        logging.info(
+            '\n'.join([
+                'Handle RPC {}',
+                ' Args: {}',
+                ' Exchange: {}',
+                ' Routing key: {}',
+                ' Correlation Id: {}'
+            ]).format(
+                rpc_name, args, exchange, routing_key, correlation_id
+            )
+        )
+
     def call(self, rpc_name: str, *args: Any) -> Any:
         try:
             caller = RMQRPCCaller(self)
             return caller.call(rpc_name, *args)
         except Exception as exception:
-            print('Error while calling RPC {rpc_name} with arguments: {args}'.format(
-                rpc_name=rpc_name, args=args), file=sys.stderr)
+            logging.error(
+                'Error while calling RPC {} with arguments {}'.format(
+                    rpc_name, args
+                ),
+                exc_info=True
+            )
             self._error_count += 1
             raise exception
 

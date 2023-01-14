@@ -152,10 +152,7 @@ class KafkaMessageBus(MessageBus):
         raise Exception('Cannot create consumer for topic {}'.format(topic))
 
     def _log_event_handling(
-        self,
-        event_name: str,
-        group_id: str,
-        serialized_message: Any
+        self,  event_name: str, group_id: str, serialized_message: Any
     ):
         log_template = '\n'.join([
             'Handle event {}',
@@ -201,11 +198,7 @@ class KafkaMessageBus(MessageBus):
             raise exception
 
     def _log_event_publish(
-        self,
-        event_name: str,
-        topic: str,
-        key: Any,
-        message: Any,
+        self, event_name: str,  topic: str, key: Any, message: Any,
         serialized_message: Any
     ):
         log_template = '\n'.join([

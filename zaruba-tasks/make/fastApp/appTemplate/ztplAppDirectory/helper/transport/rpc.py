@@ -1,6 +1,7 @@
 from typing import Any, Callable
 import abc
 
+
 class RPC(abc.ABC):
 
     @abc.abstractmethod

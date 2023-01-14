@@ -8,8 +8,6 @@ from helper.transport.rmq_config import RMQEventMap
 
 import pika
 import threading
-import traceback
-import sys
 import logging
 
 
@@ -52,10 +50,7 @@ class RMQMessageBus(RMQConnection, MessageBus):
                     ch.basic_consume(
                         queue=queue,
                         on_message_callback=self._create_event_handler(
-                            event_name,
-                            exchange,
-                            queue,
-                            auto_ack,
+                            event_name, exchange, queue, auto_ack,
                             event_handler
                         ),
                         auto_ack=auto_ack
@@ -71,9 +66,7 @@ class RMQMessageBus(RMQConnection, MessageBus):
         return consume
 
     def _create_consumer_channel(
-        self,
-        connection: BlockingConnection,
-        event_name: str
+        self, connection: BlockingConnection, event_name: str
     ) -> BlockingChannel:
         exchange = self._event_map.get_exchange_name(event_name)
         queue = self._event_map.get_queue_name(event_name)
@@ -104,28 +97,37 @@ class RMQMessageBus(RMQConnection, MessageBus):
         return ch
 
     def _create_event_handler(
-        self,
-        event_name: str,
-        exchange: str,
-        queue: str,
-        auto_ack: bool,
+        self, event_name: str, exchange: str, queue: str, auto_ack: bool,
         event_handler: Callable[[Any], Any]
     ):
         def on_event(ch, method, props, body):
             try:
                 message = self._event_map.get_decoder(event_name)(body)
-                print({'action': 'handle_rmq_event', 'event_name': event_name, 'message': message,
-                      'exchange': exchange, 'routing_key': queue}, file=sys.stderr)
+                self._log_event_handling(event_name, message, exchange, queue)
                 event_handler(message)
             except Exception:
-                print('Error while handling event {event_name}'.format(
-                    event_name=event_name), file=sys.stderr)
+                logging.error(
+                    'Cannot handle event {}'.format(event_name), exc_info=True
+                )
                 self._error_count += 1
-                print(traceback.format_exc(), file=sys.stderr)
             finally:
                 if not auto_ack:
                     ch.basic_ack(delivery_tag=method.delivery_tag)
         return on_event
+
+    def _log_event_handling(
+        self, event_name: str, message: Any, exchange: str, routing_key: str
+    ):
+        logging.info(
+            '\n'.join([
+                'Handle event {}',
+                ' Message: {}',
+                ' Exchange: {}',
+                ' Routing key: {}'
+            ]).format(
+                event_name, message, exchange, routing_key
+            )
+        )
 
     def publish(self, event_name: str, message: Any) -> Any:
         try:
@@ -135,12 +137,11 @@ class RMQMessageBus(RMQConnection, MessageBus):
             body = self._event_map.get_encoder(event_name)(message)
             ch = connection.channel()
             ch.exchange_declare(
-                exchange=exchange,
-                exchange_type='fanout',
-                durable=True
+                exchange=exchange, exchange_type='fanout', durable=True
             )
-            print({'action': 'publish_rmq_event', 'event_name': event_name, 'message': message,
-                  'exchange': exchange, 'routing_key': routing_key, 'body': body}, file=sys.stderr)
+            self._log_event_publish(
+                event_name, message, exchange, routing_key, body
+            )
             ch.basic_publish(
                 exchange=exchange,
                 routing_key=routing_key,
@@ -148,7 +149,27 @@ class RMQMessageBus(RMQConnection, MessageBus):
             )
             self.remove_connection(connection)
         except Exception as exception:
-            print('Error while publishing event {event_name} with messages: {message}'.format(
-                event_name=event_name, message=message), file=sys.stderr)
+            logging.error(
+                'Error publishing event {} with message: {}'.format(
+                    event_name, message
+                )
+            )
             self._error_count += 1
             raise exception
+
+    def _log_event_publish(
+        self, event_name: str, message: Any, exchange: str, 
+        routing_key: str, body: Any
+    ):
+        logging.info(
+            '\n'.join([
+                'Publish event {}',
+                ' Message: {}',
+                ' Exchange: {}',
+                ' Routing key: {}',
+                ' Body: {}'
+            ]).format(
+                event_name, message, exchange, routing_key, body
+            )
+        )
+
