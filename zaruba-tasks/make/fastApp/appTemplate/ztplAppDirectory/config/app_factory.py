@@ -7,7 +7,10 @@ from fastapi.templating import Jinja2Templates
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from core import MenuService, PageTemplateException
 from helper.transport import MessageBus, RPC
-from config.cors import cors_allow_credentials, cors_allow_headers, cors_allow_methods, cors_allow_origin_regex, cors_allow_origins, cors_expose_headers, cors_max_age
+from config.cors import (
+    cors_allow_credentials, cors_allow_headers, cors_allow_methods, cors_allow_origin_regex, 
+    cors_allow_origins, cors_expose_headers, cors_max_age
+)
 from config.dir import public_dir
 from config.error import error_threshold
 from config.ui import site_name
@@ -20,7 +23,12 @@ import re
 import sys
 import traceback
 
-def create_app(mb: MessageBus, rpc: RPC, menu_service: MenuService, page_template: Jinja2Templates) -> FastAPI:
+def create_app(
+    mb: MessageBus, 
+    rpc: RPC, 
+    menu_service: MenuService, 
+    page_template: Jinja2Templates
+) -> FastAPI:
     app = FastAPI(title=site_name)
 
 

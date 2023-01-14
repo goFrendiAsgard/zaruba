@@ -6,10 +6,10 @@
     axios.defaults.validateStatus = (status) => true;
     const appHelper = new AppHelper({
         axios,
-        createAccessTokenUrl: '{{ backend_url }}{{ create_acess_token_path }}',
-        renewAccessTokenUrl: '{{ backend_url }}{{ renew_access_token_url_path }}',
-        renewAccessTokenInterval: '{{ renew_access_token_interval }}',
-        accessTokenCookieKey: 'app_access_token',
+        createCredTokenUrl: '{{ backend_address }}{{ create_cred_token_url }}',
+        renewCredTokenUrl: '{{ backend_address }}{{ renew_cred_token_url }}',
+        renewCredTokenInterval: '{{ renew_cred_token_interval }}',
+        credTokenCookieKey: 'app_cred_token',
     });
-    appHelper.renewAccessToken();
+    appHelper.renewCredToken();
 </script>

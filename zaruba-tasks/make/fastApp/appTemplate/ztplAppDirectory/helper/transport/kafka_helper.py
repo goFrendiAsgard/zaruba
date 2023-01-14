@@ -1,23 +1,34 @@
 from typing import Mapping, Any
-
 from confluent_kafka.admin import AdminClient, NewTopic
-import traceback
-import sys
+import logging
+
 
 def create_kafka_topic(topic, config: Mapping[str, Any]):
     kafka_admin = AdminClient(config)
     topic_metadata = kafka_admin.list_topics()
-    trial = 3
-    while topic_metadata.topics.get(topic) is None and trial > 0:
+    attempt, limit_attempt = 1, 3
+    while attempt <= limit_attempt:
         try:
-            print({'action': 'create_kafka_topic', 'topic': topic}, file=sys.stderr)
-            fs = kafka_admin.create_topics([NewTopic(topic, 1, 1)], request_timeout=15.0, validate_only=False)
-            for _topic, f in fs.items():
+            logging.info('Creating kafka topic (attempt {} of {}): {}'.format(
+                attempt, limit_attempt, topic
+            ))
+            fs = kafka_admin.create_topics(
+                [NewTopic(topic, 1, 1)],
+                request_timeout=15.0,
+                validate_only=False
+            )
+            for _, f in fs.items():
                 f.result()
             topic_metadata = kafka_admin.list_topics()
-            trial -=1
-        except:
-            print('Error while creating topic {topic}'.format(topic=topic), file=sys.stderr)
-            print(traceback.format_exc(), file=sys.stderr)
-    if topic_metadata.topics.get(topic) is None and trial > 0:
+        except Exception:
+            logging.error(
+                'Error creating kafka topic (attempt {} of {}): {}'.format(
+                    attempt, limit_attempt, topic
+                ),
+                exc_info=True
+            )
+        attempt += 1
+        if topic_metadata.topics.get(topic) is not None:
+            break
+    if topic_metadata.topics.get(topic) is None:
         raise Exception('Cannot create topic: {}'.format(topic))

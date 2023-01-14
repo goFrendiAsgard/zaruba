@@ -24,7 +24,7 @@
                 <th>Object</th>
                 <th>Data Id</th>
                 <th>Data</th>
-                <!-- Put column header here, Note: 🤖 Don't delete this line; Zaruba uses it for pattern matching --> 
+                <!-- Put column header here, Note: 🤖 Don't delete this line --> 
             </tr>
         </thead>
         <tbody>
@@ -38,7 +38,7 @@
                 <td>
                     <textarea class="form-control-plaintext" readonly rows="5" cols="65">{{ JSON.stringify(row.row, null, 2) }}</textarea>
                 </td>
-                <!-- Put column value here, Note: 🤖 Don't delete this line; Zaruba uses it for pattern matching -->
+                <!-- Put column value here, Note: 🤖 Don't delete this line -->
             </tr>
         </tbody>
     </table>

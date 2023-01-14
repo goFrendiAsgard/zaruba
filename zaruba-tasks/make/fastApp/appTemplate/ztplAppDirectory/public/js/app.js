@@ -2,10 +2,10 @@ class AppHelper {
 
     constructor(configs) {
         this.axios = configs.axios;
-        this.createAccessTokenUrl = configs.createAccessTokenUrl;
-        this.renewAccessTokenUrl = configs.renewAccessTokenUrl;
-        this.renewAccessTokenInterval = configs.renewAccessTokenInterval;
-        this.accessTokenCookieKey = configs.accessTokenCookieKey;
+        this.createCredTokenUrl = configs.createCredTokenUrl;
+        this.renewCredTokenUrl = configs.renewCredTokenUrl;
+        this.renewCredTokenInterval = configs.renewCredTokenInterval;
+        this.credTokenCookieKey = configs.credTokenCookieKey;
         this.appMode = configs.appMode;
     }
 
@@ -79,22 +79,22 @@ class AppHelper {
     }
 
     async login(username, password) {
-        const response = await this.axios.post(this.createAccessTokenUrl, {username, password});
-        if (response && response.status == 200 && response.data && response.data.access_token) {
-            this.setCookie(this.accessTokenCookieKey, response.data.access_token);
+        const response = await this.axios.post(this.createCredTokenUrl, {username, password});
+        if (response && response.status == 200 && response.data && response.data.cred_token) {
+            this.setCookie(this.credTokenCookieKey, response.data.cred_token);
             return true
         }
         throw new Error(this.getResponseErrorMessage(response, 'Login failed'));
     }
 
     logout() {
-        this.unsetCookie(this.accessTokenCookieKey)
+        this.unsetCookie(this.credTokenCookieKey)
     }
 
     getAuthBearer() {
-        const access_token = this.getCookie(this.accessTokenCookieKey)
-        if (access_token != '') {
-            return 'Bearer ' + access_token;
+        const cred_token = this.getCookie(this.credTokenCookieKey)
+        if (cred_token != '') {
+            return 'Bearer ' + cred_token;
         }
         return '';
     }
@@ -107,21 +107,21 @@ class AppHelper {
         return {};
     }
 
-    async renewAccessToken() {
-        const access_token = this.getCookie(this.accessTokenCookieKey)
-        if (access_token != '') {
+    async renewCredToken() {
+        const cred_token = this.getCookie(this.credTokenCookieKey)
+        if (cred_token != '') {
             try {
-                const response = await this.axios.post(this.renewAccessTokenUrl, {access_token}, this.getConfigAuthHeader());
-                if (response && response.status == 200 && response.data && response.data.access_token) {
-                    this.setCookie(this.accessTokenCookieKey, response.data.access_token);
+                const response = await this.axios.post(this.renewCredTokenUrl, {cred_token}, this.getConfigAuthHeader());
+                if (response && response.status == 200 && response.data && response.data.cred_token) {
+                    this.setCookie(this.credTokenCookieKey, response.data.cred_token);
                 } else {
-                    this.unsetCookie(this.accessTokenCookieKey);
+                    this.unsetCookie(this.credTokenCookieKey);
                 }
             } catch(error) {
                 console.error(error);
             }
         }
-        setTimeout(() => this.renewAccessToken(this.renewAccessTokenUrl, this.renewAccessTokenInterval), this.renewAccessTokenInterval * 1000)
+        setTimeout(() => this.renewCredToken(this.renewCredTokenUrl, this.renewCredTokenInterval), this.renewCredTokenInterval * 1000)
     }
 
     alert(message) {

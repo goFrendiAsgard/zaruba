@@ -30,16 +30,16 @@ def test_session_service_with_authenticated_user():
     root_user_data.permissions = ['root']
     root_user = user_repo.insert(root_user_data)
     # test create token
-    token = session_service.create_access_token('root', 'root_password')
+    token = session_service.create_cred_token('root', 'root_password')
     # make sure token service return correct value
-    assert token_service.get_user_by_token(token).id == root_user.id
+    assert token_service.get_user_by_cred_token(token).id == root_user.id
     # test refresh token
-    new_token = session_service.renew_access_token(token)
+    new_token = session_service.renew_cred_token(token)
     # make sure token service return correct value
-    assert token_service.get_user_by_token(new_token).id == root_user.id
+    assert token_service.get_user_by_cred_token(new_token).id == root_user.id
 
 
-def test_session_service_create_access_token_for_unauthenticated_user():
+def test_session_service_create_cred_token_for_unauthenticated_user():
     engine = create_engine('sqlite://', echo=False)
     role_repo = DBRoleRepo(engine=engine, create_all=True)
     user_repo = DBUserRepo(engine=engine, create_all=True)
@@ -51,8 +51,10 @@ def test_session_service_create_access_token_for_unauthenticated_user():
     session_service = SessionService(user_service, token_service)
     is_error_happened = False
     try:
-        session_service.create_access_token('invalid_identity', 'invalid_password')
-    except:
+        session_service.create_cred_token(
+            'invalid_identity', 'invalid_password'
+        )
+    except Exception:
         is_error_happened = True
     # make sure token service throw error
     assert is_error_happened

@@ -99,7 +99,7 @@ from transport import AppMessageBus, AppRPC
 import traceback
 import sys
 
-# Note: 🤖 Don't delete the following line, Zaruba use it for pattern matching
+# Note: 🤖 Don't delete the following statement
 def register_library_rpc_handler(mb: AppMessageBus, rpc: AppRPC, auth_service: AuthService):
     # > TODO: add RPC handler here
     print('Register library RPC handler', file=sys.stderr)

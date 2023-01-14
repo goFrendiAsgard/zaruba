@@ -10,7 +10,9 @@ class ZtplAppCrudEntityRepo(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def find(self, keyword: str, limit: int, offset: int) -> List[ZtplAppCrudEntity]:
+    def find(
+        self, keyword: str, limit: int, offset: int
+    ) -> List[ZtplAppCrudEntity]:
         pass
 
     @abc.abstractmethod
@@ -18,11 +20,15 @@ class ZtplAppCrudEntityRepo(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def insert(self, ztpl_app_crud_entity_data: ZtplAppCrudEntityData) -> Optional[ZtplAppCrudEntity]:
+    def insert(
+        self, ztpl_app_crud_entity_data: ZtplAppCrudEntityData
+    ) -> Optional[ZtplAppCrudEntity]:
         pass
 
     @abc.abstractmethod
-    def update(self, id: str, ztpl_app_crud_entity_data: ZtplAppCrudEntityData) -> Optional[ZtplAppCrudEntity]:
+    def update(
+        self, id: str, ztpl_app_crud_entity_data: ZtplAppCrudEntityData
+    ) -> Optional[ZtplAppCrudEntity]:
         pass
 
     @abc.abstractmethod

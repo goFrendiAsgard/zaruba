@@ -1,7 +1,22 @@
 # ZtplAppUrlTitle page
-menu_service.add_menu(name='ztplAppModuleName:ztplAppUrl', title='ZtplAppUrlTitle', url='ztpl-normalized-app-url', auth_type=AuthType.ANYONE, parent_name='ztplAppModuleName')
-@app.get('ztpl-normalized-app-url', response_class=HTMLResponse)
-async def get_ztpl_app_url(request: Request, context: MenuContext = Depends(menu_service.has_access('ztplAppModuleName:ztplAppUrl'))) -> HTMLResponse:
+menu_service.add_menu(
+    name='ztplAppModuleName:ztplAppUrl', 
+    title='ZtplAppUrlTitle', 
+    url='ztpl-normalized-app-url', 
+    auth_type=AuthType.ANYONE, 
+    parent_name='ztplAppModuleName'
+)
+
+@app.get(
+    'ztpl-normalized-app-url',
+    response_class=HTMLResponse
+)
+async def get_ztpl_app_url(
+    request: Request,
+    context: MenuContext = Depends(menu_service.has_access(
+        'ztplAppModuleName:ztplAppUrl'
+    ))
+) -> HTMLResponse:
     '''
     Serve (get) ztpl-normalized-app-url
     '''
@@ -11,8 +26,8 @@ async def get_ztpl_app_url(request: Request, context: MenuContext = Depends(menu
             'context': context,
             'content_path': 'modules/ztplAppModuleName/ztpl_app_url.html'
         }, status_code=200)
-    except:
-        print(traceback.format_exc(), file=sys.stderr) 
+    except Exception:
+        logging.error('Non HTTPException error', exc_info=True)
         return page_template.TemplateResponse('default_error.html', context={
             'request': request,
             'status_code': 500,

@@ -1,6 +1,7 @@
 from typing import Any, Callable
 import abc
 
+
 class MessageBus(abc.ABC):
 
     @abc.abstractmethod

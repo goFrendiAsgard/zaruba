@@ -15,11 +15,11 @@ Zaruba also allows you to add custom resources (like modules or API endpoints) i
 
 - Don't delete any line __preceded__ by this comment:
 
-    `Note: 🤖 Don't delete the following line; Zaruba uses it for pattern matching`
+    `Note: 🤖 Don't delete the following statement`
 
 - Don't delete any line __containing__ this comment:
 
-    `Note: 🤖 Don't delete this line; Zaruba uses it for pattern matching `
+    `Note: 🤖 Don't delete this line `
 
 By using Zaruba, you can focus on features and business processes.
 

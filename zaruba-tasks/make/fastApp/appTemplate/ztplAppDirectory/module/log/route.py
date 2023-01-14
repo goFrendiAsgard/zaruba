@@ -16,7 +16,7 @@ import sys
 ################################################
 # -- ⚙️ API
 ################################################
-# Note: 🤖 Don't delete the following line; Zaruba uses it for pattern matching
+# Note: 🤖 Don't delete the following statement
 def register_log_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, auth_service: AuthService):
 
     register_activity_api_route(app, mb, rpc, auth_service)
@@ -27,7 +27,7 @@ def register_log_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, auth_se
 ################################################
 # -- 👓 User Interface
 ################################################
-# Note: 🤖 Don't delete the following line; Zaruba uses it for pattern matching
+# Note: 🤖 Don't delete the following statement
 def register_log_ui_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, menu_service: MenuService, page_template: Jinja2Templates):
 
     # Log menu

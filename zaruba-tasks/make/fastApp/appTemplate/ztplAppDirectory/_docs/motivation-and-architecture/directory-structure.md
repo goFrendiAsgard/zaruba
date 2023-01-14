@@ -109,11 +109,11 @@ from config import (
     # messagebus + rpc
     message_bus_type, rpc_type,
     # url
-    create_access_token_url_path, create_oauth_access_token_url_path, renew_access_token_url_path,
+    create_cred_token_url_path, create_oauth_cred_token_url_path, renew_cred_token_url,
     # auth
     root_initial_email, root_initial_fullname, root_initial_password, 
-    root_initial_phone_number, root_username, root_permission, access_token_algorithm,
-    access_token_expire, access_token_secret_key,
+    root_initial_phone_number, root_username, root_permission, cred_token_algorithm,
+    cred_token_expire, cred_token_secret_key,
     # activity
     activity_events
 )
@@ -168,10 +168,10 @@ def create_page_template() -> Jinja2Templates:
     templates.env.globals['site_name'] = site_name
     templates.env.globals['tagline'] = tagline
     templates.env.globals['footer'] = footer
-    templates.env.globals['backend_url'] = backend_url
+    templates.env.globals['backend_address'] = backend_address
     templates.env.globals['public_url_path'] = public_url_path
-    templates.env.globals['renew_access_token_url_path'] = renew_access_token_url_path
-    templates.env.globals['renew_access_token_interval'] = renew_access_token_interval
+    templates.env.globals['renew_cred_token_url'] = renew_cred_token_url
+    templates.env.globals['renew_cred_token_interval'] = renew_cred_token_interval
     templates.env.globals['vue'] = escape_template
     templates.env.globals['getenv'] = os.getenv
     return templates
@@ -221,12 +221,12 @@ This file contains URL setting.
 The settings are taken from environment variables as follows:
 
 ```python
-create_oauth_access_token_url_path: str = os.getenv('APP_CREATE_OAUTH_ACCESS_TOKEN_URL_PATH', '/api/v1/create-oauth-access-token/')
-create_access_token_url_path: str = os.getenv('APP_CREATE_ACCESS_TOKEN_URL_PATH', '/api/v1/create-access-token/')
-renew_access_token_url_path: str = os.getenv('APP_RENEW_ACCESS_TOKEN_URL_PATH', '/api/v1/refresh-access-token/')
+create_oauth_cred_token_url_path: str = os.getenv('APP_CREATE_OAUTH_CRED_TOKEN_URL', '/api/v1/create-oauth-access-token/')
+create_cred_token_url_path: str = os.getenv('APP_CREATE_CRED_TOKEN_URL', '/api/v1/create-access-token/')
+renew_cred_token_url: str = os.getenv('APP_RENEW_CRED_TOKEN_URL', '/api/v1/refresh-access-token/')
 public_url_path: str = os.getenv('APP_PUBLIC_URL_PATH', '/public')
 
-backend_url: str = os.getenv('APP_UI_BACKEND_URL', 'http://localhost:{}'.format(http_port))
+backend_address: str = os.getenv('APP_BACKEND_ADDRESS', 'http://localhost:{}'.format(http_port))
 ```
 
 
@@ -381,7 +381,7 @@ To create an `AuthService`, you need two dependencies:
 To create an `AuthService`, you can use the following code:
 
 ```python
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl = create_oauth_access_token_url_path, auto_error = False)
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl = create_oauth_cred_token_url_path, auto_error = False)
 auth_rule = DefaultAuthRule(rpc)
 user_fetcher = DefaultUserFetcher(rpc, oauth2_scheme)
 auth_service = AuthService(auth_rule, user_fetcher, root_permission)
@@ -447,9 +447,9 @@ role_service = RoleService(mb, rpc, role_repo)
 user_service = DefaultUserService(mb, rpc, user_repo, role_service, root_permission=root_permission)
 token_service = JWTTokenService(
     user_service = user_service,
-    access_token_secret_key = access_token_secret_key,
-    access_token_algorithm = access_token_algorithm,
-    access_token_expire = access_token_expire
+    cred_token_secret_key = cred_token_secret_key,
+    cred_token_algorithm = cred_token_algorithm,
+    cred_token_expire = cred_token_expire
 )
 session_service = SessionService(user_service, token_service)
 ```
@@ -464,7 +464,7 @@ This file contains of `TokenService` interface definition.
 class TokenService(abc.ABC):
 
     @abc.abstractmethod
-    def create_access_token(self, user: User, current_user: Optional[User]) -> str:
+    def create_cred_token(self, user: User, current_user: Optional[User]) -> str:
         pass
 
     @abc.abstractmethod
