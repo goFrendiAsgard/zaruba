@@ -13,12 +13,13 @@ from schema.auth_type import AuthType
 import traceback
 import sys
 
+
 ################################################
 # -- ⚙️ API
 ################################################
 def register_activity_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_service: AuthService):
 
-    @app.get('/api/v1/activities/', response_model=ActivityResult)
+    @app.get('/api/v1/activities', response_model=ActivityResult)
     async def find_activities(keyword: str='', limit: int=100, offset: int=0, current_user: Optional[User] = Depends(auth_service.has_permission('api:activity:read'))) -> ActivityResult:
         '''
         Serving API to find activities by keyword.
@@ -34,7 +35,6 @@ def register_activity_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_ser
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='internal Server Error')
         return ActivityResult.parse_obj(result)
-
 
     @app.get('/api/v1/activities/{id}', response_model=Activity)
     async def find_activity_by_id(id: str, current_user: Optional[User] = Depends(auth_service.has_permission('api:activity:read'))) -> Activity:
@@ -53,8 +53,7 @@ def register_activity_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_ser
             raise HTTPException(status_code=500, detail='internal Server Error')
         return Activity.parse_obj(activity)
 
-
-    @app.post('/api/v1/activities/', response_model=Activity)
+    @app.post('/api/v1/activities', response_model=Activity)
     async def insert_activity(activity_data: ActivityData, current_user: Optional[User] = Depends(auth_service.has_permission('api:activity:create'))) -> Activity:
         '''
         Serving API to insert new activity.

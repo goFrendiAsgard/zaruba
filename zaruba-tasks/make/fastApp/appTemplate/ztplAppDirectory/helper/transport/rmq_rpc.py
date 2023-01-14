@@ -142,7 +142,8 @@ class RMQRPC(RMQConnection, RPC):
                     exchange='',
                     routing_key=props.reply_to,
                     properties=pika.BasicProperties(
-                        correlation_id=props.correlation_id),
+                        correlation_id=props.correlation_id
+                    ),
                     body=body
                 )
                 self._log_rpc_handling(
