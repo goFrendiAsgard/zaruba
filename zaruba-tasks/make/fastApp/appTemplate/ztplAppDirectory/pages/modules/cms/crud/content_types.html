@@ -4,10 +4,10 @@
     Vue.createApp({
         components: {
             crud: Vue.defineAsyncComponent(() => loadModule(
-                '{{ public_url_path }}/vue/modules/cms/crud/contentTypesCrud.vue',
+                '{{ public_url }}/vue/modules/cms/crud/contentTypesCrud.vue',
                 appHelper.getVueSfcLoaderOptions()
             ))
         },
-        template: '<crud apiUrl="{{ backend_url }}/api/v1/content-types"></crud>',
+        template: '<crud apiUrl="{{ backend_address }}/api/v1/content-types"></crud>',
     }).mount('#app');
 </script>

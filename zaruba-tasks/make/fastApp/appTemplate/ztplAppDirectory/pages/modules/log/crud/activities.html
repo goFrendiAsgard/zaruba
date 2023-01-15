@@ -4,10 +4,10 @@
     Vue.createApp({
         components: {
             crud: Vue.defineAsyncComponent(() => loadModule(
-                '{{ public_url_path }}/vue/modules/log/crud/activitiesCrud.vue',
+                '{{ public_url }}/vue/modules/log/crud/activitiesCrud.vue',
                 appHelper.getVueSfcLoaderOptions()
             ))
         },
-        template: '<crud apiUrl="{{ backend_url }}/api/v1/activities"></crud>',
+        template: '<crud apiUrl="{{ backend_address }}/api/v1/activities"></crud>',
     }).mount('#app');
 </script>

@@ -1,6 +1,9 @@
 from typing import List, Optional
 from pydantic import BaseModel
-import datetime, re
+
+import datetime
+import re
+
 
 class RoleData(BaseModel):
     name: str
@@ -12,8 +15,10 @@ class RoleData(BaseModel):
 
     def has_permission(self, permission: str) -> bool:
         for existing_permission in self.permissions:
-            permission_pattern = re.sub(r'\*', '[0-9a-zA-Z\*]+', permission)
-            if re.search('^{}$'.format(permission_pattern), existing_permission):
+            permission_pattern = re.sub(r'\*', '[0-9a-zA-Z\\*]+', permission)
+            if re.search(
+                '^{}$'.format(permission_pattern), existing_permission
+            ):
                 return True
         return False
 
@@ -24,12 +29,17 @@ class RoleData(BaseModel):
         self.permissions.append(permission)
 
     def remove_permission(self, permission: str):
-        new_permissions = [existing_permission for existing_permission in self.permissions if existing_permission != permission]
+        new_permissions = [
+            existing_permission 
+            for existing_permission in self.permissions 
+            if existing_permission != permission
+        ]
         self.permissions = new_permissions
 
 
 class Role(RoleData):
     id: str
+
     class Config:
         orm_mode = True
 

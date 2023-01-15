@@ -1,15 +1,20 @@
-from typing import Any, Callable, List, Mapping, TypedDict
-
+from typing import Any, Callable, Mapping
 from confluent_kafka import Producer, Consumer
 from helper.transport.messagebus import MessageBus
 from helper.transport.kafka_helper import create_kafka_topic
 from helper.transport.kafka_config import KafkaEventMap
 
 import threading
-import traceback
-import sys
+import logging
 
-def create_kafka_connection_parameters(bootstrap_servers: str, sasl_mechanism: str = '', sasl_plain_username: str = '', sasl_plain_password: str = '', security_protocol='', **kwargs) -> Mapping[str, Any]:
+
+def create_kafka_connection_parameters(
+    bootstrap_servers: str,
+    sasl_mechanism: str = '',
+    sasl_plain_username: str = '',
+    sasl_plain_password: str = '',
+    security_protocol='', **kwargs
+) -> Mapping[str, Any]:
     if sasl_mechanism == '':
         sasl_mechanism = 'PLAIN'
     if security_protocol == '':
@@ -28,7 +33,10 @@ def create_kafka_connection_parameters(bootstrap_servers: str, sasl_mechanism: s
 
 class KafkaMessageBus(MessageBus):
 
-    def __init__(self, kafka_connection_parameters: Mapping[str, Any], kafka_event_map: KafkaEventMap):
+    def __init__(
+        self, kafka_connection_parameters: Mapping[str, Any],
+        kafka_event_map: KafkaEventMap
+    ):
         self._kafka_connection_parameters = kafka_connection_parameters
         self._kafka_event_map = kafka_event_map
         self._consumers: Mapping[str, Consumer] = {}
@@ -37,23 +45,19 @@ class KafkaMessageBus(MessageBus):
         self._error_count = 0
         self._is_failing = False
 
-
     def get_error_count(self) -> int:
         return self._error_count
 
-
     def is_failing(self) -> bool:
         return self._is_failing
-
 
     def shutdown(self):
         if self._is_shutdown:
             return
         self._is_shutdown = True
         for event_name, consumer in self._consumers.items():
-            print('stop listening to {event_name}'.format(event_name=event_name), file=sys.stderr)
+            logging.info('Stop listening to {}'.format(event_name))
             consumer.close()
-
 
     def handle(self, event_name: str) -> Callable[..., Any]:
         def register_event_handler(event_handler: Callable[[Any], Any]):
@@ -65,52 +69,99 @@ class KafkaMessageBus(MessageBus):
                 group_id = self._event_map.get_group_id(event_name)
                 consumer_args = {**self._kafka_connection_parameters}
                 consumer_args['group.id'] = group_id
-                consumer = Consumer(consumer_args)
-                # register consumer
-                self._consumers[event_name] = consumer
                 # start consume
-                thread = threading.Thread(target=self._handle, args=[consumer, consumer_args, event_name, topic, group_id, event_handler], daemon = True)
+                thread = threading.Thread(
+                    target=self._handle,
+                    args=[
+                        consumer_args,
+                        event_name,
+                        topic,
+                        group_id,
+                        event_handler
+                    ],
+                    daemon=True
+                )
                 thread.start()
-            except:
-                print('Error while registering event {event_name}'.format(event_name=event_name), file=sys.stderr)
-                print(traceback.format_exc(), file=sys.stderr) 
+            except Exception:
+                logging.error(
+                    'Cannot register to event {}'.format(event_name),
+                    exc_info=True
+                )
                 self._is_failing = True
                 self.shutdown()
         return register_event_handler
 
-
-    def _handle(self, consumer: Consumer, consumer_args, event_name: str, topic: str, group_id: str, event_handler: Callable[[Any], Any]):
-        for _ in range(3):
-            try:
-                print({'action': 'subscribe_kafka_topic', 'topic': topic}, file=sys.stderr)
-                consumer.subscribe([topic])
-                break
-            except:
-                print('Error while subscribing to {topic}'.format(topic=topic), file=sys.stderr)
-                print(traceback.format_exc(), file=sys.stderr)
-                consumer = Consumer(consumer_args)
-                self._consumers[event_name] = consumer
+    def _handle(
+        self,
+        consumer_args,
+        event_name: str,
+        topic: str,
+        group_id: str,
+        event_handler: Callable[[Any], Any]
+    ):
+        consumer = self._create_consumer(topic, consumer_args)
+        self._consumers[event_name] = consumer
         while not self._is_shutdown:
             try:
                 serialized_message = consumer.poll(1)
                 if serialized_message is None:
                     continue
                 if serialized_message.error():
-                    print("Consumer error: {}".format(serialized_message.error()), file=sys.stderr)
+                    logging.error('Consumer error', exc_info=True)
                     continue
                 if serialized_message.value():
-                    print({'action': 'handle_kafka_event', 'event_name': event_name, 'value': serialized_message.value(), 'key': serialized_message.key(), 'topic': serialized_message.topic(), 'partition': serialized_message.partition(), 'offset': serialized_message.offset(), 'group_id': group_id}, file=sys.stderr)
-                    message = self._event_map.get_decoder(event_name)(serialized_message.value())
+                    self._log_event_handling(
+                        event_name, group_id, serialized_message
+                    )
+                    message = self._event_map.get_decoder(event_name)(
+                        serialized_message.value()
+                    )
                     event_handler(message)
-            except:
-                print('Error while handling event {event_name}'.format(event_name=event_name), file=sys.stderr)
+            except Exception:
+                logging.error(
+                    'Error while handle event {}'.format(event_name),
+                    exc_info=True
+                )
                 self._error_count += 1
-                print(traceback.format_exc(), file=sys.stderr)
                 consumer = Consumer(consumer_args)
                 self._consumers[event_name] = consumer
-                print({'action': 're_subscribe_kafka_topic', 'topic': topic}, file=sys.stderr)
+                logging.info('Re subscribe to topic {}'.format(topic))
                 consumer.subscribe([topic])
 
+    def _create_consumer(
+        self,
+        topic: str,
+        consumer_args: Any
+    ) -> Consumer:
+        attempt, limit_attempt = 1, 3
+        while attempt < limit_attempt:
+            consumer = Consumer(consumer_args)
+            try:
+                logging.info('Subscribe to topic {} (attempt {} of {})'.format(
+                    attempt, limit_attempt, topic))
+                consumer.subscribe([topic])
+                return consumer
+            except Exception:
+                logging.error(
+                    'Cannot subscribe to topic {} (attempt {} of {})'.format(
+                        attempt, limit_attempt, topic
+                    ),
+                    exc_info=True
+                )
+            attempt += 1
+        raise Exception('Cannot create consumer for topic {}'.format(topic))
+
+    def _log_event_handling(
+        self,  event_name: str, group_id: str, serialized_message: Any
+    ):
+        logging.info(' '.join([
+            'Handle event {}'.format(event_name),
+            'Topic: {}'.format(serialized_message.topic()),
+            'Key: {}'.format(serialized_message.key()),
+            'Value: {}'.format(serialized_message.value()),
+            'Offset: {}'.format(serialized_message.offset()),
+            'Group Id: {}'.format(group_id)
+        ]))
 
     def publish(self, event_name: str, message: Any) -> Any:
         serialized_message = self._event_map.get_encoder(event_name)(message)
@@ -119,26 +170,51 @@ class KafkaMessageBus(MessageBus):
             producer = Producer(self._kafka_connection_parameters)
             key_maker = self._event_map.get_key_maker(event_name)
             key = key_maker(message)
-            print({'action': 'publish_kafka_event', 'event_name': event_name, 'key': key, 'message': message, 'topic': topic, 'serialized': serialized_message}, file=sys.stderr)
-            producer.produce(topic=topic, key=key, value=serialized_message, callback=_produce_callback)
+            self._log_event_publish(
+                event_name, topic, key, message, serialized_message
+            )
+            producer.produce(
+                topic=topic,
+                key=key,
+                value=serialized_message,
+                callback=_produce_callback
+            )
             producer.flush()
         except Exception as exception:
-            print('Error while publishing event {event_name} with messages: {message}'.format(event_name=event_name, message=message), file=sys.stderr)
+            logging.error(
+                'Error publishing event {} with message: {}'.format(
+                    event_name, message
+                )
+            )
             self._error_count += 1
             raise exception
 
+    def _log_event_publish(
+        self, event_name: str,  topic: str, key: Any, message: Any,
+        serialized_message: Any
+    ):
+        logging.info(' '.join([
+            'Publish event {}'.format(event_name),
+            ' Topic: {}'.format(topic),
+            ' Key: {}'.format(key),
+            ' Message: {}'.format(message),
+            ' Serialized message: {}'.format(serialized_message)
+        ]))
 
     def _create_kafka_topic(self, topic: str):
+        connection_param = self._kafka_connection_parameters
         create_kafka_topic(topic, {
-            'bootstrap.servers': self._kafka_connection_parameters['bootstrap.servers'],
-            'sasl.mechanism': self._kafka_connection_parameters['sasl.mechanism'],
-            'sasl.username': self._kafka_connection_parameters['sasl.username'],
-            'sasl.password': self._kafka_connection_parameters['sasl.password']
+            'bootstrap.servers': connection_param['bootstrap.servers'],
+            'sasl.mechanism': connection_param['sasl.mechanism'],
+            'sasl.username': connection_param['sasl.username'],
+            'sasl.password': connection_param['sasl.password']
         })
 
 
 def _produce_callback(err, msg):
     if err is not None:
-        print("Failed to deliver message: %s: %s" % (str(msg), str(err)), file=sys.stderr)
-    else:
-        print("Message produced: %s" % (str(msg)), file=sys.stderr)
+        logging.error(
+            'Failed to deliver message {}'.format(str(msg)), exc_info=True
+        )
+        return
+    logging.info('Message produced {}'.format(str(msg)))

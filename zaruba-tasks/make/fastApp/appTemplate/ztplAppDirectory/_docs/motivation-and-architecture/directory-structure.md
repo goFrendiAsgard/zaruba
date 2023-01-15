@@ -109,11 +109,11 @@ from config import (
     # messagebus + rpc
     message_bus_type, rpc_type,
     # url
-    create_access_token_url_path, create_oauth_access_token_url_path, renew_access_token_url_path,
+    create_cred_token_url_path, create_oauth_cred_token_url_path, renew_cred_token_url,
     # auth
     root_initial_email, root_initial_fullname, root_initial_password, 
-    root_initial_phone_number, root_username, root_permission, access_token_algorithm,
-    access_token_expire, access_token_secret_key,
+    root_initial_phone_number, root_username, root_permission, cred_token_algorithm,
+    cred_token_expire, cred_token_secret_key,
     # activity
     activity_events
 )
@@ -168,10 +168,10 @@ def create_page_template() -> Jinja2Templates:
     templates.env.globals['site_name'] = site_name
     templates.env.globals['tagline'] = tagline
     templates.env.globals['footer'] = footer
-    templates.env.globals['backend_url'] = backend_url
-    templates.env.globals['public_url_path'] = public_url_path
-    templates.env.globals['renew_access_token_url_path'] = renew_access_token_url_path
-    templates.env.globals['renew_access_token_interval'] = renew_access_token_interval
+    templates.env.globals['backend_address'] = backend_address
+    templates.env.globals['public_url'] = public_url
+    templates.env.globals['renew_cred_token_url'] = renew_cred_token_url
+    templates.env.globals['renew_cred_token_interval'] = renew_cred_token_interval
     templates.env.globals['vue'] = escape_template
     templates.env.globals['getenv'] = os.getenv
     return templates
@@ -221,12 +221,12 @@ This file contains URL setting.
 The settings are taken from environment variables as follows:
 
 ```python
-create_oauth_access_token_url_path: str = os.getenv('APP_CREATE_OAUTH_ACCESS_TOKEN_URL_PATH', '/api/v1/create-oauth-access-token/')
-create_access_token_url_path: str = os.getenv('APP_CREATE_ACCESS_TOKEN_URL_PATH', '/api/v1/create-access-token/')
-renew_access_token_url_path: str = os.getenv('APP_RENEW_ACCESS_TOKEN_URL_PATH', '/api/v1/refresh-access-token/')
-public_url_path: str = os.getenv('APP_PUBLIC_URL_PATH', '/public')
+create_oauth_cred_token_url_path: str = os.getenv('APP_CREATE_OAUTH_CRED_TOKEN_URL', '/api/v1/create-oauth-access-token/')
+create_cred_token_url_path: str = os.getenv('APP_CREATE_CRED_TOKEN_URL', '/api/v1/create-access-token/')
+renew_cred_token_url: str = os.getenv('APP_RENEW_CRED_TOKEN_URL', '/api/v1/refresh-access-token/')
+public_url: str = os.getenv('APP_PUBLIC_URL', '/public')
 
-backend_url: str = os.getenv('APP_UI_BACKEND_URL', 'http://localhost:{}'.format(http_port))
+backend_address: str = os.getenv('APP_BACKEND_ADDRESS', 'http://localhost:{}'.format(http_port))
 ```
 
 
@@ -381,7 +381,7 @@ To create an `AuthService`, you need two dependencies:
 To create an `AuthService`, you can use the following code:
 
 ```python
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl = create_oauth_access_token_url_path, auto_error = False)
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl = create_oauth_cred_token_url_path, auto_error = False)
 auth_rule = DefaultAuthRule(rpc)
 user_fetcher = DefaultUserFetcher(rpc, oauth2_scheme)
 auth_service = AuthService(auth_rule, user_fetcher, root_permission)
@@ -399,14 +399,12 @@ def register_book_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, auth_s
         '''
         result = {}
         try:
-            if not current_user:
-                current_user = User.parse_obj(auth_service.get_guest_user())
+            current_user = _get_user_or_guest(current_user)
             result = rpc.call('find_book', keyword, limit, offset, current_user.dict())
         except HTTPException as http_exception:
             raise http_exception
-        except:
-            print(traceback.format_exc(), file=sys.stderr) 
-            raise HTTPException(status_code=500, detail='internal Server Error')
+        except Exception:
+            _handle_non_http_exception()
         return BookResult.parse_obj(result)
 ```
 
@@ -447,9 +445,9 @@ role_service = RoleService(mb, rpc, role_repo)
 user_service = DefaultUserService(mb, rpc, user_repo, role_service, root_permission=root_permission)
 token_service = JWTTokenService(
     user_service = user_service,
-    access_token_secret_key = access_token_secret_key,
-    access_token_algorithm = access_token_algorithm,
-    access_token_expire = access_token_expire
+    cred_token_secret_key = cred_token_secret_key,
+    cred_token_algorithm = cred_token_algorithm,
+    cred_token_expire = cred_token_expire
 )
 session_service = SessionService(user_service, token_service)
 ```
@@ -464,7 +462,7 @@ This file contains of `TokenService` interface definition.
 class TokenService(abc.ABC):
 
     @abc.abstractmethod
-    def create_access_token(self, user: User, current_user: Optional[User]) -> str:
+    def create_cred_token(self, user: User, current_user: Optional[User]) -> str:
         pass
 
     @abc.abstractmethod
@@ -547,14 +545,12 @@ def register_library_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, aut
         '''
         result = {}
         try:
-            if not current_user:
-                current_user = User.parse_obj(auth_service.get_guest_user())
+            current_user = _get_user_or_guest(current_user)
             result = rpc.call('find_book', keyword, limit, offset, current_user.dict())
         except HTTPException as http_exception:
             raise http_exception
-        except:
-            print(traceback.format_exc(), file=sys.stderr) 
-            raise HTTPException(status_code=500, detail='internal Server Error')
+        except Exception:
+            _handle_non_http_exception()
         return BookResult.parse_obj(result)
 
 
@@ -635,7 +631,7 @@ You can breakdown a page into several `partial` components. For example:
     <head>
         {% include 'default-partials/meta.html' %}
         {% include 'default-partials/include-css.html' %}
-        <link rel="icon" type="image/x-icon" href="{{ public_url_path}}/favicon/favicon.ico">
+        <link rel="icon" type="image/x-icon" href="{{ public_url}}/favicon/favicon.ico">
         {%if context.current_menu %}<title>{{ context.current_menu.title }}</title>{% endif %}
     </head>
     <body>

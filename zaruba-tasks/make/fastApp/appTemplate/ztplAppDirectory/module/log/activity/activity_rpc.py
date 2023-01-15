@@ -5,29 +5,58 @@ from schema.user import User
 from module.log.activity.activity_service import ActivityService
 from core import AuthService
 
-import sys
+import logging
 
-def register_activity_rpc(mb: MessageBus, rpc: RPC, auth_service: AuthService, activity_service: ActivityService):
+
+def register_activity_rpc(
+    mb: MessageBus,
+    rpc: RPC,
+    auth_service: AuthService,
+    activity_service: ActivityService
+):
 
     @rpc.handle('find_activity')
-    def find_activities(keyword: str, limit: int, offset: int, current_user_data: Optional[Mapping[str, Any]]) -> Mapping[str, Any]:
-        current_user = None if current_user_data is None else User.parse_obj(current_user_data)
-        activity_result = activity_service.find(keyword, limit, offset, current_user)
+    def find_activities(
+        keyword: str,
+        limit: int,
+        offset: int,
+        current_user_data: Optional[Mapping[str, Any]]
+    ) -> Mapping[str, Any]:
+        current_user = _get_user_from_dict(current_user_data)
+        activity_result = activity_service.find(
+            keyword, limit, offset, current_user
+        )
         return activity_result.dict()
 
-
     @rpc.handle('find_activity_by_id')
-    def find_activity_by_id(id: str, current_user_data: Optional[Mapping[str, Any]]) -> Optional[Mapping[str, Any]]:
-        current_user = None if current_user_data is None else User.parse_obj(current_user_data)
+    def find_activity_by_id(
+        id: str, 
+        current_user_data: Optional[Mapping[str, Any]]
+    ) -> Optional[Mapping[str, Any]]:
+        current_user = _get_user_from_dict(current_user_data)
         activity = activity_service.find_by_id(id, current_user)
-        return None if activity is None else activity.dict()
-
+        return _activity_as_dict(activity)
 
     @rpc.handle('insert_activity')
-    def insert_activity(activity_data: Mapping[str, Any]) -> Optional[Mapping[str, Any]]:
+    def insert_activity(
+        activity_data: Mapping[str, Any]
+    ) -> Optional[Mapping[str, Any]]:
         activity = ActivityData.parse_obj(activity_data) 
         new_activity = activity_service.insert(activity)
-        return None if new_activity is None else new_activity.dict()
+        return _activity_as_dict(new_activity)
 
+    def _get_user_from_dict(
+        user_data: Optional[Mapping[str, Any]]
+    ) -> Optional[User]:
+        if user_data is None:
+            return None
+        return User.parse_obj(user_data)
 
-    print('Handle RPC for log.activity', file=sys.stderr)
+    def _activity_as_dict(
+        activity: Optional[Activity]
+    ) -> Optional[Mapping[str, Any]]:
+        if activity is None:
+            return None
+        return activity.dict()
+
+    logging.info('Register log.activity RPC handler')

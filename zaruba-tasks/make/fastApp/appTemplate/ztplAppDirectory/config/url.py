@@ -1,9 +1,35 @@
 import os
 from config.port import http_port
+from helper.config import url_path
 
-create_oauth_access_token_url_path: str = os.getenv('APP_CREATE_OAUTH_ACCESS_TOKEN_URL_PATH', '/api/v1/create-oauth-access-token/')
-create_access_token_url_path: str = os.getenv('APP_CREATE_ACCESS_TOKEN_URL_PATH', '/api/v1/create-access-token/')
-renew_access_token_url_path: str = os.getenv('APP_RENEW_ACCESS_TOKEN_URL_PATH', '/api/v1/refresh-access-token/')
-public_url_path: str = os.getenv('APP_PUBLIC_URL_PATH', '/public')
+# Auth URLs
+create_oauth_cred_token_url: str = url_path(os.getenv(
+    'APP_CREATE_OAUTH_CRED_TOKEN_URL',
+    '/api/v1/create-oauth-access-token'
+))
+create_cred_token_url: str = url_path(os.getenv(
+    'APP_CREATE_CRED_TOKEN_URL',
+    '/api/v1/create-access-token'
+))
+renew_cred_token_url: str = url_path(os.getenv(
+    'APP_RENEW_CRED_TOKEN_URL',
+    '/api/v1/refresh-access-token'
+))
 
-backend_url: str = os.getenv('APP_UI_BACKEND_URL', 'http://localhost:{}'.format(http_port))
+# Readiness URLs
+readiness_url: str = url_path(os.getenv(
+    'APP_READINESS_URL',
+    '/readiness'
+))
+
+# Public URLs
+public_url: str = url_path(os.getenv(
+    'APP_PUBLIC_URL',
+    '/public'
+))
+
+# Backend Address
+backend_address: str = os.getenv(
+    'APP_BACKEND_ADDRESS',
+    'http://localhost:{}'.format(http_port)
+).rstrip('/')

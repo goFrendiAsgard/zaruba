@@ -35,6 +35,7 @@ Available Commands:
   toTitle        Turn string into Title
   toUpper        Turn string into UPPER CASE
   toUpperSnake   Turn string into UPPER_SNAKE_CASE
+  toUrlPath      Turn string into /a/normal-url
 
 Flags:
   -h, --help   help for str
@@ -70,4 +71,5 @@ Use "zaruba str [command] --help" for more information about a command.
 - [toTitle](to-title.md)
 - [toUpper](to-upper.md)
 - [toUpperSnake](to-upper-snake.md)
+- [toUrlPath](to-url-path.md)
 <!--endTocSubtopic-->

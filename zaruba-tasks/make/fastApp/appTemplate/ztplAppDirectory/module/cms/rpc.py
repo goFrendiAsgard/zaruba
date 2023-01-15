@@ -7,7 +7,7 @@ from transport import AppMessageBus, AppRPC
 import traceback
 import sys
 
-# Note: 🤖 Don't delete the following line; Zaruba uses it for pattern matching
+# Note: 🤖 Don't delete the following statement
 def register_cms_rpc_handler(mb: AppMessageBus, rpc: AppRPC, auth_service: AuthService, content_type_service: ContentTypeService, content_service: ContentService):
 
     register_content_rpc(mb, rpc, auth_service, content_service)

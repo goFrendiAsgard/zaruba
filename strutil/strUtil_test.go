@@ -103,6 +103,15 @@ func TestToKebabCase(t *testing.T) {
 	}
 }
 
+func TestToUrlPath(t *testing.T) {
+	strutil := NewStrUtil()
+	expected := "/some/random-string"
+	actual := strutil.ToUrlPath("Some/random string")
+	if actual != expected {
+		t.Errorf("expected: %s, actual: %s", expected, actual)
+	}
+}
+
 func TestIndent(t *testing.T) {
 	strutil := NewStrUtil()
 	expected := "def add(a, b):\n    return a + b"

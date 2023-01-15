@@ -3,6 +3,7 @@ from schema.activity import Activity, ActivityData
 
 import abc
 
+
 class ActivityRepo(abc.ABC):
 
     @abc.abstractmethod
@@ -22,7 +23,9 @@ class ActivityRepo(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def update(self, id: str, activity_data: ActivityData) -> Optional[Activity]:
+    def update(
+        self, id: str, activity_data: ActivityData
+    ) -> Optional[Activity]:
         pass
 
     @abc.abstractmethod

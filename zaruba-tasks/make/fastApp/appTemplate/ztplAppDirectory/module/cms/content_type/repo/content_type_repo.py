@@ -3,6 +3,7 @@ from schema.content_type import ContentType, ContentTypeData
 
 import abc
 
+
 class ContentTypeRepo(abc.ABC):
 
     @abc.abstractmethod
@@ -22,11 +23,15 @@ class ContentTypeRepo(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def insert(self, content_type_data: ContentTypeData) -> Optional[ContentType]:
+    def insert(
+        self, content_type_data: ContentTypeData
+    ) -> Optional[ContentType]:
         pass
 
     @abc.abstractmethod
-    def update(self, id: str, content_type_data: ContentTypeData) -> Optional[ContentType]:
+    def update(
+        self, id: str, content_type_data: ContentTypeData
+    ) -> Optional[ContentType]:
         pass
 
     @abc.abstractmethod

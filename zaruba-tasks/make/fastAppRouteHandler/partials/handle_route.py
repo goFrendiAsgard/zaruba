@@ -1,6 +1,11 @@
 
-@app.ztplAppHttpMethod('ztpl-normalized-app-url', response_class=HTMLResponse)
-async def ztplAppHttpMethod_ztpl_app_url(current_user: Optional[User] = Depends(auth_service.anyone())) -> HTMLResponse:
+@app.ztplAppHttpMethod(
+    'ztpl-normalized-app-url',
+    response_class=HTMLResponse
+)
+async def ztplAppHttpMethod_ztpl_app_url(
+    current_user: Optional[User] = Depends(auth_service.anyone())
+) -> HTMLResponse:
     '''
     Handle (ztplAppHttpMethod) ztpl-normalized-app-url
     To enforce authorization, you can use any of these dependencies:
@@ -18,6 +23,9 @@ async def ztplAppHttpMethod_ztpl_app_url(current_user: Optional[User] = Depends(
             current_user = User.parse_obj(auth_service.get_guest_user())
         greetings = 'hello {}'.format(current_user.username)
         return HTMLResponse(content=greetings, status_code=200)
-    except:
-        print(traceback.format_exc(), file=sys.stderr) 
-        raise HTTPException(status_code=500, detail='internal Server Error')
+    except Exception:
+        logging.error('Non HTTPException error', exc_info=True)
+        raise HTTPException(
+            status_code=500,
+            detail='Internal server serror'
+        )

@@ -23,7 +23,7 @@ def test_role_service_crud_find_by_id_non_existing():
     is_error = False
     try:
         role_service.find_by_id('invalid-id', AUTHORIZED_ACTIVE_USER)
-    except:
+    except Exception:
         is_error = True
     assert is_error
 
@@ -49,7 +49,7 @@ def test_role_service_crud_find_by_name_non_existing():
     is_error = False
     try:
         role_service.find_by_name('invalid-id', AUTHORIZED_ACTIVE_USER)
-    except:
+    except Exception:
         is_error = True
     assert is_error
 
@@ -142,7 +142,7 @@ def test_role_service_crud_update_non_existing():
     is_error = False
     try:
         role_service.update('invalid-id', updated_role_data, AUTHORIZED_ACTIVE_USER)
-    except:
+    except Exception:
         is_error = True
     assert is_error
     assert role_repo.count(keyword='') == 1
@@ -170,7 +170,7 @@ def test_role_service_crud_delete_non_existing():
     is_error = False
     try:
         role_service.delete('invalid-id', AUTHORIZED_ACTIVE_USER)
-    except:
+    except Exception:
         is_error = True
     assert is_error
     assert role_repo.count(keyword='') == 1

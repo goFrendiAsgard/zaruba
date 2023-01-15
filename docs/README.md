@@ -390,6 +390,7 @@ Finally, you can visit our [end-to-end tutorial](use-cases/from-zero-to-cloud.md
       - [toTitle](built-in/utils/str/to-title.md)
       - [toUpper](built-in/utils/str/to-upper.md)
       - [toUpperSnake](built-in/utils/str/to-upper-snake.md)
+      - [toUrlPath](built-in/utils/str/to-url-path.md)
     - [task](built-in/utils/task/README.md)
       - [addDependencies](built-in/utils/task/add-dependencies.md)
       - [addParents](built-in/utils/task/add-parents.md)

@@ -80,6 +80,16 @@ func (strUtil *StrUtil) ToKebab(s string) (result string) {
 	return strUtil.splitByCapital(s, "-")
 }
 
+func (strUtil *StrUtil) ToUrlPath(s string) (result string) {
+	oldUrlParts := strings.Split(s, "/")
+	newUrlParts := []string{}
+	for _, part := range oldUrlParts {
+		kebabPart := strUtil.ToKebab(part)
+		newUrlParts = append(newUrlParts, kebabPart)
+	}
+	return "/" + strings.Trim(strings.Join(newUrlParts, "/"), "/")
+}
+
 func (strUtil *StrUtil) splitByCapital(str, separator string) (result string) {
 	firstCapPattern := regexp.MustCompile("(.)([A-Z][a-z]+)")
 	allCapPattern := regexp.MustCompile("([a-z0-9])([A-Z])")

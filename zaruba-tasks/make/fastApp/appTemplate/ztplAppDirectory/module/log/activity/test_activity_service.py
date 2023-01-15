@@ -23,7 +23,7 @@ def test_activity_service_crud_find_by_id_non_existing():
     is_error = False
     try:
         activity_service.find_by_id('invalid-id', AUTHORIZED_ACTIVE_USER)
-    except:
+    except Exception:
         is_error = True
     assert is_error
 

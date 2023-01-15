@@ -1,7 +1,8 @@
 from typing import List, Optional
-from schema.user import User, UserWithoutPassword, UserData
+from schema.user import UserWithoutPassword, UserData
 
 import abc
+
 
 class UserRepo(abc.ABC):
 
@@ -18,15 +19,21 @@ class UserRepo(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def find_by_phone_number(self, username: str) -> Optional[UserWithoutPassword]:
+    def find_by_phone_number(
+        self, username: str
+    ) -> Optional[UserWithoutPassword]:
         pass
 
     @abc.abstractmethod
-    def find_by_identity_and_password(self, identity: str, password: str) -> Optional[UserWithoutPassword]:
+    def find_by_identity_and_password(
+        self, identity: str, password: str
+    ) -> Optional[UserWithoutPassword]:
         pass
 
     @abc.abstractmethod
-    def find(self, keyword: str, limit: int, offset: int) -> List[UserWithoutPassword]:
+    def find(
+        self, keyword: str, limit: int, offset: int
+    ) -> List[UserWithoutPassword]:
         pass
 
     @abc.abstractmethod
@@ -38,7 +45,9 @@ class UserRepo(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def update(self, id: str, user_data: UserData) -> Optional[UserWithoutPassword]:
+    def update(
+        self, id: str, user_data: UserData
+    ) -> Optional[UserWithoutPassword]:
         pass
 
     @abc.abstractmethod

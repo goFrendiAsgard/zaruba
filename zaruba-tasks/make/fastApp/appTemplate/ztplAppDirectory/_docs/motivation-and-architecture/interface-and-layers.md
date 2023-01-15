@@ -150,7 +150,7 @@ def register_book_entity_api_route(app: FastAPI, mb: MessageBus, rpc: RPC, auth_
         result = {}
         try:
             result = rpc.call('find_book', keyword, limit, offset)
-        except:
+        except Exception:
             print(traceback.format_exc(), file=sys.stderr) 
             raise HTTPException(status_code=500, detail='Internal Server Error')
         return BookResult.parse_obj(result)
