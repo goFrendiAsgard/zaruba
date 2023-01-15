@@ -4,7 +4,8 @@ import logging
 
 
 def get_log_level_from_env(
-    env_name, default_value: int = logging.DEBUG
+    env_name,
+    default_value: int = logging.INFO
 ) -> int:
     '''
     Get environment value as logging level value

@@ -146,7 +146,7 @@ class RMQRPC(RMQConnection, RPC):
                     ),
                     body=body
                 )
-                self._log_rpc_handling(
+                self._log_rpc_reply(
                     rpc_name, args, reply.result, reply.error_message,
                     reply.error_status_code, exchange, queue,
                     props.correlation_id
