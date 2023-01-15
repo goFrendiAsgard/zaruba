@@ -29,16 +29,26 @@ from config import (
     # feature flags
     enable_api, enable_auth_module, enable_cms_module, enable_log_module,
     enable_event_handler, enable_route_handler, enable_rpc_handler,
-    enable_ui, seed_root_user,
+    enable_ui, enable_error_page, seed_root_user,
     # factories
-    create_app, create_app_message_bus, create_rpc, create_page_template,
+    create_app, create_app_message_bus, create_app_rpc, create_page_template,
     # db
     db_create_all, db_url,
     # messagebus + rpc
     message_bus_type, rpc_type,
+    # cors
+    cors_allow_credentials, cors_allow_headers, cors_allow_methods,
+    cors_allow_origin_regex, cors_allow_origins, cors_expose_headers,
+    cors_max_age,
+    # dir
+    public_dir,
+    # log
+    log_level,
     # url
     create_cred_token_url, create_oauth_cred_token_url,
-    renew_cred_token_url,
+    renew_cred_token_url, public_url, readiness_url,
+    # error
+    error_threshold,
     # auth
     root_initial_email, root_initial_fullname, root_initial_password,
     root_initial_phone_number, root_username, root_permission,
@@ -46,19 +56,21 @@ from config import (
     # cms
     seed_default_content_type, default_content_type_name,
     # activity
-    activity_events
+    activity_events,
+    # ui
+    site_name
 )
 
 import os
 import logging
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=log_level)
 
 ################################################
 # -- 🚌 Message bus and RPC initialization
 ################################################
 mb = create_app_message_bus(message_bus_type, activity_events)
-rpc = create_rpc(rpc_type)
+rpc = create_app_rpc(rpc_type)
 
 ################################################
 # -- 🛢️ Database engine initialization
@@ -79,13 +91,32 @@ auth_service = AuthService(auth_rule, user_fetcher, root_permission)
 ################################################
 # -- 👓 User Interface initialization
 ################################################
-menu_service = MenuService(rpc, auth_service)
+menu_service = MenuService(auth_service)
 page_template = create_page_template()
 
 ################################################
 # -- ⚛️ FastAPI initialization
 ################################################
-app = create_app(mb, rpc, menu_service, page_template)
+app = create_app(
+    mb=mb,
+    rpc=rpc,
+    menu_service=menu_service,
+    page_template=page_template,
+    enable_ui=enable_ui,
+    enable_error_page=enable_error_page,
+    cors_allow_credentials=cors_allow_credentials,
+    cors_allow_headers=cors_allow_headers,
+    cors_allow_methods=cors_allow_methods,
+    cors_allow_origin_regex=cors_allow_origin_regex,
+    cors_allow_origins=cors_allow_origins,
+    cors_expose_headers=cors_expose_headers,
+    cors_max_age=cors_max_age,
+    public_dir=public_dir,
+    error_threshold=error_threshold,
+    site_name=site_name,
+    public_url=public_url,
+    readiness_url=readiness_url
+)
 # session API
 if enable_route_handler:
     register_session_api_route(

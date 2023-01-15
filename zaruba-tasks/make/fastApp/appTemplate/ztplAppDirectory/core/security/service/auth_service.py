@@ -10,6 +10,13 @@ import datetime
 
 
 class AuthService():
+    '''
+    Service to handle authentication.
+
+    You can use AuthService to validate whether
+    a user is allowed to access an endpoint or not based on 
+    user state and permission.
+    '''
 
     def __init__(
         self,
@@ -17,6 +24,13 @@ class AuthService():
         user_fetcher: UserFetcher,
         root_permission: str
     ):
+        '''
+        Initiate a nwe AuthService
+
+        You can use AuthService to validate whether
+        a user is allowed to access an endpoint or not based on 
+        user state and permission.
+        '''
         self.auth_rule = auth_rule
         self.user_fetcher = user_fetcher
         self.earliest_date = datetime.datetime(
@@ -24,6 +38,11 @@ class AuthService():
         self.root_permission = root_permission
 
     def get_guest_user(self) -> User:
+        '''
+        Get guest user.
+
+        Guest user is always exist, cannot be deleted.
+        '''
         return User(
             id='guest',
             username='guest',
@@ -33,6 +52,11 @@ class AuthService():
         )
 
     def get_system_user(self) -> User:
+        '''
+        Get system user
+
+        System user is always exist, cannot be deleted.
+        '''
         return User(
             id='system',
             username='system',

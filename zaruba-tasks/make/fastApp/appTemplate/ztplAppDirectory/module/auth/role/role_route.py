@@ -1,7 +1,6 @@
-from typing import Any, List, Mapping, Optional
+from typing import Optional
 from transport import AppMessageBus, AppRPC
 from fastapi import Depends, FastAPI, Request, HTTPException
-from fastapi.security import OAuth2
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from core import AuthService, MenuService
@@ -16,7 +15,12 @@ import logging
 ################################################
 # -- ⚙️ API
 ################################################
-def register_role_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, auth_service: AuthService):
+def register_role_api_route(
+    app: FastAPI, 
+    mb: AppMessageBus, 
+    rpc: AppRPC, 
+    auth_service: AuthService
+):
 
     @app.get(
         '/api/v1/roles',
@@ -160,15 +164,19 @@ def register_role_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, auth_s
             return User.parse_obj(auth_service.get_guest_user())
         return user
 
-    logging.info(
-        'Register auth.role API route handler'
-    )
+    logging.info('Register auth.role API route handler')
 
 
 ################################################
 # -- 👓 User Interface
 ################################################
-def register_role_ui_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, menu_service: MenuService, page_template: Jinja2Templates):
+def register_role_ui_route(
+    app: FastAPI, 
+    mb: AppMessageBus, 
+    rpc: AppRPC, 
+    menu_service: MenuService, 
+    page_template: Jinja2Templates
+):
 
     # Role CRUD page
     menu_service.add_menu(
@@ -198,3 +206,5 @@ def register_role_ui_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, menu_se
             'request': request,
             'context': context
         }, status_code=200)
+
+    logging.info('Register auth.role UI route handler')

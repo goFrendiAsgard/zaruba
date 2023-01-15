@@ -51,7 +51,7 @@ def init_test_menu_service_components() -> Tuple[MenuService, AuthService]:
     )
     user_fetcher = DefaultUserFetcher(rpc, oauth2_scheme)
     auth_service = AuthService(auth_rule, user_fetcher, 'root')
-    menu_service = MenuService(rpc, auth_service)
+    menu_service = MenuService(auth_service)
     return menu_service, auth_service
 
 

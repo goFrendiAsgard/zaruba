@@ -51,7 +51,7 @@ def register_library_ui_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, menu
                 'context': context,
                 'content_path': 'modules/library/blog.html'
             }, status_code=200)
-        except:
+        except Exception:
             print(traceback.format_exc(), file=sys.stderr) 
             return page_template.TemplateResponse('default_error.html', context={
                 'request': request,

@@ -17,6 +17,7 @@ from config.feature_flag import (
     enable_api, enable_auth_module, enable_cms_module, enable_log_module,
     enable_event_handler, enable_route_handler, enable_rpc_handler, enable_ui
 )
+from config.log import log_level
 from config.db import db_url, db_create_all
 from config.kafka import (
     kafka_connection_parameters, kafka_event_map,
@@ -26,10 +27,10 @@ from config.messagebus import message_bus_type
 from config.messagebus_factory import create_app_message_bus
 from config.port import http_port
 from config.rpc import rpc_type
-from config.rpc_factory import create_rpc
+from config.rpc_factory import create_app_rpc
 from config.url import (
     create_cred_token_url, create_oauth_cred_token_url,
-    renew_cred_token_url, public_url, backend_address
+    renew_cred_token_url, public_url, readiness_url, backend_address
 )
 from config.ui import site_name, tagline, footer, renew_cred_token_interval
 from config.activity import activity_events

@@ -23,7 +23,7 @@ def test_content_service_crud_find_by_id_non_existing():
     is_error = False
     try:
         content_service.find_by_id('invalid-id', AUTHORIZED_ACTIVE_USER)
-    except:
+    except Exception:
         is_error = True
     assert is_error
 
@@ -116,7 +116,7 @@ def test_content_service_crud_update_non_existing():
     is_error = False
     try:
         content_service.update('invalid-id', updated_content_data, AUTHORIZED_ACTIVE_USER)
-    except:
+    except Exception:
         is_error = True
     assert is_error
     assert content_repo.count(keyword='') == 1
@@ -144,7 +144,7 @@ def test_content_service_crud_delete_non_existing():
     is_error = False
     try:
         content_service.delete('invalid-id', AUTHORIZED_ACTIVE_USER)
-    except:
+    except Exception:
         is_error = True
     assert is_error
     assert content_repo.count(keyword='') == 1

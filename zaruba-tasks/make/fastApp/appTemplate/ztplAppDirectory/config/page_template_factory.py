@@ -13,6 +13,9 @@ def escape_template(string: str) -> str:
 
 
 def create_page_template() -> Jinja2Templates:
+    '''
+    Initiate Jinja2Templates and set it's default env.globals.
+    '''
     tpl = Jinja2Templates(directory=page_dir)
     tpl.env.globals['site_name'] = site_name
     tpl.env.globals['tagline'] = tagline

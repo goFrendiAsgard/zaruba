@@ -224,7 +224,7 @@ The settings are taken from environment variables as follows:
 create_oauth_cred_token_url_path: str = os.getenv('APP_CREATE_OAUTH_CRED_TOKEN_URL', '/api/v1/create-oauth-access-token/')
 create_cred_token_url_path: str = os.getenv('APP_CREATE_CRED_TOKEN_URL', '/api/v1/create-access-token/')
 renew_cred_token_url: str = os.getenv('APP_RENEW_CRED_TOKEN_URL', '/api/v1/refresh-access-token/')
-public_url: str = os.getenv('APP_PUBLIC_URL_PATH', '/public')
+public_url: str = os.getenv('APP_PUBLIC_URL', '/public')
 
 backend_address: str = os.getenv('APP_BACKEND_ADDRESS', 'http://localhost:{}'.format(http_port))
 ```
@@ -399,14 +399,12 @@ def register_book_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, auth_s
         '''
         result = {}
         try:
-            if not current_user:
-                current_user = User.parse_obj(auth_service.get_guest_user())
+            current_user = _get_user_or_guest(current_user)
             result = rpc.call('find_book', keyword, limit, offset, current_user.dict())
         except HTTPException as http_exception:
             raise http_exception
-        except:
-            print(traceback.format_exc(), file=sys.stderr) 
-            raise HTTPException(status_code=500, detail='internal Server Error')
+        except Exception:
+            _handle_non_http_exception()
         return BookResult.parse_obj(result)
 ```
 
@@ -547,14 +545,12 @@ def register_library_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, aut
         '''
         result = {}
         try:
-            if not current_user:
-                current_user = User.parse_obj(auth_service.get_guest_user())
+            current_user = _get_user_or_guest(current_user)
             result = rpc.call('find_book', keyword, limit, offset, current_user.dict())
         except HTTPException as http_exception:
             raise http_exception
-        except:
-            print(traceback.format_exc(), file=sys.stderr) 
-            raise HTTPException(status_code=500, detail='internal Server Error')
+        except Exception:
+            _handle_non_http_exception()
         return BookResult.parse_obj(result)
 
 

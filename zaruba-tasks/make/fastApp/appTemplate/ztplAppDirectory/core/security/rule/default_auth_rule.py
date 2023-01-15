@@ -6,6 +6,15 @@ from helper.transport.rpc import RPC
 
 
 class DefaultAuthRule(AuthRule):
+    '''
+    Normal authentication rule.
+
+    - ANYONE: can be accessed by anyone.
+    - VISITOR: can only be accessed by non-authenticated user.
+    - USER: can only be accessed by authenticated user.
+    - HAS_PERMISSION: can only be accessed by authenticated user
+        with specific permission.
+    '''
 
     def __init__(self, rpc: RPC):
         self.rpc = rpc
@@ -15,6 +24,15 @@ class DefaultAuthRule(AuthRule):
         auth_type: int,
         permission_name: Optional[str] = None
     ) -> bool:
+        '''
+        Initiate DefaultAuthRule.
+
+        - ANYONE: can be accessed by anyone.
+        - VISITOR: can only be accessed by non-authenticated user.
+        - USER: can only be accessed by authenticated user.
+        - HAS_PERMISSION: can only be accessed by authenticated user
+            with specific permission.
+        '''
         if auth_type == AuthType.ANYONE:
             return True
         if auth_type == AuthType.VISITOR:

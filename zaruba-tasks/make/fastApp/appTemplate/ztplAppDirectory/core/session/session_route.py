@@ -42,8 +42,7 @@ def register_session_api_route(
         Preferable if client use OAuth2 mechanism.
         '''
         try:
-            if not current_user:
-                current_user = User.parse_obj(auth_service.get_guest_user())
+            current_user = _get_user_or_guest(current_user)
             username = form_data.username
             password = form_data.password
             cred_token = rpc.call('create_cred_token', username, password)
@@ -73,8 +72,7 @@ def register_session_api_route(
         Preferable if client if client user AJAX or similar mechanism.
         '''
         try:
-            if not current_user:
-                current_user = User.parse_obj(auth_service.get_guest_user())
+            current_user = _get_user_or_guest(current_user)
             username = data.username
             password = data.password
             cred_token = rpc.call('create_cred_token', username, password)
@@ -103,8 +101,7 @@ def register_session_api_route(
         Serving API to renew access token.
         '''
         try:
-            if not current_user:
-                current_user = User.parse_obj(auth_service.get_guest_user())
+            current_user = _get_user_or_guest(current_user)
             old_cred_token = data.cred_token
             new_cred_token = rpc.call(
                 'renew_cred_token',
@@ -120,6 +117,16 @@ def register_session_api_route(
         except Exception:
             logging.error('Non HTTPException error', exc_info=True)
             raise HTTPException(status_code=400, detail='invalid token')
+
+    def _get_user_or_guest(user: Optional[User]) -> User:
+        '''
+        If user is not set, this function will return guest_user
+        '''
+        if user is None:
+            return User.parse_obj(auth_service.get_guest_user())
+        return user
+
+    logging.info('Register core.session API route handlers')
 
 
 ################################################
@@ -155,10 +162,11 @@ def register_session_ui_route(
     async def login(
         request: Request,
         context: MenuContext = Depends(
-            menu_service.has_access('account:login'))
+            menu_service.has_access('account:login')
+        )
     ):
         '''
-        Serving user interface for login.
+        Register core.session UI route handlers
         '''
         return page_template.TemplateResponse(
             'default_login.html',
@@ -197,3 +205,5 @@ def register_session_ui_route(
             },
             status_code=200
         )
+
+    logging.info('Register core.session UI route handlers')

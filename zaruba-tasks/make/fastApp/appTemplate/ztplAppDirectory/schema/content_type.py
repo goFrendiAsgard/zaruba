@@ -3,7 +3,7 @@ from pydantic import BaseModel
 import datetime
 
 
-DEFAULT_MARKDOWN_TEMPLATE =  '\n'.join([
+DEFAULT_MARKDOWN_TEMPLATE = '\n'.join([
     '# {{ title }}',
     '',
     '{{ description }}',
@@ -13,7 +13,9 @@ DEFAULT_MARKDOWN_TEMPLATE =  '\n'.join([
     '  {% for cta in content_type.attributes %}',
     '    <tr>',
     '      <th>{{ cta.caption }}</th>',
-    '      <td>{{ attributes[cta.name] if attributes[cta.name] else cta.default_value }}</td>',
+    '      <td>',
+    '        {{ attributes[cta.name] if attributes[cta.name] else cta.default_value }}',
+    '      </td>',
     '    </tr>',
     '  {% endfor %}',
     '  </tbody>',
@@ -47,7 +49,7 @@ class ContentTypeData(BaseModel):
         default_value='',
         input_type='markdown'
     )]
-    created_at: Optional[datetime.datetime] # Note: 🤖 Don't delete this line
+    created_at: Optional[datetime.datetime]  # Note: 🤖 Don't delete this line
     created_by: Optional[str]
     updated_at: Optional[datetime.datetime]
     updated_by: Optional[str]

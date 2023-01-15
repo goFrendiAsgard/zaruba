@@ -12,6 +12,9 @@ from fastapi import HTTPException
 
 
 class ZtplAppCrudEntityService():
+    '''
+    Service to handle ztpl_app_crud_entity
+    '''
 
     def __init__(
         self,
@@ -19,6 +22,9 @@ class ZtplAppCrudEntityService():
         rpc: AppRPC,
         ztpl_app_crud_entity_repo: ZtplAppCrudEntityRepo
     ):
+        '''
+        Init ZtplAppCrudEntity service.
+        '''
         self.mb = mb
         self.rpc = rpc
         self.ztpl_app_crud_entity_repo = ztpl_app_crud_entity_repo
@@ -30,6 +36,9 @@ class ZtplAppCrudEntityService():
         offset: int,
         current_user: Optional[User] = None
     ) -> ZtplAppCrudEntityResult:
+        '''
+        Find ztpl_app_crud_entities
+        '''
         count = self.ztpl_app_crud_entity_repo.count(keyword)
         rows = [
             self._fulfill_ztpl_app_crud_entity(row)
@@ -44,6 +53,9 @@ class ZtplAppCrudEntityService():
         id: str,
         current_user: Optional[User] = None
     ) -> Optional[ZtplAppCrudEntity]:
+        '''
+        Find ztpl_app_crud_entity
+        '''
         ztpl_app_crud_entity = self._find_ztpl_app_crud_entity_by_id_or_error(
             id, current_user
         )
@@ -57,6 +69,9 @@ class ZtplAppCrudEntityService():
         ztpl_app_crud_entity_data: ZtplAppCrudEntityData,
         current_user: User
     ) -> Optional[ZtplAppCrudEntity]:
+        '''
+        Insert ztpl_app_crud_entity
+        '''
         ztpl_app_crud_entity_data.created_by = current_user.id
         ztpl_app_crud_entity_data.updated_by = current_user.id
         ztpl_app_crud_entity_data = self._validate_ztpl_app_crud_entity_data(
@@ -83,6 +98,9 @@ class ZtplAppCrudEntityService():
         ztpl_app_crud_entity_data: ZtplAppCrudEntityData,
         current_user: User
     ) -> Optional[ZtplAppCrudEntity]:
+        '''
+        Update ztpl_app_crud_entity
+        '''
         self._find_ztpl_app_crud_entity_by_id_or_error(id, current_user)
         ztpl_app_crud_entity_data.updated_by = current_user.id
         ztpl_app_crud_entity_data = self._validate_ztpl_app_crud_entity_data(
@@ -109,6 +127,9 @@ class ZtplAppCrudEntityService():
         id: str,
         current_user: User
     ) -> Optional[ZtplAppCrudEntity]:
+        '''
+        Delete ztpl_app_crud_entity
+        '''
         self._find_ztpl_app_crud_entity_by_id_or_error(id, current_user)
         deleted_ztpl_app_crud_entity = self.ztpl_app_crud_entity_repo.delete(
             id

@@ -11,8 +11,17 @@ import traceback
 
 
 class DefaultUserFetcher(UserFetcher):
+    '''
+    Default user fetcher.
+
+    You can use DefaultUserFetcher to create a user-fetcher function.
+    '''
 
     def __init__(self, rpc: RPC, oauth2_scheme: OAuth2):
+        '''
+        Initiate DefaultUserFetcher.
+        You can use DefaultUserFetcher to create a user-fetcher function.
+        '''
         self.rpc = rpc
         self.oauth2_scheme = oauth2_scheme
 
@@ -20,6 +29,9 @@ class DefaultUserFetcher(UserFetcher):
         self,
         throw_error: bool = True
     ) -> Callable[[Request], Optional[User]]:
+        '''
+        Create a function to fetch user
+        '''
         async def fetch_user(
             bearer_token=Depends(self.oauth2_scheme),
             app_cred_token=Cookie(default=None)

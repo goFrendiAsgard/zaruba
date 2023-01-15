@@ -17,7 +17,12 @@ import logging
 ################################################
 # -- ⚙️ API
 ################################################
-def register_ztpl_app_crud_entity_api_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, auth_service: AuthService):
+def register_ztpl_app_crud_entity_api_route(
+    app: FastAPI,
+    mb: AppMessageBus,
+    rpc: AppRPC,
+    auth_service: AuthService
+):
 
     @app.get(
         '/api/v1/ztpl-app-crud-entities',
@@ -171,14 +176,19 @@ def register_ztpl_app_crud_entity_api_route(app: FastAPI, mb: AppMessageBus, rpc
         return user
 
     logging.info(
-        'Register ztplAppModuleName.ztpl_app_crud_entity API route handler'
-    )
+        'Register ztplAppModuleName.ztpl_app_crud_entity API route handler')
 
 
 ################################################
 # -- 👓 User Interface
 ################################################
-def register_ztpl_app_crud_entity_ui_route(app: FastAPI, mb: AppMessageBus, rpc: AppRPC, menu_service: MenuService, page_template: Jinja2Templates):
+def register_ztpl_app_crud_entity_ui_route(
+    app: FastAPI,
+    mb: AppMessageBus,
+    rpc: AppRPC,
+    menu_service: MenuService,
+    page_template: Jinja2Templates
+):
 
     # ZtplAppCrudEntity CRUD page
     menu_service.add_menu(
@@ -211,5 +221,4 @@ def register_ztpl_app_crud_entity_ui_route(app: FastAPI, mb: AppMessageBus, rpc:
         }, status_code=200)
 
     logging.info(
-        'Register ztplAppModuleName.ztpl_app_crud_entity UI route handler'
-    )
+        'Register ztplAppModuleName.ztpl_app_crud_entity UI route handler')

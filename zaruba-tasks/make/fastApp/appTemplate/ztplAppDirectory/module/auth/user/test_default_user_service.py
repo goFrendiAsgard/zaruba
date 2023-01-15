@@ -23,7 +23,7 @@ def test_user_service_crud_find_by_id_non_existing():
     is_error = False
     try:
         user_service.find_by_id('invalid-id', AUTHORIZED_ACTIVE_USER)
-    except:
+    except Exception:
         is_error = True
     assert is_error
 
@@ -49,7 +49,7 @@ def test_user_service_crud_find_by_username_non_existing():
     is_error = False
     try:
         user_service.find_by_username('invalid-user', AUTHORIZED_ACTIVE_USER)
-    except:
+    except Exception:
         is_error = True
     assert is_error
 
@@ -88,7 +88,7 @@ def test_user_service_crud_find_by_identity_and_password_invalid_password():
     is_error = False
     try:
         user_service.find_by_identity_and_password(existing_user.username, 'invalid-password', AUTHORIZED_ACTIVE_USER)
-    except:
+    except Exception:
         is_error = True
     assert is_error
 
@@ -101,7 +101,7 @@ def test_user_service_crud_find_by_identity_and_password_non_existing():
     is_error = False
     try:
         user_service.find_by_identity_and_password('invalid-user', 'invalid-password', AUTHORIZED_ACTIVE_USER)
-    except:
+    except Exception:
         is_error = True
     assert is_error
 
@@ -191,7 +191,7 @@ def test_user_service_crud_update_non_existing():
     is_error = False
     try:
         user_service.update('invalid-id', updated_user_data, AUTHORIZED_ACTIVE_USER)
-    except:
+    except Exception:
         is_error = True
     assert is_error
     assert user_repo.count(keyword='') == 1
@@ -219,7 +219,7 @@ def test_user_service_crud_delete_non_existing():
     is_error = False
     try:
         user_service.delete('invalid-id', AUTHORIZED_ACTIVE_USER)
-    except:
+    except Exception:
         is_error = True
     assert is_error
     assert user_repo.count(keyword='') == 1

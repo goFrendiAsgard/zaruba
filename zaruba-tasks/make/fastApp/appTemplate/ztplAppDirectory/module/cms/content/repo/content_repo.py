@@ -1,7 +1,8 @@
-from typing import List, Mapping, Optional
+from typing import List, Optional
 from schema.content import Content, ContentData
 
 import abc
+
 
 class ContentRepo(abc.ABC):
 

@@ -1,6 +1,4 @@
 from typing import Callable, List, Optional, Mapping
-from helper.transport import RPC
-from transport import AppRPC
 from schema.auth_type import AuthType
 from schema.menu import Menu
 from schema.menu_context import MenuContext
@@ -14,17 +12,35 @@ import copy
 
 
 class MenuService():
+    '''
+    Service to handle menu.
+
+    You can use MenuService to:
+    - Add menu.
+    - Validate whether a user is allowed to access a page or not.
+    '''
 
     def __init__(
         self,
-        rpc: AppRPC,
         auth_service: AuthService,
         root_menu_name: str = 'root',
         root_menu_title: str = '',
         root_menu_url: str = '/'
     ):
+        '''
+        Initiate a new MenuService.
+
+        Keyword arguments:
+        - auth_service -- Instance of core.security.service.auth_service.
+        - root_menu_name -- Root menu name (default: 'root')
+        - root_menu_title -- Root menu title (default: '')
+        - root_menu_url -- Root menu URL (default: '/')
+
+        You can use MenuService to:
+        - Add menu.
+        - Validate whether a user is allowed to access a page or not.
+        '''
         self.auth_service: AuthService = auth_service
-        self.rpc: RPC = rpc
         self.root_menu: Menu = Menu(
             name=root_menu_name,
             title=root_menu_title,
@@ -43,6 +59,22 @@ class MenuService():
         permission_name: Optional[str] = None,
         parent_name: Optional[str] = None
     ):
+        '''
+        Add menu to MenuService.
+
+        Keyword arguments:
+        - name: Menu name.
+        - title: Menu title.
+        - url: Menu URL.
+        - auth_type: Authentication type. Valid values are:
+            - schema.auth_type.AuthType.ANYONE
+            - schema.auth_type.AuthType.VISITOR
+            - schema.auth_type.AuthType.USER
+            - schema.auth_type.AuthType.HAS_PERMISSION
+        - permission_name: Permission name to access the inew menu.
+        - parent_name: Name of menu's parent.
+            If not specified, the new menu will be added to root_menu.
+        '''
         if auth_type not in (
             AuthType.ANYONE,
             AuthType.VISITOR,
@@ -85,6 +117,16 @@ class MenuService():
         menu_name: str,
         user: Optional[User]
     ) -> Optional[Menu]:
+        '''
+        Get accessible menu for a user (can be None).
+
+        If menu_name is accessible,
+        then menu_name and it's parents will have is_hightlighted == True
+
+        Keyword Arguments:
+        - menu_name -- Menu name to be acessed
+        - user -- User accessing the menu (optional, default: None)
+        '''
         parent_names = self.parent_map[menu_name]
         accessible_menu = self._get_accessible_menu(self.root_menu, user)
         if menu_name in self.parent_map:
@@ -99,6 +141,13 @@ class MenuService():
         self,
         menu_name: str
     ) -> Callable[[Callable[[Request], Optional[User]]], MenuContext]:
+        '''
+        Return MenuContext if user is allowed to access menu_name.
+        Otherwise, it will raise a PageException error.
+
+        Keyword arguments:
+        - menu_name -- Menu name to be accessed
+        '''
         if menu_name not in self.menu_map:
             raise Exception('Menu {} is not registered'.format(menu_name))
         menu = self.menu_map[menu_name]

@@ -1,6 +1,8 @@
 from typing import List, Optional
 from pydantic import BaseModel
-import datetime, re
+import datetime
+import re
+
 
 class UserDataWithoutPassword(BaseModel):
     username: str = ''
@@ -17,8 +19,10 @@ class UserDataWithoutPassword(BaseModel):
 
     def has_permission(self, permission: str) -> bool:
         for existing_permission in self.permissions:
-            permission_pattern = re.sub(r'\*', '[0-9a-zA-Z\*]+', permission)
-            if re.search('^{}$'.format(permission_pattern), existing_permission):
+            permission_pattern = re.sub(r'\*', '[0-9a-zA-Z\\*]+', permission)
+            if re.search(
+                '^{}$'.format(permission_pattern), existing_permission
+            ):
                 return True
         return False
 
@@ -29,7 +33,11 @@ class UserDataWithoutPassword(BaseModel):
         self.permissions.append(permission)
 
     def remove_permission(self, permission: str):
-        new_permissions = [existing_permission for existing_permission in self.permissions if existing_permission != permission]
+        new_permissions = [
+            existing_permission
+            for existing_permission in self.permissions
+            if existing_permission != permission
+        ]
         self.permissions = new_permissions
 
     def add_role_id(self, role_id: str):
@@ -39,12 +47,17 @@ class UserDataWithoutPassword(BaseModel):
         self.role_ids.append(role_id)
 
     def remove_role_id(self, role_id: str):
-        new_role_ids = [existing_role_id for existing_role_id in self.role_ids if existing_role_id != role_id]
+        new_role_ids = [
+            existing_role_id
+            for existing_role_id in self.role_ids
+            if existing_role_id != role_id
+        ]
         self.role_ids = new_role_ids
 
 
 class UserWithoutPassword(UserDataWithoutPassword):
     id: str
+
     class Config:
         orm_mode = True
 
@@ -55,6 +68,7 @@ class UserData(UserDataWithoutPassword):
 
 class User(UserData):
     id: str
+
     class Config:
         orm_mode = True
 

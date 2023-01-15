@@ -3,6 +3,7 @@ from schema.role import Role, RoleData
 
 import abc
 
+
 class RoleRepo(abc.ABC):
 
     @abc.abstractmethod

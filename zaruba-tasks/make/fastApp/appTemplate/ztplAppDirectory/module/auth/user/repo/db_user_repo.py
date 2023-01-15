@@ -1,8 +1,10 @@
-from typing import Any, List, Optional
+from typing import List, Optional
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session
-from sqlalchemy import and_, or_, Boolean, Column, DateTime, ForeignKey, Integer, String, Text
+from sqlalchemy import (
+    and_, or_, Boolean, Column, DateTime, String, Text
+)
 from schema.user import User, UserWithoutPassword, UserData
 from module.auth.user.repo.user_repo import UserRepo
 from repo import Base
@@ -11,6 +13,7 @@ import bcrypt
 import uuid
 import datetime
 import jsons
+
 
 class DBUserEntity(Base):
     __tablename__ = "users"
@@ -40,25 +43,29 @@ class DBUserRepo(UserRepo):
         if create_all:
             Base.metadata.create_all(bind=engine)
 
-
-    def find_by_username(self, username: str) -> Optional[UserWithoutPassword]:
+    def find_by_username(
+        self, username: str
+    ) -> Optional[UserWithoutPassword]:
         db = Session(self.engine, expire_on_commit=False)
         user: User
         try:
-            db_user = db.query(DBUserEntity).filter(DBUserEntity.username == username).first()
+            db_user = db.query(DBUserEntity).filter(
+                DBUserEntity.username == username
+            ).first()
             if db_user is None:
                 return None
             user = User.from_orm(db_user)
         finally:
             db.close()
         return user
-
 
     def find_by_email(self, email: str) -> Optional[UserWithoutPassword]:
         db = Session(self.engine, expire_on_commit=False)
         user: User
         try:
-            db_user = db.query(DBUserEntity).filter(DBUserEntity.email == email).first()
+            db_user = db.query(DBUserEntity).filter(
+                DBUserEntity.email == email
+            ).first()
             if db_user is None:
                 return None
             user = User.from_orm(db_user)
@@ -66,25 +73,29 @@ class DBUserRepo(UserRepo):
             db.close()
         return user
 
-
-    def find_by_phone_number(self, phone_number: str) -> Optional[UserWithoutPassword]:
+    def find_by_phone_number(
+        self, phone_number: str
+    ) -> Optional[UserWithoutPassword]:
         db = Session(self.engine, expire_on_commit=False)
         user: User
         try:
-            db_user = db.query(DBUserEntity).filter(DBUserEntity.phone_number == phone_number).first()
+            db_user = db.query(DBUserEntity).filter(
+                DBUserEntity.phone_number == phone_number
+            ).first()
             if db_user is None:
                 return None
             user = User.from_orm(db_user)
         finally:
             db.close()
         return user
-
 
     def find_by_id(self, id: str) -> Optional[UserWithoutPassword]:
         db = Session(self.engine, expire_on_commit=False)
         user: UserWithoutPassword
         try:
-            db_user = db.query(DBUserEntity).filter(DBUserEntity.id == id).first()
+            db_user = db.query(DBUserEntity).filter(
+                DBUserEntity.id == id
+            ).first()
             if db_user is None:
                 return None
             user = self._from_db_user(db_user)
@@ -92,27 +103,46 @@ class DBUserRepo(UserRepo):
             db.close()
         return user
 
-
-    def find_by_identity_and_password(self, identity: str, password: str) -> Optional[UserWithoutPassword]:
+    def find_by_identity_and_password(
+        self, identity: str, password: str
+    ) -> Optional[UserWithoutPassword]:
         db = Session(self.engine, expire_on_commit=False)
         user: UserWithoutPassword
         try:
             db_user = db.query(DBUserEntity).filter(
                     or_(
-                        and_(DBUserEntity.username == identity, DBUserEntity.username != '', DBUserEntity.username is not None),
-                        and_(DBUserEntity.email == identity, DBUserEntity.email != '', DBUserEntity.email is not None),
-                        and_(DBUserEntity.phone_number == identity, DBUserEntity.phone_number != '', DBUserEntity.phone_number is not None)
+                        and_(
+                            DBUserEntity.username == identity,
+                            DBUserEntity.username != '',
+                            DBUserEntity.username is not None
+                        ),
+                        and_(
+                            DBUserEntity.email == identity,
+                            DBUserEntity.email != '',
+                            DBUserEntity.email is not None
+                        ),
+                        and_(
+                            DBUserEntity.phone_number == identity,
+                            DBUserEntity.phone_number != '',
+                            DBUserEntity.phone_number is not None
+                        )
                     )
                 ).first()
-            if not db_user or not self._is_valid_password(password, db_user.hashed_password):
+            if (
+                not db_user
+                or not self._is_valid_password(
+                    password, db_user.hashed_password
+                )
+            ):
                 return None
             user = self._from_db_user(db_user)
         finally:
             db.close()
         return user
 
-
-    def find(self, keyword: str, limit: int, offset: int) -> List[UserWithoutPassword]:
+    def find(
+        self, keyword: str, limit: int, offset: int
+    ) -> List[UserWithoutPassword]:
         db = Session(self.engine, expire_on_commit=False)
         users: List[UserWithoutPassword] = []
         try:
@@ -129,7 +159,6 @@ class DBUserRepo(UserRepo):
         finally:
             db.close()
         return users
-
 
     def count(self, keyword: str) -> int:
         db = Session(self.engine, expire_on_commit=False)
@@ -148,12 +177,11 @@ class DBUserRepo(UserRepo):
             db.close()
         return user_count
 
-
     def insert(self, user_data: UserData) -> Optional[UserWithoutPassword]:
         db = Session(self.engine, expire_on_commit=False)
         new_user: UserWithoutPassword
         try:
-            new_user_id=str(uuid.uuid4())
+            new_user_id = str(uuid.uuid4())
             db_user = DBUserEntity(
                 id=new_user_id,
                 username=user_data.username,
@@ -171,18 +199,21 @@ class DBUserRepo(UserRepo):
             )
             db.add(db_user)
             db.commit()
-            db.refresh(db_user) 
+            db.refresh(db_user)
             new_user = self._from_db_user(db_user)
         finally:
             db.close()
         return new_user
 
-
-    def update(self, id: str, user_data: UserData) -> Optional[UserWithoutPassword]:
+    def update(
+        self, id: str, user_data: UserData
+    ) -> Optional[UserWithoutPassword]:
         db = Session(self.engine, expire_on_commit=False)
         updated_user: UserWithoutPassword
         try:
-            db_user = db.query(DBUserEntity).filter(DBUserEntity.id == id).first()
+            db_user = db.query(DBUserEntity).filter(
+                DBUserEntity.id == id
+            ).first()
             if db_user is None:
                 return None
             db_user.username = user_data.username
@@ -195,21 +226,24 @@ class DBUserRepo(UserRepo):
             db_user.updated_at = datetime.datetime.utcnow()
             db_user.updated_by = user_data.updated_by
             if user_data.password:
-                db_user.hashed_password = self._hash_password(user_data.password)
+                db_user.hashed_password = self._hash_password(
+                    user_data.password
+                )
             db.add(db_user)
             db.commit()
-            db.refresh(db_user) 
+            db.refresh(db_user)
             updated_user = self._from_db_user(db_user)
         finally:
             db.close()
         return updated_user
 
-
     def delete(self, id: str) -> Optional[UserWithoutPassword]:
         db = Session(self.engine, expire_on_commit=False)
         deleted_user: UserWithoutPassword
         try:
-            db_user = db.query(DBUserEntity).filter(DBUserEntity.id == id).first()
+            db_user = db.query(DBUserEntity).filter(
+                DBUserEntity.id == id
+            ).first()
             if db_user is None:
                 return None
             db.delete(db_user)
@@ -219,18 +253,19 @@ class DBUserRepo(UserRepo):
             db.close()
         return deleted_user
 
-
     def _hash_password(self, password: str) -> str:
-        return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-
+        return bcrypt.hashpw(
+            password.encode('utf-8'), bcrypt.gensalt()
+        ).decode('utf-8')
 
     def _is_valid_password(self, password: str, hashed_password: str) -> bool:
-        return bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8'))
-
+        return bcrypt.checkpw(
+            password.encode('utf-8'),
+            hashed_password.encode('utf-8')
+        )
 
     def _get_keyword_filter(self, keyword: str) -> str:
         return '%{}%'.format(keyword) if keyword != '' else '%'
-
 
     def _from_db_user(self, db_user: DBUserEntity) -> UserWithoutPassword:
         user = UserWithoutPassword.from_orm(db_user)

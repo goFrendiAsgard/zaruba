@@ -1,9 +1,5 @@
+from helper.config import get_absolute_dir
 import os
-
-
-def get_absolute_dir(raw_static_dir: str) -> str:
-    return os.path.abspath(raw_static_dir) if raw_static_dir != '' else ''
-
 
 public_dir: str = get_absolute_dir(os.getenv(
     'APP_PUBLIC_DIR', 'public'
