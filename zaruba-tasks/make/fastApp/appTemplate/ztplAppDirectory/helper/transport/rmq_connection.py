@@ -35,7 +35,8 @@ class RMQConnection():
 
     def create_connection(self) -> BlockingConnection:
         connection: BlockingConnection = pika.BlockingConnection(
-            self._connection_parameters)
+            self._connection_parameters
+        )
         self._connections.append(connection)
         return connection
 
