@@ -17,7 +17,7 @@ renew_cred_token_url: str = url_path(os.getenv(
 ))
 
 # Readiness URLs
-readines_url: str = url_path(os.getenv(
+readiness_url: str = url_path(os.getenv(
     'APP_READINESS_URL',
     '/readiness'
 ))

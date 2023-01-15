@@ -15,7 +15,8 @@ from config.dir import public_dir, page_dir
 from config.error import error_threshold
 from config.feature_flag import (
     enable_api, enable_auth_module, enable_cms_module, enable_log_module,
-    enable_event_handler, enable_route_handler, enable_rpc_handler, enable_ui
+    enable_event_handler, enable_route_handler, enable_rpc_handler, enable_ui,
+    enable_error_page
 )
 from config.log import log_level
 from config.db import db_url, db_create_all
