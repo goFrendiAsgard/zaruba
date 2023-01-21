@@ -23,20 +23,15 @@ class DBRepo(Generic[DBEntity, Schema, SchemaData]):
 
     ```
     from typing import Optional
-    from repo import Base
+    from repo import Base, BaseMixin, DBRepo
     from sqlalchemy import create_engine, Column, DateTime, String
     from pydantic import BaseModel
 
     import datetime
 
     # SQLAlchemy model
-    class DBBookEntity(Base):
-        id = Column(String(36), primary_key=True, index=True)
+    class DBBookEntity(Base, BaseMixin):
         title = Column(String(255), index=True, nullable=False)
-        created_at = Column(DateTime, default=datetime.datetime.utcnow)
-        created_by = Column(String(36), nullable=True)
-        updated_at = Column(DateTime, nullable=True)
-        updated_by = Column(String(36), nullable=True)
 
     # Pydantic schema
     class BookData(BaseModel):
@@ -55,10 +50,9 @@ class DBRepo(Generic[DBEntity, Schema, SchemaData]):
     class DBBookRepo(DBRepo[DBBookEntity, Book, BookData]):
         schema_class = Book
         db_entity_class = DBBookEntity
-        pass
 
     engine = create_engine('sqlite:///database.db', echo=True)
-    book_repo = DBBookRepo(entity_class=Book, engine=engine, create_all=True)
+    book_repo = DBBookRepo(engine=engine, create_all=True)
 
     new_book = book_repo.insert(BookData(title='Doraemon'))
     print(new_book)
@@ -81,26 +75,6 @@ class DBRepo(Generic[DBEntity, Schema, SchemaData]):
         if create_all:
             Base.metadata.create_all(bind=engine)
 
-    def from_schema_data_to_db_entity_dict(
-        self, schema_data: SchemaData
-    ) -> Mapping[str, Any]:
-        '''
-        Convert entity_data into dictionary
-        The dictionary will be use for inserting/updating data into db_entity.
-        '''
-        entity_dict = schema_data.dict()
-        return {
-            field: value
-            for field, value in entity_dict.items()
-            if field in self.db_entity_attribute_names
-        }
-
-    def from_db_entity_to_schema(self, db_entity: DBEntity) -> Schema:
-        '''
-        Convert db_entity into entity
-        '''
-        return self.schema_class.from_orm(db_entity)
-
     def get_keyword_fields(self) -> List[InstrumentedAttribute]:
         '''
         Return list of fields for keyword filtering
@@ -113,7 +87,32 @@ class DBRepo(Generic[DBEntity, Schema, SchemaData]):
             ) == InstrumentedAttribute
         ]
 
+    def from_schema_data_to_db_entity_dict(
+        self, schema_data: SchemaData
+    ) -> Mapping[str, Any]:
+        '''
+        Convert entity_data into dictionary
+        The result of this convertion is used for inserting/updating db_entity.
+        '''
+        entity_dict = schema_data.dict()
+        return {
+            field: value
+            for field, value in entity_dict.items()
+            if field in self.db_entity_attribute_names
+        }
+
+    def from_db_entity_to_schema(self, db_entity: DBEntity) -> Schema:
+        '''
+        Convert db_entity into schema.
+        The result of this convertion is usually returned to external layer (e.g., service).
+        '''
+        return self.schema_class.from_orm(db_entity)
+
     def get_search_filter(self, db: Session, keyword: str) -> Any:
+        '''
+        Return keyword filtering.
+        The result is usually used to invoke find/count.
+        '''
         like_keyword = '%{}%'.format(keyword) if keyword != '' else '%'
         keyword_filter = [
             keyword_field.like(like_keyword)
@@ -122,9 +121,15 @@ class DBRepo(Generic[DBEntity, Schema, SchemaData]):
         return or_(*keyword_filter)
     
     def create_db_sesion(self) -> Session:
+        '''
+        Return a db session.
+        '''
         return Session(self.engine, expire_on_commit=False)
 
     def find_by_id(self, id: str) -> Optional[Schema]:
+        '''
+        Find a record by id.
+        '''
         db = self.create_db_sesion()
         try:
             search_filter = self.db_entity_class.id == id
@@ -135,6 +140,9 @@ class DBRepo(Generic[DBEntity, Schema, SchemaData]):
     def find(
         self, keyword: str, limit: int = 100, offset: int = 0
     ) -> List[Schema]:
+        '''
+        Find multiple records by keyword with limit and offset.
+        '''
         db = self.create_db_sesion()
         try:
             search_filter = self.get_search_filter(db, keyword)
@@ -143,6 +151,9 @@ class DBRepo(Generic[DBEntity, Schema, SchemaData]):
             db.close()
 
     def count(self, keyword: str) -> int:
+        '''
+        Count records by keyword.
+        '''
         db = self.create_db_sesion()
         try:
             search_filter = self.get_search_filter(db, keyword)
@@ -151,6 +162,9 @@ class DBRepo(Generic[DBEntity, Schema, SchemaData]):
             db.close()
 
     def insert(self, schema_data: SchemaData) -> Optional[Schema]:
+        '''
+        Insert a new record.
+        '''
         db = self.create_db_sesion()
         try:
             db_entity = self.db_entity_class(
@@ -168,14 +182,11 @@ class DBRepo(Generic[DBEntity, Schema, SchemaData]):
             db.refresh(db_entity)
             return self.from_db_entity_to_schema(db_entity)
         except Exception:
-            logging.error(
-                ' '.join([
-                    'Error while invoking insert {}'.format(
-                        self.db_entity_class
-                    ),
-                    'schema_data={}'.format(schema_data)
-                ]),
-                exc_info=True
+            self._log_error(
+                'Error while invoking insert {}'.format(
+                    self.db_entity_class
+                ),
+                'schema_data={}'.format(schema_data)
             )
             raise
         finally:
@@ -184,6 +195,9 @@ class DBRepo(Generic[DBEntity, Schema, SchemaData]):
     def update(
         self, id: str, schema_data: SchemaData
     ) -> Optional[Schema]:
+        '''
+        Update a record.
+        '''
         db = self.create_db_sesion()
         try:
             db_entity = db.query(self.db_entity_class).filter(
@@ -203,21 +217,21 @@ class DBRepo(Generic[DBEntity, Schema, SchemaData]):
             db.refresh(db_entity)
             return self.from_db_entity_to_schema(db_entity)
         except Exception:
-            logging.error(
-                ' '.join([
-                    'Error while invoking update {}'.format(
-                        self.db_entity_class
-                    ),
-                    'id={}'.format(id),
-                    'schema_data={}'.format(schema_data)
-                ]),
-                exc_info=True
+            self._log_error(
+                'Error while invoking update {}'.format(
+                    self.db_entity_class
+                ),
+                'id={}'.format(id),
+                'schema_data={}'.format(schema_data)
             )
             raise
         finally:
             db.close()
 
     def delete(self, id: str) -> Optional[Schema]:
+        '''
+        Delete a record.
+        '''
         db = self.create_db_sesion()
         try:
             db_entity = db.query(self.db_entity_class).filter(
@@ -229,14 +243,11 @@ class DBRepo(Generic[DBEntity, Schema, SchemaData]):
             db.commit()
             return self.from_db_entity_to_schema(db_entity)
         except Exception:
-            logging.error(
-                ' '.join([
-                    'Error while invoking delete {}'.format(
-                        self.db_entity_class
-                    ),
-                    'id={}'.format(id),
-                ]),
-                exc_info=True
+            self._log_error(
+                'Error while invoking delete {}'.format(
+                    self.db_entity_class
+                ),
+                'id={}'.format(id),
             )
             raise
         finally:
@@ -263,16 +274,13 @@ class DBRepo(Generic[DBEntity, Schema, SchemaData]):
                 for db_entity in db_entities
             ]
         except Exception:
-            logging.error(
-                ' '.join([
-                    'Error while invoking find_by_filter {}'.format(
-                        self.db_entity_class
-                    ),
-                    'search_filter={}'.format(search_filter),
-                    'limit={}'.format(limit),
-                    'offset={}'.format(offset)
-                ]),
-                exc_info=True
+            self._log_error(
+                'Error while invoking find_by_filter {}'.format(
+                    self.db_entity_class
+                ),
+                'search_filter={}'.format(search_filter),
+                'limit={}'.format(limit),
+                'offset={}'.format(offset)
             )
             raise
 
@@ -288,14 +296,11 @@ class DBRepo(Generic[DBEntity, Schema, SchemaData]):
                 search_filter
             ).count()
         except Exception:
-            logging.error(
-                ' '.join([
-                    'Error while invoking count {}'.format(
-                        self.db_entity_class
-                    ),
-                    'search_filter={}'.format(search_filter)
-                ]),
-                exc_info=True
+            self._log_error(
+                'Error while invoking count {}'.format(
+                    self.db_entity_class
+                ),
+                'search_filter={}'.format(search_filter)
             )
             raise
 
@@ -310,17 +315,17 @@ class DBRepo(Generic[DBEntity, Schema, SchemaData]):
                 return None
             return self.from_db_entity_to_schema(db_entity)
         except Exception:
-            logging.error(
-                ' '.join([
-                    'Error while invoking find_by_id {}'.format(
-                        self.db_entity_class
-                    ),
-                    'search_filter={}'.format(search_filter)
-                ]),
-                exc_info=True
-            )
-            logging.error(
-                'Error while invoking find_by_id(id={})'.format(id),
-                exc_info=True
+            self._log_error(
+                'Error while invoking find_by_id {}'.format(
+                    self.db_entity_class
+                ),
+                'search_filter={}'.format(search_filter)
             )
             raise
+    
+    def _log_error(*messages: str):
+        logging.error(
+            ' '.join(messages),
+            exc_info=True
+        )
+
