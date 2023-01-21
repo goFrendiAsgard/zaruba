@@ -1,4 +1,4 @@
-from config.app_factory import create_app
+from config.app import init_app
 from config.auth import (
     root_initial_email, root_initial_fullname, root_initial_password,
     root_initial_phone_number, root_username, root_permission,

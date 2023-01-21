@@ -1,3 +1,4 @@
+from fastapi import FastAPI
 from fastapi.security import OAuth2PasswordBearer
 from helper.config import get_boolean_env
 from sqlalchemy import create_engine
@@ -31,7 +32,7 @@ from config import (
     enable_event_handler, enable_route_handler, enable_rpc_handler,
     enable_ui, enable_error_page, seed_root_user,
     # factories
-    create_app, create_app_message_bus, create_app_rpc, create_page_template,
+    init_app, create_app_message_bus, create_app_rpc, create_page_template,
     # db
     db_create_all, db_url,
     # messagebus + rpc
@@ -89,15 +90,13 @@ user_fetcher = DefaultUserFetcher(rpc, oauth2_scheme)
 auth_service = AuthService(auth_rule, user_fetcher, root_permission)
 
 ################################################
-# -- 👓 User Interface initialization
-################################################
-menu_service = MenuService(auth_service)
-page_template = create_page_template()
-
-################################################
 # -- ⚛️ FastAPI initialization
 ################################################
-app = create_app(
+app = FastAPI(title=site_name)
+menu_service = MenuService(app, auth_service)
+page_template = create_page_template()
+init_app(
+    app=app,
     mb=mb,
     rpc=rpc,
     menu_service=menu_service,
@@ -113,7 +112,6 @@ app = create_app(
     cors_max_age=cors_max_age,
     public_dir=public_dir,
     error_threshold=error_threshold,
-    site_name=site_name,
     public_url=public_url,
     readiness_url=readiness_url
 )
@@ -136,7 +134,9 @@ if enable_route_handler and enable_ui:
 ################################################
 # Note: 🤖 Don't delete the following statement
 if enable_log_module:
-    activity_repo = DBActivityRepo(engine=engine, create_all=db_create_all)
+    activity_repo = DBActivityRepo(
+        engine=engine, create_all=db_create_all
+    )
     activity_service = ActivityService(mb, rpc, auth_service, activity_repo)
     # API route
     if enable_route_handler and enable_api:

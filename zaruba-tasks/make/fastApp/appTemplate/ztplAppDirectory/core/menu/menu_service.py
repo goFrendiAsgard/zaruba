@@ -5,7 +5,9 @@ from schema.menu_context import MenuContext
 from schema.user import User
 from core.security.service.auth_service import AuthService
 from core.page.page_template_exception import PageTemplateException
-from fastapi import Depends, status
+from fastapi import FastAPI, Depends, status
+from fastapi.types import DecoratedCallable
+from fastapi.responses import Response, HTMLResponse
 from starlette.requests import Request
 
 import copy
@@ -22,6 +24,7 @@ class MenuService():
 
     def __init__(
         self,
+        app: FastAPI,
         auth_service: AuthService,
         root_menu_name: str = 'root',
         root_menu_title: str = '',
@@ -40,6 +43,7 @@ class MenuService():
         - Add menu.
         - Validate whether a user is allowed to access a page or not.
         '''
+        self.app = app
         self.auth_service: AuthService = auth_service
         self.root_menu: Menu = Menu(
             name=root_menu_name,
@@ -49,6 +53,24 @@ class MenuService():
         )
         self.menu_map: Mapping[str, Menu] = {root_menu_name: self.root_menu}
         self.parent_map: Mapping[str, List[Menu]] = {root_menu_name: []}
+
+    def serve(
+        self,
+        name: str,
+        title: str,
+        url: str,
+        auth_type: int,
+        permission_name: Optional[str] = None,
+        parent_name: Optional[str] = None,
+        response_class: Response = HTMLResponse
+    ) -> Callable[[DecoratedCallable], DecoratedCallable]:
+        '''
+        Decorator to serve a page
+        '''
+        self.add_menu(
+            name, title, url, auth_type, permission_name, parent_name
+        )
+        return self.app.get(url, response_class=HTMLResponse)
 
     def add_menu(
         self,

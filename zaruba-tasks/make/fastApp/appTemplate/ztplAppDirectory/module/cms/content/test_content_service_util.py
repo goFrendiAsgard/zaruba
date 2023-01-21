@@ -21,7 +21,10 @@ def create_content_data(content_type_id: str) -> ContentData:
     return dummy_content_data
 
 
-def insert_content_data(content_repo: ContentRepo, content_type_id: str, index: Optional[int] = None) -> Content:
+def insert_content_data(
+    content_repo: ContentRepo,
+    content_type_id: str, index: Optional[int] = None
+) -> Content:
     content_data = create_content_data(content_type_id)
     content_data.title = 'content' if index is None else 'content-{index}'.format(index=index)
     content_data.created_by = 'original_user'
@@ -39,7 +42,15 @@ def create_mb() -> AppMessageBus:
     return mb
 
 
-def init_test_content_service_components() -> Tuple[ContentService, DBContentTypeRepo, DBContentRepo, ContentType, AppMessageBus, AppRPC]:
+def init_test_content_service_components(
+) -> Tuple[
+    ContentService,
+    DBContentTypeRepo,
+    DBContentRepo,
+    ContentType,
+    AppMessageBus,
+    AppRPC
+]:
     engine = create_engine('sqlite://', echo=False)
     content_type_repo = DBContentTypeRepo(engine=engine, create_all=True)
     content_type = content_type_repo.insert(ContentTypeData(name='article'))

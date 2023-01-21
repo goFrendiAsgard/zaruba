@@ -1,4 +1,5 @@
 from typing import Optional, Tuple, List, Mapping, Any
+from fastapi import FastAPI
 from core.menu.menu_service import MenuService
 from core.security.service.auth_service import AuthService
 from module.auth.user.test_default_user_service_util import (
@@ -44,6 +45,7 @@ def create_rpc() -> AppRPC:
 
 
 def init_test_menu_service_components() -> Tuple[MenuService, AuthService]:
+    app = FastAPI()
     rpc = create_rpc()
     auth_rule = DefaultAuthRule(rpc)
     oauth2_scheme = OAuth2PasswordBearer(
@@ -51,7 +53,7 @@ def init_test_menu_service_components() -> Tuple[MenuService, AuthService]:
     )
     user_fetcher = DefaultUserFetcher(rpc, oauth2_scheme)
     auth_service = AuthService(auth_rule, user_fetcher, 'root')
-    menu_service = MenuService(auth_service)
+    menu_service = MenuService(app, auth_service)
     return menu_service, auth_service
 
 

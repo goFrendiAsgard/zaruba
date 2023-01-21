@@ -14,7 +14,8 @@ import re
 import logging
 
 
-def create_app(
+def init_app(
+    app: FastAPI,
     mb: AppMessageBus,
     rpc: AppRPC,
     menu_service: MenuService,
@@ -30,10 +31,9 @@ def create_app(
     cors_max_age: int = 600,
     public_dir: str = 'public',
     error_threshold: int = 10,
-    site_name: str = 'App',
     public_url: str = '/public',
     readiness_url: str = '/readiness'
-) -> FastAPI:
+):
     '''
     ⚛️ Create a FastAPI app instance with:
     - CORS middleware (as defined by the arguments).
@@ -44,6 +44,7 @@ def create_app(
     - app shutdown event handler.
 
     Keyword arguments:
+    - app -- FastAPI instance.
     - mb -- Instance of transport.AppMessageBus.
     - rpc -- Instance of transport.AppRPC.
     - menu_service -- Instance of core.MenuService.
@@ -61,13 +62,11 @@ def create_app(
     - cors_max_age -- CORS max age (default: 600).
     - public_dir -- Public directory location (default: 'public').
     - error_threshold -- Error threshold before readiness failed (default: 10).
-    - site_name -- Site name (default: 'App').
     - public_url -- Public URL (default: '/public').
     - readiness_url -- Public URL (default: '/readiness').
 
     Feel free to add more things as you need.
     '''
-    app = FastAPI(title=site_name)
 
     # 🔀 Apply CORS middleware
     app.add_middleware(
@@ -127,14 +126,12 @@ def create_app(
 
     # 🏠 Serve home page
     if enable_ui:
-        menu_service.add_menu(
+        @menu_service.serve(
             name='home',
             title='Home',
             url='/',
             auth_type=AuthType.ANYONE
         )
-
-        @app.get('/', response_class=HTMLResponse)
         async def get_home(
             request: Request,
             context: MenuContext = Depends(
@@ -213,5 +210,3 @@ def create_app(
                 },
                 status_code=exception.status_code
             )
-
-    return app
