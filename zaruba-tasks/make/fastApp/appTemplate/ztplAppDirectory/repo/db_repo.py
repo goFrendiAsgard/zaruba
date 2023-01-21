@@ -209,6 +209,8 @@ class DBRepo(Generic[DBEntity, Schema, SchemaData]):
                 schema_data
             )
             for field, value in db_entity_dict.items():
+                if field == 'created_at' or field == 'created_by':
+                    continue
                 setattr(db_entity, field, value)
             if 'updated_at' in self.db_entity_attribute_names:
                 db_entity.updated_at = datetime.datetime.utcnow()

@@ -2,7 +2,7 @@ set -e
 echo "Set repo field declaration"
 
 _FIELD_SCRIPT_TEMPLATE="$(_readText "${ZARUBA_HOME}/zaruba-tasks/make/fastAppCrud/partials/repo_field_declaration.py")"
-_FIELD_SCRIPT_LINES='["$1"]'
+_FIELD_SCRIPT_LINES='[]'
 for _INDEX in $("${ZARUBA_BIN}" list rangeIndex "${_ZRB_APP_CRUD_FIELDS}")
 do
     _FIELD_NAME="$("${ZARUBA_BIN}" list get "${_ZRB_APP_CRUD_FIELDS}" "${_INDEX}")"
@@ -16,7 +16,7 @@ done
 
 _ZRB_REPO_FIELD_DECLARATION="$("${ZARUBA_BIN}" list join "${_FIELD_SCRIPT_LINES}")"
 
-_PATTERN="[\t ]*(id[\t ]*=[\t ]Column\(.*)"
+_PATTERN="[\t ]*(dummy_column[\t ]*=[\t ]Column\(.*)"
 _setReplacementMap "${_PATTERN}" "${_ZRB_REPO_FIELD_DECLARATION}"
 
 echo "Done setting repo field declaration"

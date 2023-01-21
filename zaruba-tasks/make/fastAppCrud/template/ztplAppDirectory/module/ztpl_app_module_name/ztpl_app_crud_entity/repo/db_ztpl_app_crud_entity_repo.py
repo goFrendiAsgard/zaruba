@@ -16,6 +16,7 @@ from repo import Base, BaseMixin, DBRepo
 # Note: 🤖 Don't delete the following statement
 class DBZtplAppCrudEntityEntity(Base, BaseMixin):
     __tablename__ = "ztpl_app_crud_entities"  # Note: 🤖 Don't delete this line
+    dummy_column = Column(String(36)) # This will be replaced
 
 
 class DBZtplAppCrudEntityRepo(
