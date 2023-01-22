@@ -281,7 +281,7 @@ Finally, you can visit our [end-to-end tutorial](use-cases/from-zero-to-cloud.md
       - [insertBefore](built-in/utils/file/insert-before.md)
       - [list](built-in/utils/file/list.md)
       - [read](built-in/utils/file/read.md)
-      - [replace](built-in/utils/file/replace.md)
+      - [replaceAt](built-in/utils/file/replace-at.md)
       - [submatch](built-in/utils/file/submatch.md)
       - [walk](built-in/utils/file/walk.md)
     - [generate](built-in/utils/generate.md)

@@ -17,7 +17,7 @@ Available Commands:
   insertBefore Insert a new content into a text file before a particular index
   list         List files/folders in a path
   read         Read text from file
-  replace      Replace a file at a particular index with a new content
+  replaceAt    Replace a file at a particular index with a new content
   submatch     Return submatch matching the pattern at a desired pattern index
   walk         List files/folder in a path, recursively
 
@@ -37,7 +37,7 @@ Use "zaruba file [command] --help" for more information about a command.
 - [insertBefore](insert-before.md)
 - [list](list.md)
 - [read](read.md)
-- [replace](replace.md)
+- [replaceAt](replace-at.md)
 - [submatch](submatch.md)
 - [walk](walk.md)
 <!--endTocSubtopic-->

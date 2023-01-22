@@ -11,10 +11,10 @@ If not specified, the default index will be -1.
 
 For example, you have a file named "fruits.txt" containing the following text:
 🍊
-🍓A
+🍓
 🍇
 🍊
-🍓B
+🍓
 🍇
 You want to get the index of a line containing a 🍓 that is located after two 🍊 and before a 🍇.
 
@@ -25,13 +25,12 @@ Elements | Element index  | Patterns | Pattern Index | Note
 🍓A      | 1              |          |               |
 🍇       | 2              |          |               |
 🍊       | 3              | 🍊       | 1/-3          |
-🍓B      | 4              | 🍓.*     | 2/-2          | <-- We want this 🍓
+🍓B      | 4              | 🍓       | 2/-2          | <-- We want this 🍓
 🍇       | 5              | 🍇       | 3/-1          |
 
 
-Then, you need to invoke the following command:
-> zaruba file getLineIndex \
-  fruits.txt \
+In that case, you need to invoke the following command:
+> zaruba file getLineIndex fruits.txt \
   '["🍊", "🍊", "🍓.*","🍇"]' \
   --index=2
 
@@ -43,29 +42,17 @@ Usage:
 
 Examples:
 
-> cat fruits.txt
-🍊A
+> echo 🍊A > fruits.txt
+> echo 🍓B >> fruits.txt
+> echo 🍇C >> fruits.txt
+> echo 🍊D >> fruits.txt
+> echo 🍓E >> fruits.txt
+> echo 🍇F >> fruits.txt
+> zaruba file getLineIndex fruits.txt '🍓.*'
 🍓B
-🍇C
+> zaruba file getLineIndex fruits.txt '["🍊.*", "🍊.*", "🍓.*","🍇.*"]' --index=1
 🍊D
-🍓E
-🍇F
-
-> zaruba file getLineIndex \
-  fruits.txt \
-  '🍓.*'
-🍓B
-
-> zaruba file getLineIndex \
-  fruits.txt \
-  '["🍊.*", "🍊.*", "🍓.*","🍇.*"]' \
-  --index=1
-🍊D
-
-> zaruba file getLineIndex \
-  fruits.txt \
-  '["🍊.*", "🍊.*", "🍓.*","🍇.*"]' \
-  --index=-1
+> zaruba file getLineIndex fruits.txt '["🍊.*", "🍊.*", "🍓.*","🍇.*"]' --index=-1
 🍇F
 
 

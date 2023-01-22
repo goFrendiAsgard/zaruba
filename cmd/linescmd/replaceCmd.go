@@ -24,7 +24,7 @@ Elements | Index  | Note
 🍓       | 1/-2   | <-- replace this with two🍕
 🍇       | 2/-1   |
 
-Then, you need to invoke the following command:
+In that case, you need to invoke the following command:
 > zaruba lines replace \
   '["🍊", "🍓", "🍇"]' \
   '["🍕", "🍕"]' \
@@ -35,23 +35,17 @@ The result will be:
 `
 
 var replaceExample = `
-> zaruba lines replace \
-  '["🍊", "🍓", "🍇"]' \
-  '🍕'
+> LINES='["🍊", "🍓", "🍇"]'
+> zaruba lines replace "$LINES" '🍕'
 ["🍕","🍓","🍇"]
 
-> zaruba lines replace \
-  '["🍊", "🍓", "🍇"]' \
-  '["🍕", "🍕"]' \
-  --index=1
+> LINES='["🍊", "🍓", "🍇"]'
+> zaruba lines replace "$LINES" '["🍕", "🍕"]' --index=1
 ["🍊","🍕","🍕","🍇"]
 
-> zaruba lines replace \
-  '["🍊", "🍓", "🍇"]' \
-  '["🍕"]' \
-  --index=-1
+> LINES='["🍊", "🍓", "🍇"]'
+> zaruba lines replace "$LINES" '["🍕"]' --index=-1
 ["🍊","🍓","🍕"]
-
 `
 
 var replaceIndex *int

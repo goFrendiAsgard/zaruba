@@ -32,7 +32,7 @@
   - [insertBefore](file/insert-before.md)
   - [list](file/list.md)
   - [read](file/read.md)
-  - [replace](file/replace.md)
+  - [replaceAt](file/replace-at.md)
   - [submatch](file/submatch.md)
   - [walk](file/walk.md)
 - [generate](generate.md)

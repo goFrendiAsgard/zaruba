@@ -208,7 +208,7 @@
     - [insertBefore](utils/file/insert-before.md)
     - [list](utils/file/list.md)
     - [read](utils/file/read.md)
-    - [replace](utils/file/replace.md)
+    - [replaceAt](utils/file/replace-at.md)
     - [submatch](utils/file/submatch.md)
     - [walk](utils/file/walk.md)
   - [generate](utils/generate.md)

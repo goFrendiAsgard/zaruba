@@ -34,9 +34,8 @@ Elements | Element index  | Patterns | Pattern Index | Note
 🍇       | 5              | 🍇       | 3/-1          |
 
 
-Then, you need to invoke the following command:
-> zaruba file getLineIndex \
-  fruits.txt \
+In that case, you need to invoke the following command:
+> zaruba file getLineIndex fruits.txt \
   '["🍊", "🍊", "🍓","🍇"]' \
   --index=2
 
@@ -44,29 +43,17 @@ The result will be: 4
 `
 
 var getLineIndexExample = `
-> cat fruits.txt
-🍊
-🍓
-🍇
-🍊
-🍓
-🍇
-
-> zaruba file getLineIndex \
-  fruits.txt \
-  '🍓'
+> echo 🍊 > fruits.txt
+> echo 🍓 >> fruits.txt
+> echo 🍇 >> fruits.txt
+> echo 🍊 >> fruits.txt
+> echo 🍓 >> fruits.txt
+> echo 🍇 >> fruits.txt
+> zaruba file getLineIndex fruits.txt '🍓'
 1
-
-> zaruba file getLineIndex \
-  fruits.txt \
-  '["🍊", "🍊", "🍓","🍇"]' \
-  --index=1
+> zaruba file getLineIndex fruits.txt '["🍊", "🍊", "🍓","🍇"]' --index=1
 3
-
-> zaruba file getLineIndex \
-  fruits.txt \
-  '["🍊", "🍊", "🍓","🍇"]' \
-  --index=-1
+> zaruba file getLineIndex fruits.txt '["🍊", "🍊", "🍓","🍇"]' --index=-1
 5
 `
 var getLineIndexDesiredPatternIndex *int

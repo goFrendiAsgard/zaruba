@@ -43,15 +43,10 @@ You can see that there are three elements of the result:
 `
 
 var submatchExample = `
-> zaruba lines submatch \
-  '["🍊", "🍌🍓🍈", "🍇","🍊", "🥑🍓🍎🍏","🍇"]' \
-  '["🍊", "🍊", "(.*)🍓(.*)", "🍇"]' \
-  --index=2
+> LINES='["🍊", "🍌🍓🍈", "🍇","🍊", "🥑🍓🍎🍏","🍇"]'
+> zaruba lines submatch "$LINES" '["🍊", "🍊", "(.*)🍓(.*)", "🍇"]' --index=2
 ["🥑🍓🍎🍏","🥑","🍎🍏"]
-
-> zaruba lines submatch \
-  '["🍊", "🍌🍓🍈", "🍇","🍊", "🥑🍓🍎🍏","🍇"]' \
-  "(.*)🍓(.*)"
+> zaruba lines submatch "$LINES" '(.*)🍓(.*)'
 ["🍌🍓🍈","🍌","🍈"]
 `
 

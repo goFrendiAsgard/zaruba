@@ -29,8 +29,7 @@ Elements   | Element index  | Patterns   | Pattern Index | Note
 🍇         | 5              | 🍇         | 3/-1          |
 
 To do this, you need to invoke the following command:
-> zaruba file submatch \
-  fruits.txt \
+> zaruba file submatch fruits.txt \
   '["🍊", "🍊", "(.*)🍓(.*)", "🍇"]' \
   --index=2
 
@@ -48,22 +47,16 @@ Usage:
 Examples:
 
 > cat fruits.txt
-🍊
-🍌🍓🍈
-🍇
-🍊
-🥑🍓🍎🍏
-🍇
-
-> zaruba file submatch \
-  fruits.txt \
-  '["🍊", "🍊", "(.*)🍓(.*)", "🍇"]' \
-  --index=2
+echo 🍊 > fruits.txt
+echo 🍌🍓🍈 >> fruits.txt
+echo 🍇 >> fruits.txt
+echo 🍊 >> fruits.txt
+echo 🥑🍓🍎🍏 >> fruits.txt
+echo 🍇 >> fruits.txt
+> zaruba file submatch fruits.txt '["🍊", "🍊", "(.*)🍓(.*)", "🍇"]' --index=2
 ["🥑🍓🍎🍏","🥑","🍎🍏"]
 
-> zaruba file submatch \
-  fruits.txt \
-  "(.*)🍓(.*)"
+> zaruba file submatch fruits.txt "(.*)🍓(.*)"
 ["🍌🍓🍈","🍌","🍈"]
 
 

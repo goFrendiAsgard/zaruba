@@ -28,7 +28,7 @@ Elements | Element index  | Patterns | Pattern Index | Note
 🍇       | 5              | 🍇       | 3/-1          |
 
 
-Then, you need to invoke the following command:
+In that case, you need to invoke the following command:
 > zaruba lines getIndex \
   '["🍊", "🍓", "🍇","🍊", "🍓","🍇"]' \
   '["🍊", "🍊", "🍓","🍇"]' \
@@ -38,21 +38,12 @@ The result will be: 4
 `
 
 var getIndexExample = `
-> zaruba lines getIndex \
-  '["🍊", "🍓", "🍇","🍊", "🍓","🍇"]' \
-  '🍓'
+> LINES='["🍊", "🍓", "🍇", "🍊", "🍓", "🍇"]'
+> zaruba lines getIndex "$LINES" '🍓'
 1
-
-> zaruba lines getIndex \
-  '["🍊", "🍓", "🍇","🍊", "🍓","🍇"]' \
-  '["🍊", "🍊", "🍓","🍇"]' \
-  --index=1
+> zaruba lines getIndex "$LINES" '["🍊", "🍊", "🍓","🍇"]' --index=1
 3
-
-> zaruba lines getIndex \
-  '["🍊", "🍓", "🍇","🍊", "🍓","🍇"]' \
-  '["🍊", "🍊", "🍓","🍇"]' \
-  --index=-1
+> zaruba lines getIndex "$LINES" '["🍊", "🍊", "🍓","🍇"]' --index=-1
 5
 `
 

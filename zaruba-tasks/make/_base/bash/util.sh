@@ -93,7 +93,7 @@ _replacePartialAt() {
     then
         __ZRB_INDEX="0"
     fi
-    "${ZARUBA_BIN}" file replace "${__ZRB_FILE_NAME}" "${__ZRB_CONTENT}" --index="${__ZRB_INDEX}"
+    "${ZARUBA_BIN}" file replaceAt "${__ZRB_FILE_NAME}" "${__ZRB_CONTENT}" --index="${__ZRB_INDEX}"
 }
 
 _addConfigToReplacementMap() {

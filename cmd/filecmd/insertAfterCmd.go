@@ -25,9 +25,8 @@ Elements | Index  | Note
 🍓       | 1/-2   | <-- insert a 🍕 after this
 🍇       | 2/-1   |
 
-Then, you need to invoke the following command:
-> zaruba file insertAfter \
-  fruits.txt \
+In that case, you need to invoke the following command:
+> zaruba file insertAfter fruits.txt \
   🍕 \
   --index=1
 
@@ -39,24 +38,20 @@ The content of "fruits.txt" will be updated into:
 `
 
 var insertAfterExample = `
-> cat fruits.txt
-🍊
-🍓
-🍇
-
-> zaruba file insertAfter \
-  fruits.txt \
-  '🍕'
+> echo 🍊 > fruits.txt
+> echo 🍓 >> fruits.txt
+> echo 🍇 >> fruits.txt
+> zaruba file insertAfter fruits.txt 🍕
 > cat fruits.txt
 🍊
 🍓
 🍇
 🍕
 
-> zaruba file insertAfter \
-  fruits.txt \
-  '🍕' \
-  --index=1
+> echo 🍊 > fruits.txt
+> echo 🍓 >> fruits.txt
+> echo 🍇 >> fruits.txt
+> zaruba file insertAfter fruits.txt 🍕 --index=1
 > cat fruits.txt
 🍊
 🍓
@@ -70,6 +65,7 @@ var insertAfterCmd = &cobra.Command{
 	Short:   "Insert a new content into a text file after a particular index",
 	Long:    insertAfterLong,
 	Example: insertAfterExample,
+	Aliases: []string{"append"},
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)

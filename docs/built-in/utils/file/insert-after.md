@@ -22,9 +22,8 @@ Elements | Index  | Note
 🍓       | 1/-2   | <-- insert a 🍕 after this
 🍇       | 2/-1   |
 
-Then, you need to invoke the following command:
-> zaruba file insertAfter \
-  fruits.txt \
+In that case, you need to invoke the following command:
+> zaruba file insertAfter fruits.txt \
   🍕 \
   --index=1
 
@@ -37,26 +36,25 @@ The content of "fruits.txt" will be updated into:
 Usage:
   zaruba file insertAfter <strFileName> <strNewContent> [flags]
 
+Aliases:
+  insertAfter, append
+
 Examples:
 
-> cat fruits.txt
-🍊
-🍓
-🍇
-
-> zaruba file insertAfter \
-  fruits.txt \
-  '🍕'
+> echo 🍊 > fruits.txt
+> echo 🍓 >> fruits.txt
+> echo 🍇 >> fruits.txt
+> zaruba file insertAfter fruits.txt 🍕
 > cat fruits.txt
 🍊
 🍓
 🍇
 🍕
 
-> zaruba file insertAfter \
-  fruits.txt \
-  '🍕' \
-  --index=1
+> echo 🍊 > fruits.txt
+> echo 🍓 >> fruits.txt
+> echo 🍇 >> fruits.txt
+> zaruba file insertAfter fruits.txt 🍕 --index=1
 > cat fruits.txt
 🍊
 🍓

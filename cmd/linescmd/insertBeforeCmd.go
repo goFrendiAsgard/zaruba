@@ -24,7 +24,7 @@ Elements | Index  | Note
 🍓       | 1/-2   | <-- insert two🍕 before this
 🍇       | 2/-1   |
 
-Then, you need to invoke the following command:
+In that case, you need to invoke the following command:
 > zaruba lines insertBefore \
   '["🍊", "🍓", "🍇"]' \
   '["🍕", "🍕"]' \
@@ -35,21 +35,16 @@ The result will be:
 `
 
 var insertBeforeExample = `
-> zaruba lines insertBefore \
-  '["🍊", "🍓", "🍇"]' \
-  '🍕'
+> LINES='["🍊", "🍓", "🍇"]'
+> zaruba lines insertBefore "$LINES" 🍕
 ["🍕","🍊","🍓","🍇"]
 
-> zaruba lines insertBefore \
-  '["🍊", "🍓", "🍇"]' \
-  '["🍕", "🍕"]' \
-  --index=1
+> LINES='["🍊", "🍓", "🍇"]'
+> zaruba lines insertBefore "$LINES" '["🍕", "🍕"]' --index=1
 ["🍊","🍕","🍕","🍓","🍇"]
 
-> zaruba lines insertBefore \
-  '["🍊", "🍓", "🍇"]' \
-  '["🍕"]' \
-  --index=-1
+> LINES='["🍊", "🍓", "🍇"]'
+> zaruba lines insertBefore "$LINES" '["🍕"]' --index=-1
 ["🍊","🍓","🍕","🍇"]
 `
 
@@ -59,6 +54,7 @@ var insertBeforeCmd = &cobra.Command{
 	Short:   "Insert new lines into a jsonStringList before a particular index",
 	Long:    insertBeforeLong,
 	Example: insertBeforeExample,
+	Aliases: []string{"prepend"},
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)

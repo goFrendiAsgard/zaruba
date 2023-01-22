@@ -24,7 +24,7 @@ Elements | Index  | Note
 🍓       | 1/-2   | <-- insert two🍕 after this
 🍇       | 2/-1   |
 
-Then, you need to invoke the following command:
+In that case, you need to invoke the following command:
 > zaruba lines insertAfter \
   '["🍊", "🍓", "🍇"]' \
   '["🍕", "🍕"]' \
@@ -35,21 +35,16 @@ The result will be:
 `
 
 var insertAfterExample = `
-> zaruba lines insertAfter \
-  '["🍊", "🍓", "🍇"]' \
-  '🍕'
+> LINES='["🍊", "🍓", "🍇"]'
+> zaruba lines insertAfter "$LINES" 🍕
 ["🍊","🍓","🍇", "🍕"]
 
-> zaruba lines insertAfter \
-  '["🍊", "🍓", "🍇"]' \
-  '["🍕", "🍕"]' \
-  --index=1
+> LINES='["🍊", "🍓", "🍇"]'
+> zaruba lines insertAfter "$LINES" '["🍕", "🍕"]' --index=1
 ["🍊","🍓","🍕","🍕","🍇"]
 
-> zaruba lines insertAfter \
-  '["🍊", "🍓", "🍇"]' \
-  '["🍕"]' \
-  --index=-1
+> LINES='["🍊", "🍓", "🍇"]'
+> zaruba lines insertAfter "$LINES" '["🍕"]' --index=-1
 ["🍊","🍓","🍇","🍕"]
 `
 
@@ -59,6 +54,7 @@ var insertAfterCmd = &cobra.Command{
 	Short:   "Insert a new lines into jsonStringList after a particular index",
 	Long:    insertAfterLong,
 	Example: insertAfterExample,
+	Aliases: []string{"append"},
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)

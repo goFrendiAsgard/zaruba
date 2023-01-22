@@ -22,9 +22,8 @@ Elements | Index  | Note
 🍓       | 1/-2   | <-- insert a 🍕 before this
 🍇       | 2/-1   |
 
-Then, you need to invoke the following command:
-> zaruba file insertBefore \
-  fruits.txt \
+In that case, you need to invoke the following command:
+> zaruba file insertBefore fruits.txt \
   🍕 \
   --index=1
 
@@ -37,26 +36,24 @@ The content of "fruits.txt" will be updated into:
 Usage:
   zaruba file insertBefore <strFileName> <strNewContent> [flags]
 
+Aliases:
+  insertBefore, prepend
+
 Examples:
 
-> cat fruits.txt
-🍊
-🍓
-🍇
-
-> zaruba file insertBefore \
-  fruits.txt \
-  '🍕'
+> echo 🍊 > fruits.txt
+> echo 🍓 >> fruits.txt
+> echo 🍇 >> fruits.txt
+> zaruba file insertBefore fruits.txt 🍕
 > cat fruits.txt
 🍕
 🍊
 🍓
 🍇
-
-> zaruba file insertBefore \
-  fruits.txt \
-  '🍕' \
-  --index=1
+> echo 🍊 > fruits.txt
+> echo 🍓 >> fruits.txt
+> echo 🍇 >> fruits.txt
+> zaruba file insertBefore fruits.txt 🍕 --index=1
 > cat fruits.txt
 🍊
 🍕

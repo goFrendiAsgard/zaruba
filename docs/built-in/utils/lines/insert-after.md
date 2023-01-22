@@ -19,7 +19,7 @@ Elements | Index  | Note
 🍓       | 1/-2   | <-- insert two🍕 after this
 🍇       | 2/-1   |
 
-Then, you need to invoke the following command:
+In that case, you need to invoke the following command:
 > zaruba lines insertAfter \
   '["🍊", "🍓", "🍇"]' \
   '["🍕", "🍕"]' \
@@ -31,23 +31,21 @@ The result will be:
 Usage:
   zaruba lines insertAfter <jsonStrList> <jsonStrListNewLines | strNewLine> [flags]
 
+Aliases:
+  insertAfter, append
+
 Examples:
 
-> zaruba lines insertAfter \
-  '["🍊", "🍓", "🍇"]' \
-  '🍕'
+> LINES='["🍊", "🍓", "🍇"]'
+> zaruba lines insertAfter "$LINES" 🍕
 ["🍊","🍓","🍇", "🍕"]
 
-> zaruba lines insertAfter \
-  '["🍊", "🍓", "🍇"]' \
-  '["🍕", "🍕"]' \
-  --index=1
+> LINES='["🍊", "🍓", "🍇"]'
+> zaruba lines insertAfter "$LINES" '["🍕", "🍕"]' --index=1
 ["🍊","🍓","🍕","🍕","🍇"]
 
-> zaruba lines insertAfter \
-  '["🍊", "🍓", "🍇"]' \
-  '["🍕"]' \
-  --index=-1
+> LINES='["🍊", "🍓", "🍇"]'
+> zaruba lines insertAfter "$LINES" '["🍕"]' --index=-1
 ["🍊","🍓","🍇","🍕"]
 
 

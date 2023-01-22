@@ -25,9 +25,8 @@ Elements | Index  | Note
 🍓       | 1/-2   | <-- insert a 🍕 before this
 🍇       | 2/-1   |
 
-Then, you need to invoke the following command:
-> zaruba file insertBefore \
-  fruits.txt \
+In that case, you need to invoke the following command:
+> zaruba file insertBefore fruits.txt \
   🍕 \
   --index=1
 
@@ -39,24 +38,19 @@ The content of "fruits.txt" will be updated into:
 `
 
 var insertBeforeExample = `
-> cat fruits.txt
-🍊
-🍓
-🍇
-
-> zaruba file insertBefore \
-  fruits.txt \
-  '🍕'
+> echo 🍊 > fruits.txt
+> echo 🍓 >> fruits.txt
+> echo 🍇 >> fruits.txt
+> zaruba file insertBefore fruits.txt 🍕
 > cat fruits.txt
 🍕
 🍊
 🍓
 🍇
-
-> zaruba file insertBefore \
-  fruits.txt \
-  '🍕' \
-  --index=1
+> echo 🍊 > fruits.txt
+> echo 🍓 >> fruits.txt
+> echo 🍇 >> fruits.txt
+> zaruba file insertBefore fruits.txt 🍕 --index=1
 > cat fruits.txt
 🍊
 🍕
@@ -70,6 +64,7 @@ var insertBeforeCmd = &cobra.Command{
 	Short:   "Insert a new content into a text file before a particular index",
 	Long:    insertBeforeLong,
 	Example: insertBeforeExample,
+	Aliases: []string{"prepend"},
 	Run: func(cmd *cobra.Command, args []string) {
 		decoration := output.NewDefaultDecoration()
 		logger := output.NewConsoleLogger(decoration)

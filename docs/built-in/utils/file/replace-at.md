@@ -1,6 +1,6 @@
 <!--startTocHeader-->
 [🏠](../../../README.md) > [Built-in](../../README.md) > [Utils](../README.md) > [file](README.md)
-# replace
+# replaceAt
 <!--endTocHeader-->
 
 ```
@@ -13,7 +13,7 @@ For example, you have a file named "fruits.txt" containing the following text:
 🍊
 🍓
 🍇
-, and you want to replace 🍓 with a 🍕 before .
+, and you want to replace 🍓 with a 🍕.
 
 ------------------------------------------------
 Elements | Index  | Note
@@ -23,8 +23,7 @@ Elements | Index  | Note
 🍇       | 2/-1   |
 
 In that case, you need to invoke the following command:
-> zaruba file replaceAt \
-  fruits.txt \
+> zaruba file replaceAt fruits.txt \
   🍕 \
   --index=1
 
@@ -38,23 +37,19 @@ Usage:
 
 Examples:
 
-> cat fruits.txt
-🍊
-🍓
-🍇
-
-> zaruba file replaceAt \
-  fruits.txt \
-  '🍕'
+> echo 🍊 > fruits.txt
+> echo 🍓 >> fruits.txt
+> echo 🍇 >> fruits.txt
+> zaruba file replaceAt fruits.txt 🍕
 > cat fruits.txt
 🍕
 🍓
 🍇
 
-> zaruba file replaceAt \
-  fruits.txt \
-  '🍕' \
-  --index=1
+> echo 🍊 > fruits.txt
+> echo 🍓 >> fruits.txt
+> echo 🍇 >> fruits.txt
+> zaruba file replaceAt fruits.txt 🍕 --index=1
 > cat fruits.txt
 🍊
 🍕
@@ -62,7 +57,7 @@ Examples:
 
 
 Flags:
-  -h, --help        help for replace
+  -h, --help        help for replaceAt
   -i, --index int   index
 
 ```
