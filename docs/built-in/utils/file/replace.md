@@ -4,66 +4,51 @@
 <!--endTocHeader-->
 
 ```
-
-Replace a file at a particular index with a new content.
-The index is started from 0. You can use a negative index to count from the end of the file.
-If not specified, the default index will be 0.
-
-For example, you have a file named "fruits.txt" containing the following text:
-🍊
-🍓
-🍇
-, and you want to replace 🍓 with a 🍕 before .
-
-------------------------------------------------
-Elements | Index  | Note
-------------------------------------------------
-🍊       | 0/-3   |
-🍓       | 1/-2   | <-- replace this with 🍕
-🍇       | 2/-1   |
-
-In that case, you need to invoke the following command:
-> zaruba file replaceAt \
-  fruits.txt \
-  🍕 \
-  --index=1
-
-The content of "fruits.txt" will be updated into:
-🍊
-🍕
-🍇
+Replace string by jsonMapReplacement
 
 Usage:
-  zaruba file replaceAt <strFileName> <strNewContent> [flags]
+  zaruba file replace <strFileName> [{<jsonMapReplacement> | <key> <value>}] [flags]
 
 Examples:
 
-> cat fruits.txt
-🍊
-🍓
-🍇
+> echo 'Capital of country is city' > example1.txt
+> zaruba str replace example1.txt '{"country": "Indonesia", "city": "Jakarta"}'
+> cat example1.txt
+Capital of Indonesia is Jakarta
 
-> zaruba file replaceAt \
-  fruits.txt \
-  '🍕'
-> cat fruits.txt
-🍕
-🍓
-🍇
+> echo 'Capital of country is city' > example2.txt
+> zaruba str replace example2.txt country Japan city Tokyo
+> cat example2.txt
+Capital of Japan is Tokyo
 
-> zaruba file replaceAt \
-  fruits.txt \
-  '🍕' \
-  --index=1
-> cat fruits.txt
-🍊
-🍕
-🍇
+> echo "def add(a):" > example.py
+> echo "    pass" >> example.py
+> echo "" >> example.py
+> echo "def minus(" >> example.py
+> echo "    a" >> example.py
+> echo "):" >> example.py
+> echo "    pass" >> example.py
+> echo "" >> example.py
+> echo "class Something():" >> example.py
+> echo "    def __init__(a):" >> example.py
+> echo "        pass" >> example.py
+> zaruba file replace example.py '(?U)(?m)(?s)def (.*)\((.*)([\n\t ]*)\):' 'def $1($2, b$3):'
+> cat example.py
+def add(a, b):
+    pass
+
+def minus(
+    a, b
+):
+    pass
+
+class Something():
+    def __init__(a, b):
+        pass
 
 
 Flags:
-  -h, --help        help for replace
-  -i, --index int   index
+  -h, --help   help for replace
 
 ```
 

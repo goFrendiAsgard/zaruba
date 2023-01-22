@@ -7,7 +7,16 @@
 Replace string by jsonMapReplacement
 
 Usage:
-  zaruba str replace <string> [jsonMapReplacement] [flags]
+  zaruba str replace <string> [{<jsonMapReplacement> | <key> <value>}] [flags]
+
+Examples:
+
+> zaruba str replace 'Capital of country is city' '{"country": "Indonesia", "city": "Jakarta"}'
+Capital of Indonesia is Jakarta
+
+> zaruba str replace 'Capital of country is city' country Japan city Tokyo
+Capital of Japan is Tokyo
+
 
 Flags:
   -h, --help   help for replace

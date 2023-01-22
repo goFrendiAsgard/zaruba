@@ -7,31 +7,41 @@
 Generate a directory based on sourceTemplate and jsonMapReplacement
 
 Usage:
-  zaruba generate <sourceTemplatePath> <destinationPath> [jsonMapReplacement] [flags]
+  zaruba generate <sourceTemplatePath> <destinationPath> [{<jsonMapReplacement> | <key> <value>}] [flags]
 
 Examples:
 
-> ls template
+> mkdir -p template
+
+# template/index.html
+> echo '<h1>title</h1>' > template/index.html
+> echo 'content' >> template/index.html
+# template/start.sh
+> echo 'python -m http.server port' > template/start.sh
+
+> zaruba generate template web1 '{"port":3000, "title":"MyWeb", "content":"<p>Hello world!</p>"}'
+
+> ls web1
 index.html  start.sh
-
-> cat template/index.html
-<h1>title</h1>
-content
-
-> cat template/start.sh
-python -m http.server port
-
-> zaruba generate template web '{"port":3000, "title":"MyWeb", "content":"<p>Hello world!</p>"}'
-
-> ls web
-index.html  start.sh
-
-> cat web/index.html
+# web1/index.html
+> cat web1/index.html
 <h1>MyWeb</h1>
 <p>Hello world!</p>
-
-> cat web/start.sh
+# web1/start.html
+> cat web1/start.sh
 python -m http.server 3000
+
+> zaruba generate template web2 port 8000 title MySecondWeb content '<p>Hello world!</p>'
+
+> ls web2
+index.html  start.sh
+# web2/index.html
+> cat web2/index.html
+<h1>MySecondWeb</h1>
+<p>Hello world!</p>
+# web2/start.html
+> cat web2/start.sh
+python -m http.server 8000
 
 
 Flags:
