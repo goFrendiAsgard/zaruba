@@ -18,10 +18,10 @@ func Init() {
 	Cmd.AddCommand(insertBeforeCmd)
 	Cmd.AddCommand(listCmd)
 	Cmd.AddCommand(readCmd)
-	Cmd.AddCommand(walkCmd)
-	submatchPatternIndex = submatchCmd.Flags().IntP("index", "i", -1, "index")
-	Cmd.AddCommand(submatchCmd)
+	Cmd.AddCommand(replaceCmd)
 	replaceAtIndex = replaceAtCmd.Flags().IntP("index", "i", 0, "index")
 	Cmd.AddCommand(replaceAtCmd)
-
+	submatchPatternIndex = submatchCmd.Flags().IntP("index", "i", -1, "index")
+	Cmd.AddCommand(submatchCmd)
+	Cmd.AddCommand(walkCmd)
 }

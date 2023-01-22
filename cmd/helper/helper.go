@@ -14,6 +14,31 @@ import (
 	"github.com/state-alchemists/zaruba/output"
 )
 
+func ArgToJsonReplacementMap(args []string, jsonReplacementIndex int) (jsonReplacementMap string, err error) {
+	if len(args) <= jsonReplacementIndex {
+		return "{}", nil
+	}
+	relevantArgs := args[jsonReplacementIndex:]
+	if len(relevantArgs) == 1 {
+		return relevantArgs[0], nil
+	}
+	mapReplacement := map[string]string{}
+	key := ""
+	for index := range relevantArgs {
+		arg := relevantArgs[index]
+		if index%2 == 0 {
+			key = arg
+			continue
+		}
+		mapReplacement[key] = arg
+	}
+	jsonMapReplacementByte, err := json.Marshal(mapReplacement)
+	if err != nil {
+		return "{}", err
+	}
+	return string(jsonMapReplacementByte), nil
+}
+
 func Exit(cmd *cobra.Command, logger output.Logger, decoration *output.Decoration, err error) {
 	if err != nil {
 		// get nodeCmd and commandName
