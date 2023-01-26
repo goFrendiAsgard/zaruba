@@ -11,7 +11,7 @@ fi
 
 # load zaruba
 PATH="${PATH}:${HOME}/.zaruba"
-alias zrb=zaruba
+# alias zrb=zaruba
 
 # load local's bin
 if [ -d "${HOME}/.local/bin" ]
