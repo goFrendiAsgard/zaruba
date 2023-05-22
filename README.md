@@ -2,7 +2,7 @@
 
 [Documentation](docs/README.md) | [Tutorial](docs/use-cases/from-zero-to-cloud.md) | [Installation](#-installation)
 
-> ⚠️ We didn't reach `v.1.0.0` yet, but the API is pretty much stable. Please open [an issue](https://github.com/state-alchemists/zaruba/issues) if you find any problem using Zaruba.
+> ⚠️ This repository is archived. Please see [https://github.com/state-alchemists/zrb](new Zrb repository).
 
 # 🤖 Zaruba 
 
