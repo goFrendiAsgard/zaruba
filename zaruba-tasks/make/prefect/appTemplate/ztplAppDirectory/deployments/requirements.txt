@@ -36,7 +36,7 @@ kubernetes==24.2.0
 Mako==1.2.2
 MarkupSafe==2.1.1
 multidict==6.0.2
-oauthlib==3.2.1
+oauthlib==3.2.2
 orjson==3.8.0
 packaging==21.3
 pathspec==0.10.1
