@@ -2,7 +2,7 @@
 
 [Documentation](docs/README.md) | [Tutorial](docs/use-cases/from-zero-to-cloud.md) | [Installation](#-installation)
 
-> ⚠️ __This repository is archived.__ Please see (new Zrb repository)[https://github.com/state-alchemists/zrb]. The new repository is re-written in Python and no longer using YAML as configuration
+> ⚠️ __This repository is archived.__ Please see [new Zrb repository](https://github.com/state-alchemists/zrb). The new repository is re-written in Python and no longer using YAML as configuration
 
 # 🤖 Zaruba 
 
