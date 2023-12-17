@@ -1,4 +1,4 @@
-> ⚠️ __This repository is archived.__ Please see [__new Zrb repository__](https://github.com/state-alchemists/zrb). The new repository is re-written in Python and no longer using YAML as configuration
+> ⚠️ __This repository is archived.__ Please see [__new Zrb repository__](https://github.com/state-alchemists/zrb). The new repository is re-written in Python and no longer uses YAML as configuration.
 
 
 ![zaruba-logo](arts/zaruba-250.png)
